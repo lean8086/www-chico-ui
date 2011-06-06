@@ -47,6 +47,24 @@ h1 .version {
     margin-top: 34px;
 }
 
+.bottom {
+    color: #999;
+    background-color: #eee;
+    height: 100px;
+}
+
+.bottom ul:hover {
+    color: #333;    
+}
+
+.bottom ul:hover a {
+    color: #000;    
+}
+
+.bottom a {
+    color :#666;    
+}
+
 h2 {
 	font-size: 32px;
 	line-height: 32px;
@@ -118,13 +136,16 @@ h1, h2, .article.demo, .header {
 	position:absolute;
 }
 
-.home {
+.container div.home {
 	margin: 5px;
+	border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
 }
 
 .home li {
-	width:300px;
-
+	width: 300px;
+    height: 100px;
 }
 
 .home img {
@@ -133,6 +154,30 @@ h1, h2, .article.demo, .header {
 	margin: 5px;
 }
 
-ul.activity {
+.avatar {
+    float: left;    
+}
+
+.activity {
     margin:0;    
+}
+
+.activity li {
+    border: 1px solid #FFF;
+}
+
+.activity li.clearfix:hover {
+    border: 1px dashed #999;
+}
+
+.activity li img {
+    margin: 5px;
+}
+
+.activity li ul {
+    padding-left: 40px;
+}
+
+.activity li ul li {
+    color: #999;    
 }
