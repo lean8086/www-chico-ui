@@ -6,14 +6,16 @@ var sys = require('sys'),
  *		app settings
  */
 
-app.set('view engine', 'jade');
+//app.set('view engine', 'jade');
 
 /**
  *		app routing
  */
- 
+
 app.get('/', function(req, res) {
-  
-    res.render( 'index', { title : title } );
+    
+    req.params
+        
+    res.render( 'index', { title : title, data: {} } );
 
 });

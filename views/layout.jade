@@ -1,0 +1,40 @@
+!!! 5
+html.no-js(lang='es')
+  head
+    script
+    meta(charset='utf-8')
+    link(rel='shortcut icon', href='/src/assets/favicon.ico', type='image/vnd.microsoft.icon')
+    title Chico UI, MercadoLibre's Visual Framework
+    link(rel='stylesheet', href='/src/css/chico.css')
+    link(rel='stylesheet', href='/src/css/mesh.css')
+    link(rel='stylesheet', href='/src/css/styles.css')
+    /if lt IE 7 
+        script(src='/src/js/dd_belatedpng.js')
+        script
+           DD_belatedPNG.fix('img, .ico');
+  body
+    .header.clearfix
+      h1(title='MercadoLibre\'s Visual Framework')
+        | Chico-UI
+        span.version
+      .iLike
+        iframe(src='', scrolling='no', frameborder='0', style='border:none; overflow:hidden; width:450px; height:21px;', allowtransparency='true')
+      ul
+        li
+          strong Home
+        li
+          a(href='https://github.com/mercadolibre/chico/archives/master') Download
+        li
+          a(href='https://github.com/mercadolibre/chico/wiki') Getting Started
+        li
+          a(href='/docs/index.html') API
+        li
+          a(href='/docs/index.html') Docs
+        li
+          a(href='https://github.com/mercadolibre/chico/') GitHub
+    hr
+  body!= body
+  script(type='text/javascript', src='/src/js/jquery.js')
+  script(type='text/javascript', src='/src/js/chico.js')
+  script(type='text/javascript', src='/src/js/activity-widget.js')
+  script(type='text/javascript', src='/src/js/scripts.js')
