@@ -1,0 +1,106 @@
+link(rel='stylesheet', href='/src/css/download.css')
+/*.ch-g1
+    .box
+      h1 Download lastest version
+      form#full(action='http://download.chico-ui.com.ar/lastest', method='get')
+        .ch-g1-4
+          fieldset
+            legend JavaScript
+            input.btn.secondary(type='submit',value='get scripts')
+        .ch-g1-4
+          fieldset
+            legend Stylesheets
+            input.btn.secondary(type='submit',value='get styles')
+            
+         .clearfix
+         */
+.ch-g1
+    .box
+      h1 Download custom package
+      form#custom(action='/download', method='POST')
+        .ch-g1-4
+          .rightcolumn
+            fieldset
+                legend Abstracts
+                .options
+                  ul#abstracts
+                .clearfix
+                hr(width='50%',align="left")
+                legend Utils
+                .options
+                  ul#utils
+        .ch-g1-4
+          div
+            fieldset
+              legend Components
+              .options
+                ul#components
+        .ch-g1-4
+          div
+            fieldset
+              legend Select a Flavor
+              .options
+                ul
+                  li
+                    label(for='ml_theme')
+                      input#ml_theme(type='radio', value='ml', name='flavor', checked='checked')
+                      span
+                      |  MercadoLibre
+                  li
+                    label(for='mp_theme')
+                      input#mp_theme(type='radio', value='mp', name='flavor')
+                      span
+                      |  MercadoPago
+                  li
+                    label(for='ms_theme')
+                      input#ms_theme(type='radio', value='ms', name='flavor')
+                      span
+                      |  MercadoShops
+              hr(width='50%',align="left") 
+              legend Style options
+              .options
+                ul
+                  li
+                    label
+                      input(type='checkbox', value='true', name='embed', checked='checked')
+                      span
+                      |  Embed images
+                  li
+                    label
+                      input(type='checkbox', value='true', name='mesh')
+                      span
+                      |  Include Mesh
+        .ch-g1-4
+          .leftcolumn
+            fieldset
+              legend Environment
+              .options
+                ul
+                  li
+                    label
+                      input(type='checkbox', value='p', name='min', checked='checked')
+                      span
+                        |  Production
+                        small (minified)
+                  li
+                    label
+                      input(type='checkbox', value='d', name='min')
+                      span
+                        |  Development
+                        small (with comments)
+              hr(width='50%',align="left")
+              legend Summary
+              .summary
+                  ul
+                    li
+                      | Selected:
+                      span.selected-components 0
+                      | .
+                    li
+                      | Total size:
+                      span.total-size 0
+                      | kbs.
+                input.btn.primary(type='submit', value='Download')
+        .clearfix
+
+script(type='text/javascript', src='/src/js/custom-download.js')

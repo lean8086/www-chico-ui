@@ -1,0 +1,1 @@
+$(".home").carousel({ pager: true });
