@@ -3,9 +3,28 @@
  * Module dependencies.
  */
 
-var express = require('express');
+var express = require('express'),
+    events = require('events');
 
 var app = module.exports = express.createServer();
+
+var CustomBuild = function( packages ) {
+
+    var self = this;
+        self.packages = packages;
+
+}
+
+CustomBuild.prototype = new events.EventEmitter();
+
+CustomBuild.prototype.run = function() {
+
+    var self = this;
+        self.emit( "done" , "http://download.chico-ui.com.ar/" );
+
+        console.log( self.packages );
+
+}
 
 // Configuration
 
@@ -83,10 +102,12 @@ app.post('/download', function(req, res){
     // Pack the thing
     var packages = [ js , css /*, flavor*/ ];
     
-    // Sanity check
-    console.log(packages);
-
-    res.send("Post data in?");
+    var custom = new CustomBuild( packages );
+        custom.on("done", function( uri ) {
+            res.redirect( uri );
+        });
+        custom.run();
+   
 /*  
 
 [
