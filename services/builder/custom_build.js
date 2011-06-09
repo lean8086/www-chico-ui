@@ -89,6 +89,12 @@ CustomBuild.prototype.pack = function( package ) {
 		
         var packer = new Packer( _package );        
 
+            packer.on( "processed" , function( out ) {
+                
+                self.emit( "processed" , out );
+                
+            });
+
             packer.on( "done" , function( package ) {
                
                self.compress( package );
@@ -125,7 +131,7 @@ CustomBuild.prototype.compress = function( package ) {
 		
 		sys.puts("Package builded at " + self.folder + zipName );
 		
-		self.emit("done", self.folder.split("/public").join("") + zipName );
+		self.emit( "done" , self.folder.split("/public").join("") + zipName );
     });	
 }
 
