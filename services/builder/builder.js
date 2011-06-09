@@ -35,11 +35,15 @@ var Packer = function(o) {
     self.fullversion = o.version + "-" + o.build;
     self.input = o.input;
     self.type = o.type;
-    self.components = (o.components.split(",").join("." + self.type + ",").split(",")) + "." + self.type;
     self.min = o.min;
     self.upload = o.upload;
     self.template = o.template;
     self.filename = o.output.uri + o.name + ( ( self.min ) ? "-min-" : "-" ) + self.fullversion + "." + self.type ;
+    if (o.components) {
+        self.components = (o.components.split(",").join("." + self.type + ",").split(",")) + "." + self.type;
+    }
+
+
     self._files = {
         names: [], // name of the files
         data: [], // content of the files
@@ -93,7 +97,7 @@ Packer.prototype.run = function() {
         self.emit( "run-complete", files );
     };
     
-    if(self.components.length > 0){
+    if ( self.components && self.components.length > 0 ){
     	
     	// Puts core always first.
 		self.components = ( core + "," + self.components.split( core + "," ).join("") ).split(",");
@@ -101,6 +105,7 @@ Packer.prototype.run = function() {
     	testComp(self.components);
     	
     } else {
+        
 	    // Get files for the defined package
 	    fs.readdir( self.input , function( err, files ) {
 	    

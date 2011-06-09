@@ -86,6 +86,26 @@ app.configure('production', function(){
  */
 
 
+app.get( '/lastest', function( req, res ) {
+    
+    var packages = [{
+        "name": "chico",
+        "input": "../chico/src/js/",
+        "type": "js"
+    }];
+    
+    var custom = new CustomBuild( packages );
+
+        custom.on( "processed" , function( data ) {
+            console.log(data);
+            res.header('Content-Type', 'text/javascript');
+            res.send( data );
+        });
+    
+});
+
+
+
 app.get( '/encode', function( req, res ) {
     
     var encodedImage = new Encode64("./public/src/assets/ninja.jpg");
