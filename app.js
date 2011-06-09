@@ -5,7 +5,9 @@
 
 var express = require('express'),
     events = require('events'),
-    CustomBuild = require('./services/builder/custom_build').CustomBuild;
+    CustomBuild = require('./services/builder/custom_build').CustomBuild,
+    Encode64 = require('./services/builder/encode64').Encode64;
+
 
 var app = module.exports = express.createServer();
 
@@ -83,6 +85,16 @@ app.configure('production', function(){
  * rutes
  */
 
+
+app.get( '/encode', function( req, res ) {
+    
+    var encodedImage = new Encode64("./public/src/assets/ninja.jpg");
+    
+        encodedImage.on( "encoded", function( data ){
+            res.send( data.toString() ); 
+        });
+    
+});
 
 /**
  * Download
