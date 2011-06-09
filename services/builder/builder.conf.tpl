@@ -38,8 +38,8 @@
     },
     
     "templates": {
-        "js": "/*!\n * Chico UI <version> MIT Licence\n * @autor <chico@mercadolibre.com>\n * @link http://www.chico-ui.com.ar \n * @team Natan Santolo, Leandro Linares, Guillermo Paz, Natalia Devalle \n */;(function($){<code>})($);",
-        "css": "/*!\n * Chico UI <version> MIT Licence\n * @autor <chico@mercadolibre.com>\n * @link http://www.chico-ui.com.ar \n * @team Natan Santolo, Leandro Linares, Guillermo Paz, Natalia Devalle \n */<code>"
+        "js": "/*!\n * Chico UI <version> MIT Licence\n * @autor <chico@mercadolibre.com>\n * @link http://www.chico-ui.com.ar\n * @team Natan Santolo, Leandro Linares, Guillermo Paz, Natalia Devalle\n */\n;(function($){<code>})($);",
+        "css": "/*!\n * Chico UI <version> MIT Licence\n * @autor <chico@mercadolibre.com>\n * @link http://www.chico-ui.com.ar\n * @team Natan Santolo, Leandro Linares, Guillermo Paz, Natalia Devalle\n */\n<code>"
   
     },
     

@@ -177,13 +177,18 @@ Packer.prototype.process = function() {
     var output_min = false;
     
     sys.puts( "   original size " + output.length );            
-    
+    //console.log(">>>>>>>>>>>>>>>" + self.min);
     if ( self.min ) {
     
         switch( self.type ) {
         
             case "js":
-                output_min = uglify( output.toString() ); // compressed code here
+                //output_min = uglify(output.toString()); // compressed code here
+                var ast = uglify.parser.parse(output.toString());
+					ast = uglify.uglify.ast_mangle(ast);
+					ast = uglify.uglify.ast_squeeze(ast);
+				output_min = uglify.uglify.gen_code(ast);
+				
                 break;
     
             case "css":
