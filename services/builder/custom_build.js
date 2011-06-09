@@ -10,7 +10,7 @@
 var sys = require("sys"),
     fs = require("fs"),
     events = require('events'),
-    Packer = require("./builder").Packer,
+    Packer = require("./packer").Packer,
     packages = { size: 0, map: [] },
     exec  = require("child_process").exec;
 

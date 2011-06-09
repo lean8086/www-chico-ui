@@ -176,9 +176,14 @@ Packer.prototype.process = function() {
     sys.puts( " > Processing " + self.filename );
 
     self.ui = self.ui.join(",").split(".js").join("");
-
+    
+    // Code replacements
     var output = _files.data.join("");
-        
+        // Add UI Components
+        output = output.replace( "components: \"\"," , "components: \"" + self.ui + "\"," );
+        // Add version number
+        output = output.replace( "version:\"\"" , "version:\"" + self.fullversion + "\"" );
+
     var output_min = false;
     
     sys.puts( "   original size " + output.length );            
@@ -200,12 +205,9 @@ Packer.prototype.process = function() {
         
     }
     
-    // Templating & replacements
-    
+    // Templating
     var out = self.template.replace( "<version>" , self.fullversion );
-        out = out.replace( "<code>" , output_min || output );
-        out = out.replace( ",components:\"\"," , ",components:\"" + self.ui + "\"," );
-        out = out.replace( "version:\"\"" , "version:\"" + self.fullversion + "\"" );
+        out = out.replace( "<code>" , ( output_min || output ) );
         
     self.emit( "processed" , out );
     

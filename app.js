@@ -85,20 +85,23 @@ app.configure('production', function(){
  * rutes
  */
 
-
-app.get( '/lastest', function( req, res ) {
+// Para lean
+app.get( '/lastest/:type/:min?', function( req, res ) {
+       
+    var type = req.params.type;
+    var min = req.params.min;
     
     var packages = [{
         "name": "chico",
-        "input": "../chico/src/js/",
-        "type": "js"
+        "input": "../chico/src/"+type+"/",
+        "type": type,
+        "min": (min) ? true : false
     }];
     
     var custom = new CustomBuild( packages );
 
         custom.on( "processed" , function( data ) {
-            console.log(data);
-            res.header('Content-Type', 'text/javascript');
+            res.header('Content-Type', (type==="js") ? "text/javascript" : "text/css" );
             res.send( data );
         });
     
