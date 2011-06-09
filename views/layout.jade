@@ -5,7 +5,7 @@ html.no-js(lang='es')
     meta(charset='utf-8')
     link(rel='shortcut icon', href='/src/assets/favicon.ico', type='image/vnd.microsoft.icon')
     title Chico UI, MercadoLibre's Visual Framework
-    
+       
     link(rel='stylesheet', href='/src/css/chico.css')
     link(rel='stylesheet', href='/src/css/mesh.css')
     link(rel='stylesheet', href='/src/css/styles.css')
@@ -21,14 +21,14 @@ html.no-js(lang='es')
   body
     .header.clearfix
       h1(title='MercadoLibre\'s Visual Framework')
-        | Chico-UI
+        a(href='/') Chico-UI
         span.version
       .iLike
 
       ul
-      - each item in navigation.top
-        li
-          a(href='#{item.href}') #{item.label}
+        - each item in navigation.top 
+          li
+            a(href='#{item.href}') #{item.label}
     hr
   body!= body
   
