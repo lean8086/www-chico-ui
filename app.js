@@ -99,7 +99,7 @@ app.get( '/lastest/:type/:min?', function( req, res ) {
     }];
     
     var custom = new CustomBuild( packages );
-
+        custom.avoidCompress();
         custom.on( "processed" , function( data ) {
             res.header('Content-Type', (type==="js") ? "text/javascript" : "text/css" );
             res.send( data );
