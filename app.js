@@ -4,11 +4,13 @@
  */
 
 var express = require('express'),
-    events = require('events');
+    events = require('events'),
+    CustomBuild = require('./services/builder/custom_build').CustomBuild;
 
 var app = module.exports = express.createServer();
 
 // Mocks
+/*
 var CustomBuild = function( packages ) {
     var self = this;
         self.packages = packages;
@@ -19,7 +21,7 @@ CustomBuild.prototype.run = function() {
         self.emit( "done" , "http://download.chico-ui.com.ar/" );
         console.log( self.packages );
 }
-
+*/
 // Constants
 
 var navigation = {
@@ -93,7 +95,8 @@ app.configure('production', function(){
 // get Downloads
 app.get('/download', function(req, res){
   res.render('download', {
-    title: 'Chico-UI'
+    title: 'Chico-UI',
+    navigation: navigation
   });
 });
 
@@ -111,7 +114,7 @@ app.post('/download', function(req, res){
     // JavaScripts Pack
     var js = {
         "name": "chico",
-        "input": "../../src/js/",
+        "input": "../chico/src/js/",
         "components": req.body.abstract.join(",").toLowerCase() + "," + req.body.util.join(",").toLowerCase() + "," + components,
         "type": "js"
     };
@@ -119,7 +122,7 @@ app.post('/download', function(req, res){
     // Stylesheets Pack
     var css = {
         "name": "chico",
-        "input": "../../src/css/",
+        "input": "../chico/src/css/",
         "components": components + ( (mesh) ? ",mesh" : "" ),
         "type": "css"
     };
@@ -149,7 +152,6 @@ app.post('/download', function(req, res){
         custom.on("done", function( uri ) {
             res.redirect( uri );
         });
-        custom.run();
 });
 
 

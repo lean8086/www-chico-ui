@@ -19,7 +19,7 @@ var CustomBuild = function(_packages) {
 	
 	var self = this;
     
-    self.folder = "temp" + ~~(Math.random() * 99999) + "/";
+    self.folder = "./public/downloads/temp" + ~~(Math.random() * 99999) + "/";
     
     self._packages = _packages;
 
@@ -35,7 +35,7 @@ CustomBuild.prototype.run = function() {
 	
 	var self = this;
 	
-	fs.readFile("builder.conf", function(err, data) {
+	fs.readFile( __dirname + "/builder.conf", function(err, data) {
 
 	    if (err) {
 	        sys.puts(err);
@@ -114,8 +114,8 @@ CustomBuild.prototype.compress = function( package ) {
 		
 	sys.puts( "Compressing files..." );
 	
-	var zipName = self.build.name + "-" + package.version + "-" + package.build + ".zip" ;
-	
+	var zipName = self.build.name + "-" + package.fullversion + ".zip" ;
+
 	exec("cd ./" + self.folder + " && tar -cvf " + zipName + " * && rm *.js *.css", function(err) {
 	   
         if ( err ) {
@@ -126,99 +126,9 @@ CustomBuild.prototype.compress = function( package ) {
 		sys.puts("Package builded at " + self.folder + zipName );
 		
 		self.emit("done", self.folder + zipName );
-    });
-	
+    });	
 }
-
-/*
-
-
-var CustomBuild = function(_packages) {
-	
-	fs.readFile( 'builder.conf', function( err , data ) { 
-
-	    if (err) {
-	        sys.puts(err);
-	        return;
-	    }
-	    
-	    // Parse JSON data
-	    var build = JSON.parse(data);
-	        // save the amount of packages configured
-	        packages.size = _packages.length;
-	        // 
-	        build.output.uri = folder;
-	        exec("mkdir " + folder, function(err) {
-		   
-		        if ( err ) {
-		            sys.puts( "Error: <Creating folder> " + err );
-		            return;
-		        }
-		        
-		    });
-	        
-	    sys.puts( "Building version " + build.version + " build nº " + build.build );
-	    sys.puts( "Preparing " + packages.size + " packages." );
-	    
-	    // for each build.packages
-	    for (var i in _packages) {
-	        
-	        var _package = Object.create(_packages[i]);
-	            _package.version = build.version;
-	            _package.output = build.output;
-	            _package.build = build.build;
-	            //_package.upload = build.locations[_package.upload];
-	            _package.template = build.templates[_package.type];
-	
-	        var packer = new Packer( _package );        
-	
-            packer.on( "done" , function( package ) {
-				if ( !package.upload ) {
-			        packages.size -= 1;    
-			    } else {
-			        packages.map.push( package );
-			    }
-			    
-			    if ( packages.map.length === packages.size ) {
-			        //new Deployer( packages );
-					
-					sys.puts( "Compressing files..." );
-					
-					var packageName = build.name + "-" + _package.version + "-" + _package.build + ".zip";
-					
-					var compress = "cd ./" + folder + " && tar -cvf " + packageName + " * && rm *.js *.css";
-					
-					exec( compress , function(err) {
-					   
-				        if ( err ) {
-				            sys.puts( "Error: <Creating folder> " + err );
-				            return;
-				        }
-						
-						sys.puts("Package builded at " + folder + packageName);
-						
-						CustomBuild.emit("done", folder + packageName);
-				    });
-			    }
-            });
-	    }
-	})
-};
-
-
-
-*/
 
 // --------------------------------------------------
 
-new CustomBuild([ { name: 'chico',
-    input: '../../src/js/',
-    components: 'controllers,navs,object,watcher,events,factory,get,positioner,expando,form,menu,accordion,required',
-    type: 'js',
-    min: true },
-  { name: 'chico',
-    input: '../../src/css/',
-    components: 'expando,form,menu,accordion,required,mesh',
-    type: 'css',
-    min: true,
-    embed: true } ]);
+exports.CustomBuild = CustomBuild;
