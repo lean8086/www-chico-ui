@@ -21,8 +21,8 @@
                   $("#"+event.payload.comment_id+".comment").append( comment.data.body );
                 });
 
-                /* The API Wont giveme the related issue number, aleready reported: 
-                $.getJSON( event.repo.url + "/issues/", function(issue) {
+        /*  There isn't a way to make relation between IssueCommentEvent and the Issue itself.
+            $.getJSON( event.repo.url + "/issues/", function(issue) {
                   //$("#"+event.payload.issue_id+".issueComment").html(issue.data.body);
                   console.log("#"+event.payload.issue_id+".issue");
                 });

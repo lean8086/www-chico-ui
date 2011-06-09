@@ -8,23 +8,66 @@ var express = require('express'),
 
 var app = module.exports = express.createServer();
 
+// Mocks
 var CustomBuild = function( packages ) {
-
     var self = this;
         self.packages = packages;
-
 }
-
 CustomBuild.prototype = new events.EventEmitter();
-
 CustomBuild.prototype.run = function() {
-
     var self = this;
         self.emit( "done" , "http://download.chico-ui.com.ar/" );
-
         console.log( self.packages );
+}
+
+// Constants
+
+var navigation = {
+
+    "top": [
+        {"label": "Home", "href": "/"},
+        {"label": "Download", "href": "/download"},
+        {"label": "Getting Started", "href": "https://github.com/mercadolibre/chico/wiki"},
+        {"label": "API", "href": "/api/index.html"},
+        {"label": "Docs", "href": "/docs/index.html"},
+        {"label": "Github", "href": "https://github.com/mercadolibre/chico/"}
+    ],
+    
+    "bottom": {
+        "Download": [
+            {"label": "Download", "href": "/"},
+            {"label": "Current release", "href": "/download"},
+            {"label": "Past releases", "href": "http://download.chico-ui.com.ar/"},
+            {"label": "Source code", "href": "https://github.com/mercadolibre/chico/"}
+        ],
+        "Getting started": [
+            {"label": "Getting started", "href": "/"},
+            {"label": "How to install", "href": "/"},
+            {"label": "Using Chico-UI", "href": "/"},
+            {"label": "Layout with Mesh", "href": "/"}
+        ],
+        "Docs": [
+            {"label": "Docs", "href": "/api/index.html"},
+            {"label": "API Reference", "href": "/api/index.html"},
+            {"label": "How to install", "href": "/docs/how-to-install"},
+            {"label": "Examples", "href": "/examples"}
+        ],
+        "Support": [
+            {"label": "Support", "href": "/support/faq"},
+            {"label": "FAQ", "href": "/support/faq"},
+            {"label": "Issue tracker", "href": "https://github.com/visionmedia/jade/issues"},
+            {"label": "Mailing list", "href": "https://groups.google.com/group/chico-ui"}
+        ],
+        "Get in touch": [
+            {"label": "Get in touch", "href": "/"},
+            {"label": "on Twitter", "href": "http://twitter.com/chicoui"},
+            {"label": "on Facebook", "href": "http://www.facebook.com/pages/Chico-UI/189546681062056"},
+            {"label": "our Google Group", "href": "https://groups.google.com/group/chico-ui"}
+        ]
+    }
 
 }
+
 
 // Configuration
 
@@ -65,7 +108,7 @@ app.post('/download', function(req, res){
         min = req.body.min;
         embed = req.body.embed;
     
-    // JavaScripts
+    // JavaScripts Pack
     var js = {
         "name": "chico",
         "input": "../../src/js/",
@@ -73,7 +116,7 @@ app.post('/download', function(req, res){
         "type": "js"
     };
     
-    // Stylesheets
+    // Stylesheets Pack
     var css = {
         "name": "chico",
         "input": "../../src/css/",
@@ -81,7 +124,7 @@ app.post('/download', function(req, res){
         "type": "css"
     };
     
-    // Flavors
+    // Flavors Pack
     var flavor = {
         "name": "flavor",
         "components": components,
@@ -107,46 +150,14 @@ app.post('/download', function(req, res){
             res.redirect( uri );
         });
         custom.run();
-   
-/*  
-
-[
-  {
-    "name": "chico-c012-js",
-    "input": "../../src/js/",
-    "components": ["core,tooltip,layer,object,coso,other"],
-    "type": "js",
-    "min": "both",
-    "download": true
-  },
-  {
-    "name": "chico-c012-css",
-    "input": "../../src/css/",
-    "components": ["core,tooltip,layer,object,coso,other"],
-    "type": "css",
-    "embed_images": true,
-    "min": "both",
-    "download": true
-  },
-  {
-    "name": "chico-c012-flavor",
-    "input": "../../src/css/flavors/",
-    "components": ["core,tooltip,layer,object,coso,other"], 
-    "type": "css",
-    "embed_images": true,
-    "min": "both",
-    "download": true
-  }
-]
-*/
-
 });
 
 
 // Index
 app.get('/', function(req, res){
   res.render('index', {
-    title: 'Chico-UI'
+    title: 'Chico-UI',
+    navigation: navigation
   });
 });
 

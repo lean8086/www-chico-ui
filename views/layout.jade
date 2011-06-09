@@ -24,20 +24,11 @@ html.no-js(lang='es')
         | Chico-UI
         span.version
       .iLike
-        iframe(src='', scrolling='no', frameborder='0', style='border:none; overflow:hidden; width:450px; height:21px;', allowtransparency='true')
+
       ul
+      - each item in navigation.top
         li
-          strong Home
-        li
-          a(href='/download') Download
-        li
-          a(href='https://github.com/mercadolibre/chico/wiki') Getting Started
-        li
-          a(href='/api/index.html') API
-        li
-          a(href='/docs/index.html') Docs
-        li
-          a(href='https://github.com/mercadolibre/chico/') GitHub
+          a(href='#{item.href}') #{item.label}
     hr
   body!= body
   

@@ -65,68 +65,30 @@
             a.version(href='http://download.chico-ui.com.ar/')
             | , see
             a(href='http://download.chico-ui.com.ar/') older versions
-            
+            ul
+              li
+                a(href='/docs/getting-started') API Reference,
+              li
+                a(href='/docs/getting-started') Getting Started Guide,
+              li
+                a(href='/docs/getting-started') Support,
+              li
+                a(href='/docs/getting-started') Report a bug.
     .clearfix
     hr
+
     .ch-g1
       .bottom
-        ul.ch-g1-6
-          li
-            h3 Download
-          li
-            a(href='pages/required/') Current release
-          li
-            a(href='pages/required/') Past releases
-          li
-            a(href='https://github.com/mercadolibre/chico/') Source code
-        ul.ch-g1-6
-          li
-            h3 Getting started
-          li
-            a(href='pages/install') How to install
-          li
-            a(href='pages/css') Using Chico-UI
-          li
-            a(href='pages/grid') Layout with Mesh
-        ul.ch-g1-6
-          li
-            h3 Docs
-          li
-            a(href='pages/carousel/') API Reference
-          li
-            a(href='pages/carousel/') How to install
-          li
-            a(href='pages/carousel/') Examples
-        ul.ch-g1-6
-          li
-            h3 Support
-          li
-            a(href='faq') FAQ
-          li
-            a(href='https://github.com/mercadolibre/chico/issues') Issue tracker
-          li
-            a(href='https://groups.google.com/group/chico-ui') Mailing list
-        ul.ch-g1-6
-          li
-            h3 Get in touch
-          li
-            a(href='http://twitter.com/chicoui') on Twitter
-          li
-            a(href='http://www.facebook.com/pages/Chico-UI/189546681062056') on Facebook
-          li
-            a(href='https://groups.google.com/group/chico-ui') our Google Group
-        ul.ch-g1-6
-          li
-            h3 About
-          li
-            a(href='about/the-project') The project
-          li
-            a(href='about/the-team') The team
-          li
-            a(href='about/collaborate') Collaborate ;)
+        - each column in navigation.bottom
+          ul.ch-g1-6
+            - each link in column
+              li
+                a(href='#{link.href}') #{link.label}
+    
+
 .ch-g1-4
   .activity.container.rightcolumn
     // Github Activity Widget
-    
+
 script(type='text/javascript', src='/src/js/index.js')
 script(type='text/javascript', src='/src/js/activity-widget.js')
