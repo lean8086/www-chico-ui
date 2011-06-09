@@ -1,6 +1,6 @@
 
 /**
- * Module dependencies.
+ * module dependencies.
  */
 
 var express = require('express'),
@@ -9,21 +9,9 @@ var express = require('express'),
 
 var app = module.exports = express.createServer();
 
-// Mocks
-/*
-var CustomBuild = function( packages ) {
-    var self = this;
-        self.packages = packages;
-}
-CustomBuild.prototype = new events.EventEmitter();
-CustomBuild.prototype.run = function() {
-    var self = this;
-        self.emit( "done" , "http://download.chico-ui.com.ar/" );
-        console.log( self.packages );
-}
-*/
-// Constants
-
+/**
+ * constants.
+ */
 var navigation = {
 
     "top": [
@@ -71,8 +59,9 @@ var navigation = {
 }
 
 
-// Configuration
-
+/**
+ * app configuration.
+ */
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -90,25 +79,31 @@ app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
 
-// Routes
+/**
+ * rutes
+ */
 
-// get Downloads
-app.get('/download', function(req, res){
-  res.render('download', {
+
+/**
+ * Download
+ */
+// get 
+app.get( '/download', function( req, res ) {
+    
+  res.render( 'download', {
     title: 'Chico-UI',
     navigation: navigation
   });
+  
 });
 
-// post Downloads
-app.post('/download', function(req, res){
-
-    console.log(req.body);
+// post 
+app.post('/download', function( req, res ){
 
     var components = req.body.class.join(",").toLowerCase(),
         flavor = req.body.flavor,
         mesh = req.body.mesh,
-        min = req.body.min;
+        min = ( req.body.min == "p" ) ? true : false ;
         embed = req.body.embed;
     
     // JavaScripts Pack
@@ -134,28 +129,25 @@ app.post('/download', function(req, res){
         "type": "css"
     };
     
-    if (min) {
-        js.min = true;
-        css.min = true;
-        flavor.min = true;    
-    }
-    
-    if (embed) {
-        css.embed = true;
-        flavor.embed = true;            
-    }
+    // Min?
+    js.min = css.min = flavor.min = ( min ) ? true : false ;
+
+    // Embed?
+    css.embed = flavor.embed = ( embed ) ? true : false ;
     
     // Pack the thing
     var packages = [ js , css /*, flavor*/ ];
-    
+    console.log(packages);
     var custom = new CustomBuild( packages );
         custom.on("done", function( uri ) {
             res.redirect( uri );
         });
 });
 
-
-// Index
+/**
+ * Index.
+ */
+// get
 app.get('/', function(req, res){
   res.render('index', {
     title: 'Chico-UI',
@@ -163,6 +155,13 @@ app.get('/', function(req, res){
   });
 });
 
+
+/**
+ * app start
+ */
 app.listen(3000);
 
+/**
+ * log
+ */
 console.log("Express server listening on port %d", app.address().port);
