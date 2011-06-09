@@ -125,7 +125,7 @@ CustomBuild.prototype.compress = function( package ) {
 		
 		sys.puts("Package builded at " + self.folder + zipName );
 		
-		self.emit("done", self.folder + zipName );
+		self.emit("done", self.folder.split("/public").join("") + zipName );
     });	
 }
 
