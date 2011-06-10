@@ -10,6 +10,7 @@ var sys = require("sys"),
     child = require("child_process"),
     uglify = require("uglify-js"),
     cssmin = require('cssmin').cssmin,
+    Encode64 = require('./encode64').Encode64,
     exec  = child.exec,
     spawn = child.spawn,
     version = "1.2";
@@ -185,12 +186,25 @@ Packer.prototype.process = function() {
     
     sys.puts( "   original size " + output.length );            
     
+    
+    //if ( self.embed_images && self.type == "css" ) {
+    	
+    	output = self.embedImages(output.toString());
+    		
+    //};
+    
+    //console.log(">>>>>>>>>>>>>>>" + self.min);
     if ( self.min ) {
     
         switch( self.type ) {
         
             case "js":
-                output_min = uglify( output.toString() ); // compressed code here
+                //output_min = uglify(output.toString()); // compressed code here
+                var ast = uglify.parser.parse(output.toString());
+					ast = uglify.uglify.ast_mangle(ast);
+					ast = uglify.uglify.ast_squeeze(ast);
+				output_min = uglify.uglify.gen_code(ast);
+				
                 break;
     
             case "css":
@@ -200,7 +214,7 @@ Packer.prototype.process = function() {
     
         sys.puts( "   optimized size " + output_min.length );
         
-    }
+    };
     
     // Templating
     var out = self.template.replace( "<version>" , self.fullversion );
@@ -211,6 +225,86 @@ Packer.prototype.process = function() {
     self.write( self.filename , out );    
 
 };
+
+
+Packer.prototype.embedImages = function( str ) {
+	// TODO: Use regexp
+	
+	var _encoded = str;
+	var _toEncode = {}
+		_toEncode.replacements = str.match(/(url\(\')(.*)(\'\);)/gi);
+		_toEncode.toReplace = [];
+		_toEncode.total = _toEncode.replacements.length;
+		_toEncode.loaded = 0;
+		_toEncode.ready = function(){
+			return _toEncode.loaded === _toEncode.total;	
+		}
+		
+	var i = 0;
+	
+	for ( i ; i < _toEncode.total; i++ ) {
+
+		var _toReplace;
+
+		var uri = _toEncode.replacements[i].split("url(\'").join("").split("\');").join("");
+		
+		(function(i) {	
+	
+			var src64 = new Encode64("../chico/src/" + uri );
+	
+				src64.on("encoded", function( data ) {
+					_toEncode.toReplace[i] = data;
+					_toEncode.loaded += 1;
+	
+					if (_toEncode.ready()) {					
+						console.log(_toEncode.toReplace);
+						return _encoded;	
+					}
+	
+				});
+	
+		})(i);
+	}
+
+	var r = str.replace(/(url\(\')(.*)(\'\);)/gi, function(str, $1, $2){
+		
+		var src64 = new Encode64("../chico/src/" + $2);
+			
+			src64.on("encoded", function( data ){
+				return "url(\'data:image/png;base64," + data + "\');*background-image:url(\'" + $2 + "\');";
+			});
+			
+		
+	});
+	
+	
+	/*var splited = str.split("url(\'");
+	
+	var total = splited.length;
+	
+	for(var x in splited) {
+		if (x == 0) { continue; };
+		var splited2 = splited[x].split("\');");
+		
+		var src = splited2[0];
+		
+		var src64 = new Encode64(src);
+			src64.on("encoded", function( data ){
+				//console.log(">>>>>>>>>>>" + data);
+			    //console.log(">>>>>>>>>>>" + x + "-" + (total));
+			});
+			
+		splited2[0] = src64;
+		
+		splited[x] = splited2.join("\');*background-image:url(\'" + src + "\');");
+		
+	};
+	
+	return splited.join("url(\'data:image/png;base64,");*/
+	
+	
+};
+
 
 Packer.prototype.write = function( file , data ) {
     
