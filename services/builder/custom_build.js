@@ -10,7 +10,7 @@
 var sys = require("sys"),
     fs = require("fs"),
     events = require('events'),
-    Packer = require("./builder").Packer,
+    Packer = require("./packer").Packer,
     packages = { size: 0, map: [] },
     exec  = require("child_process").exec;
 
@@ -22,7 +22,9 @@ var CustomBuild = function(_packages) {
     self.folder = "./public/downloads/temp" + ~~(Math.random() * 99999) + "/";
     
     self._packages = _packages;
-
+    
+    self.avoid = false; // key to avoid create the zip file
+    
     self.run();
     
 };
@@ -82,11 +84,6 @@ CustomBuild.prototype.pack = function( package ) {
 		//_package.upload = build.locations[_package.upload];
 		_package.template = self.build.templates[_package.type];
 		
-//	var packer = new Packer( _package );
-		/*packer.on("done", function( pack ) {
-			
-		}*/
-		
         var packer = new Packer( _package );        
 
             packer.on( "processed" , function( out ) {
@@ -103,10 +100,21 @@ CustomBuild.prototype.pack = function( package ) {
 	
 }
 
+CustomBuild.prototype.avoidCompress = function( bool ) {
+
+    var self = this;
+    
+    self.avoid = bool || true;   
+
+}
 
 CustomBuild.prototype.compress = function( package ) {
 	
 	var self = this;
+	
+	if (self.avoid) {
+	   return;   
+    }
 	
 	if ( !package.upload ) {
         packages.size -= 1;    

@@ -14,17 +14,14 @@ var sys = require("sys"),
     spawn = child.spawn,
     version = "1.2";
 
-
-
-sys.puts( "________       ___________________ " );           
-sys.puts( "___  __ )___  ____(_)__  /_____  /____________" );
-sys.puts( "__  __  |  / / /_  /__  /_  __  /_  _ \\_  ___/" );
-sys.puts( "_  /_/ // /_/ /_  / _  / / /_/ / /  __/  / "+version );
-sys.puts( "/_____/ \\__,_/ /_/  /_/  \\__,_/  \\___//_/   " );
-sys.puts( " " );                                   
-
-
 var Packer = function(o) {
+
+    sys.puts( "________       ___________________ " );           
+    sys.puts( "___  __ )___  ____(_)__  /_____  /____________" );
+    sys.puts( "__  __  |  / / /_  /__  /_  __  /_  _ \\_  ___/" );
+    sys.puts( "_  /_/ // /_/ /_  / _  / / /_/ / /  __/  / "+version );
+    sys.puts( "/_____/ \\__,_/ /_/  /_/  \\__,_/  \\___//_/   " );
+    sys.puts( " " );
 
     var self = this;
     
@@ -176,9 +173,14 @@ Packer.prototype.process = function() {
     sys.puts( " > Processing " + self.filename );
 
     self.ui = self.ui.join(",").split(".js").join("");
-
+    
+    // Code replacements
     var output = _files.data.join("");
-        
+        // Add UI Components
+        output = output.replace( "components: \"\"," , "components: \"" + self.ui + "\"," );
+        // Add version number
+        output = output.replace( "version:\"\"" , "version:\"" + self.fullversion + "\"" );
+
     var output_min = false;
     
     sys.puts( "   original size " + output.length );            
@@ -205,12 +207,9 @@ Packer.prototype.process = function() {
         
     }
     
-    // Templating & replacements
-    
+    // Templating
     var out = self.template.replace( "<version>" , self.fullversion );
-        out = out.replace( "<code>" , output_min || output );
-        out = out.replace( ",components:\"\"," , ",components:\"" + self.ui + "\"," );
-        out = out.replace( "version:\"\"" , "version:\"" + self.fullversion + "\"" );
+        out = out.replace( "<code>" , ( output_min || output ) );
         
     self.emit( "processed" , out );
     

@@ -10,7 +10,7 @@
 
 var sys = require("sys"),
     fs = require("fs"),
-    Packer = require("./builder").Packer,
+    Packer = require("./packer").Packer,
     Deployer = require("./deployer").Deployer,
     packages = { size: 0, map: [] };
 
