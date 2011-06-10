@@ -39,17 +39,13 @@ Encode64.prototype._toBase64 = function( o ) {
 
     o = o || self.image_data;
 
-    fs.readFile( o , function( err , data ) { 
-        
-        self.image_data = data;
-        
-        self.emit( "processed" , self.image_data );
+    self.image_data = fs.readFileSync( o );
+                
+    self.emit( "processed" , self.image_data );
 
-        self.encoded_data = new Buffer( self.image_data.toString() , 'binary' ).toString( 'base64' );
+    self.encoded_data = new Buffer( self.image_data.toString() , 'binary' ).toString( 'base64' );
 
-        self.emit( "encoded" , self.encoded_data );
-    
-    });
+    self.emit( "encoded" , self.encoded_data );
 }
 
 /* -----[ Exports ]----- */
