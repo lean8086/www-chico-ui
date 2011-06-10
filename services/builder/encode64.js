@@ -35,8 +35,6 @@ Encode64.prototype = new events.EventEmitter();
 
 Encode64.prototype._toBase64 = function( o ) {
 
-    console.log("tobase");
-
     var self = this;
 
     o = o || self.image_data;
@@ -48,8 +46,6 @@ Encode64.prototype._toBase64 = function( o ) {
         self.emit( "processed" , self.image_data );
 
         self.encoded_data = new Buffer( self.image_data.toString() , 'binary' ).toString( 'base64' );
-
-        console.log(self.encoded_data);
 
         self.emit( "encoded" , self.encoded_data );
     

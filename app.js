@@ -95,7 +95,8 @@ app.get( '/lastest/:type/:min?', function( req, res ) {
         "name": "chico",
         "input": "../chico/src/"+type+"/",
         "type": type,
-        "min": (min) ? true : false
+        "min": (min) ? true : false,
+        "embed_images": (req.params.embed_images) ? true : false
     }];
     
     var custom = new CustomBuild( packages );
