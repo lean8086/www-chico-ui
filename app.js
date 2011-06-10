@@ -5,6 +5,7 @@
 
 var express = require('express'),
     events = require('events'),
+    fs = require('fs'),
     CustomBuild = require('./services/builder/custom_build').CustomBuild,
     Encode64 = require('./services/builder/encode64').Encode64;
 
@@ -27,31 +28,31 @@ var navigation = {
     
     "bottom": {
         "Download": [
-            {"label": "Download", "href": "/"},
+            {"title": "Download", "href": "/"},
             {"label": "Current release", "href": "/download"},
             {"label": "Past releases", "href": "http://download.chico-ui.com.ar/"},
             {"label": "Source code", "href": "https://github.com/mercadolibre/chico/"}
         ],
         "Getting started": [
-            {"label": "Getting started", "href": "/"},
+            {"title": "Getting started", "href": "/"},
             {"label": "How to install", "href": "/"},
             {"label": "Using Chico-UI", "href": "/"},
             {"label": "Layout with Mesh", "href": "/"}
         ],
-        "Docs": [
-            {"label": "Docs", "href": "/api/index.html"},
+        "Documentation": [
+            {"title": "Documentation", "href": "/api/index.html"},
             {"label": "API Reference", "href": "/api/index.html"},
             {"label": "How to install", "href": "/docs/how-to-install"},
             {"label": "Examples", "href": "/examples"}
         ],
         "Support": [
-            {"label": "Support", "href": "/support/faq"},
+            {"title": "Support", "href": "/support/faq"},
             {"label": "FAQ", "href": "/support/faq"},
             {"label": "Issue tracker", "href": "https://github.com/visionmedia/jade/issues"},
             {"label": "Mailing list", "href": "https://groups.google.com/group/chico-ui"}
         ],
         "Get in touch": [
-            {"label": "Get in touch", "href": "/"},
+            {"title": "Get in touch", "href": "/"},
             {"label": "on Twitter", "href": "http://twitter.com/chicoui"},
             {"label": "on Facebook", "href": "http://www.facebook.com/pages/Chico-UI/189546681062056"},
             {"label": "our Google Group", "href": "https://groups.google.com/group/chico-ui"}
@@ -84,6 +85,24 @@ app.configure('production', function(){
 /**
  * rutes
  */
+
+// Para nico
+app.get( '/img/:id?', function( req, res ) {
+    
+    var id = req.params.id;
+
+	fs.readFile( __dirname + "/public/vip-images/" + id , function(err, data) {
+
+        setTimeout( function(){
+        
+            res.header( 'Content-Type' , 'image/jpeg' );
+            res.send( data );
+        
+        }, 3000 );
+	   
+	});
+    
+})
 
 // Para lean
 app.get( '/lastest/:type/:min?', function( req, res ) {
