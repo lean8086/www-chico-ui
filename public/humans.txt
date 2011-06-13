@@ -1,0 +1,27 @@
+/* TEAM */
+	Chief:Natan Santolo
+	Contact: natan.santolo [at] mercadolibre.com
+	Twitter: @natos
+	From:Buenos Aires, Argentina
+
+	Frontender: Leandro Linares
+	Twitter: @lean8086
+	From:Buenos Aires, Argentina
+
+	Frontender: Guillermo Paz
+	Twitter: @pazguille
+	From:Buenos Aires, Argentina
+
+	Web Designer: Natalia Devalle
+	Twitter: @taly
+	From:Barcelona, Catalonia, Spain
+
+/* THANKS */
+
+		
+
+/* SITE */
+	Last update:2011/06/13
+	Language:English / Castellano
+	Doctype:HTML5
+	IDE:Aptana Studio, GEdit, Smultron, Fireworks
