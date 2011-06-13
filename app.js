@@ -245,6 +245,7 @@ app.post('/download', function( req, res ){
     
     var custom = new CustomBuild( packages );
         custom.on("done", function( uri ) {
+            //res.send( uri );
             res.redirect( uri );
         });
 

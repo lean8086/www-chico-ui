@@ -125,12 +125,20 @@ CustomBuild.prototype.compress = function( package ) {
     if ( packages.map.length !== packages.size ) {
     	return;
     };
-		
-	sys.puts( "Compressing files..." );
-	
-	var zipName = self.build.name + "-" + package.fullversion + ".zip" ;
 
-	exec("cd ./" + self.folder + " && tar -cvf " + zipName + " * && rm *.js *.css", function(err) {
+
+    var path = "../chico/src/assets/",
+        zipName = self.build.name + "-" + package.fullversion + ".zip",
+        // commands
+        createFolders = "mkdir " + self.folder + "src && mkdir " + self.folder + "src/assets",
+        copyImages = "cp " + path + "* " + self.folder + "src/assets",
+        tar = "cd " + self.folder + " && tar -cvf " + zipName + " * && rm -rf *.js *.css src",
+        // url package
+        url = self.folder.split("./public").join("") + zipName;
+
+	sys.puts( "Compressing files..." );
+
+	exec( createFolders + " && " + copyImages + " && " + tar, function(err) {
 	   
         if ( err ) {
             sys.puts( "Error: <Creating folder> " + err );
@@ -139,7 +147,8 @@ CustomBuild.prototype.compress = function( package ) {
 		
 		sys.puts("Package builded at " + self.folder + zipName );
 		
-		self.emit( "done" , self.folder.split("/public").join("") + zipName );
+		self.emit( "done" , url );
+		
     });	
 }
 

@@ -15,14 +15,15 @@ var sys = require("sys"),
     spawn = child.spawn,
     version = "1.2";
 
-var Packer = function(o) {
-
     sys.puts( "________       ___________________ " );           
     sys.puts( "___  __ )___  ____(_)__  /_____  /____________" );
     sys.puts( "__  __  |  / / /_  /__  /_  __  /_  _ \\_  ___/" );
     sys.puts( "_  /_/ // /_/ /_  / _  / / /_/ / /  __/  / "+version );
     sys.puts( "/_____/ \\__,_/ /_/  /_/  \\__,_/  \\___//_/   " );
     sys.puts( " " );
+
+    
+var Packer = function(o) {
 
     var self = this;
     
