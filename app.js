@@ -5,9 +5,11 @@
 
 var express = require('express'),
     events = require('events'),
+    sys = require('sys'),
     fs = require('fs'),
     CustomBuild = require('./services/builder/custom_build').CustomBuild,
-    Encode64 = require('./services/builder/encode64').Encode64;
+    Encode64 = require('./services/builder/encode64').Encode64,
+    undefined;
 
 
 var app = module.exports = express.createServer();
@@ -25,7 +27,7 @@ var navigation = {
         {"label": "Docs", "href": "/docs/index.html"},
         {"label": "Github", "href": "https://github.com/mercadolibre/chico/"}
     ],
-    
+
     "bottom": {
         "Download": [
             {"title": "Download", "href": "/"},
@@ -58,7 +60,6 @@ var navigation = {
             {"label": "our Google Group", "href": "https://groups.google.com/group/chico-ui"}
         ]
     }
-
 }
 
 
@@ -93,7 +94,7 @@ app.get( '/img/:id?', function( req, res ) {
 
 	fs.readFile( __dirname + "/public/vip-images/" + id , function(err, data) {
 
-        setTimeout( function(){
+        setTimeout( function() {
         
             res.header( 'Content-Type' , 'image/jpeg' );
             res.send( data );
@@ -114,7 +115,8 @@ app.get( '/lastest/:type/:min?', function( req, res ) {
         "name": "chico",
         "input": "../chico/src/"+type+"/",
         "type": type,
-        "min": (min) ? true : false
+        "min": (min) ? true : false,
+        "virtual": true // Don't write the files
     }];
     
     var custom = new CustomBuild( packages );
@@ -154,48 +156,98 @@ app.get( '/download', function( req, res ) {
 // post 
 app.post('/download', function( req, res ){
 
-    var components = req.body.class.join(",").toLowerCase(),
+//    console.log( req.body );
+
+    var components = ( typeof req.body.class === "object" ) ? // If collection 
+                        req.body.class.join(",") : 
+                        req.body.class,
+        abstracts = ( typeof req.body.abstract === "object" ) ? // If collection 
+                        req.body.abstract.join(",") : 
+                        req.body.abstract,
+        utils = ( typeof req.body.util === "object" ) ? // If collection 
+                        req.body.util.join(",") : 
+                        req.body.util,
         flavor = req.body.flavor,
         mesh = req.body.mesh,
-        min = ( req.body.min == "p" ) ? true : false ;
         embed = req.body.embed;
-    
+        env = req.body.env;
+
+    if ( !abstracts || !utils || !components ) {
+        res.send(); // Avoid process without components
+        return;
+    }
+
     // JavaScripts Pack
-    var js = {
-        "name": "chico",
-        "input": "../chico/src/js/",
-        "components": req.body.abstract.join(",").toLowerCase() + "," + req.body.util.join(",").toLowerCase() + "," + components,
-        "type": "js"
+    var js = function() {
+        return {
+            "name": "chico",
+            "input": "../chico/src/js/",
+            "components": abstracts.toLowerCase() + "," + utils.toLowerCase() + "," + components.toLowerCase(),
+            "type": "js"
+        }
     };
-    
+
     // Stylesheets Pack
-    var css = {
-        "name": "chico",
-        "input": "../chico/src/css/",
-        "components": components + ( (mesh) ? ",mesh" : "" ),
-        "type": "css"
+    var css = function() {
+        return {
+            "name": "chico",
+            "input": "../chico/src/css/",
+            "components": components + ( (mesh) ? ",mesh" : "" ),
+            "type": "css"
+        }
     };
     
     // Flavors Pack
-    var flavor = {
-        "name": "flavor",
-        "components": components,
-        "type": "css"
+    var flavor = function() {
+        return {
+            "name": "flavor",
+            "components": components,
+            "type": "css"
+        }
     };
-    
-    // Min?
-    js.min = css.min = flavor.min = ( min ) ? true : false ;
 
-    // Embed?
-    css.embed = flavor.embed = ( embed ) ? true : false ;
-    
     // Pack the thing
-    var packages = [ js , css /*, flavor*/ ];
+    var packages = [];
+    // for Production
+    if ( env.toString().indexOf("p") > -1 ) {
+        // JS
+        var p_js = js();
+            p_js.min = true;
+            packages.push(p_js);
+        // CSS
+        var p_css = css();
+            p_css.embed = ( embed ) ? true : false ;
+            p_css.min = true;
+            packages.push(p_css);
+        // Flavor              
+        var p_flavor = Object.create(flavor);
+            p_flavor.embed = ( embed ) ? true : false ;
+            p_flavor.min = true;
+            //packages.push(p_flavors);
+    }
+    
+    // for Dev
+    if ( env.toString().indexOf("d") > -1 ) {
+        // JS
+        var d_js = js();
+            packages.push( d_js );
+        // CSS
+        var d_css = css();
+            d_css.embed = ( embed ) ? true : false ;
+            packages.push( d_css );
+        // Flavor              
+        var d_flavor = flavor();
+            d_flavor.embed = ( embed ) ? true : false ;
+            //packages.push( d_flavor );
+    }
+
     console.log(packages);
+    
     var custom = new CustomBuild( packages );
         custom.on("done", function( uri ) {
             res.redirect( uri );
         });
+
 });
 
 /**

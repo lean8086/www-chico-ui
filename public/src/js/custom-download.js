@@ -1,6 +1,3 @@
-
-console.log($("script")[0].innerText);
-
 var map = {}
 
 $.getJSON("/src/data/inheritanceMap.js", function(data){
