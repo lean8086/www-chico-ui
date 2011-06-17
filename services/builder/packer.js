@@ -235,7 +235,7 @@ Packer.prototype.embedImages = function( str ) {
         var encoded = new Encode64("../chico/src/" + $2).encoded_data;
 
 		return "url(\'data:image/png;base64," + encoded + "\');*background-image:url(\'" + $2 + "\');";
-			
+
 	});
 
 };

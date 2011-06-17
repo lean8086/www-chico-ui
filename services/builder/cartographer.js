@@ -26,7 +26,7 @@ sys.puts( " " );
 sys.puts( " > Starting Cartographer..." );
 
 // Create a temporal map of all classes
-var child = exec("cat ../../src/js/* > tmp_map.js", function (err) {
+var child = exec("cat ../../../chico/src/js/* > tmp_map.js", function (err) {
     
     if (err) {
         sys.puts( err );
@@ -45,7 +45,7 @@ var child = exec("cat ../../src/js/* > tmp_map.js", function (err) {
         var tags = 0;
         
         for ( i; i < t; i++ ) {
-            if ( raw[i].indexOf("@class") > -1 ) {
+            if ( raw[i].indexOf("@class") > -1 || raw[i].indexOf("@interface") > -1 ) {
                 var chunk = raw[i].split("\n").join("").split(" * ");
                 tmp.push(chunk);
             }
@@ -66,11 +66,28 @@ var child = exec("cat ../../src/js/* > tmp_map.js", function (err) {
             tags += tt;
 
             var chunk = tmp[i].join(" ");
-
-            var className = chunk.match( /@class(\s+)(\w)+/g ).toString().split("@class ").join("");
+            
+            // @class
+            var className = chunk.match( /@class(\s+)(\w)+/g );
+            
+                if ( className ) {
+                    className = className.toString().split("@class ").join("");
+                    classType = "class";
+                }
+            // @interface
+            var interface = chunk.match( /@interface(\s+)(\w)+/g );
+            
+                if ( interface ) {
+                    interface = interface.toString().split("@interface ").join("");
+                    className = interface;
+                    classType = "interface";
+                }
+            
+            // description
             var classDesc = trim( chunk.split("@")[0] );
             
-            m = map[className] = { description: classDesc, type: "class" };
+            // Create Map
+            m = map[className] = { description: classDesc, type: classType };
 
             // @aguments
             var augments = chunk.match( /@augments(\s+)(ch.)(\w)+/g );
@@ -108,7 +125,7 @@ var child = exec("cat ../../src/js/* > tmp_map.js", function (err) {
         
         var mapData = JSON.stringify(map)
         // Write the map to a file
-        fs.writeFile( "inheritanceMap.js" , mapData , function( err ) {
+        fs.writeFile( "../../public/data/inheritanceMap.js" , mapData , function( err ) {
             if(err) {
                 sys.puts(err);
             } else {

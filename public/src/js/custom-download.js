@@ -1,6 +1,6 @@
 var map = {}
 
-$.getJSON("/src/data/inheritanceMap.js", function(data){
+$.getJSON("/data/inheritanceMap.js", function(data){
 
     map = data;
     custom.populate();
@@ -42,28 +42,47 @@ var custom = {
     populate: function() {
         
         for (var c in map) {
+            
             var value = c.toString();
             var type = (value == "Object") ? "abstract" : map[c].type ;
-            var appendTo = (type == "class" || type == "interface") ? "components" : (type == "abstract") ? "abstracts" : "utils" ;
+            var appendTo = (function() {
+                
+                switch ( type ) {
+                    case "class": 
+                        return "#components";
+                    case "interface":
+                        return "#components > li:last-child";
+                    case "abstract":
+                        return "#abstracts";
+                    case "util":
+                        return "#utils";
+                    
+                }
+                                
+            })(); 
                 
             var className = type;
+
             // A disabled field wont be sending any information trough a post request.
             var disabled = (type == "abstract!!") ? "disabled=\"disabled\"" : "" ;
             
-            $("<li class=\""+className+"\"><label><input type=\"checkbox\" value=\""+value+"\" name=\"" + type + "\" "+disabled+"> <span>"+c+"</span></label>")
-                .appendTo( "#" + appendTo );
+            map[c]["dom"] = $("<li class=\""+className+"\"><label><input type=\"checkbox\" value=\""+value+"\" name=\"" + type + "\" "+disabled+" checked=\"checked\"> <span>"+c+"</span></label>")
+                .appendTo( appendTo );
                 /*.tooltip("<p>" + map[c].description + "<br />Father class: " + map[c].augments + ( (map[c].requires)? "<br />Requires: " + map[c].requires : "" ) +"</p>")
                 .position({ offset: "25 10" });*/
         }    
     },
     checkIt: function(c) {
+
+        console.log( $("input[value="+c+"]") );
+
         $("input[value="+c+"]").attr("checked","checked");
     },
     
     unCheckIt: function(c) {
     
         if (custom.isShared(c)) { 
-            return; 
+            return;
         }
     
         $("input[value="+c+"]").removeAttr("checked");
@@ -97,25 +116,29 @@ var custom = {
     checkMap: function( c ) {
     
         if ( !c ) { return; }
-    
-        if (c.augments) {
-            
-            custom.action( c.augments );
-    
-            custom.checkMap( map[c.augments] );
-    
-        }
-        if (c.requires) {
-            
-            $(c.requires).each(function(i,e){
-    
-                custom.action( e );
-    
-                custom.checkMap( map[e] );
-            
-            });  
-        }
         
+        if (c.type === "interface") {
+
+            $( c.dom ).parent().find("input").each(function(i,e) {
+                custom.action( $(this).val() );
+            });
+
+        } else {
+            
+            if (c.augments) {
+                custom.action( c.augments );
+                custom.checkMap( map[c.augments] );
+            }   
+
+            if (c.requires) {
+                
+                $(c.requires).each(function(i,e){        
+                    custom.action( e );
+                    custom.checkMap( map[e] );
+                });  
+            }
+        }
+                
         $(".selected-components").html( $("#components input:checked").size() + $("#abstracts input:checked").size() + $("#utils input:checked").size());
     }
 };

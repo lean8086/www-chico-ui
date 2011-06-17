@@ -1,3 +1,15 @@
 #abstracts {
     color: #999;    
 }
+.class {
+    border-left: 2px solid #fff;    
+}
+.class:hover {
+    border-left: 2px dotted #ccc;    
+}
+
+.interface {
+
+    margin-left: 10px;    
+    
+}

@@ -125,20 +125,23 @@ CustomBuild.prototype.compress = function( package ) {
     if ( packages.map.length !== packages.size ) {
     	return;
     };
-
-
-    var path = "../chico/src/assets/",
+    
+        // routes
+    var path = package.input.replace( "css/" , "assets/" ); //"../chico/src/assets/",
         zipName = self.build.name + "-" + package.fullversion + ".zip",
+
         // commands
         createFolders = "mkdir " + self.folder + "src && mkdir " + self.folder + "src/assets",
         copyImages = "cp " + path + "* " + self.folder + "src/assets",
-        tar = "cd " + self.folder + " && tar -cvf " + zipName + " * && rm -rf *.js *.css src",
-        // url package
+        createZip = "cd " + self.folder + " && tar -cvf " + zipName + " * && rm -rf *.js *.css src",
+
+        // package url
         url = self.folder.split("./public").join("") + zipName;
-
+console.log(">>>>"+path);
 	sys.puts( "Compressing files..." );
-
-	exec( createFolders + " && " + copyImages + " && " + tar, function(err) {
+    
+    // Exec commands ;)
+	exec( createFolders + ( (package.type === "css") ? " && " + copyImages : "" ) + " && " + createZip , function(err) {
 	   
         if ( err ) {
             sys.puts( "Error: <Creating folder> " + err );
@@ -149,7 +152,7 @@ CustomBuild.prototype.compress = function( package ) {
 		
 		self.emit( "done" , url );
 		
-    });	
+    });
 }
 
 // --------------------------------------------------
