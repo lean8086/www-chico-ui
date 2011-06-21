@@ -7,7 +7,7 @@ var express = require('express'),
     events = require('events'),
     sys = require('sys'),
     fs = require('fs'),
-    gzippo = require('gzippo'),
+//    gzippo = require('gzippo'),
     CustomBuild = require('./services/builder/custom_build').CustomBuild,
     Encode64 = require('./services/builder/encode64').Encode64,
     undefined;
@@ -58,9 +58,9 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
-//app.use(express.static(__dirname + '/public'));
+  app.use(express.static(__dirname + '/public'));
 // gzip compression
-  app.use(gzippo.staticGzip(__dirname + '/public'));
+//  app.use(gzippo.staticGzip(__dirname + '/public'));
 });
 
 app.configure('development', function(){
