@@ -57,7 +57,9 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
+//app.use(express.static(__dirname + '/public'));
+// gzip compression
+  app.use(gzippo.staticGzip(__dirname + '/public'));
 });
 
 app.configure('development', function(){
@@ -70,37 +72,8 @@ app.configure('production', function(){
 
 /**
  * rutes
- */
 
-// Probando post de form
-app.post( '/test/post' , function( req, res ) {
-
-    console.log( req.body );
-
-    res.header('Content-Type', "text/html" );
-    res.send( req.body );
-    
-});
-
-// Para nico
-app.get( '/img/:id?', function( req, res ) {
-    
-    var id = req.params.id;
-
-	fs.readFile( __dirname + "/public/vip-images/" + id , function(err, data) {
-
-        setTimeout( function() {
-        
-            res.header( 'Content-Type' , 'image/jpeg' );
-            res.send( data );
-        
-        }, 10000 );
-	   
-	});
-    
-})
-
-// Para lean
+// build lastest version
 app.get( '/lastest/:type/:min?', function( req, res ) {
        
     var type = req.params.type;
@@ -122,18 +95,7 @@ app.get( '/lastest/:type/:min?', function( req, res ) {
         });
     
 });
-
-
-
-app.get( '/encode', function( req, res ) {
-    
-    var encodedImage = new Encode64("./public/src/assets/ninja.jpg");
-    
-        encodedImage.on( "encoded", function( data ){
-            res.send( data.toString() ); 
-        });
-    
-});
+*/
 
 /**
  * Download
@@ -256,7 +218,7 @@ app.get('/', function(req, res){
 /**
  * app start
  */
-app.listen(3000);
+app.listen(8080);
 
 /**
  * log
