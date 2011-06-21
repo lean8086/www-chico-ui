@@ -7,6 +7,7 @@ var express = require('express'),
     events = require('events'),
     sys = require('sys'),
     fs = require('fs'),
+    gzippo = require('gzippo'),
     CustomBuild = require('./services/builder/custom_build').CustomBuild,
     Encode64 = require('./services/builder/encode64').Encode64,
     undefined;
