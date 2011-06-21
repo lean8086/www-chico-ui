@@ -17,51 +17,36 @@ var app = module.exports = express.createServer();
 /**
  * constants.
  */
-var navigation = {
 
-    "top": [
-        {"label": "Home", "href": "/"},
-        {"label": "Download", "href": "/download"},
-        {"label": "Getting Started", "href": "https://github.com/mercadolibre/chico/wiki"},
-        {"label": "API", "href": "/api/index.html"},
-        {"label": "Docs", "href": "/docs/index.html"},
-        {"label": "Github", "href": "https://github.com/mercadolibre/chico/"}
-    ],
-
-    "bottom": {
-        "Download": [
-            {"title": "Download", "href": "/"},
+var meta = {
+    "title": "Chico UI, the toolbox for the Web.",
+    "navigation": {
+       "top": [
+           {"label": "Home", "href": "/"},
+           {"label": "Download", "href": "/download"},
+           {"label": "Getting Started", "href": "https://github.com/mercadolibre/chico/wiki"},
+           {"label": "API", "href": "/api/index.html"},
+           {"label": "Support", "href": "/support"}
+       ],
+   
+       "bottom": [
+            {"label": "Download", "href": "/"},
             {"label": "Current release", "href": "/download"},
             {"label": "Past releases", "href": "http://download.chico-ui.com.ar/"},
-            {"label": "Source code", "href": "https://github.com/mercadolibre/chico/"}
-        ],
-        "Getting started": [
-            {"title": "Getting started", "href": "/"},
-            {"label": "How to install", "href": "/"},
-            {"label": "Using Chico-UI", "href": "/"},
-            {"label": "Layout with Mesh", "href": "/"}
-        ],
-        "Documentation": [
-            {"title": "Documentation", "href": "/api/index.html"},
-            {"label": "API Reference", "href": "/api/index.html"},
-            {"label": "How to install", "href": "/docs/how-to-install"},
-            {"label": "Examples", "href": "/examples"}
-        ],
-        "Support": [
-            {"title": "Support", "href": "/support/faq"},
+            {"label": "Source code", "href": "https://github.com/mercadolibre/chico/"},
+            {"label": "Support", "href": "/support/faq"},
             {"label": "FAQ", "href": "/support/faq"},
             {"label": "Issue tracker", "href": "https://github.com/visionmedia/jade/issues"},
-            {"label": "Mailing list", "href": "https://groups.google.com/group/chico-ui"}
-        ],
-        "Get in touch": [
-            {"title": "Get in touch", "href": "/"},
+            {"label": "Mailing list", "href": "https://groups.google.com/group/chico-ui"},
+            {"label": "Get in touch", "href": "/"},
             {"label": "on Twitter", "href": "http://twitter.com/chicoui"},
             {"label": "on Facebook", "href": "http://www.facebook.com/pages/Chico-UI/189546681062056"},
             {"label": "our Google Group", "href": "https://groups.google.com/group/chico-ui"}
         ]
-    }
-}
 
+   }
+
+}
 
 /**
  * app configuration.
@@ -87,6 +72,16 @@ app.configure('production', function(){
  * rutes
  */
 
+// Probando post de form
+app.post( '/test/post' , function( req, res ) {
+
+    console.log( req.body );
+
+    res.header('Content-Type', "text/html" );
+    res.send( req.body );
+    
+});
+
 // Para nico
 app.get( '/img/:id?', function( req, res ) {
     
@@ -99,7 +94,7 @@ app.get( '/img/:id?', function( req, res ) {
             res.header( 'Content-Type' , 'image/jpeg' );
             res.send( data );
         
-        }, 3000 );
+        }, 10000 );
 	   
 	});
     
@@ -146,10 +141,7 @@ app.get( '/encode', function( req, res ) {
 // get 
 app.get( '/download', function( req, res ) {
     
-  res.render( 'download', {
-    title: 'Chico-UI',
-    navigation: navigation
-  });
+  res.render( 'download', meta );
   
 });
 
@@ -168,7 +160,7 @@ app.post('/download', function( req, res ){
                         req.body.util.join(",") : 
                         req.body.util,
         flavor = req.body.flavor,
-        mesh = req.body.mesh,
+        use_mesh = req.body.mesh,
         embed = req.body.embed;
         env = req.body.env;
 
@@ -191,17 +183,20 @@ app.post('/download', function( req, res ){
     var css = function() {
         return {
             "name": "chico",
-            "input": "../chico/src/css/",
-            "components": components + ( (mesh) ? ",mesh" : "" ),
+            "input": "../chico/src/" + flavor + "/css/",
+            "components": components + ( ( use_mesh ) ? ",mesh" : "" ),
+            "embed": ( embed ) ? true : false,
             "type": "css"
         }
     };
     
-    // Flavors Pack
-    var flavor = function() {
+    // Mesh Pack
+    var mesh = function() {
         return {
-            "name": "flavor",
-            "components": components,
+            "name": "mesh",
+            "input": "../chico/src/css/",
+            "components": "mesh",
+            "embed": ( embed ) ? true : false,
             "type": "css"
         }
     };
@@ -216,14 +211,8 @@ app.post('/download', function( req, res ){
             packages.push(p_js);
         // CSS
         var p_css = css();
-            p_css.embed = ( embed ) ? true : false ;
             p_css.min = true;
             packages.push(p_css);
-        // Flavor              
-        var p_flavor = Object.create(flavor);
-            p_flavor.embed = ( embed ) ? true : false ;
-            p_flavor.min = true;
-            //packages.push(p_flavors);
     }
     
     // for Dev
@@ -233,12 +222,7 @@ app.post('/download', function( req, res ){
             packages.push( d_js );
         // CSS
         var d_css = css();
-            d_css.embed = ( embed ) ? true : false ;
             packages.push( d_css );
-        // Flavor              
-        var d_flavor = flavor();
-            d_flavor.embed = ( embed ) ? true : false ;
-            //packages.push( d_flavor );
     }
 
     console.log(packages);
@@ -251,15 +235,21 @@ app.post('/download', function( req, res ){
 
 });
 
+
+/**
+ * Getting started.
+ */
+// get
+app.get('/getting-started', function(req, res){
+  res.render('getting-started', meta );
+});
+
 /**
  * Index.
  */
 // get
 app.get('/', function(req, res){
-  res.render('index', {
-    title: 'Chico-UI',
-    navigation: navigation
-  });
+  res.render('index', meta );
 });
 
 

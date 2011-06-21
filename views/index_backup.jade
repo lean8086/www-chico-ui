@@ -1,0 +1,94 @@
+.ch-g3-4
+    .ch-g1-2
+        .leftcolumn
+        h2 Build your web app in a few minutes.
+        p.container
+            | Chico-UI is a collection of easy-to-use components for web developers and designers.
+            | The main goal is to improve and accelerate the development process. Built on top
+            | of jQuery, this open source toolbox brings a couple of known visual patterns for
+            | the web and takes advantages of the new HTML5 and CSS3 features. We want to share
+            | this tool with all designers and developers to help making the web more
+            | beautiful.
+            
+        p.container
+            | You can get in touch with us through
+            a(href='mailto:chico@mercadolibre.com') Email
+            | ,
+            a(href='https://groups.google.com/group/chico-ui') Google Groups
+            | ,
+            a(href='http://twitter.com/chicoui') Twitter
+            | or
+            a(href='http://www.facebook.com/pages/Chico-UI/189546681062056') Faceboook
+            | . Also you can see our
+            a(href='https://github.com/mercadolibre/chico/') coding in Github
+            | , or grab the project in either
+            a(href='http://github.com/mercadolibre/chico/zipball/master') zip 
+            | or
+            a(href='http://github.com/mercadolibre/chico/tarball/master') tar 
+            | formats.
+            
+        .home.box.rightcolumn
+          ul.carousel
+            li
+              a(href='http://www.w3.org/html/logo/')
+                img(alt='HTML5', src='http://www.w3.org/html/logo/badge/html5-badge-h-solo.png')
+              h3 We love the open web.
+              p
+                | We want to collaborate to make the web more beautiful, with HTML5, CSS3,
+                | JavaScript.
+            li
+              a(href='http://opensource.org/')
+                img(alt='Open Source Initiative', src='src/assets/opensource.png')
+              h3 Open source
+              p We believe in the open source, you can play with Chico's code is in github.
+            li
+              img(src='src/assets/web-browsers.jpg')
+              h3 Crossbrowsing
+              p Still supporting old browsers: IE6+, FF2+, Chrome, Safari, Opera.
+
+    .ch-g1-2
+      .ninja
+        img(src='src/assets/ninja.jpg')
+        
+    .ch-g1-2
+      div.download-container.center
+        form(action='/download')
+          fieldset
+            h3 Download
+            ul
+              li.field-box
+                input.btn.secondary.skin.download-button.center(type='submit', value='Lastest version')
+              li.field-box
+                input.btn.secondary.download-button.center(type='submit', value='Custom Download')
+          p
+            | Current
+            a.version(href='http://download.chico-ui.com.ar/')
+            | , see
+            a(href='http://download.chico-ui.com.ar/') older versions
+            ul
+              li
+                a(href='/docs/getting-started') API Reference,
+              li
+                a(href='/docs/getting-started') Getting Started Guide,
+              li
+                a(href='/docs/getting-started') Support,
+              li
+                a(href='/docs/getting-started') Report a bug.
+    .clearfix
+    hr
+
+    .ch-g1
+      .bottom
+        - each column in navigation.bottom
+          ul.ch-g1-6
+            - each link in column
+              li
+                a(href='#{link.href}') #{link.label}
+    
+
+.ch-g1-4
+  .activity.container.rightcolumn
+    // Github Activity Widget
+
+script(type='text/javascript', src='/src/js/index.js')
+script(type='text/javascript', src='/src/js/activity-widget.js')

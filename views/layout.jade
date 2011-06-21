@@ -5,12 +5,15 @@ html.no-js(lang='en')
     meta(charset='utf-8')
     link(rel='author', href='/humans.txt', type='text/plain')
     link(rel='shortcut icon', href='/src/assets/favicon.ico', type='image/vnd.microsoft.icon')
-    title Chico UI, MercadoLibre's Visual Framework
+    title #{title}
        
     link(rel='stylesheet', href='/src/css/chico.css')
     link(rel='stylesheet', href='/src/css/mesh.css')
     link(rel='stylesheet', href='/src/css/styles.css')
-  
+    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Kreon:300,400,700&v1')
+    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic&v1')
+    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Ubuntu:300,300italic,regular,italic,500,500italic,bold,bolditalic&v1')
+
     script(type='text/javascript', src='/src/js/jquery.js')
     script(type='text/javascript', src='/src/js/chico.js')
     script(type='text/javascript', src='/src/js/scripts.js')
@@ -22,9 +25,8 @@ html.no-js(lang='en')
   body
     .header.clearfix
       h1(title='MercadoLibre\'s Visual Framework')
-        a(href='/') Chico-UI
+        a(href='/') Chico UI
         span.version
-      .iLike
 
       ul
         - each item in navigation.top 
@@ -33,8 +35,14 @@ html.no-js(lang='en')
     hr
   body!= body
   
-.clearfix
-hr
+//hr.clearfix
+//.ch-g1
+//  .bottom
+//   - each link in navigation.bottom
+//      a(href='#{link.href}') #{link.label}
+
+
+hr.clearfix
 p.footer
     | ©2011
     a(href='http://www.mercadolibre.com') MercadoLibre
