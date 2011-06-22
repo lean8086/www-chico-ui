@@ -55,7 +55,7 @@ function publish(symbolSet) {
 		var filemapCounts = {};
 		Link.filemap = {};
 		for (var i = 0, l = classes.length; i < l; i++) {
-			var lcAlias = classes[i].alias.toLowerCase();
+			var lcAlias = classes[i].alias; //.toLowerCase();
 			
 			if (!filemapCounts[lcAlias]) filemapCounts[lcAlias] = 1;
 			else filemapCounts[lcAlias]++;
