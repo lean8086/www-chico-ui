@@ -1,46 +1,148 @@
 
 .ch-g1
 
-  .ch-g2-3
-    h2 Getting started.
-    p.container
-        | Chico works based on CSS Queries to DOM Objects, like jQuery does.
-        | Each UI component has a different HTML Snippet, make sure you are
-        | using the right code, is really important.
-        | 
-
-  .ch-g1-3
-    h2 How-to...
+  .ch-g1-4
+    h3 Content
     ul.container
       li
-        a(href='/how-to/install') How-to install and use the library
+        a(href='#what-is-chico') What is Chico?
       li
-        a(href='/how-to/install') How-to change the content of a component
+        a(href='#demos') Check out this demos.
       li
-        a(href='/how-to/validate-two-fields-like-one') How-to validate two fields like one
+        a(href='#download') Donwload the library.
+      li
+        a(href='#using') Using Chico on a Web page.
       li 
-        a(href='/how-to/create-a-comonent') How-to create a UI Component
-      li 
-        a(href='/how-to/create-a-theme') How-to create a theme from scratch
-      li 
-        a(href='/how-to/mesh-in-5-min') How-to mesh your layout in 5 min
-      li 
-        a(hre='/how-to/collaborate') How-to collaborate with the project
+        a(href='#who-is-using') Who is using Chico?
 
+
+    h3 How-to...
+    ul.container
+      li
+        a(href='/how-to/install') Install and use the library
+      li
+        a(href='/how-to/install') Change the content of a modal
+      li
+        a(href='/how-to/validate-two-fields-like-one') Validate two fields like one
+      li 
+        a(href='/how-to/create-a-comonent') Create a UI Component
+      li 
+        a(href='/how-to/create-a-theme') Create a theme from scratch
+      li 
+        a(href='/how-to/mesh-in-5-min') Mesh your layout in 5 min
+      li 
+        a(hre='/how-to/collaborate') Collaborate with the project
+
+
+  .ch-g3-4
+    h2 Getting started.
+    p.container
+      | This quick guide is intented to explain the basics of Chico.
+
+    a#what-is-chico    
+    h3 What is Chico?
+    p.container
+      | Chico is a collection of 
+      em easy-to-use 
+      | web toys for developers and designers.
+      | Built on top of 
+      a(href='http://www.jquery.com') jQuery
+      | , this open source toolbox brings a couple of known visual patterns
+      | for the web and takes advantages of the new HTML5 and CSS3 features.
+    
+    a#demos
+    h3 Check out this demos.
+    div.container
+      p
+        | To see what is capable of, see these demos and examples.
+      
+      ul
+        li 
+          a(href='/ui/tooltip') Tooltip
+          |,
+          a(href='/ui/layer') Layer
+          |, 
+          a(href='/ui/modal') Modal
+          |,
+        li 
+          a(href='/ui/calendar') Calendar
+          |,
+          a(href='/ui/carousel') Carousel
+          |,
+          a(href='/ui/tabnavigator') TabNavigator
+          |,
+        li 
+          a(href='/ui/accordion') Accordion
+          |, 
+          a(href='/ui/menu') Menu
+          |, 
+          a(href='/ui/expando') Expando
+          |,
+        li 
+          a(href='/ui/zoom') Zoom
+          |, 
+          a(href='/ui/form') Form 
+          | &
+          a(href='/ui/watcher') Validator
+          |,
+          a(href='/ui/') and more...
+
+    a#download
+    h3 Download.
+    div.container
+      p
+        | You can get the lastest 
+        a(href='/download') full version 
+        | of the library which comes with all 
+        a(href='/ui') UI Components,
+        | or build your own 
+        a(href='/download') custom download
+        |.
+  
+      p
+        | The package comes with all the source code and assets you need to
+        | run Chico on your web page. The package structure look like this:
+        
+      
+      pre
+        |  /assets
+        | /src/js
+        | /src/css
+          
+      h4 Dependencies
+      p
+        | Something important is that Chico depends on jQuery to work properly. 
+        | Besides that, you can add some snippets to improve Browser sniffing 
+        | and PNG fix on old browsers. Al dependencies are listed 
+        | bellow:
+      ul
+        li
+          a(href='http://www.jquery.com') jQuery JavaScript Library.
+        li
+          a(href='http://www.dillerdesign.com/experiment/DD_belatedPNG',title='PNG Support for old browsers.') DD_belatedPNG.
+        li
+          a(href='/how-to/browser-sniffing') Conditional comments.
+          
+    a#using
+    h3 Using Chico on a Web page.
+    p.container
+      | TO-DO
+    
+    a#flavors
+    h3 Changing the looks.
+    p.container All styles of chico components are defined in a 'Flavor', that is the cool way to refer to a Stylesheet.
+    
+    a#who-is-using
+    h3 Who is using Chico?
+    div.container
+      p
+        | There is a couple of products using Chico on the web:
+      ol
+        li
+          a(href='http://www.mercadolibre.com') MercadoLibre,
+        li
+          a(href='http://www.mercadopago.com') MercadoPago,
+        li
+          a(href='http://www.mercadoshops.com') MercadoShops.
+        
 .clearfix
-div.container.home
-    ul
-    li.ch-g1-3
-        h3 Dependencies
-        ul
-          li HTML5
-          li jQuery
-          li IE conditional comments
-          li dd_belatedpng.js
-    li.ch-g1-3
-        h3 Flavor your components
-        
-    li.ch-g1-3
-        h3 Mesh your layouts
-        
-    .clearfix
