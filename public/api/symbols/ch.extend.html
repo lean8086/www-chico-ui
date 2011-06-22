@@ -140,7 +140,7 @@
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Namespace ch.Events.KEY
+				Class ch.Extend
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -148,17 +148,17 @@
 				
 				
 			
-				KEY
+				Extend
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/chico_src_js_core.js.html">core.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/chico_src_js_extend.js.html">extend.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ch.Events.KEY.">
-				<caption>Namespace Summary</caption>
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ch.Extend.">
+				<caption>Class Summary</caption>
 				<thead>
 					<tr>
 						<th scope="col">Constructor Attributes</th>
@@ -170,9 +170,9 @@
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/ch.events.key.html#constructor">ch.Events.KEY</a></b>
+								<b><a href="../symbols/ch.extend.html#constructor">ch.Extend</a></b>(name, klass, process)
 							</div>
-							<div class="description">Keryboard event collection.</div>
+							<div class="description">Extend is a utility that resolve creating interfaces problem for all UI-Objects.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -180,84 +180,6 @@
 			
 
 <!-- ============================== properties summary ===================== -->
-			
-				
-				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class ch.Events.KEY.">
-					<caption>Field Summary</caption>
-					<thead>
-						<tr>
-							<th scope="col">Field Attributes</th>
-							<th scope="col">Field Name and Description</th>
-						</tr>
-					</thead>
-					<tbody>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Events.KEY.<b><a href="../symbols/ch.events.key.html#.DOWN_ARROW">DOWN_ARROW</a></b>
-								</div>
-								<div class="description">Down arrow key event.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Events.KEY.<b><a href="../symbols/ch.events.key.html#.ENTER">ENTER</a></b>
-								</div>
-								<div class="description">Enter key event.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Events.KEY.<b><a href="../symbols/ch.events.key.html#.ESC">ESC</a></b>
-								</div>
-								<div class="description">Esc key event.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Events.KEY.<b><a href="../symbols/ch.events.key.html#.LEFT_ARROW">LEFT_ARROW</a></b>
-								</div>
-								<div class="description">Left arrow key event.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Events.KEY.<b><a href="../symbols/ch.events.key.html#.RIGHT_ARROW">RIGHT_ARROW</a></b>
-								</div>
-								<div class="description">Rigth arrow key event.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Events.KEY.<b><a href="../symbols/ch.events.key.html#.UP_ARROW">UP_ARROW</a></b>
-								</div>
-								<div class="description">Up arrow key event.</div>
-							</td>
-						</tr>
-					
-					</tbody>
-				</table>
-				
-				
-				
 			
 
 <!-- ============================== methods summary ======================== -->
@@ -269,21 +191,61 @@
 			
 			<div class="details"><a name="constructor"> </a>
 				<div class="sectionTitle">
-					Namespace Detail
+					Class Detail
 				</div>
 				
 				<div class="fixedFont">
-						<b>ch.Events.KEY</b>
+						<b>ch.Extend</b>(name, klass, process)
 				</div>
 				
 				<div class="description">
-					Keryboard event collection.
+					Extend is a utility that resolve creating interfaces problem for all UI-Objects.
 					
 				</div>
 				
 				
 				
+				<pre class="code">// Create an URL interface type based on String component.
+ch.extend("string").as("url");</pre>
 				
+				<pre class="code">// Create an Accordion interface type based on Menu component.
+ch.extend("menu").as("accordion");</pre>
+				
+				<pre class="code">// And the coolest one...
+// Create an Transition interface type based on his Modal component, with some conf manipulations:
+ch.extend("modal").as("transition", function(conf) {
+    conf.closeButton = false;
+    conf.msg = conf.msg || conf.content || "Please wait...";
+    conf.content = $("&lt;div&gt;").addClass("loading").after( $("&lt;p&gt;").html(conf.msg) );
+    return conf;
+});</pre>
+				
+				
+				
+				
+					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								<span class="light fixedFont">{String}</span>  <b>name</b>
+								
+							</dt>
+								<dd>Interface's name.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Function}</span>  <b>klass</b>
+								
+							</dt>
+								<dd>Class to inherit from.</dd>
+						
+							<dt>
+								<span class="light fixedFont">{Function}</span>  <b>process</b>
+								<i>Optional</i>
+							</dt>
+								<dd>Optional function to pre-process configuration, recieves a 'conf' param and must return the configration object.</dd>
+						
+						</dl>
 					
 					
 					
@@ -296,143 +258,6 @@
 			
 
 <!-- ============================== field details ========================== -->		
-			
-				<div class="sectionTitle">
-					Field Detail
-				</div>
-				
-					<a name=".DOWN_ARROW"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Events.KEY.</span><b>DOWN_ARROW</b>
-					
-					</div>
-					<div class="description">
-						Down arrow key event.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".ENTER"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Events.KEY.</span><b>ENTER</b>
-					
-					</div>
-					<div class="description">
-						Enter key event.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".ESC"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Events.KEY.</span><b>ESC</b>
-					
-					</div>
-					<div class="description">
-						Esc key event.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".LEFT_ARROW"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Events.KEY.</span><b>LEFT_ARROW</b>
-					
-					</div>
-					<div class="description">
-						Left arrow key event.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".RIGHT_ARROW"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Events.KEY.</span><b>RIGHT_ARROW</b>
-					
-					</div>
-					<div class="description">
-						Rigth arrow key event.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".UP_ARROW"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Events.KEY.</span><b>UP_ARROW</b>
-					
-					</div>
-					<div class="description">
-						Up arrow key event.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					
-				
 			
 
 <!-- ============================== method details ========================= -->		

@@ -13,7 +13,6 @@
   <link rel="stylesheet" href="/src/css/chico.css" type="text/css" />
   <link rel="stylesheet" href="/src/css/mesh.css" type="text/css" />
   <link rel="stylesheet" href="/src/css/styles.css" type="text/css" />
-  <link rel="stylesheet" href="/src/css/api.css" type="text/css" />
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Kreon:300,400,700&amp;v1" type="text/css" />
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic&amp;v1" type="text/css" />
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Ubuntu:300,300italic,regular,italic,500,500italic,bold,bolditalic&amp;v1" type="text/css" />
@@ -66,8 +65,6 @@
 	<li><a href="../symbols/ch.carousel.html">ch.Carousel</a></li>
 	
 	<li><a href="../symbols/ch.controllers.html">ch.Controllers</a></li>
-	
-	<li><a href="../symbols/ch.custom.html">ch.Custom</a></li>
 	
 	<li><a href="../symbols/ch.dropdown.html">ch.Dropdown</a></li>
 	
@@ -129,6 +126,8 @@
 	
 	<li><a href="../symbols/ch.watcher.html">ch.Watcher</a></li>
 	
+	<li><a href="../symbols/ch.watcher.custom.html">ch.Watcher.Custom</a></li>
+	
 	<li><a href="../symbols/ch.zoom.html">ch.Zoom</a></li>
 	
 </ul>
@@ -140,25 +139,27 @@
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Namespace ch.Events.KEY
+				Class ch.Watcher.Custom
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
+				<br />Extends
+					<a href="../symbols/ch.watcher.html">ch.Watcher</a>.<br />
 				
 			
-				KEY
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/chico_src_js_core.js.html">core.js</a>.
+				
+					<br /><i>Defined in: </i> <a href="../symbols/src/chico_src_js_custom.js.html">custom.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ch.Events.KEY.">
-				<caption>Namespace Summary</caption>
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ch.Watcher.Custom.">
+				<caption>Class Summary</caption>
 				<thead>
 					<tr>
 						<th scope="col">Constructor Attributes</th>
@@ -170,9 +171,9 @@
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/ch.events.key.html#constructor">ch.Events.KEY</a></b>
+								<b><a href="../symbols/ch.watcher.custom.html#constructor">ch.Watcher.Custom</a></b>(conf)
 							</div>
-							<div class="description">Keryboard event collection.</div>
+							<div class="description">Create custom validation interfaces for Watcher validation engine.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -180,84 +181,6 @@
 			
 
 <!-- ============================== properties summary ===================== -->
-			
-				
-				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class ch.Events.KEY.">
-					<caption>Field Summary</caption>
-					<thead>
-						<tr>
-							<th scope="col">Field Attributes</th>
-							<th scope="col">Field Name and Description</th>
-						</tr>
-					</thead>
-					<tbody>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Events.KEY.<b><a href="../symbols/ch.events.key.html#.DOWN_ARROW">DOWN_ARROW</a></b>
-								</div>
-								<div class="description">Down arrow key event.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Events.KEY.<b><a href="../symbols/ch.events.key.html#.ENTER">ENTER</a></b>
-								</div>
-								<div class="description">Enter key event.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Events.KEY.<b><a href="../symbols/ch.events.key.html#.ESC">ESC</a></b>
-								</div>
-								<div class="description">Esc key event.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Events.KEY.<b><a href="../symbols/ch.events.key.html#.LEFT_ARROW">LEFT_ARROW</a></b>
-								</div>
-								<div class="description">Left arrow key event.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Events.KEY.<b><a href="../symbols/ch.events.key.html#.RIGHT_ARROW">RIGHT_ARROW</a></b>
-								</div>
-								<div class="description">Rigth arrow key event.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Events.KEY.<b><a href="../symbols/ch.events.key.html#.UP_ARROW">UP_ARROW</a></b>
-								</div>
-								<div class="description">Up arrow key event.</div>
-							</td>
-						</tr>
-					
-					</tbody>
-				</table>
-				
-				
-				
 			
 
 <!-- ============================== methods summary ======================== -->
@@ -269,170 +192,65 @@
 			
 			<div class="details"><a name="constructor"> </a>
 				<div class="sectionTitle">
-					Namespace Detail
+					Class Detail
 				</div>
 				
 				<div class="fixedFont">
-						<b>ch.Events.KEY</b>
+						<b>ch.Watcher.Custom</b>(conf)
 				</div>
 				
 				<div class="description">
-					Keryboard event collection.
+					Create custom validation interfaces for Watcher validation engine.
 					
 				</div>
 				
 				
 				
+				<pre class="code">// Validate a even number
+$("input").custom(function(value){
+     return (value%2==0) ? true : false;
+}, "Enter a even number");</pre>
+				
+				
+				
 				
 					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								<span class="light fixedFont">{Configuration Object}</span>  <b>conf</b>
+								
+							</dt>
+								<dd>Object with configuration properties</dd>
+						
+						</dl>
 					
 					
 					
 					
 					
+						<dl class="detailList">
+						<dt class="heading">Returns:</dt>
+						
+								<dd><span class="light fixedFont">{Chico-UI Object}</span> </dd>
+						
+						</dl>
+					
+					
+					
+						<dl class="detailList">
+						<dt class="heading">See:</dt>
+						
+							<dd><a href="../symbols/ch.watcher.html">ch.Watcher</a></dd>
+						
+						</dl>
 					
 
 			</div>
 			
 
 <!-- ============================== field details ========================== -->		
-			
-				<div class="sectionTitle">
-					Field Detail
-				</div>
-				
-					<a name=".DOWN_ARROW"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Events.KEY.</span><b>DOWN_ARROW</b>
-					
-					</div>
-					<div class="description">
-						Down arrow key event.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".ENTER"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Events.KEY.</span><b>ENTER</b>
-					
-					</div>
-					<div class="description">
-						Enter key event.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".ESC"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Events.KEY.</span><b>ESC</b>
-					
-					</div>
-					<div class="description">
-						Esc key event.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".LEFT_ARROW"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Events.KEY.</span><b>LEFT_ARROW</b>
-					
-					</div>
-					<div class="description">
-						Left arrow key event.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".RIGHT_ARROW"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Events.KEY.</span><b>RIGHT_ARROW</b>
-					
-					</div>
-					<div class="description">
-						Rigth arrow key event.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".UP_ARROW"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Events.KEY.</span><b>UP_ARROW</b>
-					
-					</div>
-					<div class="description">
-						Up arrow key event.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					
-				
 			
 
 <!-- ============================== method details ========================= -->		
@@ -445,12 +263,11 @@
 		</div>
 
 		<p class="footer">
-		Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Tue Jun 21 2011 22:33:31 GMT-0300 (GMT-03:00)
+		Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Tue Jun 21 2011 20:13:25 GMT-0300 (GMT-03:00)
 	</p>
 <!-- ============================== footer ================================= -->
 
     <hr class="clearfix">
     <p class="footer">©2011 <a href="http://www.mercadolibre.com">MercadoLibre</a>.</p>
-    <script src="/src/js/scripts.js"></script>
 </body>
 </head>

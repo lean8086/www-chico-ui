@@ -140,26 +140,26 @@
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class ch.Carousel
+				Class ch.Calendar
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
 				<br />Extends
-					<a href="../symbols/ch.object.html">ch.Object</a>.<br />
+					<a href="../symbols/ch.controllers.html">ch.Controllers</a>.<br />
 				
 			
-				Carousel
+				Calendar
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/chico_src_js_carousel.js.html">carousel.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/chico_src_js_calendar.js.html">calendar.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ch.Carousel.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ch.Calendar.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -172,9 +172,9 @@
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/ch.carousel.html#constructor">ch.Carousel</a></b>(conf)
+								<b><a href="../symbols/ch.calendar.html#constructor">ch.Calendar</a></b>(conf)
 							</div>
-							<div class="description">Carousel is a UI-Component.</div>
+							<div class="description">Calendar UI-Component for static and dinamic content.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -185,7 +185,7 @@
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class ch.Carousel.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class ch.Calendar.">
 					<caption>Field Summary</caption>
 					<thead>
 						<tr>
@@ -199,9 +199,9 @@
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.Carousel.<b><a href="../symbols/ch.carousel.html#.$collection">$collection</a></b>
+								ch.Calendar.<b><a href="../symbols/ch.calendar.html#._arrows">_arrows</a></b>
 								</div>
-								<div class="description">UL list of items.</div>
+								<div class="description">Handles behavior of arrows</div>
 							</td>
 						</tr>
 					
@@ -209,9 +209,9 @@
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.Carousel.<b><a href="../symbols/ch.carousel.html#._$itemsPagination">_$itemsPagination</a></b>
+								ch.Calendar.<b><a href="../symbols/ch.calendar.html#._monthsNames">_monthsNames</a></b>
 								</div>
-								<div class="description">List of pagination thumbnails.</div>
+								<div class="description">Collection of months names</div>
 							</td>
 						</tr>
 					
@@ -219,9 +219,9 @@
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.Carousel.<b><a href="../symbols/ch.carousel.html#._extraWidth">_extraWidth</a></b>
+								ch.Calendar.<b><a href="../symbols/ch.calendar.html#._selected">_selected</a></b>
 								</div>
-								<div class="description">Extra size calculated on content</div>
+								<div class="description">Date of selected day</div>
 							</td>
 						</tr>
 					
@@ -229,9 +229,9 @@
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.Carousel.<b><a href="../symbols/ch.carousel.html#._maskWidth">_maskWidth</a></b>
+								ch.Calendar.<b><a href="../symbols/ch.calendar.html#._shortWeekdaysNames">_shortWeekdaysNames</a></b>
 								</div>
-								<div class="description">Size of carousel mask.</div>
+								<div class="description">Collection of weekdays short names</div>
 							</td>
 						</tr>
 					
@@ -239,9 +239,9 @@
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.Carousel.<b><a href="../symbols/ch.carousel.html#._resize">_resize</a></b>
+								ch.Calendar.<b><a href="../symbols/ch.calendar.html#._templateMonth">_templateMonth</a></b>
 								</div>
-								<div class="description">Resize status of Window.</div>
+								<div class="description">HTML Template to months</div>
 							</td>
 						</tr>
 					
@@ -249,9 +249,19 @@
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.Carousel.<b><a href="../symbols/ch.carousel.html#.currentPage">currentPage</a></b>
+								ch.Calendar.<b><a href="../symbols/ch.calendar.html#._today">_today</a></b>
 								</div>
-								<div class="description">Page selected.</div>
+								<div class="description">Date of today</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								ch.Calendar.<b><a href="../symbols/ch.calendar.html#.currentDate">currentDate</a></b>
+								</div>
+								<div class="description">The current date that should show on calendar</div>
 							</td>
 						</tr>
 					
@@ -259,7 +269,7 @@
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.Carousel.<b><a href="../symbols/ch.carousel.html#.element">element</a></b>
+								ch.Calendar.<b><a href="../symbols/ch.calendar.html#.element">element</a></b>
 								</div>
 								<div class="description">The element reference.</div>
 							</td>
@@ -269,19 +279,9 @@
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.Carousel.<b><a href="../symbols/ch.carousel.html#.getItemsPerPage">getItemsPerPage</a></b>
+								ch.Calendar.<b><a href="../symbols/ch.calendar.html#.onSelect">onSelect</a></b>
 								</div>
-								<div class="description">Get the items amount of each page.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Carousel.<b><a href="../symbols/ch.carousel.html#.getPage">getPage</a></b>
-								</div>
-								<div class="description">Get the total amount of pages.</div>
+								<div class="description">Callback function</div>
 							</td>
 						</tr>
 					
@@ -289,87 +289,7 @@
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.Carousel.<b><a href="../symbols/ch.carousel.html#.items">items</a></b>
-								</div>
-								<div class="description">List object created from each item.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Carousel.<b><a href="../symbols/ch.carousel.html#.itemSize">itemSize</a></b>
-								</div>
-								<div class="description">Width and height of first item.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Carousel.<b><a href="../symbols/ch.carousel.html#.next">next</a></b>
-								</div>
-								<div class="description">Moves to the next page.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Carousel.<b><a href="../symbols/ch.carousel.html#.onMove">onMove</a></b>
-								</div>
-								<div class="description">Callback function</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Carousel.<b><a href="../symbols/ch.carousel.html#.onNext">onNext</a></b>
-								</div>
-								<div class="description">Callback function</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Carousel.<b><a href="../symbols/ch.carousel.html#.onPrev">onPrev</a></b>
-								</div>
-								<div class="description">Callback function</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Carousel.<b><a href="../symbols/ch.carousel.html#.prev">prev</a></b>
-								</div>
-								<div class="description">Moves to the previous page.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Carousel.<b><a href="../symbols/ch.carousel.html#.redraw">redraw</a></b>
-								</div>
-								<div class="description">Re-calculate positioning, sizing, paging, and re-draw.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Carousel.<b><a href="../symbols/ch.carousel.html#.that">that</a></b>
+								ch.Calendar.<b><a href="../symbols/ch.calendar.html#.that">that</a></b>
 								</div>
 								<div class="description">Reference to a internal component instance, saves all the information and configuration properties.</div>
 							</td>
@@ -379,7 +299,7 @@
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.Carousel.<b><a href="../symbols/ch.carousel.html#.type">type</a></b>
+								ch.Calendar.<b><a href="../symbols/ch.calendar.html#.type">type</a></b>
 								</div>
 								<div class="description">The component's type.</div>
 							</td>
@@ -389,7 +309,7 @@
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.Carousel.<b><a href="../symbols/ch.carousel.html#.uid">uid</a></b>
+								ch.Calendar.<b><a href="../symbols/ch.calendar.html#.uid">uid</a></b>
 								</div>
 								<div class="description">The component's instance unique identifier.</div>
 							</td>
@@ -410,7 +330,7 @@
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class ch.Carousel.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class ch.Calendar.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -423,72 +343,189 @@
 						<tr>
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">ch.Carousel.<b><a href="../symbols/ch.carousel.html#._createArrows">_createArrows</a></b>()
+								<div class="fixedFont">ch.Calendar.<b><a href="../symbols/ch.calendar.html#._createLayout">_createLayout</a></b>()
 								</div>
-								<div class="description">Creates Previous and Next arrows.</div>
+								<div class="description">Create component's layout</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">ch.Carousel.<b><a href="../symbols/ch.carousel.html#._createLayout">_createLayout</a></b>()
+								<div class="fixedFont">ch.Calendar.<b><a href="../symbols/ch.calendar.html#._nextMonth">_nextMonth</a></b>()
 								</div>
-								<div class="description">Creates the necesary structure to carousel operation.</div>
+								<div class="description">Move to next month of calendar</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">ch.Carousel.<b><a href="../symbols/ch.carousel.html#._createPagination">_createPagination</a></b>()
+								<div class="fixedFont">ch.Calendar.<b><a href="../symbols/ch.calendar.html#._nextYear">_nextYear</a></b>()
 								</div>
-								<div class="description">Creates carousel pagination.</div>
+								<div class="description">Move to next year of calendar</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">ch.Carousel.<b><a href="../symbols/ch.carousel.html#._draw">_draw</a></b>()
+								<div class="fixedFont">ch.Calendar.<b><a href="../symbols/ch.calendar.html#._parseDate">_parseDate</a></b>()
 								</div>
-								<div class="description">Calculates all necesary data to draw carousel correctly.</div>
+								<div class="description">Parse Date object to YY/MM/DD format</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">ch.Carousel.<b><a href="../symbols/ch.carousel.html#._getItemsPerPage">_getItemsPerPage</a></b>()
+								<div class="fixedFont">ch.Calendar.<b><a href="../symbols/ch.calendar.html#._prevMonth">_prevMonth</a></b>()
 								</div>
-								<div class="description">Calculates items amount on each page.</div>
+								<div class="description">Move to prev month of calendar</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">ch.Carousel.<b><a href="../symbols/ch.carousel.html#._getPages">_getPages</a></b>()
+								<div class="fixedFont">ch.Calendar.<b><a href="../symbols/ch.calendar.html#._prevYear">_prevYear</a></b>()
 								</div>
-								<div class="description">Calculates total amount of pages.</div>
+								<div class="description">Move to prev year of calendar</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">ch.Carousel.<b><a href="../symbols/ch.carousel.html#._toggleArrows">_toggleArrows</a></b>(page)
+								<div class="fixedFont">ch.Calendar.<b><a href="../symbols/ch.calendar.html#._reset">_reset</a></b>()
 								</div>
-								<div class="description">Manages arrows turning it on and off when non-continue carousel is on first or last page.</div>
+								<div class="description">Move to prev year of calendar</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.Calendar.<b><a href="../symbols/ch.calendar.html#._select">_select</a></b>()
+								</div>
+								<div class="description">Selects an specific date to show</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">ch.Carousel.<b><a href="../symbols/ch.carousel.html#.goTo">goTo</a></b>(page)
+								<div class="fixedFont">ch.Calendar.<b><a href="../symbols/ch.calendar.html#.getSelected">getSelected</a></b>()
 								</div>
-								<div class="description">Moves to a defined page.</div>
+								<div class="description">Returns the selected date</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.Calendar.<b><a href="../symbols/ch.calendar.html#.getToday">getToday</a></b>()
+								</div>
+								<div class="description">Returns date of today</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.Calendar.<b><a href="../symbols/ch.calendar.html#.hide">hide</a></b>()
+								</div>
+								<div class="description">Open calendar</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.Calendar.<b>name _createDropdown _createDropdown</b>()
+								</div>
+								<div class="description">Creates an instance of Dropdown</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.Calendar.<b>name _createMonth _createMonth</b>()
+								</div>
+								<div class="description">Creates a complete month and returns it in a table</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.Calendar.<b>name _weekdays _weekdays</b>()
+								</div>
+								<div class="description">Creates tag thead with short name of week days</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.Calendar.<b><a href="../symbols/ch.calendar.html#.next">next</a></b>()
+								</div>
+								<div class="description">Move to the next month</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.Calendar.<b><a href="../symbols/ch.calendar.html#.nextYear">nextYear</a></b>()
+								</div>
+								<div class="description">Move to the next year</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.Calendar.<b><a href="../symbols/ch.calendar.html#.prev">prev</a></b>()
+								</div>
+								<div class="description">Move to the prev month</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.Calendar.<b><a href="../symbols/ch.calendar.html#.prevYear">prevYear</a></b>()
+								</div>
+								<div class="description">Move to the prev year</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.Calendar.<b><a href="../symbols/ch.calendar.html#.reset">reset</a></b>()
+								</div>
+								<div class="description">Reset the calendar to date of today</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.Calendar.<b><a href="../symbols/ch.calendar.html#.select">select</a></b>()
+								</div>
+								<div class="description">Select a specific date.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.Calendar.<b><a href="../symbols/ch.calendar.html#.show">show</a></b>()
+								</div>
+								<div class="description">Open calendar</div>
 							</td>
 						</tr>
 					
@@ -513,11 +550,11 @@
 				</div>
 				
 				<div class="fixedFont">
-						<b>ch.Carousel</b>(conf)
+						<b>ch.Calendar</b>(conf)
 				</div>
 				
 				<div class="description">
-					Carousel is a UI-Component.
+					Calendar UI-Component for static and dinamic content.
 					
 				</div>
 				
@@ -551,7 +588,7 @@
 						<dl class="detailList">
 						<dt class="heading">Requires:</dt>
 						
-							<dd><a href="../symbols/ch.list.html">ch.List</a></dd>
+							<dd><a href="../symbols/ch.dropdown.html">ch.Dropdown</a></dd>
 						
 						</dl>
 					
@@ -566,15 +603,15 @@
 					Field Detail
 				</div>
 				
-					<a name=".$collection"> </a>
+					<a name="._arrows"> </a>
 					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
-					<span class="light">ch.Carousel.</span><b>$collection</b>
+					<span class="light">ch.Calendar.</span><b>_arrows</b>
 					
 					</div>
 					<div class="description">
-						UL list of items.
+						Handles behavior of arrows
 						
 						
 					</div>
@@ -588,15 +625,15 @@
 
 					<hr />
 				
-					<a name="._$itemsPagination"> </a>
+					<a name="._monthsNames"> </a>
 					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
-					<span class="light">ch.Carousel.</span><b>_$itemsPagination</b>
+					<span class="light">ch.Calendar.</span><b>_monthsNames</b>
 					
 					</div>
 					<div class="description">
-						List of pagination thumbnails.
+						Collection of months names
 						
 						
 					</div>
@@ -610,15 +647,15 @@
 
 					<hr />
 				
-					<a name="._extraWidth"> </a>
+					<a name="._selected"> </a>
 					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
-					<span class="light">ch.Carousel.</span><b>_extraWidth</b>
+					<span class="light">ch.Calendar.</span><b>_selected</b>
 					
 					</div>
 					<div class="description">
-						Extra size calculated on content
+						Date of selected day
 						
 						
 					</div>
@@ -632,15 +669,15 @@
 
 					<hr />
 				
-					<a name="._maskWidth"> </a>
+					<a name="._shortWeekdaysNames"> </a>
 					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
-					<span class="light">ch.Carousel.</span><b>_maskWidth</b>
+					<span class="light">ch.Calendar.</span><b>_shortWeekdaysNames</b>
 					
 					</div>
 					<div class="description">
-						Size of carousel mask.
+						Collection of weekdays short names
 						
 						
 					</div>
@@ -654,15 +691,15 @@
 
 					<hr />
 				
-					<a name="._resize"> </a>
+					<a name="._templateMonth"> </a>
 					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
-					<span class="light">ch.Carousel.</span><b>_resize</b>
+					<span class="light">ch.Calendar.</span><b>_templateMonth</b>
 					
 					</div>
 					<div class="description">
-						Resize status of Window.
+						HTML Template to months
 						
 						
 					</div>
@@ -676,15 +713,37 @@
 
 					<hr />
 				
-					<a name=".currentPage"> </a>
+					<a name="._today"> </a>
 					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
-					<span class="light">ch.Carousel.</span><b>currentPage</b>
+					<span class="light">ch.Calendar.</span><b>_today</b>
 					
 					</div>
 					<div class="description">
-						Page selected.
+						Date of today
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".currentDate"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">ch.Calendar.</span><b>currentDate</b>
+					
+					</div>
+					<div class="description">
+						The current date that should show on calendar
 						
 						
 					</div>
@@ -702,7 +761,7 @@
 					<div class="fixedFont">&lt;static&gt; 
 					
 					
-					<span class="light">ch.Carousel.</span><b>element</b>
+					<span class="light">ch.Calendar.</span><b>element</b>
 					
 					</div>
 					<div class="description">
@@ -720,129 +779,11 @@
 
 					<hr />
 				
-					<a name=".getItemsPerPage"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{Number}</span>
-					<span class="light">ch.Carousel.</span><b>getItemsPerPage</b>
-					
-					</div>
-					<div class="description">
-						Get the items amount of each page.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".getPage"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{Number}</span>
-					<span class="light">ch.Carousel.</span><b>getPage</b>
-					
-					</div>
-					<div class="description">
-						Get the total amount of pages.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".items"> </a>
-					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
-					
-					
-					<span class="light">ch.Carousel.</span><b>items</b>
-					
-					</div>
-					<div class="description">
-						List object created from each item.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".itemSize"> </a>
-					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
-					
-					
-					<span class="light">ch.Carousel.</span><b>itemSize</b>
-					
-					</div>
-					<div class="description">
-						Width and height of first item.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".next"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{Chico-UI Object}</span>
-					<span class="light">ch.Carousel.</span><b>next</b>
-					
-					</div>
-					<div class="description">
-						Moves to the next page.
-						
-						
-					</div>
-					
-					
-					
-					<pre class="code">// Create a carousel
-var foo = $("bar").carousel();
-
-// Go to next page
-foo.next();</pre>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".onMove"> </a>
+					<a name=".onSelect"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
 					
-					<span class="light">ch.Carousel.</span><b>onMove</b>
+					<span class="light">ch.Calendar.</span><b>onSelect</b>
 					
 					</div>
 					<div class="description">
@@ -850,110 +791,6 @@ foo.next();</pre>
 						
 						
 					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".onNext"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Carousel.</span><b>onNext</b>
-					
-					</div>
-					<div class="description">
-						Callback function
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".onPrev"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Carousel.</span><b>onPrev</b>
-					
-					</div>
-					<div class="description">
-						Callback function
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".prev"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{Chico-UI Object}</span>
-					<span class="light">ch.Carousel.</span><b>prev</b>
-					
-					</div>
-					<div class="description">
-						Moves to the previous page.
-						
-						
-					</div>
-					
-					
-					
-					<pre class="code">// Create a carousel
-var foo = $("bar").carousel();
-
-// Go to previous page
-foo.prev();</pre>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".redraw"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{Chico-UI Object}</span>
-					<span class="light">ch.Carousel.</span><b>redraw</b>
-					
-					</div>
-					<div class="description">
-						Re-calculate positioning, sizing, paging, and re-draw.
-						
-						
-					</div>
-					
-					
-					
-					<pre class="code">// Create a carousel
-var foo = $("bar").carousel();
-
-// Re-draw carousel
-foo.redraw();</pre>
 					
 					
 
@@ -968,7 +805,7 @@ foo.redraw();</pre>
 					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
-					<span class="light">ch.Carousel.</span><b>that</b>
+					<span class="light">ch.Calendar.</span><b>that</b>
 					
 					</div>
 					<div class="description">
@@ -990,7 +827,7 @@ foo.redraw();</pre>
 					<div class="fixedFont">&lt;static&gt; 
 					
 					
-					<span class="light">ch.Carousel.</span><b>type</b>
+					<span class="light">ch.Calendar.</span><b>type</b>
 					
 					</div>
 					<div class="description">
@@ -1012,7 +849,7 @@ foo.redraw();</pre>
 					<div class="fixedFont">&lt;static&gt; 
 					
 					
-					<span class="light">ch.Carousel.</span><b>uid</b>
+					<span class="light">ch.Calendar.</span><b>uid</b>
 					
 					</div>
 					<div class="description">
@@ -1038,40 +875,15 @@ foo.redraw();</pre>
 					Method Detail
 				</div>
 				
-					<a name="._createArrows"> </a>
-					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
-					
-					
-					<span class="light">ch.Carousel.</span><b>_createArrows</b>()
-					
-					</div>
-					<div class="description">
-						Creates Previous and Next arrows.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
 					<a name="._createLayout"> </a>
 					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
-					<span class="light">ch.Carousel.</span><b>_createLayout</b>()
+					<span class="light">ch.Calendar.</span><b>_createLayout</b>()
 					
 					</div>
 					<div class="description">
-						Creates the necesary structure to carousel operation.
+						Create component's layout
 						
 						
 					</div>
@@ -1088,15 +900,15 @@ foo.redraw();</pre>
 
 					<hr />
 				
-					<a name="._createPagination"> </a>
+					<a name="._nextMonth"> </a>
 					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
-					<span class="light">ch.Carousel.</span><b>_createPagination</b>()
+					<span class="light">ch.Calendar.</span><b>_nextMonth</b>()
 					
 					</div>
 					<div class="description">
-						Creates carousel pagination.
+						Move to next month of calendar
 						
 						
 					</div>
@@ -1113,15 +925,15 @@ foo.redraw();</pre>
 
 					<hr />
 				
-					<a name="._draw"> </a>
+					<a name="._nextYear"> </a>
 					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
-					<span class="light">ch.Carousel.</span><b>_draw</b>()
+					<span class="light">ch.Calendar.</span><b>_nextYear</b>()
 					
 					</div>
 					<div class="description">
-						Calculates all necesary data to draw carousel correctly.
+						Move to next year of calendar
 						
 						
 					</div>
@@ -1138,96 +950,21 @@ foo.redraw();</pre>
 
 					<hr />
 				
-					<a name="._getItemsPerPage"> </a>
-					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
-					
-					<span class="light">{Number}</span>
-					<span class="light">ch.Carousel.</span><b>_getItemsPerPage</b>()
-					
-					</div>
-					<div class="description">
-						Calculates items amount on each page.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{Number}</span> Items amount on each page</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="._getPages"> </a>
-					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
-					
-					<span class="light">{Number}</span>
-					<span class="light">ch.Carousel.</span><b>_getPages</b>()
-					
-					</div>
-					<div class="description">
-						Calculates total amount of pages.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{Number}</span> Total amount of pages</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name="._toggleArrows"> </a>
+					<a name="._parseDate"> </a>
 					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
-					<span class="light">ch.Carousel.</span><b>_toggleArrows</b>(page)
+					<span class="light">ch.Calendar.</span><b>_parseDate</b>()
 					
 					</div>
 					<div class="description">
-						Manages arrows turning it on and off when non-continue carousel is on first or last page.
+						Parse Date object to YY/MM/DD format
 						
 						
 					</div>
 					
 					
 					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{Number}</span> <b>page</b>
-									
-								</dt>
-								<dd>Page to be moved</dd>
-							
-							</dl>
 						
 						
 						
@@ -1238,26 +975,393 @@ foo.redraw();</pre>
 
 					<hr />
 				
-					<a name=".goTo"> </a>
+					<a name="._prevMonth"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">ch.Calendar.</span><b>_prevMonth</b>()
+					
+					</div>
+					<div class="description">
+						Move to prev month of calendar
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="._prevYear"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">ch.Calendar.</span><b>_prevYear</b>()
+					
+					</div>
+					<div class="description">
+						Move to prev year of calendar
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="._reset"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">ch.Calendar.</span><b>_reset</b>()
+					
+					</div>
+					<div class="description">
+						Move to prev year of calendar
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name="._select"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">ch.Calendar.</span><b>_select</b>()
+					
+					</div>
+					<div class="description">
+						Selects an specific date to show
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getSelected"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
-					<span class="light">{Chico-UI Object}</span>
-					<span class="light">ch.Carousel.</span><b>goTo</b>(page)
+					
+					<span class="light">ch.Calendar.</span><b>getSelected</b>()
 					
 					</div>
 					<div class="description">
-						Moves to a defined page.
+						Returns the selected date
 						
 						
 					</div>
 					
 					
 					
-					<pre class="code">// Create a carousel
-var foo = $("bar").carousel();
+						
+						
+						
+						
+						
+						
+						
 
-// Go to second page
-foo.goTo(2);</pre>
+					<hr />
+				
+					<a name=".getToday"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ch.Calendar.</span><b>getToday</b>()
+					
+					</div>
+					<div class="description">
+						Returns date of today
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".hide"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ch.Calendar.</span><b>hide</b>()
+					
+					</div>
+					<div class="description">
+						Open calendar
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".name _createDropdown"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">ch.Calendar.</span><b>name _createDropdown</b>()
+					
+					</div>
+					<div class="description">
+						Creates an instance of Dropdown
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".name _createMonth"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">ch.Calendar.</span><b>name _createMonth</b>()
+					
+					</div>
+					<div class="description">
+						Creates a complete month and returns it in a table
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".name _weekdays"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">ch.Calendar.</span><b>name _weekdays</b>()
+					
+					</div>
+					<div class="description">
+						Creates tag thead with short name of week days
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".next"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ch.Calendar.</span><b>next</b>()
+					
+					</div>
+					<div class="description">
+						Move to the next month
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".nextYear"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ch.Calendar.</span><b>nextYear</b>()
+					
+					</div>
+					<div class="description">
+						Move to the next year
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".prev"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ch.Calendar.</span><b>prev</b>()
+					
+					</div>
+					<div class="description">
+						Move to the prev month
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".prevYear"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ch.Calendar.</span><b>prevYear</b>()
+					
+					</div>
+					<div class="description">
+						Move to the prev year
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".reset"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ch.Calendar.</span><b>reset</b>()
+					
+					</div>
+					<div class="description">
+						Reset the calendar to date of today
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".select"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ch.Calendar.</span><b>select</b>()
+					
+					</div>
+					<div class="description">
+						Select a specific date.
+						
+						
+					</div>
 					
 					
 					
@@ -1266,10 +1370,10 @@ foo.goTo(2);</pre>
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{Number}</span> <b>page</b>
+									<span class="light fixedFont">{String}</span> <b>"YY/MM/DD".</b>
 									
 								</dt>
-								<dd>Page to be moved</dd>
+								<dd></dd>
 							
 							</dl>
 						
@@ -1277,12 +1381,30 @@ foo.goTo(2);</pre>
 						
 						
 						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{Chico-UI Object}</span> </dd>
-							
-							</dl>
+						
+						
+
+					<hr />
+				
+					<a name=".show"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ch.Calendar.</span><b>show</b>()
+					
+					</div>
+					<div class="description">
+						Open calendar
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
 						
 						
 						

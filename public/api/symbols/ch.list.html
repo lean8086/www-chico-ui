@@ -140,7 +140,7 @@
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Namespace ch.Events.KEY
+				Class ch.List
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -148,17 +148,17 @@
 				
 				
 			
-				KEY
+				List
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/chico_src_js_core.js.html">core.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/chico_src_js_list.js.html">list.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ch.Events.KEY.">
-				<caption>Namespace Summary</caption>
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ch.List.">
+				<caption>Class Summary</caption>
 				<thead>
 					<tr>
 						<th scope="col">Constructor Attributes</th>
@@ -170,9 +170,9 @@
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/ch.events.key.html#constructor">ch.Events.KEY</a></b>
+								<b><a href="../symbols/ch.list.html#constructor">ch.List</a></b>(collection)
 							</div>
-							<div class="description">Keryboard event collection.</div>
+							<div class="description">Manage collections with abstract lists.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -183,7 +183,7 @@
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class ch.Events.KEY.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class ch.List.">
 					<caption>Field Summary</caption>
 					<thead>
 						<tr>
@@ -197,59 +197,9 @@
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.Events.KEY.<b><a href="../symbols/ch.events.key.html#.DOWN_ARROW">DOWN_ARROW</a></b>
+								ch.List.<b><a href="../symbols/ch.list.html#.children">children</a></b>
 								</div>
-								<div class="description">Down arrow key event.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Events.KEY.<b><a href="../symbols/ch.events.key.html#.ENTER">ENTER</a></b>
-								</div>
-								<div class="description">Enter key event.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Events.KEY.<b><a href="../symbols/ch.events.key.html#.ESC">ESC</a></b>
-								</div>
-								<div class="description">Esc key event.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Events.KEY.<b><a href="../symbols/ch.events.key.html#.LEFT_ARROW">LEFT_ARROW</a></b>
-								</div>
-								<div class="description">Left arrow key event.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Events.KEY.<b><a href="../symbols/ch.events.key.html#.RIGHT_ARROW">RIGHT_ARROW</a></b>
-								</div>
-								<div class="description">Rigth arrow key event.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Events.KEY.<b><a href="../symbols/ch.events.key.html#.UP_ARROW">UP_ARROW</a></b>
-								</div>
-								<div class="description">Up arrow key event.</div>
+								<div class="description"></div>
 							</td>
 						</tr>
 					
@@ -262,6 +212,69 @@
 
 <!-- ============================== methods summary ======================== -->
 			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class ch.List.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.List.<b><a href="../symbols/ch.list.html#._find">_find</a></b>(q, q, q, a)
+								</div>
+								<div class="description">Seek members inside the collection by index, query string or object comparison.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.List.<b><a href="../symbols/ch.list.html#.add">add</a></b>(child, child, child)
+								</div>
+								<div class="description">Adds a new child (or more) to the collection.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.List.<b><a href="../symbols/ch.list.html#.get">get</a></b>(q, q, q)
+								</div>
+								<div class="description">Get a child from the collection by index, query string or object comparison.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.List.<b><a href="../symbols/ch.list.html#.rem">rem</a></b>(q, q, q)
+								</div>
+								<div class="description">Removes a child from the collection by index, query string or object comparison.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.List.<b><a href="../symbols/ch.list.html#.size">size</a></b>()
+								</div>
+								<div class="description">Get the amount of children from the collection.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+			
 <!-- ============================== events summary ======================== -->
 			
 
@@ -269,21 +282,32 @@
 			
 			<div class="details"><a name="constructor"> </a>
 				<div class="sectionTitle">
-					Namespace Detail
+					Class Detail
 				</div>
 				
 				<div class="fixedFont">
-						<b>ch.Events.KEY</b>
+						<b>ch.List</b>(collection)
 				</div>
 				
 				<div class="description">
-					Keryboard event collection.
+					Manage collections with abstract lists. Create a list of objects, add, get and remove.
 					
 				</div>
 				
 				
 				
 				
+					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								<span class="light fixedFont">{Array}</span>  <b>collection</b>
+								<i>Optional</i>
+							</dt>
+								<dd>Constructs a List with an optional initial collection</dd>
+						
+						</dl>
 					
 					
 					
@@ -301,125 +325,15 @@
 					Field Detail
 				</div>
 				
-					<a name=".DOWN_ARROW"> </a>
+					<a name=".children"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
 					
-					<span class="light">ch.Events.KEY.</span><b>DOWN_ARROW</b>
+					<span class="light">ch.List.</span><b>children</b>
 					
 					</div>
 					<div class="description">
-						Down arrow key event.
 						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".ENTER"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Events.KEY.</span><b>ENTER</b>
-					
-					</div>
-					<div class="description">
-						Enter key event.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".ESC"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Events.KEY.</span><b>ESC</b>
-					
-					</div>
-					<div class="description">
-						Esc key event.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".LEFT_ARROW"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Events.KEY.</span><b>LEFT_ARROW</b>
-					
-					</div>
-					<div class="description">
-						Left arrow key event.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".RIGHT_ARROW"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Events.KEY.</span><b>RIGHT_ARROW</b>
-					
-					</div>
-					<div class="description">
-						Rigth arrow key event.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".UP_ARROW"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Events.KEY.</span><b>UP_ARROW</b>
-					
-					</div>
-					<div class="description">
-						Up arrow key event.
 						
 						
 					</div>
@@ -436,6 +350,264 @@
 			
 
 <!-- ============================== method details ========================= -->		
+			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name="._find"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">ch.List.</span><b>_find</b>(q, q, q, a)
+					
+					</div>
+					<div class="description">
+						Seek members inside the collection by index, query string or object comparison.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>q</b>
+									<i>Optional</i>
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>q</b>
+									<i>Optional</i>
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>q</b>
+									<i>Optional</i>
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Function}</span> <b>a</b>
+									<i>Optional</i>
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> Returns the finded element</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".add"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Number, Collection}</span>
+					<span class="light">ch.List.</span><b>add</b>(child, child, child)
+					
+					</div>
+					<div class="description">
+						Adds a new child (or more) to the collection.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>child</b>
+									<i>Optional</i>
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>child</b>
+									<i>Optional</i>
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Array}</span> <b>child</b>
+									<i>Optional</i>
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> The index of the added child.</dd>
+							
+								<dd><span class="light fixedFont">{Collection}</span> Returns the entire collecction if the input is an array.</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".get"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ch.List.</span><b>get</b>(q, q, q)
+					
+					</div>
+					<div class="description">
+						Get a child from the collection by index, query string or object comparison.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>q</b>
+									<i>Optional</i>
+								</dt>
+								<dd>Get a child from the collection by index number.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>q</b>
+									<i>Optional</i>
+								</dt>
+								<dd>Get a child from the collection by a query string.</dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>q</b>
+									<i>Optional</i>
+								</dt>
+								<dd>Get a child from the collection by comparing objects.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".rem"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">ch.List.</span><b>rem</b>(q, q, q)
+					
+					</div>
+					<div class="description">
+						Removes a child from the collection by index, query string or object comparison.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Number}</span> <b>q</b>
+									<i>Optional</i>
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>q</b>
+									<i>Optional</i>
+								</dt>
+								<dd></dd>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>q</b>
+									<i>Optional</i>
+								</dt>
+								<dd></dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> Returns the removed element</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".size"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Number}</span>
+					<span class="light">ch.List.</span><b>size</b>()
+					
+					</div>
+					<div class="description">
+						Get the amount of children from the collection.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Number}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					
+				
 			
 			
 <!-- ============================== event details ========================= -->		
