@@ -22,6 +22,12 @@ h2, h3, h4 {
     font-family: 'PT Serif', serif;
 }
 
+h2 { font-size: 2em; }
+
+h3 { font-size: 1.5em; }
+
+h4 { font-size: 1.3em; }
+
 .header {
     padding: 5px 0 0;
     position: relative;
