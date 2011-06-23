@@ -7,8 +7,10 @@ var express = require('express'),
     events = require('events'),
     sys = require('sys'),
     fs = require('fs'),
+//    gzippo = require('gzippo'),
     CustomBuild = require('./services/builder/custom_build').CustomBuild,
     Encode64 = require('./services/builder/encode64').Encode64,
+    meta = require('./models/meta').meta;
     undefined;
 
 
@@ -17,52 +19,7 @@ var app = module.exports = express.createServer();
 /**
  * constants.
  */
-var navigation = {
-
-    "top": [
-        {"label": "Home", "href": "/"},
-        {"label": "Download", "href": "/download"},
-        {"label": "Getting Started", "href": "https://github.com/mercadolibre/chico/wiki"},
-        {"label": "API", "href": "/api/index.html"},
-        {"label": "Docs", "href": "/docs/index.html"},
-        {"label": "Github", "href": "https://github.com/mercadolibre/chico/"}
-    ],
-
-    "bottom": {
-        "Download": [
-            {"title": "Download", "href": "/"},
-            {"label": "Current release", "href": "/download"},
-            {"label": "Past releases", "href": "http://download.chico-ui.com.ar/"},
-            {"label": "Source code", "href": "https://github.com/mercadolibre/chico/"}
-        ],
-        "Getting started": [
-            {"title": "Getting started", "href": "/"},
-            {"label": "How to install", "href": "/"},
-            {"label": "Using Chico-UI", "href": "/"},
-            {"label": "Layout with Mesh", "href": "/"}
-        ],
-        "Documentation": [
-            {"title": "Documentation", "href": "/api/index.html"},
-            {"label": "API Reference", "href": "/api/index.html"},
-            {"label": "How to install", "href": "/docs/how-to-install"},
-            {"label": "Examples", "href": "/examples"}
-        ],
-        "Support": [
-            {"title": "Support", "href": "/support/faq"},
-            {"label": "FAQ", "href": "/support/faq"},
-            {"label": "Issue tracker", "href": "https://github.com/visionmedia/jade/issues"},
-            {"label": "Mailing list", "href": "https://groups.google.com/group/chico-ui"}
-        ],
-        "Get in touch": [
-            {"title": "Get in touch", "href": "/"},
-            {"label": "on Twitter", "href": "http://twitter.com/chicoui"},
-            {"label": "on Facebook", "href": "http://www.facebook.com/pages/Chico-UI/189546681062056"},
-            {"label": "our Google Group", "href": "https://groups.google.com/group/chico-ui"}
-        ]
-    }
-}
-
-
+ 
 /**
  * app configuration.
  */
@@ -73,6 +30,8 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+// gzip compression
+//  app.use(gzippo.staticGzip(__dirname + '/public'));
 });
 
 app.configure('development', function(){
@@ -85,27 +44,8 @@ app.configure('production', function(){
 
 /**
  * rutes
- */
 
-// Para nico
-app.get( '/img/:id?', function( req, res ) {
-    
-    var id = req.params.id;
-
-	fs.readFile( __dirname + "/public/vip-images/" + id , function(err, data) {
-
-        setTimeout( function() {
-        
-            res.header( 'Content-Type' , 'image/jpeg' );
-            res.send( data );
-        
-        }, 3000 );
-	   
-	});
-    
-})
-
-// Para lean
+// build lastest version
 app.get( '/lastest/:type/:min?', function( req, res ) {
        
     var type = req.params.type;
@@ -127,18 +67,7 @@ app.get( '/lastest/:type/:min?', function( req, res ) {
         });
     
 });
-
-
-
-app.get( '/encode', function( req, res ) {
-    
-    var encodedImage = new Encode64("./public/src/assets/ninja.jpg");
-    
-        encodedImage.on( "encoded", function( data ){
-            res.send( data.toString() ); 
-        });
-    
-});
+*/
 
 /**
  * Download
@@ -146,10 +75,7 @@ app.get( '/encode', function( req, res ) {
 // get 
 app.get( '/download', function( req, res ) {
     
-  res.render( 'download', {
-    title: 'Chico-UI',
-    navigation: navigation
-  });
+  res.render( 'download', meta );
   
 });
 
@@ -168,7 +94,7 @@ app.post('/download', function( req, res ){
                         req.body.util.join(",") : 
                         req.body.util,
         flavor = req.body.flavor,
-        mesh = req.body.mesh,
+        use_mesh = req.body.mesh,
         embed = req.body.embed;
         env = req.body.env;
 
@@ -191,17 +117,20 @@ app.post('/download', function( req, res ){
     var css = function() {
         return {
             "name": "chico",
-            "input": "../chico/src/css/",
-            "components": components + ( (mesh) ? ",mesh" : "" ),
+            "input": "../chico/src/" + flavor + "/css/",
+            "components": components + ( ( use_mesh ) ? ",mesh" : "" ),
+            "embed": ( embed ) ? true : false,
             "type": "css"
         }
     };
     
-    // Flavors Pack
-    var flavor = function() {
+    // Mesh Pack
+    var mesh = function() {
         return {
-            "name": "flavor",
-            "components": components,
+            "name": "mesh",
+            "input": "../chico/src/css/",
+            "components": "mesh",
+            "embed": ( embed ) ? true : false,
             "type": "css"
         }
     };
@@ -216,14 +145,8 @@ app.post('/download', function( req, res ){
             packages.push(p_js);
         // CSS
         var p_css = css();
-            p_css.embed = ( embed ) ? true : false ;
             p_css.min = true;
             packages.push(p_css);
-        // Flavor              
-        var p_flavor = Object.create(flavor);
-            p_flavor.embed = ( embed ) ? true : false ;
-            p_flavor.min = true;
-            //packages.push(p_flavors);
     }
     
     // for Dev
@@ -233,12 +156,7 @@ app.post('/download', function( req, res ){
             packages.push( d_js );
         // CSS
         var d_css = css();
-            d_css.embed = ( embed ) ? true : false ;
             packages.push( d_css );
-        // Flavor              
-        var d_flavor = flavor();
-            d_flavor.embed = ( embed ) ? true : false ;
-            //packages.push( d_flavor );
     }
 
     console.log(packages);
@@ -252,21 +170,42 @@ app.post('/download', function( req, res ){
 });
 
 /**
+ * Snippets.
+ */
+// get
+app.get('/snippets', function(req, res){
+  res.render('snippets', meta );
+});
+
+/**
+ * Support.
+ */
+// get
+app.get('/support', function(req, res){
+  res.render('support', meta );
+});
+
+/**
+ * Getting started.
+ */
+// get
+app.get('/getting-started', function(req, res){
+  res.render('getting-started', meta );
+});
+
+/**
  * Index.
  */
 // get
 app.get('/', function(req, res){
-  res.render('index', {
-    title: 'Chico-UI',
-    navigation: navigation
-  });
+  res.render('index', meta );
 });
 
 
 /**
  * app start
  */
-app.listen(3000);
+app.listen(8080);
 
 /**
  * log

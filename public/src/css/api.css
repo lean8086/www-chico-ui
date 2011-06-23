@@ -1,0 +1,43 @@
+
+table {
+    font-size: 1em;    
+    margin: 15px 0;
+}
+
+table .description {
+    margin: 5px 0;
+}
+
+#index ul {
+    border: 2px solid #000;
+}
+
+#content {
+    padding: 20px;    
+}
+
+.sectionTitle {
+    font-size: 1.3em;
+    margin: 14px 0 5px;
+}
+
+.description, .detailList {
+    margin: 0 30px;
+    color: #555;
+}
+
+.fixedFont {
+    font-family: Courier New, monospace;
+    margin: 5px;
+}
+
+.attributes {
+    color: #bbb;    
+}
+
+.code {
+    background-color: #ffc;
+    margin: 10px 20px 10px 30px;
+    padding: 10px;
+    border: solid 1px #ccc;    
+}
