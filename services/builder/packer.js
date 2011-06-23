@@ -104,7 +104,7 @@ Packer.prototype.run = function() {
     	testComp(self.components);
     	
     } else {
-        
+        console.log(self.input);       
 	    // Get files for the defined package
 	    fs.readdir( self.input , function( err, files ) {
 	    
@@ -112,7 +112,7 @@ Packer.prototype.run = function() {
 	            sys.puts("Error: <Reading files> "+err);
 	            return;
 	        }
-	        
+
 	        // Puts core always first.
 	        files = ( core + "," + files.join(",").split( core + "," ).join("") ).split(",");
 	
@@ -228,11 +228,12 @@ Packer.prototype.process = function() {
 
 
 Packer.prototype.embedImages = function( str ) {
+	var self = this;
 
 	return str.replace(/(url\(\')(.*)(\'\);)/gi, function(str, $1, $2){
-        
         // Generate dataURI
-        var encoded = new Encode64("../chico/src/" + $2).encoded_data;
+        //TODO: make this url variable
+        var encoded = new Encode64( __dirname + "/../releaser/chico/src/" + $2).encoded_data;
 
 		return "url(\'data:image/png;base64," + encoded + "\');*background-image:url(\'" + $2 + "\');";
 

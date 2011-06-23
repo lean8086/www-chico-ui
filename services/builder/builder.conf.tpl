@@ -7,28 +7,26 @@
             "name": "chico",
             "input": "../../src/js/",
             "type": "js",
-            "upload": ["A3"],
             "min": true
         },
         {
             "name": "chico",
             "input": "../../src/js/",
             "type": "js",
-            "upload": false,
+            "output": "../../download/",
             "min": false
         },
         {
             "name": "chico",
             "input": "../../src/css/",
             "type": "css",
-            "upload": ["A3"],
+            "output": "../../download/",
             "min": true
         },
         {
             "name": "chico",
             "input": "../../src/css/",
             "type": "css",
-            "upload": false,
             "min": false
         }
     ],
