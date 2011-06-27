@@ -20,7 +20,7 @@ var CustomBuild = function(_packages) {
 	var self = this;
     
     self.folder = "./public/downloads/temp" + ~~(Math.random() * 99999) + "/";
-    
+
     self._packages = _packages;
     
     self.avoid = false; // key to avoid create the zip file

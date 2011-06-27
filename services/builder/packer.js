@@ -37,11 +37,11 @@ var Packer = function(o) {
     self.min = o.min;
     self.upload = o.upload;
     self.template = o.template;
+
     self.filename = o.output.uri + o.name + ( ( self.min ) ? "-min-" : "-" ) + self.fullversion + "." + self.type ;
     if (o.components) {
         self.components = (o.components.split(",").join("." + self.type + ",").split(",")) + "." + self.type;
     }
-
 
     self._files = {
         names: [], // name of the files
@@ -233,7 +233,7 @@ Packer.prototype.embedImages = function( str ) {
 	return str.replace(/(url\(\')(.*)(\'\);)/gi, function(str, $1, $2){
         // Generate dataURI
         //TODO: make this url variable
-        var encoded = new Encode64( __dirname + "/../releaser/chico/src/" + $2).encoded_data;
+        var encoded = new Encode64( __dirname + "/../../../chicotest/src/" + $2).encoded_data;
 
 		return "url(\'data:image/png;base64," + encoded + "\');*background-image:url(\'" + $2 + "\');";
 

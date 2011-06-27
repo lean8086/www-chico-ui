@@ -1,16 +1,3 @@
-//TODO: crear releaser.conf
-
-// -	 Lee la configuracion
-// - Recibe una version (tag de github);
-// - Checkea si los issues de esa version estan cerrados (release notes + obtner ultima version)
-// - Pull del repo + checkout del tag
-// - Crear paquetes (2)
-// 		- Code (chico.js y chico.css)
-//		- Download (Zip con todo)
-// - Subir cambios al repository
-// - Taguear el repo si es neceasrio a la siguiente version
-
-
 /**
  * Chico-UI Releaser
  * @class Releaser
@@ -22,6 +9,7 @@ var sys = require("sys"),
     child = require("child_process"),
     exec  = child.exec,
     	Builder = require("../builder/builder.js").Builder,
+	CustomBuild = require('../builder/custom_build.js').CustomBuild,
     version = "0.1";
 
 var Releaser = function(){
@@ -45,89 +33,72 @@ Releaser.prototype = new events.EventEmitter();
 // Read releaser.conf
 Releaser.prototype.run = function(){
 
+	// process.argv[2] is the version to release
+	if (process.argv[2] == undefined) { 
+		sys.puts("Error: Please insert the version to release as argument.");
+
+		return;
+	};
+
 	var self = this;
+
+	sys.puts("Starting release configuration...");
 
 	self.version = process.argv[2];
 	
-	sys.puts("Starting configure release...");
-
 	fs.readFile( __dirname + "/releaser.conf", function( err , data ) {
 
 		if (err) {
-		    sys.puts(err);
+		    sys.puts("Error: <Starting release configuration...>" + err);
 		    return;
 		};
 
 		var release = JSON.parse(data);
 
-		if (self.version == undefined) { self.version = release.version; };
-
+		self.name = release.name;
 		self.repository = release.repository;
 		self.build = release.build;
-		self.name = release.name;
+		self.fullPackage = release.fullPackage;
 
-		sys.puts("Release configurated: DONE!");
-		sys.puts("Releasing Chico " + self.version + ". Please wait...");
+		sys.puts("Release " + self.version + " configurated!");
 
-		//self.checkIssues();
-		/*if ( self.version != release.version ) {
-			
-			var new_version
-			release.version = new_version;
-
-			// write conf file
-			fs.writeFile( __dirname + '/releaser.conf' , release , encoding='utf8' , function( err ) {
-				if(err) {
-				    sys.puts(err);
-				}		    
-			});
-
-		};*/
-		
-		//sys.puts(self.version);
-		
 		self.updateLocalRepo();
 
 	});
 };
 
-// Upadte repo from github
+// Upadte local repository from github
 Releaser.prototype.updateLocalRepo = function(){
 
 	var self = this;
 
-	sys.puts("Pulling changes in " + self.repository);
+	sys.puts("Updating local repository: " + self.repository);
 
-	exec("cd chico/ && git checkout master && git pull origin master", function(err, data) {
+	exec("cd " + __dirname + self.repository + " && git checkout master && git pull origin master", function(err, data) {
 
 		if ( err ) {
-			sys.puts( "Error: <Pulling changes from github repository> " + err );
+			sys.puts( "Error: <Updating the local repository...> " + err );
 			return;
 		};
-		
-		sys.puts(data);
 
-		
-
-		exec("cd chico/ && git checkout " + self.version, function(err, data) {
+		exec("cd " + __dirname + self.repository + " && git checkout " + self.version, function(err, data) {
 
 			var reg = new RegExp(self.version);
 
-			// If not error, switch to tag fine
+			// If not error, switch to tag
 			if ( !err ) {
 				sys.puts("Switching to " + self.version + "...");
 				sys.puts("Switched to "+ self.version +": DONE!");
 				
 			// If have error and err contains self.version, the tag not exist in github
 			} else if (err && err.toString().match(reg)){
-				sys.puts("Make new relase: " + self.version);
+				sys.puts("Make new release: " + self.version);
 
 			// Any error
 			} else {
 				sys.puts("Error: " + err);
 			};
 
-			
 			self.configureBuild();
 			
 		});
@@ -136,25 +107,23 @@ Releaser.prototype.updateLocalRepo = function(){
 
 };
 
-// Update builder.conf
+// Configure builder.conf
 Releaser.prototype.configureBuild = function(){
 
 	var self = this
 
-	// Read build.conf and update version number and reset build number
 	sys.puts("Configuring builder...");
+
+	// Read build.conf, update the number of the version and reset number of build
 	fs.readFile( __dirname + '/../builder/builder.conf', function(err , data) {
 
 		if (err) {
-			sys.puts( "Error: Configuring builder..." + err );
+			sys.puts( "Error: <Configuring builder...>" + err );
 			return;
 		};
 
-		// Parse JSON data
 		var conf = JSON.parse(data);
 
-		// increment version number
-		// and reset build number
 		if (conf.version != self.version) {
 			conf.version = self.version;
 			conf.build = 0;
@@ -162,16 +131,15 @@ Releaser.prototype.configureBuild = function(){
 
 		conf.packages = self.build;
 
-		// save build.conf file with incremented build number
 		var new_conf = JSON.stringify(conf);
 
-		sys.puts( "Saving configure builder...");
+		sys.puts( "Saving builder configuration...");
 
-		// create and wirte build.conf file
+		// overwrite build.conf file
 		fs.writeFile( __dirname + '/../builder/builder.conf' , new_conf , encoding='utf8' , function( err ) {
 
 			if(err) {
-				sys.puts( "Error: Saving configure builder..." + err );
+				sys.puts( "Error: <Saving builder configuration...>" + err );
 			};
 			
 			sys.puts("Builder configurated!");
@@ -184,6 +152,7 @@ Releaser.prototype.configureBuild = function(){
 
 };
 
+// Create build and custom build (full package)
 Releaser.prototype.newBuild = function(){
 
 	var self = this;
@@ -191,15 +160,23 @@ Releaser.prototype.newBuild = function(){
 	self.builder = new Builder();
 
 	self.builder.on("done", function(out){
-
-		exec("cd "+ __dirname + "/code/ && rm " + self.name + ".* && mv " + self.name + "*.js " + self.name + ".js && mv " + self.name + "*.css " + self.name + ".css", function(err, data){
+		sys.puts("Moved JS files to site directory...");
+		exec("cd " + __dirname + "/../../code/js/ && rm " + self.name + ".* && mv " + self.name + "*.js " + self.name + ".js", function(err, data){
 
 			if(err) {
-				sys.puts(err);
+				sys.puts( "Error: <Moving JS files to site directory...> " + err );
 			};
 
 		});
 
+		sys.puts("Moved CSS files to site directory...");
+		exec("cd " + __dirname + "/../../code/css/ && rm " + self.name + ".* && mv " + self.name + "*.css " + self.name + ".css", function(err, data){
+
+			if(err) {
+				sys.puts( "Error: <Moving CSS files to site directory...> " + err );
+			};
+
+		});
 
 		exec("cd "+ __dirname + self.repository + " && git tag", function(err, data){
 
@@ -214,7 +191,7 @@ Releaser.prototype.newBuild = function(){
 
 				if (self.version == tag) {
 					exists = true;
-					sys.puts("Release: " + self.version + " complete!");
+					sys.puts("Release " + self.version + " version complete!");
 					return;
 				};
 
@@ -226,32 +203,47 @@ Releaser.prototype.newBuild = function(){
 
 	});
 
+
+	self.customBuilder = new CustomBuild( self.fullPackage );
+
+	self.customBuilder.on("done", function(uri){
+		sys.puts("Moved full package to download directory.");
+		exec("cd " + __dirname + "/../../download/" + self.version + " || mkdir " + __dirname + "/../../download/" + self.version + " && mv "+ __dirname + "/public" + uri + " " + __dirname + "/../../download/" + self.version + "/", function(err, data){
+
+			if (err) {
+				sys.puts("Error <Moving full package to download directory...>" + self);
+			};
+
+		});
+	});
 };
 
+// Create a new tag on github width the version
 Releaser.prototype.tagVersion = function(){
 
 	var self = this;
 	sys.puts("Creating tag " + self.version);
-	// Create tag and push it to github
+
 	exec("cd " + __dirname + self.repository + " && git tag \"" + self.version + "\" && git push --tag", function(err, data) {
 
 		if (err) {
-			sys.puts("Creating tag..." + err);
+			sys.puts("Error: <Creating tag...>" + err);
 			return;
 		};
 
 		sys.puts("Created tag " + self.version + " DONE.");
+
 		self.updateVersion();
 
 	});
 
 };
 
+// Update version in core.js
 Releaser.prototype.updateVersion = function(){
 
 	var self = this;
 
-	// Update core.js and releaser.conf
 	sys.puts("Updating version in core.js...");
 	
 	fs.readFile( __dirname + self.repository + "src/js/core.js", function( err , data ) {
@@ -270,7 +262,6 @@ Releaser.prototype.updateVersion = function(){
 
 		var corejs = data.toString().replace(/version:.*?\"([0-9](.)?)*\"/,"version: \""+ self.newVersion + "\"");
 
-		// write conf file
 		fs.writeFile( __dirname + self.repository + "src/js/core.js", corejs, encoding='utf8', function( err ) {
 
 			if(err) {
@@ -287,42 +278,23 @@ Releaser.prototype.updateVersion = function(){
 
 };
 
-// push to github
+// Push to github
 Releaser.prototype.updateRemoteRepo = function(){
 	var self = this;
 	
-	// Push changes
 	sys.puts("Updating remote repository...");
 
-	exec('cd ' + __dirname + self.repository + ' && git checkout master && git add . && git commit -m "' + self.version + '" && git push origin master', function(err, data) {
+	exec('cd ' + __dirname + self.repository + ' && git checkout master && git add . && git commit -m "Update version to ' + self.newVersion + '" && git push origin master', function(err, data) {
 
 		if (err) {
-			sys.puts("Updating remote failed." + err);
+			sys.puts("Error: <Updating remote repository...>" + err);
 			return;
 		};
 
-		sys.puts("Release: " + self.version + " complete!. New version: " + self.newVersion + "created!");
+		sys.puts("Release: " + self.version + " complete!");
 
 	});
 
 };
-
-/*Releaser.prototype.checkIssues = function(){
-	
-	var self = this;
-	
-	exec("curl https://api.github.com/repos/mercadolibre/chico/issues?state=open", function(err, data){
-		if (err) {
-			sys.puts(err);
-			return;
-		};
-
-		var issues = JSON.parse(data);
-
-		//sys.puts(data);
-
-	});
-
-};*/
 
 var release = new Releaser();
