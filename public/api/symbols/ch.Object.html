@@ -194,26 +194,6 @@
 					<tbody>
 					
 						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Object.<b><a href="../symbols/ch.Object.html#.content">content</a></b>
-								</div>
-								<div class="description">Set the content of a component</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Object.<b><a href="../symbols/ch.Object.html#.loadContent">loadContent</a></b>
-								</div>
-								<div class="description">Prevent propagation and default actions.</div>
-							</td>
-						</tr>
-					
-						<tr>
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
@@ -250,6 +230,33 @@
 								<div class="fixedFont">ch.Object.<b><a href="../symbols/ch.Object.html#.callbacks">callbacks</a></b>()
 								</div>
 								<div class="description">Executes a specific callback</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.Object.<b><a href="../symbols/ch.Object.html#.content">content</a></b>(content)
+								</div>
+								<div class="description">Set the content of a component</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.Object.<b><a href="../symbols/ch.Object.html#.position">position</a></b>(o, "refresh")
+								</div>
+								<div class="description">Change components position</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.Object.<b><a href="../symbols/ch.Object.html#.prevent">prevent</a></b>(event)
+								</div>
+								<div class="description">Prevent propagation and default actions.</div>
 							</td>
 						</tr>
 					
@@ -311,50 +318,6 @@
 					Field Detail
 				</div>
 				
-					<a name=".content"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{Could be a simple text, html or a url to get the content with ajax.}</span>
-					<span class="light">ch.Object.</span><b>content</b>
-					
-					</div>
-					<div class="description">
-						Set the content of a component
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".loadContent"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Object.</span><b>loadContent</b>
-					
-					</div>
-					<div class="description">
-						Prevent propagation and default actions.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
 					<a name=".that"> </a>
 					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
@@ -408,6 +371,134 @@
 						
 						
 
+					<hr />
+				
+					<a name=".content"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Chico-UI Object}</span>
+					<span class="light">ch.Object.</span><b>content</b>(content)
+					
+					</div>
+					<div class="description">
+						Set the content of a component
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>content</b>
+									<i>Optional</i>
+								</dt>
+								<dd>Could be a simple text, html or a url to get the content with ajax.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Chico-UI Object}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".position"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Object}</span>
+					<span class="light">ch.Object.</span><b>position</b>(o, "refresh")
+					
+					</div>
+					<div class="description">
+						Change components position
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>o</b>
+									<i>Optional</i>
+								</dt>
+								<dd>Configuration object</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>"refresh"</b>
+									<i>Optional</i>
+								</dt>
+								<dd>Refresh</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Object}</span> o Configuration object is arguments are empty</dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".prevent"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ch.Object.</span><b>prevent</b>(event)
+					
+					</div>
+					<div class="description">
+						Prevent propagation and default actions.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{EventObject}</span> <b>event</b>
+									
+								</dt>
+								<dd>Recieves a event object</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+						
+						
+
 					
 				
 			
@@ -419,7 +510,7 @@
 		</div>
 
 		<p class="footer">
-		Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Thu Jun 23 2011 15:05:48 GMT-0300 (GMT-03:00)
+		Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Tue Jun 28 2011 15:34:51 GMT-0300 (GMT-03:00)
 	</p>
 <!-- ============================== footer ================================= -->
 

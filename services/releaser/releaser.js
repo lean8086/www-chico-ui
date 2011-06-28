@@ -59,6 +59,7 @@ Releaser.prototype.run = function(){
 		self.repository = release.repository;
 		self.build = release.build;
 		self.fullPackage = release.fullPackage;
+		self.jsdoc = release.jsdoc;
 
 		sys.puts("Release " + self.version + " configurated!");
 
@@ -100,9 +101,24 @@ Releaser.prototype.updateLocalRepo = function(){
 			};
 
 			self.configureBuild();
+			self.generateDoc();
 			
 		});
 
+	});
+
+};
+
+// Generate doc
+Releaser.prototype.generateDoc = function(){
+	var self = this
+
+	exec("cd " + __dirname + "/../../ && " + self.jsdoc, function(err, data) {
+
+		if ( err ) {
+			sys.puts( "Error: <Creating doc...> " + err );
+			return;
+		};
 	});
 
 };
@@ -197,7 +213,7 @@ Releaser.prototype.newBuild = function(){
 
 			});
 
-			if (!exists) { 	self.tagVersion(); };
+			if (!exists) { self.tagVersion(); };			
 
 		});
 

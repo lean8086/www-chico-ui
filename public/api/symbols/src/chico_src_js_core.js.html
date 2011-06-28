@@ -362,184 +362,183 @@
 <span class='line'>355</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>356</span> </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>357</span> 
-<span class='line'>358</span> 
-<span class='line'>359</span> </span><span class="COMM">/**
-<span class='line'>360</span>  * Load components or content
-<span class='line'>361</span>  * @abstract
-<span class='line'>362</span>  * @name Get
-<span class='line'>363</span>  * @class Get
-<span class='line'>364</span>  * @param o {Object} object 
-<span class='line'>365</span>  * @example
-<span class='line'>366</span>  *   o {
-<span class='line'>367</span>  *      method: "content"|"component",
-<span class='line'>368</span>  *      component: "chat",
-<span class='line'>369</span>  *      [script]: "http://..",
-<span class='line'>370</span>  *      [style]: "http://..",
-<span class='line'>371</span>  *      [callback]: function(){}
-<span class='line'>372</span>  *   }
-<span class='line'>373</span>  * @memberOf ch
-<span class='line'>374</span>  */</span><span class="WHIT">
-<span class='line'>375</span> </span><span class="NAME">ch.get</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>376</span> </span><span class="WHIT">     
-<span class='line'>377</span>     </span><span class="KEYW">switch</span><span class="PUNC">(</span><span class="NAME">o.method</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>378</span> </span><span class="WHIT">		
-<span class='line'>379</span> 		</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"content"</span><span class="PUNC">:</span><span class="WHIT">
-<span class='line'>380</span> 
-<span class='line'>381</span> </span><span class="WHIT">	        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">o.that</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>382</span> </span><span class="WHIT">	        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.conf</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>383</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">context</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"controller"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">that.controller</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>384</span> 
-<span class='line'>385</span> </span><span class="WHIT">			</span><span class="COMM">// Set ajax config</span><span class="WHIT">
-<span class='line'>386</span> </span><span class="WHIT">			</span><span class="COMM">// On IE (6-7) "that" reference losts when I call ch.get for second time</span><span class="WHIT">
-<span class='line'>387</span> </span><span class="WHIT">			</span><span class="COMM">// Why?? I don't know... but with a setTimeOut() works fine!</span><span class="WHIT">
-<span class='line'>388</span> </span><span class="WHIT">			</span><span class="NAME">setTimeout</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>389</span> </span><span class="WHIT">			
-<span class='line'>390</span> 				</span><span class="NAME">$.ajax</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>391</span> </span><span class="WHIT">					</span><span class="NAME">url</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.ajaxUrl</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>392</span> </span><span class="WHIT">					</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.ajaxType</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="STRN">'GET'</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>393</span> </span><span class="WHIT">					</span><span class="NAME">data</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.ajaxParams</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>394</span> </span><span class="WHIT">					</span><span class="NAME">cache</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>395</span> </span><span class="WHIT">					</span><span class="NAME">async</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>396</span> </span><span class="WHIT">					</span><span class="NAME">beforeSend</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">jqXHR</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>397</span> </span><span class="WHIT">						</span><span class="NAME">jqXHR.setRequestHeader</span><span class="PUNC">(</span><span class="STRN">"X-Requested-With"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"XMLHttpRequest"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>398</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>399</span> </span><span class="WHIT">					</span><span class="NAME">success</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">textStatus</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">jqXHR</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">					
-<span class='line'>400</span> 						</span><span class="NAME">that.$content.html</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>401</span> </span><span class="WHIT">						</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"onContentLoad"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">conf.onContentLoad.call</span><span class="PUNC">(</span><span class="NAME">context</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">textStatus</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">jqXHR</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>402</span> </span><span class="WHIT">						</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"position"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">ch.positioner</span><span class="PUNC">(</span><span class="NAME">conf.position</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>403</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>404</span> </span><span class="WHIT">					</span><span class="NAME">error</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">jqXHR</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">textStatus</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">errorThrown</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>405</span> </span><span class="WHIT">						</span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"onContentError"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">conf.onContentError.call</span><span class="PUNC">(</span><span class="NAME">context</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">jqXHR</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">textStatus</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">errorThrown</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"&lt;p>Error on ajax call &lt;/p>"</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>406</span> </span><span class="WHIT">						</span><span class="NAME">that.$content.html</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>407</span> </span><span class="WHIT">						</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"position"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">ch.positioner</span><span class="PUNC">(</span><span class="NAME">conf.position</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>408</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>409</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>410</span> </span><span class="WHIT">				
-<span class='line'>411</span> 			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>412</span> </span><span class="WHIT">			
-<span class='line'>413</span> 		</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>414</span> </span><span class="WHIT">	        
-<span class='line'>415</span> 		</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"component"</span><span class="PUNC">:</span><span class="WHIT">
-<span class='line'>416</span> </span><span class="WHIT">	        
-<span class='line'>417</span> 	        </span><span class="COMM">// ch.get: "Should I get a style?"</span><span class="WHIT">
-<span class='line'>418</span> </span><span class="WHIT">	        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">o.style</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>419</span> </span><span class="WHIT">	    		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">style</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">'link'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>420</span> </span><span class="WHIT">	        		</span><span class="NAME">style.href</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">o.style</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>421</span> </span><span class="WHIT">	    	    	</span><span class="NAME">style.rel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'stylesheet'</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>422</span> </span><span class="WHIT">	            	</span><span class="NAME">style.type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'text/css'</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>423</span> </span><span class="WHIT">	        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>424</span> </span><span class="WHIT">	        </span><span class="COMM">// ch.get: "Should I get a script?"        </span><span class="WHIT">
-<span class='line'>425</span> </span><span class="WHIT">	        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">o.script</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>426</span> </span><span class="WHIT">	    	   	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">script</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">"script"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>427</span> </span><span class="WHIT">	    			</span><span class="NAME">script.src</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">o.script</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>428</span> </span><span class="WHIT">	        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>429</span> </span><span class="WHIT">	        
-<span class='line'>430</span> 	        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">head</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementsByTagName</span><span class="PUNC">(</span><span class="STRN">"head"</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">document.documentElement</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>431</span> </span><span class="WHIT">	
-<span class='line'>432</span> 			</span><span class="COMM">// Handle Script loading</span><span class="WHIT">
-<span class='line'>433</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">done</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>434</span> </span><span class="WHIT">	
-<span class='line'>435</span> 			</span><span class="COMM">// Attach handlers for all browsers</span><span class="WHIT">
-<span class='line'>436</span> </span><span class="WHIT">			</span><span class="NAME">script.onload</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">script.onreadystatechange</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>437</span> </span><span class="WHIT">	    
-<span class='line'>438</span> 	    	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">done</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.readyState</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> 
-<span class='line'>439</span> 						</span><span class="NAME">this.readyState</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"loaded"</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">this.readyState</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"complete"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>440</span> 
-<span class='line'>441</span> </span><span class="WHIT">					</span><span class="NAME">done</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>442</span> 
-<span class='line'>443</span> </span><span class="WHIT">		   			</span><span class="COMM">// if callback is defined call it</span><span class="WHIT">
-<span class='line'>444</span> </span><span class="WHIT">		   	        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">o.callback</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">o.callback</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">o.component</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>445</span> 
-<span class='line'>446</span> </span><span class="WHIT">			   		</span><span class="COMM">// Handle memory leak in IE</span><span class="WHIT">
-<span class='line'>447</span> </span><span class="WHIT">		   			</span><span class="NAME">script.onload</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">script.onreadystatechange</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>448</span> 
-<span class='line'>449</span> </span><span class="WHIT">			   		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">head</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">script.parentNode</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">head.removeChild</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">script</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>450</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>451</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>452</span> </span><span class="WHIT">	            
-<span class='line'>453</span> 			</span><span class="COMM">// Use insertBefore instead of appendChild to circumvent an IE6 bug.</span><span class="WHIT">
-<span class='line'>454</span> </span><span class="WHIT">			</span><span class="COMM">// This arises when a base node is used.</span><span class="WHIT">
-<span class='line'>455</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">o.script</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">head.insertBefore</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">script</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">head.firstChild</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>456</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">o.style</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">head.appendChild</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">style</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>457</span> </span><span class="WHIT">	    
-<span class='line'>458</span> 		</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">        
-<span class='line'>459</span> 	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>460</span> 
-<span class='line'>461</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>358</span> </span><span class="COMM">/**
+<span class='line'>359</span>  * Load components or content
+<span class='line'>360</span>  * @abstract
+<span class='line'>361</span>  * @name Get
+<span class='line'>362</span>  * @class Get
+<span class='line'>363</span>  * @param o {Object} object 
+<span class='line'>364</span>  * @example
+<span class='line'>365</span>  *   o {
+<span class='line'>366</span>  *      method: "content"|"component",
+<span class='line'>367</span>  *      component: "chat",
+<span class='line'>368</span>  *      [script]: "http://..",
+<span class='line'>369</span>  *      [style]: "http://..",
+<span class='line'>370</span>  *      [callback]: function(){}
+<span class='line'>371</span>  *   }
+<span class='line'>372</span>  * @memberOf ch
+<span class='line'>373</span>  */</span><span class="WHIT">
+<span class='line'>374</span> </span><span class="NAME">ch.get</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>375</span> </span><span class="WHIT">     
+<span class='line'>376</span>     </span><span class="KEYW">switch</span><span class="PUNC">(</span><span class="NAME">o.method</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>377</span> </span><span class="WHIT">		
+<span class='line'>378</span> 		</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"content"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>379</span> 
+<span class='line'>380</span> </span><span class="WHIT">	        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">o.that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>381</span> </span><span class="WHIT">	        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.conf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>382</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">context</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"controller"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">that.controller</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>383</span> 
+<span class='line'>384</span> </span><span class="WHIT">			</span><span class="COMM">// Set ajax config</span><span class="WHIT">
+<span class='line'>385</span> </span><span class="WHIT">			</span><span class="COMM">// On IE (6-7) "that" reference losts when I call ch.get for second time</span><span class="WHIT">
+<span class='line'>386</span> </span><span class="WHIT">			</span><span class="COMM">// Why?? I don't know... but with a setTimeOut() works fine!</span><span class="WHIT">
+<span class='line'>387</span> </span><span class="WHIT">			</span><span class="NAME">setTimeout</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>388</span> </span><span class="WHIT">			
+<span class='line'>389</span> 				</span><span class="NAME">$.ajax</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>390</span> </span><span class="WHIT">					</span><span class="NAME">url</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.ajaxUrl</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>391</span> </span><span class="WHIT">					</span><span class="NAME">type</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.ajaxType</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="STRN">'GET'</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>392</span> </span><span class="WHIT">					</span><span class="NAME">data</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.ajaxParams</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>393</span> </span><span class="WHIT">					</span><span class="NAME">cache</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>394</span> </span><span class="WHIT">					</span><span class="NAME">async</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>395</span> </span><span class="WHIT">					</span><span class="NAME">beforeSend</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">jqXHR</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>396</span> </span><span class="WHIT">						</span><span class="NAME">jqXHR.setRequestHeader</span><span class="PUNC">(</span><span class="STRN">"X-Requested-With"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"XMLHttpRequest"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>397</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>398</span> </span><span class="WHIT">					</span><span class="NAME">success</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">textStatus</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">jqXHR</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">					
+<span class='line'>399</span> 						</span><span class="NAME">that.$content.html</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>400</span> </span><span class="WHIT">						</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"onContentLoad"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">conf.onContentLoad.call</span><span class="PUNC">(</span><span class="NAME">context</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">textStatus</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">jqXHR</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>401</span> </span><span class="WHIT">						</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"position"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">ch.positioner</span><span class="PUNC">(</span><span class="NAME">conf.position</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>402</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>403</span> </span><span class="WHIT">					</span><span class="NAME">error</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">jqXHR</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">textStatus</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">errorThrown</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>404</span> </span><span class="WHIT">						</span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"onContentError"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">conf.onContentError.call</span><span class="PUNC">(</span><span class="NAME">context</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">jqXHR</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">textStatus</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">errorThrown</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"&lt;p>Error on ajax call &lt;/p>"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>405</span> </span><span class="WHIT">						</span><span class="NAME">that.$content.html</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>406</span> </span><span class="WHIT">						</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"position"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="NAME">ch.positioner</span><span class="PUNC">(</span><span class="NAME">conf.position</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>407</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>408</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>409</span> </span><span class="WHIT">				
+<span class='line'>410</span> 			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>411</span> </span><span class="WHIT">			
+<span class='line'>412</span> 		</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>413</span> </span><span class="WHIT">	        
+<span class='line'>414</span> 		</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"component"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>415</span> </span><span class="WHIT">	        
+<span class='line'>416</span> 	        </span><span class="COMM">// ch.get: "Should I get a style?"</span><span class="WHIT">
+<span class='line'>417</span> </span><span class="WHIT">	        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">o.style</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>418</span> </span><span class="WHIT">	    		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">style</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">'link'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>419</span> </span><span class="WHIT">	        		</span><span class="NAME">style.href</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">o.style</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>420</span> </span><span class="WHIT">	    	    	</span><span class="NAME">style.rel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'stylesheet'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>421</span> </span><span class="WHIT">	            	</span><span class="NAME">style.type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'text/css'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>422</span> </span><span class="WHIT">	        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>423</span> </span><span class="WHIT">	        </span><span class="COMM">// ch.get: "Should I get a script?"        </span><span class="WHIT">
+<span class='line'>424</span> </span><span class="WHIT">	        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">o.script</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>425</span> </span><span class="WHIT">	    	   	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">script</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">"script"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>426</span> </span><span class="WHIT">	    			</span><span class="NAME">script.src</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">o.script</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>427</span> </span><span class="WHIT">	        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>428</span> </span><span class="WHIT">	        
+<span class='line'>429</span> 	        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">head</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementsByTagName</span><span class="PUNC">(</span><span class="STRN">"head"</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">document.documentElement</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>430</span> </span><span class="WHIT">	
+<span class='line'>431</span> 			</span><span class="COMM">// Handle Script loading</span><span class="WHIT">
+<span class='line'>432</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">done</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>433</span> </span><span class="WHIT">	
+<span class='line'>434</span> 			</span><span class="COMM">// Attach handlers for all browsers</span><span class="WHIT">
+<span class='line'>435</span> </span><span class="WHIT">			</span><span class="NAME">script.onload</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">script.onreadystatechange</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>436</span> </span><span class="WHIT">	    
+<span class='line'>437</span> 	    	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">done</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.readyState</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> 
+<span class='line'>438</span> 						</span><span class="NAME">this.readyState</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"loaded"</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">this.readyState</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"complete"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>439</span> 
+<span class='line'>440</span> </span><span class="WHIT">					</span><span class="NAME">done</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>441</span> 
+<span class='line'>442</span> </span><span class="WHIT">		   			</span><span class="COMM">// if callback is defined call it</span><span class="WHIT">
+<span class='line'>443</span> </span><span class="WHIT">		   	        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">o.callback</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">o.callback</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">o.component</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>444</span> 
+<span class='line'>445</span> </span><span class="WHIT">			   		</span><span class="COMM">// Handle memory leak in IE</span><span class="WHIT">
+<span class='line'>446</span> </span><span class="WHIT">		   			</span><span class="NAME">script.onload</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">script.onreadystatechange</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>447</span> 
+<span class='line'>448</span> </span><span class="WHIT">			   		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">head</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">script.parentNode</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">head.removeChild</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">script</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>449</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>450</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>451</span> </span><span class="WHIT">	            
+<span class='line'>452</span> 			</span><span class="COMM">// Use insertBefore instead of appendChild to circumvent an IE6 bug.</span><span class="WHIT">
+<span class='line'>453</span> </span><span class="WHIT">			</span><span class="COMM">// This arises when a base node is used.</span><span class="WHIT">
+<span class='line'>454</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">o.script</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">head.insertBefore</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">script</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">head.firstChild</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>455</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">o.style</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">head.appendChild</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">style</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>456</span> </span><span class="WHIT">	    
+<span class='line'>457</span> 		</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">        
+<span class='line'>458</span> 	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>459</span> 
+<span class='line'>460</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>461</span> 
 <span class='line'>462</span> 
-<span class='line'>463</span> 
-<span class='line'>464</span> </span><span class="COMM">/**
-<span class='line'>465</span>  * Returns a data object with features supported by the device
-<span class='line'>466</span>  * @abstract
-<span class='line'>467</span>  * @name Support
-<span class='line'>468</span>  * @class Support
-<span class='line'>469</span>  * @returns {Object}
-<span class='line'>470</span>  * @memberOf ch 
-<span class='line'>471</span>  */</span><span class="WHIT">
-<span class='line'>472</span> </span><span class="NAME">ch.support</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>473</span> </span><span class="WHIT">	
-<span class='line'>474</span> 	</span><span class="COMM">/**
-<span class='line'>475</span> 	 * Private reference to the &lt;body> element
-<span class='line'>476</span> 	 * @private
-<span class='line'>477</span> 	 * @name thisBody
-<span class='line'>478</span> 	 * @type {HTMLBodyElement}
-<span class='line'>479</span> 	 * @memberOf ch.Support
-<span class='line'>480</span> 	 */</span><span class="WHIT">
-<span class='line'>481</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">thisBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.body</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">document.documentElement</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>482</span> </span><span class="WHIT">	
-<span class='line'>483</span> 	</span><span class="COMM">/**
-<span class='line'>484</span>      * Based on: http://gist.github.com/373874
-<span class='line'>485</span>      * Verify that CSS3 transition is supported (or any of its browser-specific implementations)
-<span class='line'>486</span>      *
-<span class='line'>487</span>      * @private
-<span class='line'>488</span>      * @returns {Boolean}
-<span class='line'>489</span>      * @memberOf ch.Support
-<span class='line'>490</span>      */</span><span class="WHIT">
-<span class='line'>491</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">transition</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>492</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">thisStyle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">thisBody.style</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>493</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">thisStyle.WebkitTransition</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">thisStyle.MozTransition</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">thisStyle.OTransition</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">thisStyle.transition</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>494</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>495</span> 
-<span class='line'>496</span> </span><span class="WHIT">    </span><span class="COMM">/**
-<span class='line'>497</span>      * Based on: http://kangax.github.com/cft/#IS_POSITION_FIXED_SUPPORTED
-<span class='line'>498</span>      * Verify that position fixed is supported
-<span class='line'>499</span>      * 
-<span class='line'>500</span>      * @private
-<span class='line'>501</span>      * @returns {Boolean}
-<span class='line'>502</span>      * @memberOf ch.Support
-<span class='line'>503</span>      */</span><span class="WHIT">	
-<span class='line'>504</span> 	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">fixed</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>505</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">isSupported</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>506</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">e</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">"div"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>507</span> </span><span class="WHIT">			</span><span class="NAME">e.style.position</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"fixed"</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>508</span> </span><span class="WHIT">			</span><span class="NAME">e.style.top</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"10px"</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>509</span> </span><span class="WHIT">			
-<span class='line'>510</span> 		</span><span class="NAME">thisBody.appendChild</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>511</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e.offsetTop</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">isSupported</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>512</span> </span><span class="WHIT">  		</span><span class="NAME">thisBody.removeChild</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>513</span> </span><span class="WHIT">  		
-<span class='line'>514</span>   		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">isSupported</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>515</span> </span><span class="WHIT">  		
-<span class='line'>516</span> 	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>517</span> 
-<span class='line'>518</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>519</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>520</span>          * Boolean property that indicates if CSS3 Transitions are supported by the device.
-<span class='line'>521</span>          * @public
-<span class='line'>522</span>          * @name transition
-<span class='line'>523</span>          * @type {Boolean}
-<span class='line'>524</span>          * @memberOf ch.Support
-<span class='line'>525</span>          */</span><span class="WHIT">
-<span class='line'>526</span> </span><span class="WHIT"> 		</span><span class="NAME">transition</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">transition</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>527</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'>528</span>          * Boolean property that indicates if Fixed positioning are supported by the device.
-<span class='line'>529</span>          * @public
-<span class='line'>530</span>          * @name fixed
-<span class='line'>531</span>          * @type {Boolean}
-<span class='line'>532</span>          * @memberOf ch.Support
-<span class='line'>533</span>          */</span><span class="WHIT">
-<span class='line'>534</span> </span><span class="WHIT">		</span><span class="NAME">fixed</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">fixed</span><span class="WHIT">
-<span class='line'>535</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>536</span> </span><span class="WHIT">	
-<span class='line'>537</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>538</span> </span></pre></body></html>
+<span class='line'>463</span> </span><span class="COMM">/**
+<span class='line'>464</span>  * Returns a data object with features supported by the device
+<span class='line'>465</span>  * @abstract
+<span class='line'>466</span>  * @name Support
+<span class='line'>467</span>  * @class Support
+<span class='line'>468</span>  * @returns {Object}
+<span class='line'>469</span>  * @memberOf ch 
+<span class='line'>470</span>  */</span><span class="WHIT">
+<span class='line'>471</span> </span><span class="NAME">ch.support</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>472</span> </span><span class="WHIT">	
+<span class='line'>473</span> 	</span><span class="COMM">/**
+<span class='line'>474</span> 	 * Private reference to the &lt;body> element
+<span class='line'>475</span> 	 * @private
+<span class='line'>476</span> 	 * @name thisBody
+<span class='line'>477</span> 	 * @type {HTMLBodyElement}
+<span class='line'>478</span> 	 * @memberOf ch.Support
+<span class='line'>479</span> 	 */</span><span class="WHIT">
+<span class='line'>480</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">thisBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.body</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">document.documentElement</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>481</span> </span><span class="WHIT">	
+<span class='line'>482</span> 	</span><span class="COMM">/**
+<span class='line'>483</span>      * Based on: http://gist.github.com/373874
+<span class='line'>484</span>      * Verify that CSS3 transition is supported (or any of its browser-specific implementations)
+<span class='line'>485</span>      *
+<span class='line'>486</span>      * @private
+<span class='line'>487</span>      * @returns {Boolean}
+<span class='line'>488</span>      * @memberOf ch.Support
+<span class='line'>489</span>      */</span><span class="WHIT">
+<span class='line'>490</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">transition</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>491</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">thisStyle</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">thisBody.style</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>492</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">thisStyle.WebkitTransition</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">thisStyle.MozTransition</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">thisStyle.OTransition</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">thisStyle.transition</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>493</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>494</span> 
+<span class='line'>495</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>496</span>      * Based on: http://kangax.github.com/cft/#IS_POSITION_FIXED_SUPPORTED
+<span class='line'>497</span>      * Verify that position fixed is supported
+<span class='line'>498</span>      * 
+<span class='line'>499</span>      * @private
+<span class='line'>500</span>      * @returns {Boolean}
+<span class='line'>501</span>      * @memberOf ch.Support
+<span class='line'>502</span>      */</span><span class="WHIT">	
+<span class='line'>503</span> 	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">fixed</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>504</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">isSupported</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>505</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">e</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">"div"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>506</span> </span><span class="WHIT">			</span><span class="NAME">e.style.position</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"fixed"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>507</span> </span><span class="WHIT">			</span><span class="NAME">e.style.top</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"10px"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>508</span> </span><span class="WHIT">			
+<span class='line'>509</span> 		</span><span class="NAME">thisBody.appendChild</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>510</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e.offsetTop</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">isSupported</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>511</span> </span><span class="WHIT">  		</span><span class="NAME">thisBody.removeChild</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>512</span> </span><span class="WHIT">  		
+<span class='line'>513</span>   		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">isSupported</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>514</span> </span><span class="WHIT">  		
+<span class='line'>515</span> 	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>516</span> 
+<span class='line'>517</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>518</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>519</span>          * Boolean property that indicates if CSS3 Transitions are supported by the device.
+<span class='line'>520</span>          * @public
+<span class='line'>521</span>          * @name transition
+<span class='line'>522</span>          * @type {Boolean}
+<span class='line'>523</span>          * @memberOf ch.Support
+<span class='line'>524</span>          */</span><span class="WHIT">
+<span class='line'>525</span> </span><span class="WHIT"> 		</span><span class="NAME">transition</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">transition</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>526</span> </span><span class="WHIT">        </span><span class="COMM">/**
+<span class='line'>527</span>          * Boolean property that indicates if Fixed positioning are supported by the device.
+<span class='line'>528</span>          * @public
+<span class='line'>529</span>          * @name fixed
+<span class='line'>530</span>          * @type {Boolean}
+<span class='line'>531</span>          * @memberOf ch.Support
+<span class='line'>532</span>          */</span><span class="WHIT">
+<span class='line'>533</span> </span><span class="WHIT">		</span><span class="NAME">fixed</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">fixed</span><span class="WHIT">
+<span class='line'>534</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>535</span> </span><span class="WHIT">	
+<span class='line'>536</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>537</span> </span></pre></body></html>
