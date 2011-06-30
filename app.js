@@ -194,6 +194,14 @@ app.get('/getting-started', function(req, res){
 });
 
 /**
+ * Change the content of modal window.
+ */
+// get
+app.get('/how-to/change-the-content-of-modal-window', function(req, res){
+  res.render('how-to/change-the-content-of-modal-window', meta );
+});
+
+/**
  * Index.
  */
 // get
