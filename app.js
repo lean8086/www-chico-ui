@@ -202,6 +202,15 @@ app.get('/how-to/change-the-content-of-modal-window', function(req, res){
 });
 
 /**
+ * Validate two fields like one
+ */
+// get
+app.get('/how-to/validate-two-fields-like-one', function(req, res){
+  res.render('how-to/validate-two-fields-like-one', meta );
+});
+
+
+/**
  * Index.
  */
 // get
