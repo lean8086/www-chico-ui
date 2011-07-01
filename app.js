@@ -194,6 +194,23 @@ app.get('/getting-started', function(req, res){
 });
 
 /**
+ * Change the content of modal window.
+ */
+// get
+app.get('/how-to/change-the-content-of-modal-window', function(req, res){
+  res.render('how-to/change-the-content-of-modal-window', meta );
+});
+
+/**
+ * Validate two fields like one
+ */
+// get
+app.get('/how-to/validate-two-fields-like-one', function(req, res){
+  res.render('how-to/validate-two-fields-like-one', meta );
+});
+
+
+/**
  * Index.
  */
 // get
