@@ -13,13 +13,13 @@ body {
 }
 
 h2 {
-	font-size: 2.0em;
-	line-height: 1em;
+  font-size: 2.0em;
+  line-height: 1em;
 }
 
 h2, h3, h4 {
-    font-weight: 300;
-    font-family: 'PT Serif', serif;
+  font-weight: 300;
+  font-family: 'PT Serif', serif;
 }
 
 h2 { font-size: 2em; }
@@ -29,39 +29,39 @@ h3 { font-size: 1.5em; }
 h4 { font-size: 1.3em; }
 
 .header {
-    padding: 5px 0 0;
-    position: relative;
+  padding: 5px 0 0;
+  position: relative;
 }
 
 .header ul {
-	position: absolute;
-	right: 0;
-	top: 15px;
+  position: absolute;
+  right: 0;
+  top: 15px;
 }
 
 .header ul li {
-    display:inline;	
-    margin:0;
-    padding: 0 10px;
-    border-right: 1px solid #ccc;
+  display:inline;	
+  margin:0;
+  padding: 0 10px;
+  border-right: 1px solid #ccc;
 }
 
 .header ul li:last-child {
-    border: none;
+  border: none;
 }
 
 .header h1 {
-    font-family: 'Kreon', serif;
-    font-weight: 400;
-	font-size: 4em;
-    line-height: 1em;
+  font-family: 'Kreon', serif;
+  font-weight: 400;
+  font-size: 4em;
+  line-height: 1em;
 	float:left;
 }
 
 .header .version {
-    font-size: 14px;
-    line-height: 1;
-    margin-left: 10px;
+  font-size: 14px;
+  line-height: 1;
+  margin-left: 10px;
 }
 
 
@@ -70,28 +70,28 @@ h4 { font-size: 1.3em; }
  */
 
 .home img {
-	float:left;
-	padding: 5px;
-	margin: 5px;
+  float:left;
+  padding: 5px;
+  margin: 5px;
 }
 
 
 .ninja {
-    margin: -90px auto 0;
-    width: 278px;
-    z-index: 10;
+  margin: -90px auto 0;
+  width: 278px;
+  z-index: 10;
 }
 
 .center {
-    margin: 0 auto;    
+  margin: 0 auto;    
 }
 
 .download-container {
-    width: 250px;
+  width: 250px;
 }
 
 .button {
-    width: 250px;
+  width: 250px;
 }
 
 
@@ -100,40 +100,51 @@ h4 { font-size: 1.3em; }
  */
 
 .bottom {
-    color: #999;
-    background-color: #eee;
-    height: 100px;
-    padding: 5px;
-	border-radius: 10px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
+  color: #999;
+  background-color: #eee;
+  height: 100px;
+  padding: 5px;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
 }
 
 .bottom ul {
-    padding: 5px;    
+  padding: 5px;    
 }
 
 .bottom ul:hover {
-    color: #333;    
+  color: #333;    
 }
 
 .bottom ul:hover a {
-    color: #000;    
+  color: #000;    
 }
 
 .bottom a {
-    color :#666;    
+  color :#666;    
 }
 
 .footer {
-	color:#666;
-	clear: left;
-	height: 50px;
-	line-height: 50px;
-	text-align: center;
-	line-height: 1.3em;
+  color:#666;
+  clear: left;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  line-height: 1.3em;
 }
 
 .btn {
-    font-family: 'Kreon', serif;
+  font-family: 'Kreon', serif;
+}
+
+
+/*
+	pre.code
+*/
+.code {
+  background-color: #FFC;
+  margin: 10px 20px 20px 10px;
+  padding: 10px;
+  border: solid 1px #CCC;
 }

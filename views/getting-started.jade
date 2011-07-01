@@ -105,7 +105,7 @@
         
       
       pre
-        |  /assets
+        | /assets
         | /src/js
         | /src/css
           
@@ -126,7 +126,27 @@
     a#using
     h3 Using Chico on a Web page.
     p.container
-      | TO-DO
+      | First make sure all dependencies are available before adding Chico’s source
+      | files, see an example and check this recomendations. That said is quite simple, 
+      | add a 
+      code &lt;script&gt;
+      |  tag at the bottom inside the 
+      code &lt;body&gt;
+      |  with your code, something like this:
+
+    pre.code
+      | <!doctype html>
+      | <html>
+      |   <head>
+      |     <title>Template</title>
+      |   </head>
+      |   <body>
+      |   ... your code here ...
+      |   <script>
+      |     $(“.selector).layer();
+      |   </script>
+      |   </body> 
+      | </html>
     
     a#flavors
     h3 Changing the looks.
