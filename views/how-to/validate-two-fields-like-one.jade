@@ -16,21 +16,9 @@
 
     h3 How-to...
     ul.container
-      li
-        a(href='/how-to/install') Install and use the library
-      li
-        a(href='/how-to/install') Change the content of a modal
-      li
-        a(href='/how-to/validate-two-fields-like-one') Validate two fields like one
-      li 
-        a(href='/how-to/create-a-comonent') Create a UI Component
-      li 
-        a(href='/how-to/create-a-theme') Create a theme from scratch
-      li 
-        a(href='/how-to/mesh-in-5-min') Mesh your layout in 5 min
-      li 
-        a(hre='/how-to/collaborate') Collaborate with the project
-
+      - each item in howtos 
+        li
+          a(href='#{item.href}') #{item.label}
 
   .ch-g3-4
     h2 How to validate two fields like one.
@@ -58,7 +46,7 @@
         | On this example we’ll see a telephone number validation, separated on phone code and phone number fields. Both fields values, should be validated as required and number.
       p
         | The code snippet that we use is as follow:
-      pre
+      pre.code
         | ...
         | <div class="field-box">
         |     <label class="required">
@@ -74,17 +62,17 @@
         | var phone_validation = function(value2) { };
       p
         | Then, inside our custom function we grab the other field, the first one.
-      pre
+      pre.code
         | var field1 = $("#example-phone-code");
       p
         | By taking the first field, we have to save it's value.
-      pre
+      pre.code
         | var value1 = field1.val();
       p
         | To ensure we have both values, we check that variables aren't undefined, and we check that both fields are numbers. Here you can use any conditional or regular expression.
       p
         | When condition is true, we remove error class of first field and return true for notify to Custom Watcher that it's all ok. Second field error is triggered by it's Watcher.
-      pre
+      pre.code
         | if (value1 && value2) {
         | 
         |     // Any conditional or regexp
@@ -101,7 +89,7 @@
         | };
       p
         | If condition is false means that an error exists, therefore we add the "error" class to the first field and return false for Watcher validation over second field.
-      pre
+      pre.code
         | field.addClass("error");
         | return false;
       p

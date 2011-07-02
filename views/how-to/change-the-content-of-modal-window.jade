@@ -16,21 +16,9 @@
 
     h3 How-to...
     ul.container
-      li
-        a(href='/how-to/install') Install and use the library
-      li
-        a(href='/how-to/install') Change the content of a modal
-      li
-        a(href='/how-to/validate-two-fields-like-one') Validate two fields like one
-      li 
-        a(href='/how-to/create-a-comonent') Create a UI Component
-      li 
-        a(href='/how-to/create-a-theme') Create a theme from scratch
-      li 
-        a(href='/how-to/mesh-in-5-min') Mesh your layout in 5 min
-      li 
-        a(hre='/how-to/collaborate') Collaborate with the project
-
+      - each item in howtos 
+        li
+          a(href='#{item.href}') #{item.label}
 
   .ch-g3-4
     h2 How to change the content of a modal window?
@@ -51,11 +39,11 @@
      p
       | The modal will have the next configuration:
      
-     p
-      pre
-       | var myModal = $("#modal").modal({
-       |     content:"<p>This is a modal window with static content.</p>"
-       | });
+
+     pre.code
+      | var myModal = $("#modal").modal({
+      |     content:"<p>This is a modal window with static content.</p>"
+      | });
 
     a#change-content
     h3 Is the content boring? Change it!
@@ -64,19 +52,14 @@
       | We'll change the content using, as setter, the
       a(href='/api/symbols/ch.Modal.html#.content') content()
       |  method:
-     p
-      pre myModal.content("New content for myModal, using the content() method.");
+     pre.code myModal.content("New content for myModal, using the content() method.");
        
     a#new-content
     h3 New content!
     div.container
-     p
-      | Now, if we use the method content as getter, it returns:
-
-     p
-      pre myModal.content(); // returns "New content for myModal, using the content() method."
-
-    p This is simple, therefore you can try and change the modal window's content on your projects.
+     p Now, if we use the method content as getter, it returns:
+     pre.code myModal.content(); // returns "New content for myModal, using the content() method."
+     p This is simple, therefore you can try and change the modal window's content on your projects.
 
     a#examples
     h3 Examples
