@@ -15,24 +15,11 @@
       li 
         a(href='#who-is-using') Who is using Chico?
 
-
     h3 How-to...
     ul.container
-      li
-        a(href='/how-to/install') Install and use the library
-      li
-        a(href='/how-to/install') Change the content of a modal
-      li
-        a(href='/how-to/validate-two-fields-like-one') Validate two fields like one
-      li 
-        a(href='/how-to/create-a-comonent') Create a UI Component
-      li 
-        a(href='/how-to/create-a-theme') Create a theme from scratch
-      li 
-        a(href='/how-to/mesh-in-5-min') Mesh your layout in 5 min
-      li 
-        a(hre='/how-to/collaborate') Collaborate with the project
-
+      - each item in howtos 
+        li
+          a(href='#{item.href}') #{item.label}
 
   .ch-g3-4
     h2 Getting started.
