@@ -46,16 +46,17 @@
       a(href='/api/symbols/ch.Modal.html') methods
       |  and
       a(href='/api/symbols/ch.Modal.html') properties.
-      |  In this case, we are storing our modal window in the "myModal" variable.
+      |  In this case, we are storing our modal window in the
+      code myModal
+      |  variable.
      
      p
       | The modal will have the next configuration:
      
-     p
-      pre
-       | var myModal = $("#modal").modal({
-       |     content:"<p>This is a modal window with static content.</p>"
-       | });
+     pre.code
+      | var myModal = $("#modal").modal({
+      |     content:"<p>This is a modal window with static content.</p>"
+      | });
 
     a#change-content
     h3 Is the content boring? Change it!
@@ -64,8 +65,7 @@
       | We'll change the content using, as setter, the
       a(href='/api/symbols/ch.Modal.html#.content') content()
       |  method:
-     p
-      pre myModal.content("New content for myModal, using the content() method.");
+     pre.code myModal.content("New content for myModal, using the content() method.");
        
     a#new-content
     h3 New content!
@@ -73,8 +73,7 @@
      p
       | Now, if we use the method content as getter, it returns:
 
-     p
-      pre myModal.content(); // returns "New content for myModal, using the content() method."
+     pre.code myModal.content(); // returns "New content for myModal, using the content() method."
 
     p This is simple, therefore you can try and change the modal window's content on your projects.
 

@@ -194,6 +194,14 @@ app.get('/getting-started', function(req, res){
 });
 
 /**
+ * Mesh your layout
+ */
+// get
+app.get('/how-to/mesh-your-layout-in-5-min', function(req, res){
+  res.render('how-to/mesh-your-layout-in-5-min', meta );
+});
+
+/**
  * Change the content of modal window.
  */
 // get
