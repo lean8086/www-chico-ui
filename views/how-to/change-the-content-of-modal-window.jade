@@ -27,19 +27,19 @@
 
 		a#create-modal
 		h3 Create a new modal window
-		div.container
-		p
+		p.container
 			| First, we'll have to create our modal window to work on it.
 			| You have to store Chico's components in a javascript variable in order to access the public
 			a(href='/api/symbols/ch.Modal.html') methods
-			|	and
-			a(href='/api/symbols/ch.Modal.html') properties.
-			|	In this case, we are storing our modal window in the "myModal" variable.
+			|  and 
+			a(href='/api/symbols/ch.Modal.html') properties. 
+			| In this case, we are storing our modal window in the
+			code myModal
+			| variable.
 		
-		p
+		p.container
 			| The modal will have the next configuration:
 		
-
 		pre.code
 			| var myModal = $("#modal").modal({
 			| 		content:"<p>This is a modal window with static content.</p>"
@@ -47,18 +47,23 @@
 
 		a#change-content
 		h3 Is the content boring? Change it!
-		div.container
-		p
+		p.container
 			| We'll change the content using, as setter, the
-			a(href='/api/symbols/ch.Modal.html#.content') content()
-			|	method:
+			code content() 
+			| method:
 		pre.code myModal.content("New content for myModal, using the content() method.");
 			
+		p.container
+			| See more on 
+			a(href='/api/symbols/ch.Modal.html#.content') Modal
+			| .
 		a#new-content
 		h3 New content!
-		div.container
-		p Now, if we use the method content as getter, it returns:
+		p.container
+			| Now, if we use the method content as getter, it returns:
+
 		pre.code myModal.content(); // returns "New content for myModal, using the content() method."
+
 		p This is simple, therefore you can try and change the modal window's content on your projects.
 
 		a#examples

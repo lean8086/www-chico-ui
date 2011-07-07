@@ -197,9 +197,6 @@ app.get('/getting-started', function(req, res){
 	res.render('getting-started', meta );
 });
 
-/**
- * How-to's
- */
 // get
 app.get('/how-to/:label?', function(req, res){
 
