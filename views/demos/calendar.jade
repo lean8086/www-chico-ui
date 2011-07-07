@@ -1,0 +1,205 @@
+
+.ch-g1
+
+	.ch-g1-4
+		h3 Content
+		ul.container
+			li
+				a(href='#show-and-hide') Show and hide
+			li
+				a(href='#get-and-set-content') Get and set content
+			li
+				a(href='#changing-size') Changing size
+			li
+				a(href='#positioning') Positioning
+			li
+				a(href='#keep-on-reading') Keep on reading
+									
+		h3 Demos
+		ul.container
+			- each item in demos
+				li
+					a(href='#{item.href}') #{item.label}
+
+		h3 How-to...
+		ul.container
+			- each item in howtos 
+				li
+					a(href='#{item.href}') #{item.label}
+					
+	.ch-g3-4
+		h2 Calendar
+		p.container
+			| The Calendar component is a member of 
+			a(href='/api/symbols/ch.Floats.html') Floats
+			|  familiy. Gives rich information about an UI element on the screen.	
+			| Click over the ninjas image to see a demo:
+
+		form
+			fieldset
+				legend Calendar
+				ol
+					li
+						label
+							span Date:
+							input.myCalendar(type='date')
+
+		p.container
+			| As any 
+			a(href='/api/symbols/ch.Floats.html') Floats
+			|  children, the Calendar has a few uses cases you can use to modifiy and manipulate
+			| its content, its size and positioning. This is the way to create a new Calendar:
+		pre.code
+			| var myCalendar = $("#example").calendar("<p>Rich content.</p>"); // Create a calendar component
+
+		a(id='show-and-hide')
+		h3 Show and hide
+		p.container
+			| All 
+			a(href='/api/symbols/ch.Floats.html') Floats
+			|  exposes some public methods called 
+			code show()
+			|  and 
+			code hide()
+			| , both allow you to manage the Calendar's behavior programmatically. Something like this:
+		pre.code
+			| myCalendar.show(); // Shows the calendar
+		p.container
+			| Or
+			code hide()
+			|  the Calendar, like this:
+		pre.code
+			| myCalendar.hide(); // Hides the calendar
+		p.container
+			| Read more about 
+			a(href='/api/symbols/ch.Floats.html') Floats
+			| .
+
+		a(id='get-and-set-content')
+		h3 Get and set content
+		p.container
+			| All 
+			a(href='/api/symbols/ch.Floats.html') Floats
+			|  exposes a public method called 
+			code content()
+			| , it works as a getter and a setter at the same time. To 
+			em get 
+			| the content of this component simply use the method without arguments, like this:
+		pre.code
+			| var content = myCalendar.content(); // Get its content
+		p.container
+			| To 
+			em set 
+			| content add an argument to the method  
+			code content()
+			| , admits static content, DOM content or AJAX content. See an example:
+		pre.code
+			| myCalendar.content("New content!"); // Set its content
+		p.container
+			| Read more about 
+			a(href='/api/symbols/ch.Object.html#.content') Content
+			| .
+			
+		a(id='changing-size')
+		h3 Changing size
+		p.container
+			| For change the width property to the Calendar's container
+			| there is a method called 
+			code width()
+			| , also works as a getter and a setter at the same time. To 
+			em get 
+			| the property simply use the method without arguments, like this:
+		pre.code
+			| var width = myCalendar.width(); // Get its width
+		p.container
+			| To set the property add an argument to the method  
+			code width()
+			| , admits 
+			em Numbers
+			|  (33) or 
+			em String
+			|  ('33px') as a CSS property. See an example:
+		pre.code
+			| myCalendar.width(300); // Set its width
+		p.container
+			| Exactly the same thing with the method 
+			code heigth()
+			| , admits 
+			em Numbers
+			|  (22) or 
+			em String
+			| ('22px') as a CSS property. Get example:
+		pre.code
+			| myCalendar.height(); // Get its height
+		p.container
+			| Set 
+			code height()
+			|  examples:
+		pre.code
+			| myCalendar.height(300); // Set its height
+		p.container
+			| Read more about 
+			a(href='/api/symbols/ch.Floats.html#.size') Sizing
+			| .
+			
+		a(id='positioning')
+		h3 Positioning
+		p.container
+			| Chico has an great utility to position things on screen, is called 
+			a(href='/api/symbols/ch.Positioner.html') Positioner
+			| . All 
+			a(href='/api/symbols/ch.Floats.html') Floats
+			|  has a 
+			code position()
+			|  method related to the 
+			a(href='/api/symbols/ch.Positioner.html') Positioner
+			|  , you can use it to redefine 
+			| Calendar's positioning. See an example:			
+		pre.code
+			| myCalendar.position({ 
+			|   offset: "0 10",
+			|   points: "lt lb"
+			| });
+		p.container
+			| As you can see, we pass a configuration object to the 
+			code position()
+			|  method with some properties. The 
+			code offset
+			|  property let you define a specific pixel values for X and Y axis indentation.
+			| The 
+			code points
+			|  property defines the position relation between the element and its context.
+			| In this case, the value 
+			code "lt lb"
+			|  literally says: 
+			cite 
+				| The element will be positioned by joining its left-bottom point with its 
+				| context by its left-top point. 
+		p.container
+			| Read more about 
+			a(href='/api/symbols/ch.Positioner.html') Positioner
+			| .
+
+		hr
+		.ch-g1-2
+			a(id='keep-on-reading')
+			h3 Keep on reading
+			p.container
+				| Read more on our technical documentation, see the 
+				a(href='/api/index.html') class index
+				| , or see more about Calendars in the 
+				a(href="/api/symbols/ch.calendar.html") Calendar
+				|  documentation.
+		.ch-g1-2
+			a(id='report-a-problem')
+			h3 Problems?
+			p.container
+				| You can easily report problems, like bugs or typos through our 
+				a(href='/api/index.html') issue tracker
+				| , or simply write a twitt to 
+				a(href='http://twitter.com/#!/chicoui') @chicoui
+				| .
+.clearfix
+
+script
+	$(".myCalendar").calendar();

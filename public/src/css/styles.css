@@ -145,9 +145,15 @@ h4 { font-size: 1.3em; }
 /*
 	pre.code
 */
+code {
+  background-color: #FFE;
+  border: solid 1px #CCC;
+  margin: 2px;
+  padding: 2px;
+}
 .code {
-  background-color: #FFC;
-  margin: 10px 20px 20px 10px;
+  background-color: #FFE;
+  margin: 10px 0 20px 0;
   padding: 10px;
   border: solid 1px #CCC;
 }

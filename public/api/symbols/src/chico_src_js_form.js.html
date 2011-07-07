@@ -281,7 +281,7 @@
 <span class='line'>274</span>      * @type {String}
 <span class='line'>275</span>      * @memberOf ch.Form
 <span class='line'>276</span>      */</span><span class="WHIT">
-<span class='line'>277</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">messages</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.messages</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>277</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">messages</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.messages</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>278</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'>279</span>      * Executes all children's validations, if finds a error will trigger 'onError' callback, if no error is found will trigger 'onValidate' callback, and allways trigger 'afterValidate' callback.
 <span class='line'>280</span>      * @function

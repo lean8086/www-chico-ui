@@ -1,0 +1,59 @@
+
+.ch-g1
+		
+	.ch-g1-4
+		h3 Content
+		ul.container
+			li
+				a(href='#what-is-chico') What is Chico?
+			li
+				a(href='#demos') Check out this demos.
+			li
+				a(href='#download') Donwload the library.
+			li
+				a(href='#using') Using Chico on a Web page.
+			li 
+				a(href='#who-is-using') Who is using Chico?
+
+		h3 How-to...
+		ul.container
+			- each item in howtos 
+				li
+					a(href='#{item.href}') #{item.label}
+
+	.ch-g3-4
+		h2 Support.
+		p.container
+			| Hi! Having some problems eh? Well, in this page you will find 
+			| a Frequently asked question section, with a lot of awnsers. If
+			| need to make a new one, feel free to do so in our google group
+			| page, or a simple twitt to 
+			a(href="http://twitter.com/#!/chicoui") @chicoui
+			|.
+		
+		h3 FAQ.
+		ol.container
+			li 
+				h4 This isn't working...
+				p If nothing run like it should, try this checklist:
+				ul
+					li 
+						| Have you installed Chico?
+						a(href='/how-to/install') See how
+						|.
+					li Have you installed Chico's dependencies?
+					li Are you sure you are editing the right file?
+					li 
+			li 
+				h4 How can I validate two fields at once?
+				p 
+				| The fastest way is using a Custom validator, there is other 
+				| way by extending some components, but let's start with the 
+				| easy first, follow this guide: 
+				a(href="/how-to/validate-two-fields-at-once") How-to validate two fields like one
+				|.
+			li 
+				h4 How can I get in touch with you guys?
+				p You can reach us trought Github, Twitter, Facebook or by email.
+
+hr.clearfix

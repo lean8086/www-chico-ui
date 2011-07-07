@@ -55,21 +55,21 @@
 <span class='line'> 48</span>  */</span><span class="WHIT"> 
 <span class='line'> 49</span> 	</span><span class="NAME">that.$trigger</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.$element</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 50</span> </span><span class="WHIT">	
-<span class='line'> 51</span> 	</span><span class="NAME">that.show</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">text</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 52</span> 
-<span class='line'> 53</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">that.active</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 54</span> </span><span class="WHIT">			</span><span class="COMM">// Load content and show!</span><span class="WHIT">
-<span class='line'> 55</span> </span><span class="WHIT">			</span><span class="NAME">conf.content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'&lt;p>&lt;span class="ico error">Error: &lt;/span>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">text</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'&lt;/p>'</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 56</span> </span><span class="WHIT">			</span><span class="NAME">that.parent.show</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 57</span> </span><span class="WHIT">			
-<span class='line'> 58</span> 		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 59</span> </span><span class="WHIT">			</span><span class="COMM">// Just Reload content!</span><span class="WHIT">
-<span class='line'> 60</span> </span><span class="WHIT">			</span><span class="NAME">that.$content.html</span><span class="PUNC">(</span><span class="STRN">'&lt;p>&lt;span class="ico error">Error: &lt;/span>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">text</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'&lt;/p>'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 61</span> </span><span class="WHIT">			
-<span class='line'> 62</span> 		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 63</span> 
-<span class='line'> 64</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 65</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="COMM">//	that.$content.prepend('&lt;span class="ico error">Error: &lt;/span>');</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">	
+<span class='line'> 53</span> 	</span><span class="NAME">that.show</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 54</span> 
+<span class='line'> 55</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">that.active</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">			</span><span class="COMM">// Load content and show!</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">			</span><span class="NAME">that.parent.show</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">			
+<span class='line'> 59</span> 
+<span class='line'> 60</span> 		</span><span class="COMM">// Just Reload content!</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">		</span><span class="NAME">that.$content.html</span><span class="PUNC">(</span><span class="STRN">'&lt;span class="ico error">Error: &lt;/span>&lt;p>'</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">that.content</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'&lt;/p>'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">		
+<span class='line'> 62</span> 
+<span class='line'> 63</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> 
 <span class='line'> 66</span> 
 <span class='line'> 67</span> </span><span class="COMM">/**
 <span class='line'> 68</span>  *  Public Members
@@ -82,8 +82,8 @@
 <span class='line'> 75</span>      * @type {Number}
 <span class='line'> 76</span>      * @memberOf ch.Helper
 <span class='line'> 77</span>      */</span><span class="WHIT"> 
-<span class='line'> 78</span>    	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">uid</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.uid</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 79</span> </span><span class="WHIT">   	
+<span class='line'> 78</span> 
+<span class='line'> 79</span>    	
 <span class='line'> 80</span>     </span><span class="COMM">/**
 <span class='line'> 81</span>      * The element reference.
 <span class='line'> 82</span>      * @public
@@ -91,7 +91,7 @@
 <span class='line'> 84</span>      * @type {HTMLElement}
 <span class='line'> 85</span>      * @memberOf ch.Helper
 <span class='line'> 86</span>      */</span><span class="WHIT">
-<span class='line'> 87</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.element</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span> 
 <span class='line'> 88</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'> 89</span>      * The component's type.
 <span class='line'> 90</span>      * @public
@@ -99,76 +99,66 @@
 <span class='line'> 92</span>      * @type {String}
 <span class='line'> 93</span>      * @memberOf ch.Helper
 <span class='line'> 94</span>      */</span><span class="WHIT">
-<span class='line'> 95</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.type</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 95</span> 
 <span class='line'> 96</span> </span><span class="WHIT">    </span><span class="COMM">/**
 <span class='line'> 97</span>      * The component's content.
 <span class='line'> 98</span>      * @public
-<span class='line'> 99</span>      * @name content
-<span class='line'>100</span>      * @type {String}
-<span class='line'>101</span>      * @memberOf ch.Helper
-<span class='line'>102</span>      */</span><span class="WHIT">
-<span class='line'>103</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.content</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>104</span> </span><span class="WHIT">    </span><span class="COMM">/**
-<span class='line'>105</span>      * Returns true if the component is active.
-<span class='line'>106</span>      * @public
-<span class='line'>107</span>      * @name active
-<span class='line'>108</span>      * @function
-<span class='line'>109</span>      * @returns {Boolean}
-<span class='line'>110</span>      * @memberOf ch.Helper
-<span class='line'>111</span>      */</span><span class="WHIT">
-<span class='line'>112</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">isActive</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>113</span> </span><span class="WHIT">	   </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that.active</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>114</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>115</span> </span><span class="WHIT">    </span><span class="COMM">/**
-<span class='line'>116</span>      * Shows component's content.
-<span class='line'>117</span>      * @public
-<span class='line'>118</span>      * @name show
-<span class='line'>119</span>      * @function
-<span class='line'>120</span>      * @returns {Chico-UI Object}
-<span class='line'>121</span>      * @memberOf ch.Helper
-<span class='line'>122</span>      */</span><span class="WHIT">
-<span class='line'>123</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">show</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">text</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>124</span> </span><span class="WHIT">		</span><span class="NAME">that.show</span><span class="PUNC">(</span><span class="NAME">text</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>125</span> </span><span class="WHIT">		
-<span class='line'>126</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>127</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>128</span> </span><span class="WHIT">    </span><span class="COMM">/**
-<span class='line'>129</span>      * Hides component's content.
-<span class='line'>130</span>      * @public
-<span class='line'>131</span>      * @name hide
-<span class='line'>132</span>      * @function
-<span class='line'>133</span>      * @returns {Chico-UI Object}
-<span class='line'>134</span>      * @memberOf ch.Helper
-<span class='line'>135</span>      */</span><span class="WHIT"> 
-<span class='line'>136</span> 	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">hide</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>137</span> </span><span class="WHIT">		</span><span class="NAME">that.hide</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>138</span> </span><span class="WHIT">		
-<span class='line'>139</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>140</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>141</span> </span><span class="WHIT">    </span><span class="COMM">/**
-<span class='line'>142</span>      * Positioning configuration.
-<span class='line'>143</span>      * @public
-<span class='line'>144</span>      * @name position
-<span class='line'>145</span>      * @memberOf ch.Helper
-<span class='line'>146</span>      * @example
-<span class='line'>147</span>      * // Change helper's position.
-<span class='line'>148</span>      * $('input').required("message").helper.position({ 
-<span class='line'>149</span>      *    offset: "0 10",
-<span class='line'>150</span>      *    points: "lt lb"
-<span class='line'>151</span>      * });
-<span class='line'>152</span>      */</span><span class="WHIT">
-<span class='line'>153</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">position</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.position</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>154</span> 
-<span class='line'>155</span> 
-<span class='line'>156</span> </span><span class="COMM">/**
-<span class='line'>157</span>  *  Default event delegation
-<span class='line'>158</span>  */</span><span class="WHIT">
-<span class='line'>159</span> 
-<span class='line'>160</span> </span><span class="WHIT">    </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"body"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="NAME">ch.events.LAYOUT.CHANGE</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT"> 
-<span class='line'>161</span>         </span><span class="NAME">that.position</span><span class="PUNC">(</span><span class="STRN">"refresh"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>162</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>163</span> 
-<span class='line'>164</span> </span><span class="WHIT">	 
-<span class='line'>165</span> 	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>166</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>167</span> </span></pre></body></html>
+<span class='line'> 99</span>      * @function
+<span class='line'>100</span>      * @name content
+<span class='line'>101</span>      * @param {String}
+<span class='line'>102</span>      * @memberOf ch.Helper
+<span class='line'>103</span>      */</span><span class="WHIT">
+<span class='line'>104</span> 
+<span class='line'>105</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>106</span>      * Returns true if the component is active.
+<span class='line'>107</span>      * @public
+<span class='line'>108</span>      * @name active
+<span class='line'>109</span>      * @function
+<span class='line'>110</span>      * @returns {Boolean}
+<span class='line'>111</span>      * @memberOf ch.Helper
+<span class='line'>112</span>      */</span><span class="WHIT">
+<span class='line'>113</span> 
+<span class='line'>114</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>115</span>      * Shows component's content.
+<span class='line'>116</span>      * @public
+<span class='line'>117</span>      * @name show
+<span class='line'>118</span>      * @function
+<span class='line'>119</span>      * @returns {Chico-UI Object}
+<span class='line'>120</span>      * @memberOf ch.Helper
+<span class='line'>121</span>      */</span><span class="WHIT">
+<span class='line'>122</span> 
+<span class='line'>123</span> </span><span class="WHIT">    </span><span class="COMM">/**
+<span class='line'>124</span>      * Hides component's content.
+<span class='line'>125</span>      * @public
+<span class='line'>126</span>      * @name hide
+<span class='line'>127</span>      * @function
+<span class='line'>128</span>      * @returns {Chico-UI Object}
+<span class='line'>129</span>      * @memberOf ch.Helper
+<span class='line'>130</span>      */</span><span class="WHIT"> 
+<span class='line'>131</span> 
+<span class='line'>132</span>     </span><span class="COMM">/**
+<span class='line'>133</span>      * Positioning configuration.
+<span class='line'>134</span>      * @public
+<span class='line'>135</span>      * @name position
+<span class='line'>136</span>      * @memberOf ch.Helper
+<span class='line'>137</span>      * @example
+<span class='line'>138</span>      * // Change helper's position.
+<span class='line'>139</span>      * $('input').required("message").helper.position({ 
+<span class='line'>140</span>      *    offset: "0 10",
+<span class='line'>141</span>      *    points: "lt lb"
+<span class='line'>142</span>      * });
+<span class='line'>143</span>      */</span><span class="WHIT">
+<span class='line'>144</span> 
+<span class='line'>145</span> 
+<span class='line'>146</span> </span><span class="COMM">/**
+<span class='line'>147</span>  *  Default event delegation
+<span class='line'>148</span>  */</span><span class="WHIT">
+<span class='line'>149</span> 
+<span class='line'>150</span> </span><span class="WHIT">    </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"body"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="NAME">ch.events.LAYOUT.CHANGE</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'>151</span>         </span><span class="NAME">that.position</span><span class="PUNC">(</span><span class="STRN">"refresh"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span> 
+<span class='line'>154</span> </span><span class="WHIT">	 
+<span class='line'>155</span> 	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>157</span> </span></pre></body></html>

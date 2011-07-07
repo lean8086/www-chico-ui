@@ -25,15 +25,15 @@
 <span class='line'> 18</span> </span><span class="WHIT">    </span><span class="NAME">map</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 19</span> </span><span class="WHIT">    
 <span class='line'> 20</span>     </span><span class="COMM">/**
-<span class='line'> 21</span>      * Add a resource to the cache control
+<span class='line'> 21</span>      * Set a resource to the cache control
 <span class='line'> 22</span>      * @function 
-<span class='line'> 23</span>      * @name add
+<span class='line'> 23</span>      * @name set
 <span class='line'> 24</span>      * @param {String} url Resource location
 <span class='line'> 25</span>      * @param {String} data Resource information
 <span class='line'> 26</span>      * @memberOf ch.Cache
 <span class='line'> 27</span>      */</span><span class="WHIT">
-<span class='line'> 28</span> </span><span class="WHIT">    </span><span class="NAME">add</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 29</span> </span><span class="WHIT">        </span><span class="NAME">ch.Cache.map</span><span class="PUNC">[</span><span class="NAME">url</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">    </span><span class="NAME">set</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">        </span><span class="NAME">ch.cache.map</span><span class="PUNC">[</span><span class="NAME">url</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 30</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 31</span> </span><span class="WHIT">    
 <span class='line'> 32</span>     </span><span class="COMM">/**
@@ -45,7 +45,7 @@
 <span class='line'> 38</span>      * @memberOf ch.Cache
 <span class='line'> 39</span>      */</span><span class="WHIT">
 <span class='line'> 40</span> </span><span class="WHIT">    </span><span class="NAME">get</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 41</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ch.Cache.map</span><span class="PUNC">[</span><span class="NAME">url</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ch.cache.map</span><span class="PUNC">[</span><span class="NAME">url</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 42</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 43</span> </span><span class="WHIT">    
 <span class='line'> 44</span>     </span><span class="COMM">/**
@@ -56,8 +56,8 @@
 <span class='line'> 49</span>      * @memberOf ch.Cache
 <span class='line'> 50</span>      */</span><span class="WHIT">
 <span class='line'> 51</span> </span><span class="WHIT">    </span><span class="NAME">rem</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 52</span> </span><span class="WHIT">        </span><span class="NAME">ch.Cache.map</span><span class="PUNC">[</span><span class="NAME">url</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 53</span> </span><span class="WHIT">        </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">ch.Cache.map</span><span class="PUNC">[</span><span class="NAME">url</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">        </span><span class="NAME">ch.cache.map</span><span class="PUNC">[</span><span class="NAME">url</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">        </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">ch.cache.map</span><span class="PUNC">[</span><span class="NAME">url</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 54</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 55</span> </span><span class="WHIT">    
 <span class='line'> 56</span>     </span><span class="COMM">/**
@@ -67,7 +67,7 @@
 <span class='line'> 60</span>      * @memberOf ch.Cache
 <span class='line'> 61</span>      */</span><span class="WHIT">
 <span class='line'> 62</span> </span><span class="WHIT">    </span><span class="NAME">flush</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 63</span> </span><span class="WHIT">        </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">ch.Cache.map</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 64</span> </span><span class="WHIT">        </span><span class="NAME">ch.Cache.map</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">        </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">ch.cache.map</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">        </span><span class="NAME">ch.cache.map</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 65</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'> 66</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>

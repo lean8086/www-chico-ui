@@ -109,6 +109,8 @@
 	
 	<li><a href="../symbols/ch.Object.html">ch.Object</a></li>
 	
+	<li><a href="../symbols/ch.onImagesLoads.html">ch.onImagesLoads</a></li>
+	
 	<li><a href="../symbols/ch.Positioner.html">ch.Positioner</a></li>
 	
 	<li><a href="../symbols/ch.Preload.html">ch.Preload</a></li>
@@ -199,9 +201,49 @@
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
+								ch.Floats.<b><a href="../symbols/ch.Floats.html#.$container">$container</a></b>
+								</div>
+								<div class="description">Container for UI Component.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								ch.Floats.<b><a href="../symbols/ch.Floats.html#.$content">$content</a></b>
+								</div>
+								<div class="description">Container for UI Component's content.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								ch.Floats.<b><a href="../symbols/ch.Floats.html#.active">active</a></b>
+								</div>
+								<div class="description">Flag that indicates if the float is active on the DOM tree.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								ch.Floats.<b><a href="../symbols/ch.Floats.html#.contentCallback">contentCallback</a></b>
+								</div>
+								<div class="description">This callback is triggered when async data is loaded into component's content, when ajax content comes back.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
 								ch.Floats.<b><a href="../symbols/ch.Floats.html#.hide">hide</a></b>
 								</div>
-								<div class="description">Hides component's content.</div>
+								<div class="description">Hides the component and detach it from DOM tree.</div>
 							</td>
 						</tr>
 					
@@ -231,7 +273,17 @@
 								<div class="fixedFont">
 								ch.Floats.<b><a href="../symbols/ch.Floats.html#.show">show</a></b>
 								</div>
-								<div class="description">Shows component's content.</div>
+								<div class="description">Renders the component in the display by adding it to the DOM tree.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								ch.Floats.<b><a href="../symbols/ch.Floats.html#.source">source</a></b>
+								</div>
+								<div class="description">Content configuration propertie.</div>
 							</td>
 						</tr>
 					
@@ -257,6 +309,64 @@
 			
 
 <!-- ============================== methods summary ======================== -->
+			
+				
+				
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class ch.Floats.">
+					<caption>Method Summary</caption>
+					<thead>
+						<tr>
+							<th scope="col">Method Attributes</th>
+							<th scope="col">Method Name and Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.Floats.<b><a href="../symbols/ch.Floats.html#.createClose">createClose</a></b>()
+								</div>
+								<div class="description">Creates close button.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.Floats.<b><a href="../symbols/ch.Floats.html#.createCone">createCone</a></b>()
+								</div>
+								<div class="description">Creates a 'cone', is a visual asset for floats.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.Floats.<b><a href="../symbols/ch.Floats.html#.isActive">isActive</a></b>()
+								</div>
+								<div class="description">Returns true if the component is active.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.Floats.<b><a href="../symbols/ch.Floats.html#.size">size</a></b>(prop, data)
+								</div>
+								<div class="description">Getter and setter for size attributes on any float component.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+				<dl class="inheritsList">
+				
+				</dl>
+				
 			
 <!-- ============================== events summary ======================== -->
 			
@@ -333,6 +443,94 @@
 					Field Detail
 				</div>
 				
+					<a name=".$container"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ch.Floats.</span><b>$container</b>
+					
+					</div>
+					<div class="description">
+						Container for UI Component.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".$content"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ch.Floats.</span><b>$content</b>
+					
+					</div>
+					<div class="description">
+						Container for UI Component's content.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".active"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ch.Floats.</span><b>active</b>
+					
+					</div>
+					<div class="description">
+						Flag that indicates if the float is active on the DOM tree.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".contentCallback"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Chico-UI Object}</span>
+					<span class="light">ch.Floats.</span><b>contentCallback</b>
+					
+					</div>
+					<div class="description">
+						This callback is triggered when async data is loaded into component's content, when ajax content comes back.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
 					<a name=".hide"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
@@ -341,7 +539,7 @@
 					
 					</div>
 					<div class="description">
-						Hides component's content.
+						Hides the component and detach it from DOM tree.
 						
 						
 					</div>
@@ -407,7 +605,29 @@
 					
 					</div>
 					<div class="description">
-						Shows component's content.
+						Renders the component in the display by adding it to the DOM tree.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".source"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					
+					<span class="light">ch.Floats.</span><b>source</b>
+					
+					</div>
+					<div class="description">
+						Content configuration propertie.
 						
 						
 					</div>
@@ -447,6 +667,142 @@
 
 <!-- ============================== method details ========================= -->		
 			
+				<div class="sectionTitle">
+					Method Detail
+				</div>
+				
+					<a name=".createClose"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">ch.Floats.</span><b>createClose</b>()
+					
+					</div>
+					<div class="description">
+						Creates close button.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".createCone"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">ch.Floats.</span><b>createCone</b>()
+					
+					</div>
+					<div class="description">
+						Creates a 'cone', is a visual asset for floats.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".isActive"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Boolean}</span>
+					<span class="light">ch.Floats.</span><b>isActive</b>()
+					
+					</div>
+					<div class="description">
+						Returns true if the component is active.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Boolean}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".size"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					<span class="light">{Internal component instance}</span>
+					<span class="light">ch.Floats.</span><b>size</b>(prop, data)
+					
+					</div>
+					<div class="description">
+						Getter and setter for size attributes on any float component.
+						
+						
+					</div>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>prop</b>
+									
+								</dt>
+								<dd>Property that will be setted or getted, like "width" or "height".</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>data</b>
+									<i>Optional</i>
+								</dt>
+								<dd>Only for setter. It's the new value of defined property.</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Internal component instance}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					
+				
+			
 			
 <!-- ============================== event details ========================= -->		
 			
@@ -455,7 +811,7 @@
 		</div>
 
 		<p class="footer">
-		Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Tue Jun 28 2011 15:34:51 GMT-0300 (GMT-03:00)
+		Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Tue Jul 05 2011 10:57:40 GMT-0300 (GMT-03:00)
 	</p>
 <!-- ============================== footer ================================= -->
 

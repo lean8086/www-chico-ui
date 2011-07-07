@@ -1,76 +1,76 @@
 
 .ch-g1
 
-  .ch-g1-4
-    h3 Content
-    ul.container
-      li
-        a(href='#create-modal') Create a new modal window
-      li
-        a(href='#chane-content') Is the content boring? Change it!
-      li
-        a(href='#new-content') New content!
-      li
-        a(href='#examples') Examples.
+	.ch-g1-4
+		h3 Content
+		ul.container
+			li
+				a(href='#create-modal') Create a new modal window
+			li
+				a(href='#chane-content') Is the content boring? Change it!
+			li
+				a(href='#new-content') New content!
+			li
+				a(href='#examples') Examples.
 
 
-    h3 How-to...
-    ul.container
-      - each item in howtos 
-        li
-          a(href='#{item.href}') #{item.label}
+		h3 How-to...
+		ul.container
+			- each item in howtos 
+				li
+					a(href='#{item.href}') #{item.label}
 
-  .ch-g3-4
-    h2 How to change the content of a modal window?
-    p.container
-      | In this tutorial, we'll learn how to change the content of a modal window component easily.
+	.ch-g3-4
+		h2 How to change the content of a modal window?
+		p.container
+			| In this tutorial, we'll learn how to change the content of a modal window component easily.
 
-    a#create-modal
-    h3 Create a new modal window
-    div.container
-     p
-      | First, we'll have to create our modal window to work on it.
-      | You have to store Chico's components in a javascript variable in order to access the public
-      a(href='/api/symbols/ch.Modal.html') methods
-      |  and
-      a(href='/api/symbols/ch.Modal.html') properties.
-      |  In this case, we are storing our modal window in the "myModal" variable.
-     
-     p
-      | The modal will have the next configuration:
-     
+		a#create-modal
+		h3 Create a new modal window
+		div.container
+		p
+			| First, we'll have to create our modal window to work on it.
+			| You have to store Chico's components in a javascript variable in order to access the public
+			a(href='/api/symbols/ch.Modal.html') methods
+			|	and
+			a(href='/api/symbols/ch.Modal.html') properties.
+			|	In this case, we are storing our modal window in the "myModal" variable.
+		
+		p
+			| The modal will have the next configuration:
+		
 
-     pre.code
-      | var myModal = $("#modal").modal({
-      |     content:"<p>This is a modal window with static content.</p>"
-      | });
+		pre.code
+			| var myModal = $("#modal").modal({
+			| 		content:"<p>This is a modal window with static content.</p>"
+			| });
 
-    a#change-content
-    h3 Is the content boring? Change it!
-    div.container
-     p
-      | We'll change the content using, as setter, the
-      a(href='/api/symbols/ch.Modal.html#.content') content()
-      |  method:
-     pre.code myModal.content("New content for myModal, using the content() method.");
-       
-    a#new-content
-    h3 New content!
-    div.container
-     p Now, if we use the method content as getter, it returns:
-     pre.code myModal.content(); // returns "New content for myModal, using the content() method."
-     p This is simple, therefore you can try and change the modal window's content on your projects.
+		a#change-content
+		h3 Is the content boring? Change it!
+		div.container
+		p
+			| We'll change the content using, as setter, the
+			a(href='/api/symbols/ch.Modal.html#.content') content()
+			|	method:
+		pre.code myModal.content("New content for myModal, using the content() method.");
+			
+		a#new-content
+		h3 New content!
+		div.container
+		p Now, if we use the method content as getter, it returns:
+		pre.code myModal.content(); // returns "New content for myModal, using the content() method."
+		p This is simple, therefore you can try and change the modal window's content on your projects.
 
-    a#examples
-    h3 Examples
-    div.container
-      ul
-       li
-        a(href='http://www.jquery.com') jQuery JavaScript Library.
-       li
-        a(href='http://www.dillerdesign.com/experiment/DD_belatedPNG',title='PNG Support for old browsers.') DD_belatedPNG.
-       li
-        a(href='/how-to/browser-sniffing') Conditional comments.
-       
+		a#examples
+		h3 Examples
+		div.container
+			ul
+			li
+				a(href='http://www.jquery.com') jQuery JavaScript Library.
+			li
+				a(href='http://www.dillerdesign.com/experiment/DD_belatedPNG',title='PNG Support for old browsers.') DD_belatedPNG.
+			li
+				a(href='/how-to/browser-sniffing') Conditional comments.
+			
 
 .clearfix
