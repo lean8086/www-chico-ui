@@ -25,19 +25,19 @@
 	.ch-g3-4
 		h2 How to mesh your layout in 5 min?
 		p.container
-			| This guide explain you how to use Chico-UI Mesh to build fluids layouts quickly and easily, like this site.
+			| This guide explain you how to use Chico-UI Mesh to build fluid layouts quickly and easily, like we did with this site.
 
 		a#knowing-the-mesh
 		h3 Knowing the mesh
 		p.container
-			| Chico-UI Mesh provides a set of columns, written in CSS, that facilitate the laying out of web pages. It isn't part of the CSS core,
-			| that's why you have to
+			| Chico-UI Mesh provides a set of columns (written in CSS) that makes the laying out of a web page, easy and fast.that makes
+			| the laying out of a web page, easy and fast. It isn't part of the CSS core, that's why you have to
 			a(href="http://download.chico-ui.com.ar/lastest/chico-mesh.css", target="_blank") download the file.
 
 		a#class-names
 		h3 Class names
 		p.container
-			| Each column has a class that specifies what width it will be. It is expressed in fractions that represent a width percent
+			| Each column is expressed in fractions that represent a width percent
 			| of our content. The class names replace the bar ( / ) in the fraction by a dash ( - ):
 		pre.code
 			| 50% = 1/2 = .ch-g1-2
@@ -57,7 +57,7 @@
 		a#rounding
 		h3 Rounding
 		p.container
-			| The 1/3 and 1/6 columns have widths with infinite or too long decimals. To fix this issue, we created a grid with the extra
+			| The 1/3 and 1/6 column widths have infinite or too long decimals. To fix this issue, we created a grid with the extra
 			| percent you need to round to 100%.
 		pre.code
 			| 33.34% = 1/3 = .ch-g1-3r
@@ -81,8 +81,9 @@
 			|     </div>
 			| </div> 
 		p.container
-			| Same thing happens with 1/6: one of the 6 grids have to be ch-g1-6r. If for some reason, you need to clear the floats, you
-			| can use the clearfix class defined on core.css.
+			| Same thing happens with 1/6: one of the 6 grids have to be ch-g1-6r. 
+		p.container
+			| If for some reason, you need to clear the floats, you can use the clearfix class defined on core.css.
 		pre.code
 			| <div class="ch-g1-4">
 			|     <div class="box leftcolumn">
