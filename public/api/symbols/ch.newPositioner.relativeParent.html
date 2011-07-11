@@ -109,6 +109,8 @@
 	
 	<li><a href="../symbols/ch.newPositioner.html">ch.newPositioner</a></li>
 	
+	<li><a href="../symbols/ch.newPositioner.relativeParent.html">ch.newPositioner.relativeParent</a></li>
+	
 	<li><a href="../symbols/ch.Number.html">ch.Number</a></li>
 	
 	<li><a href="../symbols/ch.Object.html">ch.Object</a></li>
@@ -148,7 +150,7 @@
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Built-In Namespace _global_
+				Class ch.newPositioner.relativeParent
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -156,53 +158,38 @@
 				
 				
 			
+				relativeParent
 				
 				
+					<br /><i>Defined in: </i> <a href="../symbols/src/chico_src_js_newPositioner.js.html">newPositioner.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ch.newPositioner.relativeParent.">
+				<caption>Class Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription" >
+							<div class="fixedFont">
+								<b><a href="../symbols/ch.newPositioner.relativeParent.html#constructor">ch.newPositioner.relativeParent</a></b>()
+							</div>
+							<div class="description">It's the first of context's parents that is relativitly positioned.</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
 
 <!-- ============================== properties summary ===================== -->
-			
-				
-				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class _global_.">
-					<caption>Field Summary</caption>
-					<thead>
-						<tr>
-							<th scope="col">Field Attributes</th>
-							<th scope="col">Field Name and Description</th>
-						</tr>
-					</thead>
-					<tbody>
-					
-						<tr>
-							<td class="attributes">&lt;private&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/_global_.html#offset">offset</a></b>
-								</div>
-								<div class="description">Offset in pixels that element will be displaced from original position determined by points.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;private&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/_global_.html#points">points</a></b>
-								</div>
-								<div class="description">Points where element will be positioned, specified by configuration or centered by default.</div>
-							</td>
-						</tr>
-					
-					</tbody>
-				</table>
-				
-				
-				
 			
 
 <!-- ============================== methods summary ======================== -->
@@ -212,85 +199,42 @@
 
 <!-- ============================== constructor details ==================== -->		
 			
-
-<!-- ============================== field details ========================== -->		
-			
+			<div class="details"><a name="constructor"> </a>
 				<div class="sectionTitle">
-					Field Detail
+					Class Detail
 				</div>
 				
-					<a name="offset"> </a>
-					<div class="fixedFont">&lt;private&gt; 
-					
-					
-					<b>offset</b>
-					
-					</div>
-					<div class="description">
-						Offset in pixels that element will be displaced from original position determined by points. It's specified by configuration or zero by default.
-						
-							<br />
-							<i>Defined in: </i> <a href="../symbols/src/chico_src_js_newPositioner.js.html">newPositioner.js</a>.
-						
-						
-					</div>
-					
-					
-					
-					<pre class="code">// Moves 10px to right and 5px to top
-offset[0] = 10;
-offset[1] = -5;</pre>
-					
-					<pre class="code">// Moves 15px to left and 20px to bottom
-offset[0] = -15;
-offset[1] = 20;</pre>
-					
-					<pre class="code">// Moves 5px to right and 5px to bottom
-offset[0] = 5;
-offset[1] = 5;</pre>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
+				<div class="fixedFont">
+						<b>ch.newPositioner.relativeParent</b>()
+				</div>
 				
-					<a name="points"> </a>
-					<div class="fixedFont">&lt;private&gt; 
+				<div class="description">
+					It's the first of context's parents that is relativitly positioned.
 					
-					
-					<b>points</b>
-					
-					</div>
-					<div class="description">
-						Points where element will be positioned, specified by configuration or centered by default.
-						
-							<br />
-							<i>Defined in: </i> <a href="../symbols/src/chico_src_js_newPositioner.js.html">newPositioner.js</a>.
-						
-						
-					</div>
-					
-					
-					
-					<pre class="code">// Element left-top point = Context left-bottom point
-points: "lt rt"</pre>
-					
-					<pre class="code">// Element center-middle point = Context center-middle point
-points: "lt lb"</pre>
-					
-					
-
-						
-						
-						
-						
-
-					
+				</div>
 				
+				
+				
+				
+					
+					
+					
+					
+					
+						<dl class="detailList">
+						<dt class="heading">Returns:</dt>
+						
+								<dd><span class="light fixedFont">{Relative Parent Object}</span> </dd>
+						
+						</dl>
+					
+					
+					
+
+			</div>
+			
+
+<!-- ============================== field details ========================== -->		
 			
 
 <!-- ============================== method details ========================= -->		
@@ -303,7 +247,7 @@ points: "lt lb"</pre>
 		</div>
 
 		<p class="footer">
-		Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Mon Jul 11 2011 15:21:55 GMT-0300 (GMT-03:00)
+		Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Mon Jul 11 2011 15:20:03 GMT-0300 (GMT-03:00)
 	</p>
 <!-- ============================== footer ================================= -->
 

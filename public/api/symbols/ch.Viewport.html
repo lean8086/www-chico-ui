@@ -148,26 +148,24 @@
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class ch.Floats
+				Class ch.Viewport
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
-				<br />Extends
-					<a href="../symbols/ch.Object.html">ch.Object</a>.<br />
 				
 			
-				Floats
+				Viewport
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/chico_src_js_floats.js.html">floats.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/chico_src_js_viewport.js.html">viewport.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ch.Floats.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ch.Viewport.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -180,9 +178,9 @@
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/ch.Floats.html#constructor">ch.Floats</a></b>(conf)
+								<b><a href="../symbols/ch.Viewport.html#constructor">ch.Viewport</a></b>()
 							</div>
-							<div class="description">Abstract class of all floats UI-Objects.</div>
+							<div class="description">Viewport is a reference to positions and sizes of visible area into browser.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -193,7 +191,7 @@
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class ch.Floats.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class ch.Viewport.">
 					<caption>Field Summary</caption>
 					<thead>
 						<tr>
@@ -207,9 +205,9 @@
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.Floats.<b><a href="../symbols/ch.Floats.html#.$container">$container</a></b>
+								ch.Viewport.<b><a href="../symbols/ch.Viewport.html#.element">element</a></b>
 								</div>
-								<div class="description">Container for UI Component.</div>
+								<div class="description">Viewport HTML Element.</div>
 							</td>
 						</tr>
 					
@@ -217,9 +215,9 @@
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.Floats.<b><a href="../symbols/ch.Floats.html#.$content">$content</a></b>
+								ch.Viewport.<b><a href="../symbols/ch.Viewport.html#.height">height</a></b>
 								</div>
-								<div class="description">Container for UI Component's content.</div>
+								<div class="description">Height of viewport.</div>
 							</td>
 						</tr>
 					
@@ -227,9 +225,9 @@
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.Floats.<b><a href="../symbols/ch.Floats.html#.active">active</a></b>
+								ch.Viewport.<b><a href="../symbols/ch.Viewport.html#.left">left</a></b>
 								</div>
-								<div class="description">Flag that indicates if the float is active on the DOM tree.</div>
+								<div class="description">Left offset of viewport.</div>
 							</td>
 						</tr>
 					
@@ -237,9 +235,9 @@
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.Floats.<b><a href="../symbols/ch.Floats.html#.contentCallback">contentCallback</a></b>
+								ch.Viewport.<b><a href="../symbols/ch.Viewport.html#.top">top</a></b>
 								</div>
-								<div class="description">This callback is triggered when async data is loaded into component's content, when ajax content comes back.</div>
+								<div class="description">Top offset of viewport.</div>
 							</td>
 						</tr>
 					
@@ -247,59 +245,9 @@
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.Floats.<b><a href="../symbols/ch.Floats.html#.hide">hide</a></b>
+								ch.Viewport.<b><a href="../symbols/ch.Viewport.html#.width">width</a></b>
 								</div>
-								<div class="description">Hides the component and detach it from DOM tree.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Floats.<b><a href="../symbols/ch.Floats.html#.onHide">onHide</a></b>
-								</div>
-								<div class="description">Callback function</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Floats.<b><a href="../symbols/ch.Floats.html#.onShow">onShow</a></b>
-								</div>
-								<div class="description">Callback function</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Floats.<b><a href="../symbols/ch.Floats.html#.show">show</a></b>
-								</div>
-								<div class="description">Renders the component in the display by adding it to the DOM tree.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Floats.<b><a href="../symbols/ch.Floats.html#.source">source</a></b>
-								</div>
-								<div class="description">Content configuration propertie.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.Floats.<b><a href="../symbols/ch.Floats.html#.that">that</a></b>
-								</div>
-								<div class="description">Reference to a internal component instance, saves all the information and configuration properties.</div>
+								<div class="description">Width of viewport.</div>
 							</td>
 						</tr>
 					
@@ -308,17 +256,13 @@
 				
 				
 				
-				<dl class="inheritsList">
-				
-				</dl>
-				
 			
 
 <!-- ============================== methods summary ======================== -->
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class ch.Floats.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class ch.Viewport.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -329,38 +273,20 @@
 					<tbody>
 					
 						<tr>
-							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">ch.Floats.<b><a href="../symbols/ch.Floats.html#.createClose">createClose</a></b>()
+								<div class="fixedFont">ch.Viewport.<b><a href="../symbols/ch.Viewport.html#.getOffset">getOffset</a></b>()
 								</div>
-								<div class="description">Creates close button.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">ch.Floats.<b><a href="../symbols/ch.Floats.html#.createCone">createCone</a></b>()
-								</div>
-								<div class="description">Creates a 'cone', is a visual asset for floats.</div>
+								<div class="description">Re-calculates left and top of viewport and updates ch.viewport.left and ch.viewport.top.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">ch.Floats.<b><a href="../symbols/ch.Floats.html#.isActive">isActive</a></b>()
+								<div class="fixedFont">ch.Viewport.<b><a href="../symbols/ch.Viewport.html#.getSize">getSize</a></b>()
 								</div>
-								<div class="description">Returns true if the component is active.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">ch.Floats.<b><a href="../symbols/ch.Floats.html#.size">size</a></b>(prop, data)
-								</div>
-								<div class="description">Getter and setter for size attributes on any float component.</div>
+								<div class="description">Re-calculates width and height of viewport and updates ch.viewport.width and ch.viewport.height.</div>
 							</td>
 						</tr>
 					
@@ -368,10 +294,6 @@
 				</table>
 				
 				
-				
-				<dl class="inheritsList">
-				
-				</dl>
 				
 			
 <!-- ============================== events summary ======================== -->
@@ -385,28 +307,17 @@
 				</div>
 				
 				<div class="fixedFont">
-						<b>ch.Floats</b>(conf)
+						<b>ch.Viewport</b>()
 				</div>
 				
 				<div class="description">
-					Abstract class of all floats UI-Objects.
+					Viewport is a reference to positions and sizes of visible area into browser.
 					
 				</div>
 				
 				
 				
 				
-					
-						<dl class="detailList">
-						<dt class="heading">Parameters:</dt>
-						
-							<dt>
-								<span class="light fixedFont">{Configuration Object}</span>  <b>conf</b>
-								
-							</dt>
-								<dd>Object with configuration properties</dd>
-						
-						</dl>
 					
 					
 					
@@ -415,29 +326,11 @@
 						<dl class="detailList">
 						<dt class="heading">Returns:</dt>
 						
-								<dd><span class="light fixedFont">{Chico-UI Object}</span> </dd>
+								<dd><span class="light fixedFont">{Viewport Object}</span> </dd>
 						
 						</dl>
 					
 					
-						<dl class="detailList">
-						<dt class="heading">Requires:</dt>
-						
-							<dd><a href="../symbols/ch.Positioner.html">ch.Positioner</a></dd>
-						
-						</dl>
-					
-					
-						<dl class="detailList">
-						<dt class="heading">See:</dt>
-						
-							<dd><a href="../symbols/ch.Tooltip.html">ch.Tooltip</a></dd>
-						
-							<dd><a href="../symbols/ch.Layer.html">ch.Layer</a></dd>
-						
-							<dd><a href="../symbols/ch.Modal.html">ch.Modal</a></dd>
-						
-						</dl>
 					
 
 			</div>
@@ -449,15 +342,15 @@
 					Field Detail
 				</div>
 				
-					<a name=".$container"> </a>
+					<a name=".element"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
 					
-					<span class="light">ch.Floats.</span><b>$container</b>
+					<span class="light">ch.Viewport.</span><b>element</b>
 					
 					</div>
 					<div class="description">
-						Container for UI Component.
+						Viewport HTML Element.
 						
 						
 					</div>
@@ -471,15 +364,15 @@
 
 					<hr />
 				
-					<a name=".$content"> </a>
+					<a name=".height"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
 					
-					<span class="light">ch.Floats.</span><b>$content</b>
+					<span class="light">ch.Viewport.</span><b>height</b>
 					
 					</div>
 					<div class="description">
-						Container for UI Component's content.
+						Height of viewport.
 						
 						
 					</div>
@@ -493,15 +386,15 @@
 
 					<hr />
 				
-					<a name=".active"> </a>
+					<a name=".left"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
 					
-					<span class="light">ch.Floats.</span><b>active</b>
+					<span class="light">ch.Viewport.</span><b>left</b>
 					
 					</div>
 					<div class="description">
-						Flag that indicates if the float is active on the DOM tree.
+						Left offset of viewport.
 						
 						
 					</div>
@@ -515,15 +408,15 @@
 
 					<hr />
 				
-					<a name=".contentCallback"> </a>
+					<a name=".top"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
-					<span class="light">{Chico-UI Object}</span>
-					<span class="light">ch.Floats.</span><b>contentCallback</b>
+					
+					<span class="light">ch.Viewport.</span><b>top</b>
 					
 					</div>
 					<div class="description">
-						This callback is triggered when async data is loaded into component's content, when ajax content comes back.
+						Top offset of viewport.
 						
 						
 					</div>
@@ -537,125 +430,15 @@
 
 					<hr />
 				
-					<a name=".hide"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{Chico-UI Object}</span>
-					<span class="light">ch.Floats.</span><b>hide</b>
-					
-					</div>
-					<div class="description">
-						Hides the component and detach it from DOM tree.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".onHide"> </a>
+					<a name=".width"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
 					
-					<span class="light">ch.Floats.</span><b>onHide</b>
+					<span class="light">ch.Viewport.</span><b>width</b>
 					
 					</div>
 					<div class="description">
-						Callback function
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".onShow"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Floats.</span><b>onShow</b>
-					
-					</div>
-					<div class="description">
-						Callback function
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".show"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{Chico-UI Object}</span>
-					<span class="light">ch.Floats.</span><b>show</b>
-					
-					</div>
-					<div class="description">
-						Renders the component in the display by adding it to the DOM tree.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".source"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.Floats.</span><b>source</b>
-					
-					</div>
-					<div class="description">
-						Content configuration propertie.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".that"> </a>
-					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
-					
-					
-					<span class="light">ch.Floats.</span><b>that</b>
-					
-					</div>
-					<div class="description">
-						Reference to a internal component instance, saves all the information and configuration properties.
+						Width of viewport.
 						
 						
 					</div>
@@ -677,65 +460,15 @@
 					Method Detail
 				</div>
 				
-					<a name=".createClose"> </a>
-					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
-					
-					
-					<span class="light">ch.Floats.</span><b>createClose</b>()
-					
-					</div>
-					<div class="description">
-						Creates close button.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".createCone"> </a>
-					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
-					
-					
-					<span class="light">ch.Floats.</span><b>createCone</b>()
-					
-					</div>
-					<div class="description">
-						Creates a 'cone', is a visual asset for floats.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".isActive"> </a>
+					<a name=".getOffset"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
-					<span class="light">{Boolean}</span>
-					<span class="light">ch.Floats.</span><b>isActive</b>()
+					<span class="light">{Offset Object}</span>
+					<span class="light">ch.Viewport.</span><b>getOffset</b>()
 					
 					</div>
 					<div class="description">
-						Returns true if the component is active.
+						Re-calculates left and top of viewport and updates ch.viewport.left and ch.viewport.top.
 						
 						
 					</div>
@@ -750,7 +483,7 @@
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{Boolean}</span> </dd>
+								<dd><span class="light fixedFont">{Offset Object}</span> </dd>
 							
 							</dl>
 						
@@ -759,38 +492,21 @@
 
 					<hr />
 				
-					<a name=".size"> </a>
-					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					<a name=".getSize"> </a>
+					<div class="fixedFont">&lt;static&gt; 
 					
-					<span class="light">{Internal component instance}</span>
-					<span class="light">ch.Floats.</span><b>size</b>(prop, data)
+					<span class="light">{Size Object}</span>
+					<span class="light">ch.Viewport.</span><b>getSize</b>()
 					
 					</div>
 					<div class="description">
-						Getter and setter for size attributes on any float component.
+						Re-calculates width and height of viewport and updates ch.viewport.width and ch.viewport.height.
 						
 						
 					</div>
 					
 					
 					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>prop</b>
-									
-								</dt>
-								<dd>Property that will be setted or getted, like "width" or "height".</dd>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>data</b>
-									<i>Optional</i>
-								</dt>
-								<dd>Only for setter. It's the new value of defined property.</dd>
-							
-							</dl>
 						
 						
 						
@@ -799,7 +515,7 @@
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{Internal component instance}</span> </dd>
+								<dd><span class="light fixedFont">{Size Object}</span> </dd>
 							
 							</dl>
 						
@@ -817,7 +533,7 @@
 		</div>
 
 		<p class="footer">
-		Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Mon Jul 11 2011 15:21:56 GMT-0300 (GMT-03:00)
+		Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Mon Jul 11 2011 15:21:57 GMT-0300 (GMT-03:00)
 	</p>
 <!-- ============================== footer ================================= -->
 
