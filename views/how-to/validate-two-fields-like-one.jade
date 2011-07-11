@@ -49,11 +49,11 @@
 			pre.code
 				| ...
 				| <div class="field-box">
-				| 		<label class="required">
-				| 				<span>Telephone: <em>*</em></span>
-				| 				<input type="text" name="example-phone-code" id="example-phone-code" required="required">
-				| 				<input type="text" name="example-phone-number" id="example-phone-number" required="required">
-				| 		</label>
+				|     <label class="required">
+				|         <span>Telephone: <em>*</em></span>
+				|         <input type="text" name="example-phone-code" id="example-phone-code" required="required">
+				|         <input type="text" name="example-phone-number" id="example-phone-number" required="required">
+				|     </label>
 				| </div>
 				| ...
 			p
@@ -75,18 +75,16 @@
 			pre.code
 				| if (value1 && value2) {
 				| 
-				| 		// Any conditional or regexp
-				| 		if (!isNaN(value1) && !isNaN(value2)) {
+				|     // Any conditional or regexp
+				|     if (!isNaN(value1) && !isNaN(value2)) {
 				| 
-				| 				// Remove error class of first field
-				| 				field.removeClass("error");
+				|         // Remove error class of first field
+				|         field.removeClass("error");
 				| 
-				| 				// Validation is ok! Return true
-				| 				return true;
-				| 
-				| 		};
-				| 
-				| };
+				|         // Validation is ok! Return true
+				|         return true;
+				|     }
+				| }
 			p
 				| If condition is false means that an error exists, therefore we add the "error" class to the first field and return false for Watcher validation over second field.
 			pre.code
@@ -113,40 +111,38 @@
 				| // Creates a custom function that receives the second field value
 				| var example_phone_validation = function(value2) {
 				| 
-				| 		// Gets the first field
-				| 		var field1 = $("#example-phone-code");
+				|     // Gets the first field
+				|     var field1 = $("#example-phone-code");
 				| 
-				| 		// Saves the first field value
-				| 		var value1 = field1.val();
+				|     // Saves the first field value
+				|     var value1 = field1.val();
 				| 
-				| 		// If both values are defined
-				| 		if (value1 && value2) {
+				|     // If both values are defined
+				|     if (value1 && value2) {
 				| 
-				| 				// Checks if both are numbers (Any conditional or regexp)
-				| 				if (!isNaN(value1) && !isNaN(value2)) {
+				|         // Checks if both are numbers (Any conditional or regexp)
+				|         if (!isNaN(value1) && !isNaN(value2)) {
 				| 
-				| 						// Removes error class of first field
-				| 						field.removeClass("error");
+				|             // Removes error class of first field
+				|             field.removeClass("error");
 				| 
-				| 						// Validation is ok! Returns true
-				| 						return true;
+				|             // Validation is ok! Returns true
+				|             return true;
+				|         }
+				|     }
 				| 
-				| 				};
+				|     // Here validation is false. Add error class to first field
+				|     field.addClass("error");
 				| 
-				| 		};
-				| 
-				| 		// Here validation is false. Add error class to first field
-				| 		field.addClass("error");
-				| 
-				| 		// Returns false for second field error
-				| 		return false;
+				|     // Returns false for second field error
+				|     return false;
 				| 
 				| };
 				| 
 				| // Creates custom + required validation over second field
 				| var crazy = $("#example-phone-number")
-				| 								.custom(phone_validation, "Enter a valid phone number.")
-				| 								.and()
-				| 								.required("This is a required field");
+				|                    .custom(phone_validation, "Enter a valid phone number.")
+				|                    .and()
+				|                    .required("This is a required field");
 				
 .clearfix

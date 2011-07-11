@@ -28,6 +28,12 @@ h3 { font-size: 1.5em; }
 
 h4 { font-size: 1.3em; }
 
+p { margin-bottom: 10px; }
+
+ol, ul { margin: 0 0 10px 20px; }
+
+ol li { list-style-type: decimal; list-style-position: inside; }
+
 .header {
   padding: 5px 0 0;
   position: relative;
@@ -97,6 +103,29 @@ h4 { font-size: 1.3em; }
   width: 250px;
 }
 
+/**
+ * Positioner
+ */
+
+.context {
+    border: 1px solid blue;
+    color: blue;
+    text-align:center;
+    line-height: 100px;
+    height: 100px;
+    margin: 30px;
+    width: 100px;
+    background-color:white;
+}
+
+.element {
+    background-color: red;
+    color: white;
+    line-height: 25px;
+    height: 25px;
+    position: absolute;
+    padding:0 10px;
+}
 
 /**
  * Bottoms and footers
