@@ -148,26 +148,24 @@
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class ch.TabNavigator
+				Class ch.newPositioner
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
-				<br />Extends
-					<a href="../symbols/ch.Controllers.html">ch.Controllers</a>.<br />
 				
 			
-				TabNavigator
+				newPositioner
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/chico_src_js_tabNavigator.js.html">tabNavigator.js</a>.
+					<br /><i>Defined in: </i> <a href="../symbols/src/chico_src_js_newPositioner.js.html">newPositioner.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ch.TabNavigator.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ch.newPositioner.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -180,9 +178,9 @@
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/ch.TabNavigator.html#constructor">ch.TabNavigator</a></b>(conf)
+								<b><a href="../symbols/ch.newPositioner.html#constructor">ch.newPositioner</a></b>()
 							</div>
-							<div class="description">TabNavigator UI-Component for static and dinamic content.</div>
+							<div class="description">Positioner is an utility that centralizes and manages changes related to positioned elements, and returns an utility that resolves positioning for all UI-Objects.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -193,7 +191,7 @@
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class ch.TabNavigator.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class ch.newPositioner.">
 					<caption>Field Summary</caption>
 					<thead>
 						<tr>
@@ -207,9 +205,9 @@
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.TabNavigator.<b><a href="../symbols/ch.TabNavigator.html#.$content">$content</a></b>
+								ch.newPositioner.<b><a href="../symbols/ch.newPositioner.html#.$element">$element</a></b>
 								</div>
-								<div class="description">The component's content.</div>
+								<div class="description">Reference to the DOM Element beign positioned.</div>
 							</td>
 						</tr>
 					
@@ -217,9 +215,9 @@
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.TabNavigator.<b><a href="../symbols/ch.TabNavigator.html#.$triggers">$triggers</a></b>
+								ch.newPositioner.<b><a href="../symbols/ch.newPositioner.html#.CLASS_MAP">CLASS_MAP</a></b>
 								</div>
-								<div class="description">The component's triggers container.</div>
+								<div class="description">A map to reference the input points to output friendly classname.</div>
 							</td>
 						</tr>
 					
@@ -227,19 +225,9 @@
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.TabNavigator.<b><a href="../symbols/ch.TabNavigator.html#.children">children</a></b>
+								ch.newPositioner.<b><a href="../symbols/ch.newPositioner.html#.context">context</a></b>
 								</div>
-								<div class="description">Children instances associated to this controller.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.TabNavigator.<b><a href="../symbols/ch.TabNavigator.html#.element">element</a></b>
-								</div>
-								<div class="description">The element reference.</div>
+								<div class="description">Context is a reference to positions and sizes of element that will be considered to carry out the position.</div>
 							</td>
 						</tr>
 					
@@ -247,9 +235,9 @@
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.TabNavigator.<b><a href="../symbols/ch.TabNavigator.html#.hash">hash</a></b>
+								ch.newPositioner.<b><a href="../symbols/ch.newPositioner.html#.CORRELATION_MAP">CORRELATION_MAP</a></b>
 								</div>
-								<div class="description">The actual location hash, is used to know if there's a specific tab selected.</div>
+								<div class="description">A map to reference the input points to output correlative points for re-positioning intelligence.</div>
 							</td>
 						</tr>
 					
@@ -257,9 +245,9 @@
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.TabNavigator.<b><a href="../symbols/ch.TabNavigator.html#.hashed">hashed</a></b>
+								ch.newPositioner.<b><a href="../symbols/ch.newPositioner.html#.lastCoordinates">lastCoordinates</a></b>
 								</div>
-								<div class="description">A boolean property to know if the some tag should be selected.</div>
+								<div class="description">Stores last changes on coordinates for evaluate necesaries redraws and reflows.</div>
 							</td>
 						</tr>
 					
@@ -267,29 +255,9 @@
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.TabNavigator.<b><a href="../symbols/ch.TabNavigator.html#.onContentError">onContentError</a></b>
+								ch.newPositioner.<b><a href="../symbols/ch.newPositioner.html#.relativeParent">relativeParent</a></b>
 								</div>
-								<div class="description">Callback function</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.TabNavigator.<b><a href="../symbols/ch.TabNavigator.html#.onContentLoad">onContentLoad</a></b>
-								</div>
-								<div class="description">Callback function</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								ch.TabNavigator.<b><a href="../symbols/ch.TabNavigator.html#.onSelect">onSelect</a></b>
-								</div>
-								<div class="description">Callback function</div>
+								<div class="description">It's the first of context's parents that is relativitly positioned.</div>
 							</td>
 						</tr>
 					
@@ -297,9 +265,9 @@
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.TabNavigator.<b><a href="../symbols/ch.TabNavigator.html#.selected">selected</a></b>
+								ch.newPositioner.<b><a href="../symbols/ch.newPositioner.html#.reposition">reposition</a></b>
 								</div>
-								<div class="description">Get wich tab is selected.</div>
+								<div class="description">Configuration parameter that enables or disables re-position intelligence of Positioner.</div>
 							</td>
 						</tr>
 					
@@ -307,29 +275,39 @@
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.TabNavigator.<b><a href="../symbols/ch.TabNavigator.html#.that">that</a></b>
+								ch.newPositioner.<b><a href="../symbols/ch.newPositioner.html#.repositioned">repositioned</a></b>
 								</div>
-								<div class="description">Reference to a internal component instance, saves all the information and configuration properties.</div>
+								<div class="description">Re-position intelligence status.</div>
 							</td>
 						</tr>
 					
 						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.TabNavigator.<b><a href="../symbols/ch.TabNavigator.html#.type">type</a></b>
+								ch.newPositioner.<b><a href="../symbols/ch.newPositioner.html#.resizing">resizing</a></b>
 								</div>
-								<div class="description">The component's type.</div>
+								<div class="description">A reference to know when window is resized</div>
 							</td>
 						</tr>
 					
 						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								ch.TabNavigator.<b><a href="../symbols/ch.TabNavigator.html#.uid">uid</a></b>
+								ch.newPositioner.<b><a href="../symbols/ch.newPositioner.html#.scrolling">scrolling</a></b>
 								</div>
-								<div class="description">The component's instance unique identifier.</div>
+								<div class="description">A reference to know when window is scrolled</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">
+								ch.newPositioner.<b><a href="../symbols/ch.newPositioner.html#.that">that</a></b>
+								</div>
+								<div class="description">Reference to an internal component instance that will be exposed.</div>
 							</td>
 						</tr>
 					
@@ -338,17 +316,13 @@
 				
 				
 				
-				<dl class="inheritsList">
-				
-				</dl>
-				
 			
 
 <!-- ============================== methods summary ======================== -->
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class ch.TabNavigator.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the methods documented in the class ch.newPositioner.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -359,38 +333,66 @@
 					<tbody>
 					
 						<tr>
-							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">ch.TabNavigator.<b><a href="../symbols/ch.TabNavigator.html#.createTabs">createTabs</a></b>()
+								<div class="fixedFont">ch.newPositioner.<b><a href="../symbols/ch.newPositioner.html#.draw">draw</a></b>()
 								</div>
-								<div class="description">Create controller's children.</div>
+								<div class="description">Triggers calculations of coordinates and checks if there are changes to re-positionate element.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">ch.TabNavigator.<b><a href="../symbols/ch.TabNavigator.html#.getSelected">getSelected</a></b>()
+								<div class="fixedFont">ch.newPositioner.<b><a href="../symbols/ch.newPositioner.html#.getContext">getContext</a></b>()
 								</div>
-								<div class="description">Returns the selected child's index.</div>
+								<div class="description">Defines context element, its size, position, and methods to re-calculate all.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">ch.TabNavigator.<b><a href="../symbols/ch.TabNavigator.html#.select">select</a></b>(tab)
+								<div class="fixedFont">ch.newPositioner.<b><a href="../symbols/ch.newPositioner.html#.getCoordinates">getCoordinates</a></b>(points)
 								</div>
-								<div class="description">Select a specific child.</div>
+								<div class="description">Calculates left and top position from specific points.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.newPositioner.<b><a href="../symbols/ch.newPositioner.html#.getPosition">getPosition</a></b>()
+								</div>
+								<div class="description">Gets new coordinates and checks it's space into viewport.</div>
 							</td>
 						</tr>
 					
 						<tr>
 							<td class="attributes">&lt;private&gt; &lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">ch.TabNavigator.<b><a href="../symbols/ch.TabNavigator.html#.shortcuts">shortcuts</a></b>()
+								<div class="fixedFont">ch.newPositioner.<b><a href="../symbols/ch.newPositioner.html#.init">init</a></b>()
 								</div>
-								<div class="description">Adds keyboard events.</div>
+								<div class="description">Constructs a new positioning, get viewport size, check for relative parent's offests,
+find the context and set the position to a given element.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.newPositioner.<b><a href="../symbols/ch.newPositioner.html#.onLayoutChange">onLayoutChange</a></b>()
+								</div>
+								<div class="description">Re-calculates context position and size on "layout change" internal event triggered.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont">ch.newPositioner.<b><a href="../symbols/ch.newPositioner.html#.position">position</a></b>(o, "refresh")
+								</div>
+								<div class="description">Control panel that allows change configuration properties, refresh current position or get current configuration.</div>
 							</td>
 						</tr>
 					
@@ -398,10 +400,6 @@
 				</table>
 				
 				
-				
-				<dl class="inheritsList">
-				
-				</dl>
 				
 			
 <!-- ============================== events summary ======================== -->
@@ -415,28 +413,17 @@
 				</div>
 				
 				<div class="fixedFont">
-						<b>ch.TabNavigator</b>(conf)
+						<b>ch.newPositioner</b>()
 				</div>
 				
 				<div class="description">
-					TabNavigator UI-Component for static and dinamic content.
+					Positioner is an utility that centralizes and manages changes related to positioned elements, and returns an utility that resolves positioning for all UI-Objects.
 					
 				</div>
 				
 				
 				
 				
-					
-						<dl class="detailList">
-						<dt class="heading">Parameters:</dt>
-						
-							<dt>
-								<span class="light fixedFont">{Configuration Object}</span>  <b>conf</b>
-								
-							</dt>
-								<dd>Object with configuration properties</dd>
-						
-						</dl>
 					
 					
 					
@@ -445,10 +432,17 @@
 						<dl class="detailList">
 						<dt class="heading">Returns:</dt>
 						
-								<dd><span class="light fixedFont">{Chico-UI Object}</span> </dd>
+								<dd><span class="light fixedFont">{Positioner Component Constructor Object}</span> </dd>
 						
 						</dl>
 					
+					
+						<dl class="detailList">
+						<dt class="heading">Requires:</dt>
+						
+							<dd><a href="../symbols/ch.Viewport.html">ch.Viewport</a></dd>
+						
+						</dl>
 					
 					
 
@@ -461,15 +455,15 @@
 					Field Detail
 				</div>
 				
-					<a name=".$content"> </a>
+					<a name=".$element"> </a>
 					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
-					<span class="light">ch.TabNavigator.</span><b>$content</b>
+					<span class="light">ch.newPositioner.</span><b>$element</b>
 					
 					</div>
 					<div class="description">
-						The component's content.
+						Reference to the DOM Element beign positioned.
 						
 						
 					</div>
@@ -483,15 +477,15 @@
 
 					<hr />
 				
-					<a name=".$triggers"> </a>
+					<a name=".CLASS_MAP"> </a>
 					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
-					<span class="light">ch.TabNavigator.</span><b>$triggers</b>
+					<span class="light">ch.newPositioner.</span><b>CLASS_MAP</b>
 					
 					</div>
 					<div class="description">
-						The component's triggers container.
+						A map to reference the input points to output friendly classname.
 						
 						
 					</div>
@@ -505,15 +499,15 @@
 
 					<hr />
 				
-					<a name=".children"> </a>
+					<a name=".context"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
 					
-					<span class="light">ch.TabNavigator.</span><b>children</b>
+					<span class="light">ch.newPositioner.</span><b>context</b>
 					
 					</div>
 					<div class="description">
-						Children instances associated to this controller.
+						Context is a reference to positions and sizes of element that will be considered to carry out the position.
 						
 						
 					</div>
@@ -527,37 +521,15 @@
 
 					<hr />
 				
-					<a name=".element"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.TabNavigator.</span><b>element</b>
-					
-					</div>
-					<div class="description">
-						The element reference.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".hash"> </a>
+					<a name=".CORRELATION_MAP"> </a>
 					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
-					<span class="light">ch.TabNavigator.</span><b>hash</b>
+					<span class="light">ch.newPositioner.</span><b>CORRELATION_MAP</b>
 					
 					</div>
 					<div class="description">
-						The actual location hash, is used to know if there's a specific tab selected.
+						A map to reference the input points to output correlative points for re-positioning intelligence.
 						
 						
 					</div>
@@ -571,15 +543,15 @@
 
 					<hr />
 				
-					<a name=".hashed"> </a>
+					<a name=".lastCoordinates"> </a>
 					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
-					<span class="light">ch.TabNavigator.</span><b>hashed</b>
+					<span class="light">ch.newPositioner.</span><b>lastCoordinates</b>
 					
 					</div>
 					<div class="description">
-						A boolean property to know if the some tag should be selected.
+						Stores last changes on coordinates for evaluate necesaries redraws and reflows.
 						
 						
 					</div>
@@ -589,26 +561,19 @@
 						
 						
 						
-						
-							<dl class="detailList">
-							<dt class="heading">Default Value:</dt>
-							<dd>
-								false
-							</dd>
-							</dl>
 						
 
 					<hr />
 				
-					<a name=".onContentError"> </a>
+					<a name=".relativeParent"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
 					
-					<span class="light">ch.TabNavigator.</span><b>onContentError</b>
+					<span class="light">ch.newPositioner.</span><b>relativeParent</b>
 					
 					</div>
 					<div class="description">
-						Callback function
+						It's the first of context's parents that is relativitly positioned.
 						
 						
 					</div>
@@ -622,59 +587,81 @@
 
 					<hr />
 				
-					<a name=".onContentLoad"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.TabNavigator.</span><b>onContentLoad</b>
-					
-					</div>
-					<div class="description">
-						Callback function
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".onSelect"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.TabNavigator.</span><b>onSelect</b>
-					
-					</div>
-					<div class="description">
-						Callback function
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".selected"> </a>
+					<a name=".reposition"> </a>
 					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
-					<span class="light">ch.TabNavigator.</span><b>selected</b>
+					<span class="light">ch.newPositioner.</span><b>reposition</b>
 					
 					</div>
 					<div class="description">
-						Get wich tab is selected.
+						Configuration parameter that enables or disables re-position intelligence of Positioner.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".repositioned"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">ch.newPositioner.</span><b>repositioned</b>
+					
+					</div>
+					<div class="description">
+						Re-position intelligence status.
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".resizing"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">ch.newPositioner.</span><b>resizing</b>
+					
+					</div>
+					<div class="description">
+						A reference to know when window is resized
+						
+						
+					</div>
+					
+					
+
+						
+						
+						
+						
+
+					<hr />
+				
+					<a name=".scrolling"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					
+					<span class="light">ch.newPositioner.</span><b>scrolling</b>
+					
+					</div>
+					<div class="description">
+						A reference to know when window is scrolled
 						
 						
 					</div>
@@ -692,55 +679,11 @@
 					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
 					
 					
-					<span class="light">ch.TabNavigator.</span><b>that</b>
+					<span class="light">ch.newPositioner.</span><b>that</b>
 					
 					</div>
 					<div class="description">
-						Reference to a internal component instance, saves all the information and configuration properties.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".type"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.TabNavigator.</span><b>type</b>
-					
-					</div>
-					<div class="description">
-						The component's type.
-						
-						
-					</div>
-					
-					
-
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".uid"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">ch.TabNavigator.</span><b>uid</b>
-					
-					</div>
-					<div class="description">
-						The component's instance unique identifier.
+						Reference to an internal component instance that will be exposed.
 						
 						
 					</div>
@@ -762,40 +705,15 @@
 					Method Detail
 				</div>
 				
-					<a name=".createTabs"> </a>
-					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
-					
-					
-					<span class="light">ch.TabNavigator.</span><b>createTabs</b>()
-					
-					</div>
-					<div class="description">
-						Create controller's children.
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".getSelected"> </a>
+					<a name=".draw"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
-					<span class="light">{Number}</span>
-					<span class="light">ch.TabNavigator.</span><b>getSelected</b>()
+					<span class="light">{Positioned Element}</span>
+					<span class="light">ch.newPositioner.</span><b>draw</b>()
 					
 					</div>
 					<div class="description">
-						Returns the selected child's index.
+						Triggers calculations of coordinates and checks if there are changes to re-positionate element.
 						
 						
 					</div>
@@ -810,7 +728,7 @@
 							<dl class="detailList">
 							<dt class="heading">Returns:</dt>
 							
-								<dd><span class="light fixedFont">{Number}</span> selected Tab's index.</dd>
+								<dd><span class="light fixedFont">{Positioned Element}</span> </dd>
 							
 							</dl>
 						
@@ -819,18 +737,59 @@
 
 					<hr />
 				
-					<a name=".select"> </a>
+					<a name=".getContext"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
-					
-					<span class="light">ch.TabNavigator.</span><b>select</b>(tab)
+					<span class="light">{Context Object}</span>
+					<span class="light">ch.newPositioner.</span><b>getContext</b>()
 					
 					</div>
 					<div class="description">
-						Select a specific child.
+						Defines context element, its size, position, and methods to re-calculate all.
 						
 						
 					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Context Object}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".getCoordinates"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Offset measures}</span>
+					<span class="light">ch.newPositioner.</span><b>getCoordinates</b>(points)
+					
+					</div>
+					<div class="description">
+						Calculates left and top position from specific points.
+						
+						
+					</div>
+					
+					
+					
+					<pre class="code">var foo = getCoordinates("lt rt");
+
+foo = {
+    left: Number,
+    top: Number
+};</pre>
 					
 					
 					
@@ -839,10 +798,10 @@
 							<dt class="heading">Parameters:</dt>
 							
 								<dt>
-									<span class="light fixedFont">{Number}</span> <b>tab</b>
+									<span class="light fixedFont">{Points}</span> <b>points</b>
 									
 								</dt>
-								<dd>Tab's index.</dd>
+								<dd>String with points to be calculated.</dd>
 							
 							</dl>
 						
@@ -850,23 +809,27 @@
 						
 						
 						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Offset measures}</span> </dd>
+							
+							</dl>
+						
 						
 						
 
 					<hr />
 				
-					<a name=".shortcuts"> </a>
-					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					<a name=".getPosition"> </a>
+					<div class="fixedFont">&lt;static&gt; 
 					
-					
-					<span class="light">ch.TabNavigator.</span><b>shortcuts</b>()
+					<span class="light">{Offset measures}</span>
+					<span class="light">ch.newPositioner.</span><b>getPosition</b>()
 					
 					</div>
 					<div class="description">
-						Adds keyboard events.
-						
-							<br />
-							<i>Defined in: </i> <a href="../symbols/src/chico_src_js_dropdown.js.html">dropdown.js</a>.
+						Gets new coordinates and checks it's space into viewport.
 						
 						
 					</div>
@@ -877,6 +840,139 @@
 						
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Offset measures}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".init"> </a>
+					<div class="fixedFont">&lt;private&gt; &lt;static&gt; 
+					
+					<span class="light">{Positioned Element}</span>
+					<span class="light">ch.newPositioner.</span><b>init</b>()
+					
+					</div>
+					<div class="description">
+						Constructs a new positioning, get viewport size, check for relative parent's offests,
+find the context and set the position to a given element.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Positioned Element}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".onLayoutChange"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Positioned Element}</span>
+					<span class="light">ch.newPositioner.</span><b>onLayoutChange</b>()
+					
+					</div>
+					<div class="description">
+						Re-calculates context position and size on "layout change" internal event triggered.
+						
+						
+					</div>
+					
+					
+					
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Positioned Element}</span> </dd>
+							
+							</dl>
+						
+						
+						
+
+					<hr />
+				
+					<a name=".position"> </a>
+					<div class="fixedFont">&lt;static&gt; 
+					
+					<span class="light">{Control Panel Object}</span>
+					<span class="light">ch.newPositioner.</span><b>position</b>(o, "refresh")
+					
+					</div>
+					<div class="description">
+						Control panel that allows change configuration properties, refresh current position or get current configuration.
+						
+						
+					</div>
+					
+					
+					
+					<pre class="code">// Sets a new configuration
+var foo = ch.positioner({ ... });
+    foo.position({ ... });</pre>
+					
+					<pre class="code">// Refresh current position
+    foo.position("refresh");</pre>
+					
+					<pre class="code">// Gets current configuration
+    foo.position();</pre>
+					
+					
+					
+						
+							<dl class="detailList">
+							<dt class="heading">Parameters:</dt>
+							
+								<dt>
+									<span class="light fixedFont">{Object}</span> <b>o</b>
+									<i>Optional</i>
+								</dt>
+								<dd>Configuration object</dd>
+							
+								<dt>
+									<span class="light fixedFont">{String}</span> <b>"refresh"</b>
+									<i>Optional</i>
+								</dt>
+								<dd>Refresh current position</dd>
+							
+							</dl>
+						
+						
+						
+						
+						
+							<dl class="detailList">
+							<dt class="heading">Returns:</dt>
+							
+								<dd><span class="light fixedFont">{Control Panel Object}</span> </dd>
+							
+							</dl>
 						
 						
 						

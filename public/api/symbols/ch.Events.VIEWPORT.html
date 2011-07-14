@@ -148,7 +148,7 @@
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Built-In Namespace _global_
+				Namespace ch.Events.VIEWPORT
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
@@ -156,19 +156,42 @@
 				
 				
 			
+				VIEWPORT
 				
 				
+					<br /><i>Defined in: </i> <a href="../symbols/src/chico_src_js_core.js.html">core.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
+			
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ch.Events.VIEWPORT.">
+				<caption>Namespace Summary</caption>
+				<thead>
+					<tr>
+						<th scope="col">Constructor Attributes</th>
+						<th scope="col">Constructor Name and Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="attributes">&nbsp;</td>
+						<td class="nameDescription" >
+							<div class="fixedFont">
+								<b><a href="../symbols/ch.Events.VIEWPORT.html#constructor">ch.Events.VIEWPORT</a></b>
+							</div>
+							<div class="description">Viewport event collection.</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 			
 
 <!-- ============================== properties summary ===================== -->
 			
 				
 				
-				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class _global_.">
+				<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class ch.Events.VIEWPORT.">
 					<caption>Field Summary</caption>
 					<thead>
 						<tr>
@@ -179,22 +202,22 @@
 					<tbody>
 					
 						<tr>
-							<td class="attributes">&lt;private&gt; &nbsp;</td>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/_global_.html#offset">offset</a></b>
+								ch.Events.VIEWPORT.<b><a href="../symbols/ch.Events.VIEWPORT.html#.RESIZE">RESIZE</a></b>
 								</div>
-								<div class="description">Offset in pixels that element will be displaced from original position determined by points.</div>
+								<div class="description">Every time Chico-UI needs to inform all visual components that window has been resized, he triggers this event.</div>
 							</td>
 						</tr>
 					
 						<tr>
-							<td class="attributes">&lt;private&gt; &nbsp;</td>
+							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/_global_.html#points">points</a></b>
+								ch.Events.VIEWPORT.<b><a href="../symbols/ch.Events.VIEWPORT.html#.SCROLL">SCROLL</a></b>
 								</div>
-								<div class="description">Points where element will be positioned, specified by configuration or centered by default.</div>
+								<div class="description">Every time Chico-UI needs to inform all visual components that window has been scrolled, he triggers this event.</div>
 							</td>
 						</tr>
 					
@@ -212,6 +235,33 @@
 
 <!-- ============================== constructor details ==================== -->		
 			
+			<div class="details"><a name="constructor"> </a>
+				<div class="sectionTitle">
+					Namespace Detail
+				</div>
+				
+				<div class="fixedFont">
+						<b>ch.Events.VIEWPORT</b>
+				</div>
+				
+				<div class="description">
+					Viewport event collection.
+					
+				</div>
+				
+				
+				
+				
+					
+					
+					
+					
+					
+					
+					
+
+			</div>
+			
 
 <!-- ============================== field details ========================== -->		
 			
@@ -219,73 +269,59 @@
 					Field Detail
 				</div>
 				
-					<a name="offset"> </a>
-					<div class="fixedFont">&lt;private&gt; 
+					<a name=".RESIZE"> </a>
+					<div class="fixedFont">&lt;static&gt; 
 					
 					
-					<b>offset</b>
+					<span class="light">ch.Events.VIEWPORT.</span><b>RESIZE</b>
 					
 					</div>
 					<div class="description">
-						Offset in pixels that element will be displaced from original position determined by points. It's specified by configuration or zero by default.
-						
-							<br />
-							<i>Defined in: </i> <a href="../symbols/src/chico_src_js_newPositioner.js.html">newPositioner.js</a>.
+						Every time Chico-UI needs to inform all visual components that window has been resized, he triggers this event.
 						
 						
 					</div>
-					
-					
-					
-					<pre class="code">// Moves 10px to right and 5px to top
-offset[0] = 10;
-offset[1] = -5;</pre>
-					
-					<pre class="code">// Moves 15px to left and 20px to bottom
-offset[0] = -15;
-offset[1] = 20;</pre>
-					
-					<pre class="code">// Moves 5px to right and 5px to bottom
-offset[0] = 5;
-offset[1] = 5;</pre>
 					
 					
 
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+							<dd><a href="../symbols/ch.Viewport.html">ch.Viewport</a></dd>
+							
+							</dl>
 						
 						
 
 					<hr />
 				
-					<a name="points"> </a>
-					<div class="fixedFont">&lt;private&gt; 
+					<a name=".SCROLL"> </a>
+					<div class="fixedFont">&lt;static&gt; 
 					
 					
-					<b>points</b>
+					<span class="light">ch.Events.VIEWPORT.</span><b>SCROLL</b>
 					
 					</div>
 					<div class="description">
-						Points where element will be positioned, specified by configuration or centered by default.
-						
-							<br />
-							<i>Defined in: </i> <a href="../symbols/src/chico_src_js_newPositioner.js.html">newPositioner.js</a>.
+						Every time Chico-UI needs to inform all visual components that window has been scrolled, he triggers this event.
 						
 						
 					</div>
-					
-					
-					
-					<pre class="code">// Element left-top point = Context left-bottom point
-points: "lt rt"</pre>
-					
-					<pre class="code">// Element center-middle point = Context center-middle point
-points: "lt lb"</pre>
 					
 					
 
 						
 						
+						
+							<dl class="detailList">
+							<dt class="heading">See:</dt>
+							
+							<dd><a href="../symbols/ch.Viewport.html">ch.Viewport</a></dd>
+							
+							</dl>
 						
 						
 
@@ -303,7 +339,7 @@ points: "lt lb"</pre>
 		</div>
 
 		<p class="footer">
-		Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Mon Jul 11 2011 15:21:55 GMT-0300 (GMT-03:00)
+		Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Mon Jul 11 2011 15:21:56 GMT-0300 (GMT-03:00)
 	</p>
 <!-- ============================== footer ================================= -->
 
