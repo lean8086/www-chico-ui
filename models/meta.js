@@ -36,6 +36,7 @@ var meta = {
 		{"label": "Validate two fields like one", "href": "/how-to/validate-two-fields-like-one"},
 		{"label": "Use callbacks functions", "href": "/how-to/use-callback-functions"},
 		{"label": "Position something on screen", "href": "/how-to/position-something-on-screen"}
+		{"label": "Disable and enable watchers", "href": "/how-to/disable-and-enable-watchers"}
 	],
 	
 	"demos": [
