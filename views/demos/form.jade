@@ -16,49 +16,92 @@
 					
 	.ch-g3-4
 		h2 Form
-		p.container
-			| The tooltip component is a member of 
-			a(href='/api/symbols/ch.Floats.html') Floats
-			|  familiy. Give more information about an UI element on the screen.
-			| Hold the mouse over the loading image for a few seconds:
+		div.container
+			p
+				| The Form component is a member of 
+				a(href='/api/symbols/ch.Controllers.html') Controllers
+				|  family that manages instances of 
+				a(href='/api/symbols/ch.Watchers.html') Watchers
+				|  and provides public methods to administrate error messages and form callbacks.
+			p
+				| Read more about 
+				a(href='/api/symbols/ch.Form.html') Form
+				| .
 		div.box
-			div.loading(title="Please wait a few minutes while we process your request.")
-		p.container
-			| As any Floats children, the Tooltip has a few uses cases you can use to modifiy and manipulate
-			| its content, its size and positioning.
-
-		pre.code
-			| var myModal = $("#modal").modal({
-			| 	content:"<p>This is a modal window with static content.</p>"
-			| });
-
-		a#change-content
-		h3 Is the content boring? Change it!
-		div.container 		p
-			| We'll change the content using, as setter, the
-			a(href='/api/symbols/ch.Modal.html#.content') content()
-			|	method:
-		pre.code myModal.content("New content for myModal, using the content() method.");
-
-		a#new-content
-		h3 New content!
+			form#example_form(action='#')
+				fieldset
+					legend
+						| Form component
+					div.field-box
+						label(for='example_field')
+							span
+								| Some field
+							input#example_field(type='text')
+						p.help
+							| Please, submit this form to see it in action.
+				p.actions
+					input.btn.primary(type='submit', value='Submit form')
+		a#callbacks
+		h3 Callbacks
 		div.container
-		p Now, if we use the method content as getter, it returns:
-		pre.code myModal.content(); // returns "New content for myModal, using the content() method."
-		p This is simple, therefore you can try and change the modal window's content on your projects.
-
-		a#examples
-		h3 Examples
+			p
+				| The Form has some uses cases. You can use this component to trigger callbacks on determinated events.
+			pre.code
+				| var myForm = $("#example_form").form({
+				|     onSubmit: function () {
+				|         alert("This was triggered by Form component.");
+				|     }
+				| });
+			p
+				| Read more about
+				a(href='/how-to/use-callback-functions') Callbacks
+				| .
+			p
+				| You can find all Form callbacks on its 
+				a(href='/api/symbols/ch.Form.html') API documentation
+				| .
+	
+		a#error-messages
+		h3 Error messages
 		div.container
-			ul
-			li
-				a(href='http://www.jquery.com') jQuery JavaScript Library.
-			li
-				a(href='http://www.dillerdesign.com/experiment/DD_belatedPNG',title='PNG Support for old browsers.') DD_belatedPNG.
-			li
-				a(href='/how-to/browser-sniffing') Conditional comments.
+			p
+				| To set default messages for  
+				a(href='/api/symbols/ch.Watcher.html') Watchers
+				|  children, you can specify messages on configuration object.
+			p
+				| These messages will be replaced if a Watcher is invoked with a message.
+	
+			pre.code
+				| var myForm = $("#example_form").form({
+				|     messages: {
+				|         required: "Error message for all required fields.",
+				|         email: "Show this message on email format error."
+				|     }
+				| });
+		hr
+		.ch-g1-2
+			a(id='keep-on-reading')
+			h3 Keep on reading
+			p.container
+				| Read more on our technical documentation, see the 
+				a(href='/api/index.html') class index
+				| , or see more about forms in the 
+				a(href="/api/symbols/ch.Form.html") Form
+				|  documentation.
+		.ch-g1-2
+			a(id='report-a-problem')
+			h3 Problems?
+			p.container
+				| You can easily report problems, like bugs or typos through our 
+				a(href='/api/index.html') issue tracker
+				| , or simply write a twitt to 
+				a(href='http://twitter.com/#!/chicoui') @chicoui
 
 .clearfix
 
 script
-	$(".loading").tooltip();
+	$("#example_form").form({
+		onSubmit: function () {
+			alert("This was triggered by Form component.");
+		}
+	});
