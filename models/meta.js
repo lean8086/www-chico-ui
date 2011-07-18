@@ -35,7 +35,8 @@ var meta = {
 		{"label": "Change the content of a modal", "href": "/how-to/change-the-content-of-modal-window"},
 		{"label": "Validate two fields like one", "href": "/how-to/validate-two-fields-like-one"},
 		{"label": "Use callbacks functions", "href": "/how-to/use-callback-functions"},
-		{"label": "How to position something", "href": "/how-to/position-something"}
+		{"label": "How to position something", "href": "/how-to/position-something"},
+		{"label": "Disable and enable watchers", "href": "/how-to/disable-and-enable-watchers"}
 	],
 	
 	"demos": [
