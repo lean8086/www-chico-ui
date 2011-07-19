@@ -24,24 +24,21 @@
 
 	.ch-g3-4
 		h2 How to mesh your layout in 5 min?
-		div.container
-		p
-			| This guide explain you how to use Chico-UI Mesh to build fluids layouts quickly and easily, like this site.
+		p.container
+			| This guide explain you how to use Chico-UI Mesh to build fluid layouts quickly and easily, like we did with this site.
 
 		a#knowing-the-mesh
 		h3 Knowing the mesh
-		div.container
-		p
-			| Chico-UI Mesh provides a set of columns, written in CSS, that facilitate the laying out of web pages. It isn't part of
-			a(herf="") the CSS core,
-			|	that's why you have to
-			a(herf="http://download.chico-ui.com.ar/lastest/chico-mesh.css") download the file.
+		p.container
+			| Chico-UI Mesh provides a set of columns (written in CSS) that makes the laying out of a web page, easy and fast.that makes
+			| the laying out of a web page, easy and fast. It isn't part of the CSS core, that's why you have to
+			a(href="http://download.chico-ui.com.ar/lastest/chico-mesh.css", target="_blank") download the file.
 
 		a#class-names
 		h3 Class names
-		div.container
-		p 
-			| Each column has a class that specifies what width it will be. It is expressed in fractions that represent a width percent of our content. The class names replace the bar ( / ) in the fraction by a dash ( - ):
+		p.container
+			| Each column is expressed in fractions that represent a width percent
+			| of our content. The class names replace the bar ( / ) in the fraction by a dash ( - ):
 		pre.code
 			| 50% = 1/2 = .ch-g1-2
 			| 75% = 3/4 = .ch-g3-4
@@ -49,9 +46,9 @@
 
 		a#gutters
 		h3 Gutters
-		div.container
-		p
-			| The grids have no padding nor margin. To be able to get the gutters, you have to assign a margin to the element that's inside the grid. For that, we defined 3 classes that create a 10px margin to the inner element:
+		p.container
+			| The grids have no padding nor margin. To be able to get the gutters, you have to assign a margin to the element that's
+			| inside the grid. For that, we defined 3 classes that create a 10px margin to the inner element:
 		pre.code
 			| .leftcolumn: assign it to the left element
 			| .centercolumn: assign it to the center element
@@ -59,262 +56,281 @@
 
 		a#rounding
 		h3 Rounding
-		div.container
-		p
-			| The 1/3 and 1/6 columns have widths with infinite or too long decimals. To fix this issue, we created a grid with the extra percent you need to round to 100%.
+		p.container
+			| The 1/3 and 1/6 column widths have infinite or too long decimals. To fix this issue, we created a grid with the extra
+			| percent you need to round to 100%.
 		pre.code
 			| 33.34% = 1/3 = .ch-g1-3r
 			| 16.66% = 1/6 = .ch-g1-6r
-		p
+		p.container
 			| If you need 3 columns of equal widths, one of the 3 grids have to be ch-g1-3r, like this:
 		pre.code
 			| <div class="ch-g1-3">
-			|		<div class="box leftcolumn">
-			|				33,33%
-			| 	</div>
+			|     <div class="box leftcolumn">
+			|         33,33%
+			|     </div>
 			| </div>
 			| <div class="ch-g1-3r">
-			|		<div class="box centercolumn">
-			|				33,34%
-			|		</div>
+			|     <div class="box centercolumn">
+			|         33,34%
+			|     </div>
 			| </div>
 			| <div class="ch-g1-3">
-			|		<div class="box rightcolumn">
-			|				33,33%
-			|		</div>
-			| </div> 		p 
-			| Same thing happens with 1/6: one of the 6 grids have to be ch-g1-6r. If for some reason, you need to clear the floats, you can use the clearfix class defined on core.css.
+			|     <div class="box rightcolumn">
+			|         33,33%
+			|     </div>
+			| </div> 
+		p.container
+			| Same thing happens with 1/6: one of the 6 grids have to be ch-g1-6r. 
+		p.container
+			| If for some reason, you need to clear the floats, you can use the clearfix class defined on core.css.
 		pre.code
 			| <div class="ch-g1-4">
-			|		<div class="box leftcolumn">
-			|				Left 1/4
-			|		</div>
+			|     <div class="box leftcolumn">
+			|         Left 1/4
+			|     </div>
 			| </div>
 			| <div class="ch-g2-4">
-			|		<div class="box centercolumn">
-			|				Center 2/4
-			|		</div>
+			|     <div class="box centercolumn">
+			|         Center 2/4
+			|     </div>
 			| </div>
 			| <div class="ch-g1-4">
-			|		<div class="box rightcolumn">
-			|				Right 1/4
-			|		</div>
+			|     <div class="box rightcolumn">
+			|         Right 1/4
+			|     </div>
 			| </div>
 			| 
 			| <div class="clearfix"></div>
 			
 		a#examples
 		h3 Examples
-		div.container
 		h4 2 columns
 		div.ch-g1.container 
 			div.ch-g1-3
-			div.box.leftcolumn
-				| Left 1/3
+				div.box.leftcolumn
+					| Left 1/3
 			div.ch-g2-3
-			div.box.rightcolumn
-				| Right 2/3
+				div.box.rightcolumn
+					| Right 2/3
 		p
 			| Code:
 		pre.code
 			| <div class="ch-g1-3">
-			|		<div class="box leftcolumn">
-			|				Left 1/3
-			| 	</div>
+			|     <div class="box leftcolumn">
+			|         Left 1/3
+			|     </div>
 			| </div>
 			| <div class="ch-g2-3">
-			|		<div class="box rightcolumn">
-			|				Right 2/3
-			|		</div>
+			|     <div class="box rightcolumn">
+			|         Right 2/3
+			|     </div>
 			| </div>
 
 		h4 3 equal columns
 		div.ch-g1.container
 			div.ch-g1-3
-			div.box.leftcolumn
-				| Left 1/3
+				div.box.leftcolumn
+					| Left 1/3
 			div.ch-g1-3r
-			div.box.centercolumn
-				| Center 1/3
+				div.box.centercolumn
+					| Center 1/3
 			div.ch-g1-3
-			div.box.rightcolumn
-				| Right 1/3
+				div.box.rightcolumn
+					| Right 1/3
 		p
 			| Code:
 		pre.code
 			| <div class="ch-g1-3">
-			|		<div class="box leftcolumn">
-			| 			Left 1/3
-			| 	</div>
+			|     <div class="box leftcolumn">
+			|         Left 1/3
+			|     </div>
 			| </div>
 			| <div class="ch-g1-3r">
-			|		<div class="box centercolumn">
-			|				Center 1/3r
-			|		</div>
+			|     <div class="box centercolumn">
+			|         Center 1/3r
+			|     </div>
 			| </div>
 			| <div class="ch-g1-3">
-			|		<div class="box rightcolumn">
-			|				Right 1/3
-			|		</div>
+			|     <div class="box rightcolumn">
+			|         Right 1/3
+			|     </div>
 			| </div>
 
 		h4 Nested grids
 		div.ch-g1.container
-			div.box.leftcolumn
-			div.ch-g1-4
-				div.box.leftcolumn
-				| Left 1/4
-			div.ch-g2-4
-				div.box.centercolumn
-				div.ch-g1-2
+			div.box
+				div.ch-g1-4
 					div.box.leftcolumn
-					| Left 1/2
-				div.ch-g1-2
+						| Left 1/4
+				div.ch-g2-4
+					div.box.centercolumn
+						div.ch-g1-2
+							div.box.leftcolumn
+								| Left 1/2
+						div.ch-g1-2
+							div.box.rightcolumn
+								| Right 1/2
+						div.clearfix.actions
+							| Center 2/4
+				div.ch-g1-4
 					div.box.rightcolumn
-					| Right 1/2
-				.actions Center 2/4
+						| Right 1/4
 				div.clearfix
-			div.ch-g1-4
-				div.box.rightcolumn
-				| Right 1/4
-			div.clearfix
-		div.clearfix
 		p
 			| Code:
 		pre.code
 			| <div class="ch-g1">
-			| 		<div class="box leftcolumn">
-			| 				<div class="ch-g1-4">
-			| 						<div class="box leftcolumn"></div>
-			| 				</div>
-			| 				<div class="ch-g2-4">
-			| 						<div class="box centercolumn">
-			| 								<div class="ch-g1-2">
-			| 										<div class="box leftcolumn"></div>
-			| 								</div>
-			| 								<div class="ch-g1-2">
-			| 										<div class="box rightcolumn"></div>
-			| 								</div>
-			| 								<div class="clearfix"></div>
-			| 						</div>
-			| 				</div>
-			| 				<div class="ch-g1-4">
-			| 						<div class="box rightcolumn"></div>
-			| 				</div>
-			| 				<div class="clearfix"></div>
-			| 		</div>
+			|     <div class="box">
+			|         <div class="ch-g1-4">
+			|             <div class="box leftcolumn">
+			|                 Left 1/4
+			|             </div>
+			|         </div>
+			|         <div class="ch-g2-4">
+			|             <div class="box centercolumn">
+			|                 <div class="ch-g1-2">
+			|                     <div class="box leftcolumn">
+			|                         Left 1/2
+			|                     </div>
+			|                  </div>
+			|                  <div class="ch-g1-2">
+			|                      <div class="box rightcolumn">
+			|                          Right 1/2
+			|                      </div>
+			|                  </div>
+			|                 <div class="clearfix actions">
+			|                     Center 2/4
+			|                 </div>
+			|             </div>
+			|         </div>
+			|         <div class="ch-g1-4">
+			|             <div class="box rightcolumn">
+			|                 Right 1/2
+			|             </div>
+			|         </div>
+			|         <div class="clearfix"></div>
+			|     </div>
 			| </div>
 
 		h4 4 list columns
 		div.container
 			ul.ch-g1-4
-			li 
-				h3 Core
-			li
-				a(href="") Factory
-			li
-				a(href="") Get
-			li
-				a(href="") Positioner
+				li 
+					h3 Core
+				li
+					a(href="") Factory
+				li
+					a(href="") Get
+				li
+					a(href="") Positioner
 			ul.ch-g1-4
-			li
-				h3 Floats
-			li
-				a(href="") Tooltip
-			li
-				a(href="") Contextual Layer
-			li
-				a(href="") Modal Window
+				li
+					h3 Floats
+				li
+					a(href="") Tooltip
+				li
+					a(href="") Contextual Layer
+				li
+					a(href="") Modal Window
 			ul.ch-g1-4
-			li
-				h3 Watchers
-			li
-				a(href="") Required
-			li
-				a(href="") Number
-			li
-				a(href="") String
+				li
+					h3 Watchers
+				li
+					a(href="") Required
+				li
+					a(href="") Number
+				li
+					a(href="") String
 			ul.ch-g1-4
-			li
-				h3 Controllers
-			li
-				a(href="") Forms
-			li
-				a(href="") Tab Navigator
-			li
-				a(href="") Menu
+				li
+					h3 Controllers
+				li
+					a(href="") Forms
+				li
+					a(href="") Tab Navigator
+				li
+					a(href="") Menu
 			.clearfix
 		p
 			| Code:
 		pre.code 
 			| <div class="container">
-			| 		<ul class="ch-g1-4">
-			| 				<li><h3>Core</h3></li>
-			| 				<li><a href="#">Factory</a></li>
-			| 				<li><a href="#">Get</a></li>
-			| 				<li><a href="#">Positioner</a></li>
-			| 		</ul>
-			| 		<ul class="ch-g1-4">
-			| 				<li><h3>Floats</h3></li>
-			| 				<li><a href="#">Tooltip</a></li>
-			| 				<li><a href="#">Contextual Layer</a></li>
-			| 				<li><a href="#">Modal Window</a></li>
-			| 		</ul>
-			| 		<ul class="ch-g1-4">
-			| 				<li><h3>Watchers</h3></li>
-			| 				<li><a href="#">Required</a></li>
-			| 				<li><a href="#">Number</a></li>
-			| 				<li><a href="#">String</a></li>
-			| 		</ul>
-			| 		<ul class="ch-g1-4">
-			| 				<li><h3>Controllers</h3></li>
-			| 				<li><a href="#">Forms</a></li>
-			| 				<li><a href="#">Tab Navigator</a></li>
-			| 				<li><a href="#">Viewer</a></li>
-			| 		</ul>
-			| 		<div class="clearfix"></div>
+			|     <ul class="ch-g1-4">
+			|         <li><h3>Core</h3></li>
+			|         <li><a href="#">Factory</a></li>
+			|         <li><a href="#">Get</a></li>
+			|         <li><a href="#">Positioner</a></li>
+			|     </ul>
+			|     <ul class="ch-g1-4">
+			|         <li><h3>Floats</h3></li>
+			|         <li><a href="#">Tooltip</a></li>
+			|         <li><a href="#">Contextual Layer</a></li>
+			|         <li><a href="#">Modal Window</a></li>
+			|      </ul>
+			|      <ul class="ch-g1-4">
+			|         <li><h3>Watchers</h3></li>
+			|         <li><a href="#">Required</a></li>
+			|         <li><a href="#">Number</a></li>
+			|         <li><a href="#">String</a></li>
+			|      </ul>
+			|      <ul class="ch-g1-4">
+			|         <li><h3>Controllers</h3></li>
+			|         <li><a href="#">Forms</a></li>
+			|         <li><a href="#">Tab Navigator</a></li>
+			|         <li><a href="#">Viewer</a></li>
+			|      </ul>
+			|      <div class="clearfix"></div>
 			| </div>
 
 		h4 Chico's layout
-		div.container
-			div.ch-g1
+		div.ch-g1
 			div.box.actions
 				| Header
-			div.ch-g1
+		div.ch-g1
 			div.ch-g1-4
 				div.box.leftcolumn
-				| Menu
+					| Menu
 			div.ch-g3-4
 				div.box.rightcolumn
-				| Content
-			div.ch-g1
+					| Content
+		div.ch-g1
 			div.box.actions
 				| Footer
 		p
 			| Code:
 		pre.code
 			| <div class="ch-g1">
-			| 		<div class="box">
-			| 				Header
-			| 		</div>
+			|     <div class="box">
+			|         Header
+			|     </div>
 			| </div>
 			| <div class="ch-g1">
-			| 		<div class="ch-g1-4">
-			| 				<div class="box leftcolumn">
-			| 						Menu
-			| 				</div>
-			| 		</div>
-			| 		<div class="ch-g3-4">
-			| 				<div class="box rightcolumn">
-			| 						Content
-			| 				</div>
-			| 		</div>
+			|     <div class="ch-g1-4">
+			|         <div class="box leftcolumn">
+			|             Menu
+			|         </div>
+			|     </div>
+			|     <div class="ch-g3-4">
+			|         <div class="box rightcolumn">
+			|             Content
+			|         </div>
+			|     </div>
 			| </div>
 			| <div class="ch-g1">
-			| 		<div class="box">
-			| 				Footer
-			| 		</div>
+			|     <div class="box">
+			|         Footer
+			|     </div>
 			| </div>
 
+		hr
+		a(id='report-a-problem')
+		h3 Problems?
+		p.container
+			| You can easily report problems, like bugs or typos through our 
+			a(href='/api/index.html') issue tracker
+			| , or simply write a twitt to 
+			a(href='http://twitter.com/#!/chicoui') @chicoui
+			| .
 
 .clearfix

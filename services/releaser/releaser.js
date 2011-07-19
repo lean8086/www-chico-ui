@@ -8,8 +8,8 @@ var sys = require("sys"),
     events = require('events'),
     child = require("child_process"),
     exec  = child.exec,
-    	Builder = require("../builder/builder.js").Builder,
-	CustomBuild = require('../builder/custom_build.js').CustomBuild,
+    Builder = require("../builder/builder.js").Builder,
+	 CustomBuild = require('../builder/custom_build.js').CustomBuild,
     version = "0.1";
 
 var Releaser = function(){
@@ -56,9 +56,8 @@ Releaser.prototype.run = function(){
 		var release = JSON.parse(data);
 
 		self.name = release.name;
-		self.repository = release.repository;
-		self.build = release.build;
-		self.fullPackage = release.fullPackage;
+		self.directories = release.directories;
+		self.package = release.package;
 		self.jsdoc = release.jsdoc;
 
 		sys.puts("Release " + self.version + " configurated!");
@@ -73,16 +72,16 @@ Releaser.prototype.updateLocalRepo = function(){
 
 	var self = this;
 
-	sys.puts("Updating local repository: " + self.repository);
+	sys.puts("Updating local repository: " + self.directories.repository);
 
-	exec("cd " + __dirname + self.repository + " && git checkout master && git pull origin master", function(err, data) {
+	exec("cd " + __dirname + self.directories.repository + " && git checkout master && git pull origin master", function(err, data) {
 
 		if ( err ) {
 			sys.puts( "Error: <Updating the local repository...> " + err );
 			return;
 		};
 
-		exec("cd " + __dirname + self.repository + " && git checkout " + self.version, function(err, data) {
+		exec("cd " + __dirname + self.directories.repository + " && git checkout " + self.version, function(err, data) {
 
 			var reg = new RegExp(self.version);
 
@@ -101,6 +100,9 @@ Releaser.prototype.updateLocalRepo = function(){
 			};
 
 			self.configureBuild();
+			
+			//TODO: update directory and lastest ? 
+			//TODO: generate doc for each version
 			self.generateDoc();
 			
 		});
@@ -113,15 +115,18 @@ Releaser.prototype.updateLocalRepo = function(){
 Releaser.prototype.generateDoc = function(){
 	var self = this
 
-	exec("cd " + __dirname + "/../../ && " + self.jsdoc, function(err, data) {
+	exec("cd " + __dirname + self.directories.doc + " && " + self.doc, function(err, data) {
 
 		if ( err ) {
-			sys.puts( "Error: <Creating doc...> " + err );
+			sys.puts( "Error: <Documentation updated...> " + err );
 			return;
 		};
+		
+		sys.puts( "Documentation updated.");
 	});
 
 };
+
 
 // Configure builder.conf
 Releaser.prototype.configureBuild = function(){
@@ -136,16 +141,18 @@ Releaser.prototype.configureBuild = function(){
 		if (err) {
 			sys.puts( "Error: <Configuring builder...>" + err );
 			return;
-		};
+		}
 
 		var conf = JSON.parse(data);
 
 		if (conf.version != self.version) {
 			conf.version = self.version;
 			conf.build = 0;
-		};
+		} else {
+			conf.build += 1;	
+		}
 
-		conf.packages = self.build;
+		conf.packages = self.package;
 
 		var new_conf = JSON.stringify(conf);
 
@@ -154,9 +161,9 @@ Releaser.prototype.configureBuild = function(){
 		// overwrite build.conf file
 		fs.writeFile( __dirname + '/../builder/builder.conf' , new_conf , encoding='utf8' , function( err ) {
 
-			if(err) {
+			if (err) {
 				sys.puts( "Error: <Saving builder configuration...>" + err );
-			};
+			}
 			
 			sys.puts("Builder configurated!");
 
@@ -168,33 +175,45 @@ Releaser.prototype.configureBuild = function(){
 
 };
 
-// Create build and custom build (full package)
+
+// Create a new build
 Releaser.prototype.newBuild = function(){
 
 	var self = this;
 
-	self.builder = new Builder();
+	self.customBuilder = new CustomBuild(self.package);
 
-	self.builder.on("done", function(out){
-		sys.puts("Moved JS files to site directory...");
-		exec("cd " + __dirname + "/../../code/js/ && rm " + self.name + ".* && mv " + self.name + "*.js " + self.name + ".js", function(err, data){
+	self.customBuilder.on("done", function(uri){
 
-			if(err) {
-				sys.puts( "Error: <Moving JS files to site directory...> " + err );
+		exec("cd " + __dirname + self.directories.download + self.version + " || mkdir " + __dirname + self.directories.download + self.version + " && cp "+ __dirname + "/public" + uri + " " + __dirname + self.directories.download + self.version + "/", function(err, data){
+
+			if (err) {
+				sys.puts("Error <Moving full package to download directory...>" + self);
 			};
+			
+			sys.puts("Moved package to download directory.");
 
 		});
 
-		sys.puts("Moved CSS files to site directory...");
-		exec("cd " + __dirname + "/../../code/css/ && rm " + self.name + ".* && mv " + self.name + "*.css " + self.name + ".css", function(err, data){
-
+		exec("cd "+ __dirname + self.directories.lastest + " && rm -r * && tar -xvf " + __dirname + "/public" + uri, function(err, data){
+			
 			if(err) {
-				sys.puts( "Error: <Moving CSS files to site directory...> " + err );
+				sys.puts( "Error: " + err );
 			};
 
+			sys.puts("Moved files to lastest directory.");
+			
+			exec("cd "+ __dirname + self.directories.lastest + " && cp chico-min*.js " + __dirname + self.directories.src + "js/chico.js && cp chico-min*.css " + __dirname + self.directories.src + "css/chico.css && cp -r src/assets " + __dirname + self.directories.src + " && cp mesh*.css " + __dirname + self.directories.src + "css/mesh.css", function(err, data){
+				if(err) {
+					sys.puts( "Error: " + err );
+				};
+				sys.puts("Moved files to src directory.");
+			});		
+
+			
 		});
 
-		exec("cd "+ __dirname + self.repository + " && git tag", function(err, data){
+		exec("cd "+ __dirname + self.directories.repository + " && git tag", function(err, data){
 
 			if(err) {
 				sys.puts(err);
@@ -213,24 +232,10 @@ Releaser.prototype.newBuild = function(){
 
 			});
 
-			if (!exists) { self.tagVersion(); };			
+			if (!exists) { self.tagVersion(); };	
 
 		});
 
-	});
-
-
-	self.customBuilder = new CustomBuild( self.fullPackage );
-
-	self.customBuilder.on("done", function(uri){
-		sys.puts("Moved full package to download directory.");
-		exec("cd " + __dirname + "/../../download/" + self.version + " || mkdir " + __dirname + "/../../download/" + self.version + " && mv "+ __dirname + "/public" + uri + " " + __dirname + "/../../download/" + self.version + "/", function(err, data){
-
-			if (err) {
-				sys.puts("Error <Moving full package to download directory...>" + self);
-			};
-
-		});
 	});
 };
 
@@ -240,7 +245,7 @@ Releaser.prototype.tagVersion = function(){
 	var self = this;
 	sys.puts("Creating tag " + self.version);
 
-	exec("cd " + __dirname + self.repository + " && git tag \"" + self.version + "\" && git push --tag", function(err, data) {
+	exec("cd " + __dirname + self.directories.repository + " && git tag \"" + self.version + "\" && git push --tag", function(err, data) {
 
 		if (err) {
 			sys.puts("Error: <Creating tag...>" + err);
@@ -262,7 +267,7 @@ Releaser.prototype.updateVersion = function(){
 
 	sys.puts("Updating version in core.js...");
 	
-	fs.readFile( __dirname + self.repository + "src/js/core.js", function( err , data ) {
+	fs.readFile( __dirname + self.directories.repository + "src/js/core.js", function( err , data ) {
 
 		if (err) {
 			sys.puts(err);
@@ -278,7 +283,7 @@ Releaser.prototype.updateVersion = function(){
 
 		var corejs = data.toString().replace(/version:.*?\"([0-9](.)?)*\"/,"version: \""+ self.newVersion + "\"");
 
-		fs.writeFile( __dirname + self.repository + "src/js/core.js", corejs, encoding='utf8', function( err ) {
+		fs.writeFile( __dirname + self.directories.repository + "src/js/core.js", corejs, encoding='utf8', function( err ) {
 
 			if(err) {
 				sys.puts(err);
@@ -300,7 +305,7 @@ Releaser.prototype.updateRemoteRepo = function(){
 	
 	sys.puts("Updating remote repository...");
 
-	exec('cd ' + __dirname + self.repository + ' && git checkout master && git add . && git commit -m "Update version to ' + self.newVersion + '" && git push origin master', function(err, data) {
+	exec('cd ' + __dirname + self.directories.repository + ' && git checkout master && git add . && git commit -m "Update version to ' + self.newVersion + '" && git push origin master', function(err, data) {
 
 		if (err) {
 			sys.puts("Error: <Updating remote repository...>" + err);
