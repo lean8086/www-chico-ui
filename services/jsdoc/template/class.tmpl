@@ -95,7 +95,12 @@
 					<tbody>
 					<for each="member" in="ownProperties">
 						<tr>
-							<td class="attributes">{!
+							<td class="attributes">
+							<!-- # start Public & protected scope fix # -->
+								<if test="member.comment.getTag('public')[0]">&lt;public&gt;</if>
+								<if test="member.comment.getTag('protected')[0]">&lt;protected&gt;</if>
+							<!-- # end Public & protected scope fix # -->
+							{!
 								if (member.isPrivate) output += "&lt;private&gt; ";
 								if (member.isInner) output += "&lt;inner&gt; ";
 								if (member.isStatic) output += "&lt;static&gt; ";
@@ -143,6 +148,7 @@
 			</if>
 
 <!-- ============================== methods summary ======================== -->
+
 			<if test="data.methods.length">
 				{! var ownMethods = data.methods.filter(function($){return $.memberOf == data.alias  && !$.isNamespace}).sort(makeSortby("name")); !}
 				<if test="ownMethods.length">
@@ -157,7 +163,12 @@
 					<tbody>
 					<for each="member" in="ownMethods">
 						<tr>
-							<td class="attributes">{!
+							<td class="attributes">
+							<!-- # start Public & protected scope fix # -->
+								<if test="member.comment.getTag('public')[0]">&lt;public&gt;</if>
+								<if test="member.comment.getTag('protected')[0]">&lt;protected&gt;</if>
+							<!-- # end Public & protected scope fix # -->
+							{!
 								if (member.isPrivate) output += "&lt;private&gt; ";
 								if (member.isInner) output += "&lt;inner&gt; ";
 								if (member.isStatic) output += "&lt;static&gt; ";
@@ -216,13 +227,18 @@
 					<tbody>
 					<for each="member" in="ownEvents">
 						<tr>
-							<td class="attributes">{!
+							<td class="attributes">
+							<!-- # start Public & protected scope fix # -->
+								<if test="member.comment.getTag('public')[0]">&lt;public&gt;</if>
+								<if test="member.comment.getTag('protected')[0]">&lt;protected&gt;</if>
+							<!-- # end Public & protected scope fix # -->
+							{!
 								if (member.isPrivate) output += "&lt;private&gt; ";
 								if (member.isInner) output += "&lt;inner&gt; ";
 								if (member.isStatic) output += "&lt;static&gt; ";
 							!}&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><if test="member.isStatic && member.memberOf != '_global_'">{+member.memberOf+}.</if><b>{+new Link().toSymbol(member.alias).withText(member.name)+}</b>{+makeSignature(member.params)+}
+								<div class="fixedFont"><if test="member.isStatic && member.memberOf != '_global_'">{+member.memberOf+}.</if><b>{+new Link().toSymbol(member.alias).withText(member.name)+}</b>
 								</div>
 								<div class="description">{+resolveLinks(summarize(member.desc))+}</div>
 							</td>
@@ -359,7 +375,12 @@
 				</div>
 				<for each="member" in="ownProperties">
 					<a name="{+Link.symbolNameToLinkName(member)+}"> </a>
-					<div class="fixedFont">{!
+					<div class="fixedFont">
+					<!-- # start Public & protected scope fix # -->
+						<if test="member.comment.getTag('public')[0]">&lt;public&gt;</if>
+						<if test="member.comment.getTag('protected')[0]">&lt;protected&gt;</if>
+					<!-- # end Public & protected scope fix # -->
+					{!
 						if (member.isPrivate) output += "&lt;private&gt; ";
 						if (member.isInner) output += "&lt;inner&gt; ";
 						if (member.isStatic) output += "&lt;static&gt; ";
@@ -427,13 +448,20 @@
 				</div>
 				<for each="member" in="ownMethods">
 					<a name="{+Link.symbolNameToLinkName(member)+}"> </a>
-					<div class="fixedFont">{!
+					<div class="fixedFont">
+					<!-- # start Public & protected scope fix # -->
+						<if test="member.comment.getTag('public')[0]">&lt;public&gt;</if>
+						<if test="member.comment.getTag('protected')[0]">&lt;protected&gt;</if>
+					<!-- # end Public & protected scope fix # -->
+					{!
 						if (member.isPrivate) output += "&lt;private&gt; ";
 						if (member.isInner) output += "&lt;inner&gt; ";
 						if (member.isStatic) output += "&lt;static&gt; ";
 					!}
 					
+					<!-- avoid showing the return here
 					<if test="member.type"><span class="light">{{+new Link().toSymbol(member.type)+}}</span></if>
+					-->
 					<if test="member.isStatic && member.memberOf != '_global_'"><span class="light">{+member.memberOf+}.</span></if><b>{+member.name.replace(/\^\d+$/, '')+}</b>{+makeSignature(member.params)+}
 					
 					</div>
@@ -526,15 +554,19 @@
 				</div>
 				<for each="member" in="ownEvents">
 					<a name="{+Link.symbolNameToLinkName(member)+}"> </a>
-					<div class="fixedFont">{!
+					<div class="fixedFont">
+					<!-- # start Public & protected scope fix # -->
+						<if test="member.comment.getTag('public')[0]">&lt;public&gt;</if>
+						<if test="member.comment.getTag('protected')[0]">&lt;protected&gt;</if>
+					<!-- # end Public & protected scope fix # -->
+					{!
 						if (member.isPrivate) output += "&lt;private&gt; ";
 						if (member.isInner) output += "&lt;inner&gt; ";
 						if (member.isStatic) output += "&lt;static&gt; ";
 					!}
 					
 					<if test="member.type"><span class="light">{{+new Link().toSymbol(member.type)+}}</span></if>
-					<if test="member.isStatic && member.memberOf != '_global_'"><span class="light">{+member.memberOf+}.</span></if><b>{+member.name+}</b>{+makeSignature(member.params)+}
-					
+					<if test="member.isStatic && member.memberOf != '_global_'"><span class="light">{+member.memberOf+}.</span></if><b>{+member.name+}</b>
 					</div>
 					<div class="description">
 						{+resolveLinks(member.desc)+}
