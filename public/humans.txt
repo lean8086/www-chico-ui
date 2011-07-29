@@ -11,6 +11,10 @@
 	Frontender: Guillermo Paz
 	Twitter: @pazguille
 	From:Buenos Aires, Argentina
+	
+	Frontender: Hernan Mammana
+	Twitter: @hmammana
+	From: Buenos Aires, Argentina
 
 	Web Designer: Natalia Devalle
 	Twitter: @taly
@@ -18,10 +22,10 @@
 
 /* THANKS */
 
-		
+
 
 /* SITE */
-	Last update:2011/06/13
+	Last update:2011/07/28
 	Language:English / Castellano
 	Doctype:HTML5
-	IDE:Aptana Studio, GEdit, Smultron, Fireworks
+	IDE:Coda, GEdit, Smultron, Fireworks
