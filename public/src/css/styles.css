@@ -186,3 +186,50 @@ code {
   padding: 10px;
   border: solid 1px #CCC;
 }
+
+#members-tabs .ch-tabNavigator-triggers{
+	margin:0 10px;	
+}
+
+.ch-expando.examples h4 {
+	font-size:13px;
+}
+
+.ch-expando.examples .code {
+	margin-left:2px;	
+}
+
+.details{
+	margin:20px 0 40px;	
+}
+
+.details h2{
+	margin:20px 0;
+}
+
+.details .visibility{
+	font-size:13px;
+	color:#CCC;
+}
+
+.member-details ul{
+	padding:0;
+	margin: 0 0 0 20px;
+	list-style: disc;
+} 
+.details .description{
+	margin:10px 0 0 10px;
+}
+
+.member-details{
+	margin:5px 0 0 10px;
+}
+
+.member-details dt{
+	color:#555;
+	font-weight:bold;
+}
+
+.member-details dd{
+	margin:	5px 0 10px 10px;
+}
