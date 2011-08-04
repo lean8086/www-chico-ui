@@ -24,17 +24,18 @@ div.ch-g1.section
 		h3 Conditional comments
 		p.container	
 			| We hate writting CSS hacks. Instead of hacking the code, we rather use
-			a(href='/how-to/browser-sniffing') IE's conditional comments
+			| IE's conditional comments
 			|  so if you paste this code in your HTML, Chico-UI will know how to fix the visual inconsistencies
 		.snippet
 			p Snippet
 			div	
 				pre.code
 					|<!doctype html>
-					|<!--[if IE]><![endif]--><!--[if lt IE 7 ]> <html lang="es" class="no-js ie6"> <![endif]--> 
-					|<!--[if IE 7 ]><html lang="es" class="no-js ie7"> <![endif]-->
-					|<!--[if IE 8 ]><html lang="es" class="no-js ie8"> <![endif]--> 
-					|<!--[if IE 9 ]><html lang="es" class="no-js ie9"> <![endif]-->
+					|<!--[if IE]><![endif]-->
+					|<!--[if lt IE 7 ]><html lang="es" class="no-js ie6"> <![endif]--> 
+					|<!--[if IE 7 ]>	<html lang="es" class="no-js ie7"> <![endif]-->
+					|<!--[if IE 8 ]>	<html lang="es" class="no-js ie8"> <![endif]--> 
+					|<!--[if IE 9 ]>	<html lang="es" class="no-js ie9"> <![endif]-->
 					|<!--[if (gt IE 9)|!(IE)]><!--> <html lang="es" class="no-js"> <!--<![endif]-->	
 		h3 jQuery JavaScript Library
 		p.container	
@@ -130,6 +131,23 @@ div.ch-g1.section
 		p.container
 			| Read more in 
 			a(href='/docs/how-to/use-chico-on-a-web-page') How-to use Chico on a web page
+		hr
+		.ch-g1-2
+			a(id='keep-on-reading')
+			h2 Keep on reading
+			p.container
+				| Read more on our technical documentation, see the 
+				a(href='/api/index.html') class index 
+				| .
+		.ch-g1-2
+			a(id='report-a-problem')
+			h2 Problems?
+			p.container
+				| You can easily report problems, like bugs or typos through our 
+				a(href='/api/index.html') issue tracker
+				| , or simply write a twitt to 
+				a(href='http://twitter.com/#!/chicoui') @chicoui
+				| .
 .clearfix
 script
 	$(".snippet").expando();
