@@ -1,0 +1,19 @@
+
+.ch-g1.section
+	
+	.ch-g1-4
+		h3 Docs
+		ul
+			- each item in docs
+				li
+					a(href='#{item.href}') #{item.label}
+	.ch-g3-4
+		h1 Check out this demos
+		.container
+			p
+				| To see what is capable of, see these demos and examples.
+			ul
+				- each item in demos
+					li
+						a(href='#{item.href}') #{item.label}
+.clearfix

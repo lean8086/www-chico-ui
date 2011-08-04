@@ -7,113 +7,121 @@
 	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
 	</style></head><body><pre><span class='line'>  1</span> <span class="WHIT">
 <span class='line'>  2</span> </span><span class="COMM">/**
-<span class='line'>  3</span>  * Validate strings.
-<span class='line'>  4</span>  * @name String 
-<span class='line'>  5</span>  * @class String
-<span class='line'>  6</span>  * @interface
-<span class='line'>  7</span>  * @augments ch.Watcher
-<span class='line'>  8</span>  * @memberOf ch
-<span class='line'>  9</span>  * @param {String} msg Validation message
-<span class='line'> 10</span>  * @returns {Chico-UI Object}
-<span class='line'> 11</span>  * @see ch.Watcher
-<span class='line'> 12</span>  * @example
-<span class='line'> 13</span>  * // Create a string validation
-<span class='line'> 14</span>  * $("input").string("This field must be a string.");
-<span class='line'> 15</span>  */</span><span class="WHIT">
-<span class='line'> 16</span> 
-<span class='line'> 17</span> </span><span class="NAME">ch.extend</span><span class="PUNC">(</span><span class="STRN">"watcher"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="STRN">"string"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 18</span> 
-<span class='line'> 19</span> </span><span class="WHIT">    </span><span class="COMM">// $.string("message"); support</span><span class="WHIT">
-<span class='line'> 20</span> </span><span class="WHIT">    </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">conf.text</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">conf.email</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">conf.url</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">conf.maxLength</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">conf.minLength</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 21</span> </span><span class="WHIT">        </span><span class="NAME">conf.text</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 22</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 23</span> </span><span class="WHIT">    
-<span class='line'> 24</span>     </span><span class="COMM">// Define the conditions of this interface</span><span class="WHIT">
-<span class='line'> 25</span> </span><span class="WHIT">    </span><span class="NAME">conf.conditions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 26</span> </span><span class="WHIT">            </span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"text"</span><span class="PUNC">,</span><span class="WHIT"> 
-<span class='line'> 27</span>             </span><span class="NAME">patt</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/^([a-zA-Z\s]+)$/</span><span class="WHIT">
-<span class='line'> 28</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 29</span> </span><span class="WHIT">            </span><span class="NAME">name</span><span class="PUNC">:</span><span class="STRN">"email"</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 30</span> </span><span class="WHIT">            </span><span class="NAME">patt</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/</span><span class="WHIT"> 
-<span class='line'> 31</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 32</span> </span><span class="WHIT">            </span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"url"</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 33</span> </span><span class="WHIT">            </span><span class="NAME">patt</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/^((https?|ftp|file):\/\/|((www|ftp)\.)|(\/|.*\/)*)[a-z0-9-]+((\.|\/)[a-z0-9-]+)+([/</span><span class="PUNC">?</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="PUNC">*</span><span class="PUNC">)</span><span class="PUNC">?</span><span class="NAME">$</span><span class="PUNC">/</span><span class="WHIT"> 
-<span class='line'> 34</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 35</span> </span><span class="WHIT">            </span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"minLength"</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 36</span> </span><span class="WHIT">            </span><span class="NAME">expr</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">,</span><span class="NAME">b</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">a.length</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NAME">b</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT"> 
-<span class='line'> 37</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 38</span> </span><span class="WHIT">            </span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"maxLength"</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 39</span> </span><span class="WHIT">            </span><span class="NAME">expr</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">,</span><span class="NAME">b</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">a.length</span><span class="WHIT"> </span><span class="PUNC">&lt;=</span><span class="WHIT"> </span><span class="NAME">b</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT"> 
-<span class='line'> 40</span>         </span><span class="PUNC">}</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 41</span> 
-<span class='line'> 42</span> </span><span class="WHIT">    </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 43</span> 
-<span class='line'> 44</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 45</span> 
-<span class='line'> 46</span> </span><span class="COMM">/**
-<span class='line'> 47</span>  * Validate email sintaxis.
-<span class='line'> 48</span>  * @name Email
-<span class='line'> 49</span>  * @interface
-<span class='line'> 50</span>  * @augments ch.String
-<span class='line'> 51</span>  * @memberOf ch.String
-<span class='line'> 52</span>  * @param {String} [message] Validation message.
-<span class='line'> 53</span>  * @returns {Chico-UI Object}
-<span class='line'> 54</span>  * @see ch.Watcher
-<span class='line'> 55</span>  * @example
-<span class='line'> 56</span>  * // Create a email validation
-<span class='line'> 57</span>  * $("input").email("This field must be a valid email.");
-<span class='line'> 58</span>  */</span><span class="WHIT">
-<span class='line'> 59</span> 
-<span class='line'> 60</span> </span><span class="NAME">ch.extend</span><span class="PUNC">(</span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="STRN">"email"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 61</span> 
-<span class='line'> 62</span> </span><span class="COMM">/**
-<span class='line'> 63</span>  * Validate URL sintaxis.
-<span class='line'> 64</span>  * @name Url
-<span class='line'> 65</span>  * @interface
-<span class='line'> 66</span>  * @augments ch.String
-<span class='line'> 67</span>  * @memberOf ch.String
-<span class='line'> 68</span>  * @param {String} [message] Validation message.
-<span class='line'> 69</span>  * @returns {Chico-UI Object}
-<span class='line'> 70</span>  * @see ch.Watcher
-<span class='line'> 71</span>  * @example
-<span class='line'> 72</span>  * // Create a URL validation
-<span class='line'> 73</span>  * $("input").url("This field must be a valid URL.");
-<span class='line'> 74</span>  */</span><span class="WHIT">
-<span class='line'> 75</span> 
-<span class='line'> 76</span> </span><span class="NAME">ch.extend</span><span class="PUNC">(</span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="STRN">"url"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 77</span> 
-<span class='line'> 78</span> 
-<span class='line'> 79</span> </span><span class="COMM">/**
-<span class='line'> 80</span>  * Validate a minimun amount of characters.
-<span class='line'> 81</span>  * @name MinLength
-<span class='line'> 82</span>  * @interface
-<span class='line'> 83</span>  * @augments ch.String
-<span class='line'> 84</span>  * @memberOf ch.String
-<span class='line'> 85</span>  * @param {Number} value Minimun number value.
-<span class='line'> 86</span>  * @param {String} [message] Validation message.
-<span class='line'> 87</span>  * @returns {Chico-UI Object}
-<span class='line'> 88</span>  * @see ch.Watcher
-<span class='line'> 89</span>  * @example
-<span class='line'> 90</span>  * // Create a minLength validation
-<span class='line'> 91</span>  * $("input").minLength(10, "At least 10 characters..");
-<span class='line'> 92</span>  */</span><span class="WHIT">
-<span class='line'> 93</span> 
-<span class='line'> 94</span> </span><span class="NAME">ch.extend</span><span class="PUNC">(</span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="STRN">"minLength"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 95</span> 
-<span class='line'> 96</span> 
-<span class='line'> 97</span> </span><span class="COMM">/**
-<span class='line'> 98</span>  * Validate a maximun amount of characters.
-<span class='line'> 99</span>  * @name MaxLength
-<span class='line'>100</span>  * @interface
-<span class='line'>101</span>  * @augments ch.String
-<span class='line'>102</span>  * @memberOf ch.String
-<span class='line'>103</span>  * @param {Number} value Maximun number value.
-<span class='line'>104</span>  * @param {String} [message] Validation message.
-<span class='line'>105</span>  * @returns {Chico-UI Object}
-<span class='line'>106</span>  * @see ch.Watcher
-<span class='line'>107</span>  * @example
-<span class='line'>108</span>  * // Create a maxLength validation
-<span class='line'>109</span>  * $("input").maxLength(10, "No more than 10 characters..");
-<span class='line'>110</span>  */</span><span class="WHIT">
-<span class='line'>111</span> 
-<span class='line'>112</span> </span><span class="NAME">ch.extend</span><span class="PUNC">(</span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="STRN">"maxLength"</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>
+<span class='line'>  3</span> * Validate strings.
+<span class='line'>  4</span> * @name String 
+<span class='line'>  5</span> * @class String
+<span class='line'>  6</span> * @interface
+<span class='line'>  7</span> * @augments ch.Watcher
+<span class='line'>  8</span> * @memberOf ch
+<span class='line'>  9</span> * @param {String} msg Validation message
+<span class='line'> 10</span> * @returns {Chico-UI Object}
+<span class='line'> 11</span> * @see ch.Watcher
+<span class='line'> 12</span> * @see ch.Required
+<span class='line'> 13</span> * @see ch.Custom
+<span class='line'> 14</span> * @see ch.Number
+<span class='line'> 15</span> * @example
+<span class='line'> 16</span> * // Create a string validation
+<span class='line'> 17</span> * $("input").string("This field must be a string.");
+<span class='line'> 18</span> */</span><span class="WHIT">
+<span class='line'> 19</span> 
+<span class='line'> 20</span> </span><span class="NAME">ch.extend</span><span class="PUNC">(</span><span class="STRN">"watcher"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="STRN">"string"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 21</span> 
+<span class='line'> 22</span> </span><span class="WHIT">	</span><span class="COMM">// $.string("message"); support</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">conf.text</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">conf.email</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">conf.url</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">conf.maxLength</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">conf.minLength</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">		</span><span class="NAME">conf.text</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">	
+<span class='line'> 27</span> 	</span><span class="COMM">/**
+<span class='line'> 28</span> 	* @public
+<span class='line'> 29</span> 	* @name ch.String#conditions
+<span class='line'> 30</span> 	* @type {Map}
+<span class='line'> 31</span> 	*/</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">	</span><span class="COMM">// Define the conditions of this interface</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">	</span><span class="NAME">conf.conditions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">			</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"text"</span><span class="PUNC">,</span><span class="WHIT"> 
+<span class='line'> 35</span> 			</span><span class="NAME">patt</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/^([a-zA-Z\s]+)$/</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">			</span><span class="NAME">name</span><span class="PUNC">:</span><span class="STRN">"email"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">			</span><span class="NAME">patt</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/</span><span class="WHIT"> 
+<span class='line'> 39</span> 		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">			</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"url"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">			</span><span class="NAME">patt</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/^((https?|ftp|file):\/\/|((www|ftp)\.)|(\/|.*\/)*)[a-z0-9-]+((\.|\/)[a-z0-9-]+)+([/</span><span class="PUNC">?</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="PUNC">*</span><span class="PUNC">)</span><span class="PUNC">?</span><span class="NAME">$</span><span class="PUNC">/</span><span class="WHIT"> 
+<span class='line'> 42</span> 		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">			</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"minLength"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">			</span><span class="NAME">expr</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">,</span><span class="NAME">b</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">a.length</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NAME">b</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT"> 
+<span class='line'> 45</span> 		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">			</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"maxLength"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">			</span><span class="NAME">expr</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">,</span><span class="NAME">b</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">a.length</span><span class="WHIT"> </span><span class="PUNC">&lt;=</span><span class="WHIT"> </span><span class="NAME">b</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT"> 
+<span class='line'> 48</span> 		</span><span class="PUNC">}</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> 
+<span class='line'> 50</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 51</span> 
+<span class='line'> 52</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span> 
+<span class='line'> 54</span> </span><span class="COMM">/**
+<span class='line'> 55</span> * Validate email sintaxis.
+<span class='line'> 56</span> * @name Email
+<span class='line'> 57</span> * @interface
+<span class='line'> 58</span> * @augments ch.String
+<span class='line'> 59</span> * @memberOf ch
+<span class='line'> 60</span> * @param {String} [message] Validation message.
+<span class='line'> 61</span> * @returns {Chico-UI Object}
+<span class='line'> 62</span> * @see ch.Watcher
+<span class='line'> 63</span> * @example
+<span class='line'> 64</span> * // Create a email validation
+<span class='line'> 65</span> * $("input").email("This field must be a valid email.");
+<span class='line'> 66</span> */</span><span class="WHIT">
+<span class='line'> 67</span> 
+<span class='line'> 68</span> </span><span class="NAME">ch.extend</span><span class="PUNC">(</span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="STRN">"email"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span> 
+<span class='line'> 70</span> </span><span class="COMM">/**
+<span class='line'> 71</span> * Validate URL sintaxis.
+<span class='line'> 72</span> * @name Url
+<span class='line'> 73</span> * @interface
+<span class='line'> 74</span> * @augments ch.String
+<span class='line'> 75</span> * @memberOf ch
+<span class='line'> 76</span> * @param {String} [message] Validation message.
+<span class='line'> 77</span> * @returns {Chico-UI Object}
+<span class='line'> 78</span> * @see ch.Watcher
+<span class='line'> 79</span> * @example
+<span class='line'> 80</span> * // Create a URL validation
+<span class='line'> 81</span> * $("input").url("This field must be a valid URL.");
+<span class='line'> 82</span> */</span><span class="WHIT">
+<span class='line'> 83</span> 
+<span class='line'> 84</span> </span><span class="NAME">ch.extend</span><span class="PUNC">(</span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="STRN">"url"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 85</span> 
+<span class='line'> 86</span> 
+<span class='line'> 87</span> </span><span class="COMM">/**
+<span class='line'> 88</span> * Validate a minimun amount of characters.
+<span class='line'> 89</span> * @name MinLength
+<span class='line'> 90</span> * @interface
+<span class='line'> 91</span> * @augments ch.String
+<span class='line'> 92</span> * @memberOf ch
+<span class='line'> 93</span> * @param {Number} value Minimun number value.
+<span class='line'> 94</span> * @param {String} [message] Validation message.
+<span class='line'> 95</span> * @returns {Chico-UI Object}
+<span class='line'> 96</span> * @see ch.Watcher
+<span class='line'> 97</span> * @example
+<span class='line'> 98</span> * // Create a minLength validation
+<span class='line'> 99</span> * $("input").minLength(10, "At least 10 characters..");
+<span class='line'>100</span> */</span><span class="WHIT">
+<span class='line'>101</span> 
+<span class='line'>102</span> </span><span class="NAME">ch.extend</span><span class="PUNC">(</span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="STRN">"minLength"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span> 
+<span class='line'>104</span> 
+<span class='line'>105</span> </span><span class="COMM">/**
+<span class='line'>106</span> * Validate a maximun amount of characters.
+<span class='line'>107</span> * @name MaxLength
+<span class='line'>108</span> * @interface
+<span class='line'>109</span> * @augments ch.String
+<span class='line'>110</span> * @memberOf ch
+<span class='line'>111</span> * @param {Number} value Maximun number value.
+<span class='line'>112</span> * @param {String} [message] Validation message.
+<span class='line'>113</span> * @returns {Chico-UI Object}
+<span class='line'>114</span> * @see ch.Watcher
+<span class='line'>115</span> * @example
+<span class='line'>116</span> * // Create a maxLength validation
+<span class='line'>117</span> * $("input").maxLength(10, "No more than 10 characters..");
+<span class='line'>118</span> */</span><span class="WHIT">
+<span class='line'>119</span> 
+<span class='line'>120</span> </span><span class="NAME">ch.extend</span><span class="PUNC">(</span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="STRN">"maxLength"</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

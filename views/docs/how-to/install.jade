@@ -1,0 +1,135 @@
+
+div.ch-g1.section
+	
+	.ch-g1-4
+		h3 How-to...
+		ul.container
+			- each item in howtos 
+				li
+					a(href='#{item.href}') #{item.label}
+		h3 Demos
+		ul.container
+			- each item in demos
+				li
+					a(href='#{item.href}') #{item.label}
+		
+
+	.ch-g3-4
+		h1 How to install?
+		p.container
+			| To install it you need only some dependencies and the sources files.
+		h2 What dependencies need?
+		p.container 
+			| Something important is that Chico depends on jQuery to work. Besides that, you can add some snippets to improve the cross-browser task. Also, you can add PNG fix for non transparent png images in old browsers. 
+		h3 Conditional comments
+		p.container	
+			| We hate writting CSS hacks. Instead of hacking the code, we rather use
+			a(href='/how-to/browser-sniffing') IE's conditional comments
+			|  so if you paste this code in your HTML, Chico-UI will know how to fix the visual inconsistencies
+		.snippet
+			p Snippet
+			div	
+				pre.code
+					|<!doctype html>
+					|<!--[if IE]><![endif]--><!--[if lt IE 7 ]> <html lang="es" class="no-js ie6"> <![endif]--> 
+					|<!--[if IE 7 ]><html lang="es" class="no-js ie7"> <![endif]-->
+					|<!--[if IE 8 ]><html lang="es" class="no-js ie8"> <![endif]--> 
+					|<!--[if IE 9 ]><html lang="es" class="no-js ie9"> <![endif]-->
+					|<!--[if (gt IE 9)|!(IE)]><!--> <html lang="es" class="no-js"> <!--<![endif]-->	
+		h3 jQuery JavaScript Library
+		p.container	
+			| Most of this framework’s functionality is built on 
+			a(href='http://www.jquery.com') JQuery
+			|  , that's why we need to pre-load this tool.
+		.snippet
+			p Snippet
+			div
+				pre.code
+					|<head>
+					|	<title>Your title</title>
+					|	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.x.x/jquery.min.js"></script>
+					|	...
+		h3 DD_belatedPNG
+		p.container	
+			| The 
+			a(href='http://www.dillerdesign.com/experiment/DD_belatedPNG',title='PNG Support for old browsers.') DD_belatedPNG
+			|  solution is for .png transparencies in browsers that don't support this feature. We fix it with another conditional comment
+		.snippet
+			p Snippet
+			div
+				pre.code
+					|	...
+					|	<!--[if lt IE 7 ]><script src="./libs/js/dd_belatedpng.js"></script>
+					|	<script> DD_belatedPNG.fix('img, .ico'); //fix any <img> or .ico background-images </script>
+					|	<![endif]-->
+					|	...
+		h2 Which are the sources?
+		p.container
+			| You only add the CSS and JavaScript sources, and that's all! 
+			br
+			| Make sure to add the Styles on the 
+			code &lt;head&gt;
+			| .
+			
+		.snippet
+			p Snippet
+			div
+				pre.code			
+					|	...
+					|	<link rel="stylesheet" href="build/chico-min-0.x.x.css"> 
+					|</head>
+		p.container
+			| And you should add the Javascript at page bottom.
+		
+		.snippet
+			p Snippet
+			div
+				pre.code
+					|	...
+					|	<script src="build/chico-min-0.x.x.js"></script> 
+					|</body>
+					a#demos
+		a#using
+		h3 Final template
+		pre.code
+			|<!doctype html>
+			|<!--[if IE]><![endif]-->
+			|<!--[if lt IE 7 ]> <html lang="es" class="no-js ie6"> <![endif]--> 
+			|<!--[if IE 7 ]>    <html lang="es" class="no-js ie7"> <![endif]-->
+			|<!--[if IE 8 ]>    <html lang="es" class="no-js ie8"> <![endif]--> 
+			|<!--[if IE 9 ]>    <html lang="es" class="no-js ie9"> <![endif]-->
+			|<!--[if (gt IE 9)|!(IE)]><!--> <html lang="es" class="no-js"> <!--<![endif]-->
+			|<head>
+			|	<!-- Avoid script blocking -->
+			|	<script></script>
+			|	<meta charset="utf-8">
+			|	<title>Document Title</title>
+			|	<!-- Chico-UI Core Style Sheet -->
+			|	<link rel="stylesheet" href="build/chico-min-0.x.x.css">
+			|	<!--[if lt IE 7 ]>
+			|		<script src="./libs/js/dd_belatedpng.js"></script>
+			|		<script> DD_belatedPNG.fix('img, .ico'); //fix any <img> or .ico background-images </script>
+			|	<![endif]--> 
+			|<head>
+			|<body>
+			|	...
+			|	<!-- All markup here... -->
+			|	...
+			|	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.x.x/jquery.min.js"></script>
+			|	<script src="build/chico-min-0.x.x.js"></script>
+			|	<script>
+			|		<!--//--><![CDATA[// ><!--
+			| 		
+			|		// Write your JavaScript here...
+			|		
+			|		//--><!]]>
+			|	</script> 
+			|</body>
+			|</html>
+		h2 Using Chico on a Web page
+		p.container
+			| Read more in 
+			a(href='/docs/how-to/use-chico-on-a-web-page') How-to use Chico on a web page
+.clearfix
+script
+	$(".snippet").expando();

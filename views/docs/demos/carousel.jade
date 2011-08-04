@@ -1,0 +1,113 @@
+
+div(class='ch-g1 section')
+
+	.ch-g1-4
+		h3 Demos
+		ul.container
+			- each item in demos
+				li
+					a(href='#{item.href}') #{item.label}
+		h3 How-to...
+		ul.container
+			- each item in howtos 
+				li
+					a(href='#{item.href}') #{item.label}
+	.ch-g3-4
+		h1 Carousel
+		p.container
+			| The 
+			a(href='/api/symbols/ch.Carousel.html') Carousel
+			|  component extend the 
+			a(href='/api/symbols/ch.Object.html') Object
+			|  object. This is a large list of elements. Some elements will be shown in a preset area, 
+			|  and the others elements will be hidden waiting for the user interaction to show it. 
+			|  The component has two arrows, one at the left and the other one at the right, to slide the content list.
+		a(id='demo')
+		h2 Demo
+		.box
+			.demo-carousel
+				ul.carousel
+					li
+						img(src='http://img2.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg')
+					li
+						img(src='http://img2.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg')
+					li
+						img(src='http://img2.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg')
+		.snippet
+			p Snippet
+			div
+				pre.code
+					|<div class="SELECTOR">
+					|	<ul class="carousel">
+					|		<li><img src="http://img2.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg"></li>
+					|		<li><img src="http://img2.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg"></li>
+					|		<li><img src="http://img2.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg"></li>
+					|		<li><img src="http://img2.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg"></li>
+					|		<li><img src="http://img2.mlstatic.com/s_MLA_v_G_f_65213880_2657.jpg"></li>
+					|		<li><img src="http://img2.mlstatic.com/s_MLA_v_G_f_65213880_2657.jpg"></li>
+					|		<li><img src="http://img2.mlstatic.com/s_MLA_v_G_f_65213880_2657.jpg"></li>
+					|		<li><img src="http://img2.mlstatic.com/s_MLA_v_G_f_65213880_2657.jpg"></li>
+					|		<li><img src="http://img1.mlstatic.com/s_MLA_v_G_f_98530811_2188.jpg"></li>
+					|		<li><img src="http://img1.mlstatic.com/s_MLA_v_G_f_98530811_2188.jpg"></li>
+					|		<li><img src="http://img1.mlstatic.com/s_MLA_v_G_f_98530811_2188.jpg"></li>
+					|		<li><img src="http://img1.mlstatic.com/s_MLA_v_G_f_98530811_2188.jpg"></li>
+					|	</ul>
+					|</div>
+		p.container
+			| This is the way to create a Carousel:
+		pre.code 
+			| var foo = $("#example").carousel();
+		a(id='working-with-pages')
+		h2 Working with pages
+		
+		p.container 
+			| The carousel shows pages of elements and you can move between pages with the 
+			code prev()
+			|  and the 
+			code next()
+			|  methods.  Also, you can move the carousel directly to a page with the 
+			code goTo()
+			|  method. The 
+			code getItemsPerPage()
+			|  method allow you know the numbers of items to be displayed on each page.
+		a(id='pagination')
+		h3 Pagination
+		
+		p.container 
+			| The component has a pagination feature, which is set hidden by default, but you can make it visible.
+		pre.code 
+			| var foo = $("#example").carousel({pagination:true});
+		a(id='callbacks')
+		h2 Callbacks
+		
+		p.container 
+			| The component has a 
+			code onMove
+			|  callback that is executed after the carousel movement is donde. The 
+			code onNext
+			|  and 
+			code onPrev
+			|  will be executed when the next button or prev button are pressed. 
+		hr
+		.ch-g1-2
+			a(id='keep-on-reading')
+			h2 Keep on reading
+			p.container
+				| Read more on our technical documentation, see the 
+				a(href='/api/index.html') class index
+				| , or see more about Calendars in the 
+				a(href="/api/symbols/ch.Carousel.html") Carousel
+				|  documentation.
+		.ch-g1-2
+			a(id='report-a-problem')
+			h2 Problems?
+			p.container
+				| You can easily report problems, like bugs or typos through our 
+				a(href='/api/index.html') issue tracker
+				| , or simply write a twitt to 
+				a(href='http://twitter.com/#!/chicoui') @chicoui
+				| .
+.clearfix
+script
+	$(".demo-carousel").carousel();
+	$(".snippet").expando();

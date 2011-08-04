@@ -7,32 +7,32 @@
 	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
 	</style></head><body><pre><span class='line'>  1</span> <span class="WHIT">
 <span class='line'>  2</span> </span><span class="COMM">/**
-<span class='line'>  3</span>  * Required interface for Watcher.
-<span class='line'>  4</span>  * @name Required
-<span class='line'>  5</span>  * @class Required
-<span class='line'>  6</span>  * @interface
-<span class='line'>  7</span>  * @augments ch.Watcher
-<span class='line'>  8</span>  * @memberOf ch
-<span class='line'>  9</span>  * @param {Configuration Object} conf Object with configuration properties
-<span class='line'> 10</span>  * @returns {Chico-UI Object}
-<span class='line'> 11</span>  * @see ch.Number
-<span class='line'> 12</span>  * @see ch.String
-<span class='line'> 13</span>  * @see ch.Custom
-<span class='line'> 14</span>  * @example
-<span class='line'> 15</span>  * // Simple validation
-<span class='line'> 16</span>  * $("input").required("This field is required");
-<span class='line'> 17</span>  * @see ch.Watcher
-<span class='line'> 18</span>  */</span><span class="WHIT">
+<span class='line'>  3</span> * Creates required validations.
+<span class='line'>  4</span> * @name Required
+<span class='line'>  5</span> * @class Required
+<span class='line'>  6</span> * @interface
+<span class='line'>  7</span> * @augments ch.Watcher
+<span class='line'>  8</span> * @memberOf ch
+<span class='line'>  9</span> * @param {Object} conf Object with configuration properties
+<span class='line'> 10</span> * @returns {itself}
+<span class='line'> 11</span> * @see ch.Watcher
+<span class='line'> 12</span> * @see ch.Custom
+<span class='line'> 13</span> * @see ch.Number
+<span class='line'> 14</span> * @see ch.String
+<span class='line'> 15</span> * @example
+<span class='line'> 16</span> * // Simple validation
+<span class='line'> 17</span> * $("input").required("This field is required");
+<span class='line'> 18</span> */</span><span class="WHIT">
 <span class='line'> 19</span> 
 <span class='line'> 20</span> </span><span class="NAME">ch.extend</span><span class="PUNC">(</span><span class="STRN">"watcher"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="STRN">"required"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 21</span> </span><span class="WHIT">    
-<span class='line'> 22</span>     </span><span class="COMM">// Define the validation interface    </span><span class="WHIT">
-<span class='line'> 23</span> </span><span class="WHIT">    </span><span class="NAME">conf.required</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 24</span> </span><span class="WHIT">    </span><span class="COMM">// Define the conditions of this interface</span><span class="WHIT">
-<span class='line'> 25</span> </span><span class="WHIT">    </span><span class="NAME">conf.conditions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 26</span> </span><span class="WHIT">        </span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"required"</span><span class="WHIT">
-<span class='line'> 27</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 28</span> </span><span class="WHIT">    
-<span class='line'> 29</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 30</span> </span><span class="WHIT">    
+<span class='line'> 21</span> 
+<span class='line'> 22</span> </span><span class="WHIT">	</span><span class="COMM">// Define the validation interface    </span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">	</span><span class="NAME">conf.required</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">	</span><span class="COMM">// Define the conditions of this interface</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">	</span><span class="NAME">conf.conditions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">		</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"required"</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> 
+<span class='line'> 29</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 30</span> 
 <span class='line'> 31</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

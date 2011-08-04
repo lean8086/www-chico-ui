@@ -1,0 +1,179 @@
+
+div(class='ch-g1 section')
+
+	.ch-g1-4
+		h3 Demos
+		ul.container
+			- each item in demos
+				li
+					a(href='#{item.href}') #{item.label}
+
+		h3 How-to...
+		ul.container
+			- each item in howtos 
+				li
+					a(href='#{item.href}') #{item.label}
+					
+	.ch-g3-4
+		h1 Calendar
+		p.container
+			| The Calendar component is a member of 
+			a(href='/api/symbols/ch.Controllers.html') Controllers
+			|  familiy.
+		h2 Demo
+		form.box
+			fieldset
+				legend Example
+				ul
+					li
+						label
+							span Date:
+							input.demo-calendar(type='date')
+		
+		.snippet
+			p Snippet
+			div
+				pre.code
+						|<form action="ACTION" class="SELECTOR">
+						|	<fieldset>
+						|		<legend>Calendar</legend>
+						|		<ol>
+						|			<li class="field-box"> 
+						|				<label for="example"> 
+						|					<span>Fecha:</span>
+						|					<input type="date" id="example">
+						|				</label> 
+						|			</li>
+						|		</ol>
+						|	</fieldset>
+						|</form>
+					
+		p(class='container clearfix')
+			| This is the way to create a new Calendar:
+		pre.code
+			| var foo = $("#example").calendar("today");
+			
+		a(id='show-and-hide')
+		h2 Show and hide
+		p.container
+			a(href='/api/symbols/ch.Calendar.html') Calendar
+			|  exposes some public methods called 
+			code show()
+			|  and 
+			code hide()
+			| , both allow you to manage the Calendar's behavior programmatically. 
+		p.container
+			| Something like this:
+		pre.code
+			| myCalendar.show(); // Shows the calendar
+		p.container
+			| Or
+			code hide()
+			|  the Calendar, like this:
+		pre.code
+			| myCalendar.hide(); // Hides the calendar
+
+		a(id='changing-size')
+		h2 Changing size
+		p.container
+			| For change the width property to the Calendar's container
+			| there is a method called 
+			code width()
+			| , also works as a getter and a setter at the same time. To 
+			em get 
+			| the property simply use the method without arguments, like this:
+		pre.code
+			| var width = myCalendar.width(); // Get its width
+		p.container
+			| To set the property add an argument to the method  
+			code width()
+			| , admits 
+			em Numbers
+			|  (33) or 
+			em String
+			|  ('33px') as a CSS property. See an example:
+		pre.code
+			| myCalendar.width(300); // Set its width
+		p.container
+			| Exactly the same thing with the method 
+			code heigth()
+			| , admits 
+			em Numbers
+			|  (22) or 
+			em String
+			| ('22px') as a CSS property. Get example:
+		pre.code
+			| myCalendar.height(); // Get its height
+		p.container
+			| Set 
+			code height()
+			|  examples:
+		pre.code
+			| myCalendar.height(300); // Set its height
+		p.container
+			| Read more about 
+			a(href='/api/symbols/ch.Floats.html#.size') Sizing
+			| .
+			
+		a(id='positioning')
+		h2 Positioning
+		p.container
+			| Chico has an great utility to position things on screen, is called 
+			a(href='/api/symbols/ch.Positioner.html') Positioner
+			| . All 
+			a(href='/api/symbols/ch.Floats.html') Floats
+			|  has a 
+			code position()
+			|  method related to the 
+			a(href='/api/symbols/ch.Positioner.html') Positioner
+			|  , you can use it to redefine 
+			| Calendar's positioning. See an example:			
+		pre.code
+			| myCalendar.position({ 
+			|   offset: "0 10",
+			|   points: "lt lb"
+			| });
+		p.container
+			| As you can see, we pass a configuration object to the 
+			code position()
+			|  method with some properties. The 
+			code offset
+			|  property let you define a specific pixel values for X and Y axis indentation.
+			| The 
+			code points
+			|  property defines the position relation between the element and its context.
+			| In this case, the value 
+			code "lt lb"
+			|  literally says: 
+			cite 
+				| The element will be positioned by joining its left-bottom point with its 
+				| context by its left-top point. 
+		p.container
+			| Read more about 
+			a(href='/api/symbols/ch.Positioner.html') Positioner
+			| .
+
+		hr
+		.ch-g1-2
+			a(id='keep-on-reading')
+			h2 Keep on reading
+			p.container
+				| Read more on our technical documentation, see the 
+				a(href='/api/index.html') class index
+				| , or see more about Calendars in the 
+				a(href="/api/symbols/ch.calendar.html") Calendar
+				|  documentation.
+		.ch-g1-2
+			a(id='report-a-problem')
+			h2 Problems?
+			p.container
+				| You can easily report problems, like bugs or typos through our 
+				a(href='/api/index.html') issue tracker
+				| , or simply write a twitt to 
+				a(href='http://twitter.com/#!/chicoui') @chicoui
+				| .
+.clearfix
+
+script
+	$(".demo-calendar").calendar();
+	$(".snippet").expando();

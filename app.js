@@ -197,6 +197,57 @@ app.get('/getting-started', function(req, res){
 	res.render('getting-started', meta );
 });
 
+/**
+ * Docs.
+ */
+// get
+/*app.get('/docs', function(req, res){
+	// new title
+	meta.title = "Getting started with Chico UI";
+	res.render('docs', meta );
+});
+*/
+
+app.get('/docs',function(req, res){
+		res.render('docs', meta);
+});
+
+app.get('/docs/:branch/:label?',function(req, res){
+		var branch = req.params.branch,
+			label = req.params.label;
+			
+			if(branch!=undefined && label!=undefined){
+				var redefBranch = (branch=='how-to')?'howtos':branch;
+				var url = '/docs/'+branch+'/'+label;
+				items = meta[redefBranch];
+				for(var i in items){
+					if(items[i].href == url){
+						res.render('docs/'+branch+'/'+label, meta );
+						return;
+					}
+				}
+				res.render('404', meta );
+				return;
+				//res.render('docs/'+brancDzh+'/'+label, meta );
+			} else if(label==undefined){
+				var url = '/docs/'+branch;
+				items = meta.docs;
+				for(var i in items){
+					if(items[i].href == url){
+						res.render('docs/'+branch, meta );
+						return;
+					}
+				}
+				//res.send("Error 404 | Branch: "+branch+", Label: "+label);
+				res.render('404', meta );
+				return;
+			}
+			//res.send("Error 404 | Branch: "+branch+", Label: "+label);
+			res.render('404', meta );
+			return;
+});
+
+/*
 // get
 app.get('/how-to/:label?', function(req, res){
 
@@ -220,9 +271,11 @@ app.get('/how-to/:label?', function(req, res){
 	res.render('how-to/'+label, _meta );
 	
 });
+*/
 /**
  * Demos
  */
+/*
 // get
 app.get('/demos/:label?', function(req, res){
 
@@ -246,7 +299,7 @@ app.get('/demos/:label?', function(req, res){
 	res.render('demos/'+label, _meta );
 	
 });
-
+*/
 /**
  * Index.
  */

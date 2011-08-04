@@ -1,0 +1,79 @@
+
+.ch-g1.section
+
+	.ch-g1-4
+		h3 How-to...
+		ul.container
+			- each item in howtos 
+				li
+					a(href='#{item.href}') #{item.label}
+		h3 Demos
+		ul.container
+			- each item in demos
+				li
+					a(href='#{item.href}') #{item.label}
+
+	.ch-g3-4
+		h1 How to use callbacks functions?
+		p.container
+			| In this tutorial, we'll learn how to use 
+			a(href='http://en.wikipedia.org/wiki/Callback_(computer_programming)', title="Read more on Wikipedia.") callbacks
+			|  to know when a component change into a different state.
+			
+		a#defining-callbacks-functions
+		h2 Defining callback functions
+		p.container
+			| Almost every component has different states, you can know when something happens through
+			| callback functions. To assign a callback function simply pass the configuration
+			| object as an argument to a component constructor. Let's see an example with 
+			a(href='/demos/modal') Modal
+			|  component:
+		pre.code
+			| var myModal = $("#my-modal").modal({
+			| 	onShow: function() {
+			|		// inside a callback function
+			| 	}
+			| });
+		p.container
+			| To see all the availables callbacks see the 
+			a(href='/api/index.html') API Docs.
+		
+		a#the-scope-inside
+		h2 The scope inside
+		p.container
+			| To make things easy, each callback has a special scope inside its function context, 
+			| through the 
+			code this
+			|  keyword you can access to the component's instance to keep on working with it. 
+			| Let's see an example:
+		pre.code
+			| var myModal = $("#my-modal").modal({
+			| 	onShow: function() {
+			| 		this.content("New content for 'this', the modal.")
+			| 		    .widht(500)
+			| 		    .heigth(300);
+			| 	}
+			| });
+			
+		a#complex-behaviors
+		h2 Complex behaviors
+		p.container
+			| You can easily create more complex behaviors by combining a few components through 
+			| callback functions.
+		pre.code
+			| // Create a empty modal
+			| var myModal = $("#my-modal").modal();
+			| // Create a form controller and define a 'onSubmit' callback
+			| var myForm = $("#my-form").form({
+			| 	onSubmit:function() {
+			|		// Change modal's content and show it
+			|		myModal.content("<p>Are you sure?</p>").show();
+			| 	}
+			| });
+
+		a#keep-on-reading
+		h2 Keep on reading
+		p.container
+			| Read this, read that...
+
+.clearfix

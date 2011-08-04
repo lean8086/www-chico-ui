@@ -1,0 +1,20 @@
+
+.ch-g1.section
+	
+	.ch-g1-4
+		h3 Docs
+		ul
+			- each item in docs
+				li
+					a(href='#{item.href}') #{item.label}
+
+	.ch-g3-4
+		h1 How to...
+		.container
+			p
+				| This quick guide is intented to explain the basics of Chico.
+			ul
+				- each item in howtos 
+					li
+						a(href='#{item.href}') #{item.label}		
+.clearfix

@@ -1,0 +1,42 @@
+
+.ch-g1.section
+
+	.ch-g1-4
+		h3 How-to...
+		ul.container
+			- each item in howtos 
+				li
+					a(href='#{item.href}') #{item.label}
+		h3 Demos
+		ul.container
+			- each item in demos
+				li
+					a(href='#{item.href}') #{item.label}
+
+	.ch-g3-4
+		h1 How to report a bug?
+		a#please-follow-this-rules
+		p.container
+			| First, be sure it’s a bug of Chico UI.
+			| Then, you can report bugs here: 
+			a(href='https://github.com/mercadolibre/chico/issues',rel='nofollow') https://github.com/mercadolibre/chico/issues
+			| .
+		a#the-title-of-the-issue
+		h2 How I have to write the title?
+		p.container
+			| You could  include the component’s name and the problem.
+			br
+			| Example:
+			br
+			| Form: submit() method is executed twice
+		a#the-description
+		h2 What I have to write in the description?
+		ol
+			li
+				| You should write a step by step on how to reproduce the issue.
+			li
+				| Then, you should add the plataform. 
+			li
+				| If posible, you should add the browser name, browser version, and the OS. 
+
+.clearfix

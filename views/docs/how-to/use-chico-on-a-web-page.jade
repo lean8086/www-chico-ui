@@ -1,0 +1,51 @@
+
+.ch-g1.section
+
+	.ch-g1-4
+		h3 How-to...
+		ul.container
+			- each item in howtos 
+				li
+					a(href='#{item.href}') #{item.label}
+		h3 Demos
+		ul.container
+			- each item in demos
+				li
+					a(href='#{item.href}') #{item.label}
+
+	.ch-g3-4
+		h1 How to use Chico on a Web page?
+		p.container
+			| First make sure all dependencies are available before adding Chico’s source
+			| files or read  
+			a(href='/docs/how-to/install') How-to install Chico
+			| .
+		p.container
+			| That said is quite simple, 
+			| add a 
+			code &lt;script&gt;
+			|	tag at the bottom inside the 
+			code &lt;body&gt;
+			|	with the code to initialize the components, something like this:
+
+		pre.code
+			|	<!-- All markup here... -->
+			|	<script>
+			|		$(".selector").layer();
+			|	</script>
+			|</body> 
+			|</html>
+
+		hr
+		a(id='report-a-problem')
+		h2 Problems?
+		p.container
+			| You can easily report problems, like bugs or typos through our 
+			a(href='/api/index.html') issue tracker
+			| , or simply write a twitt to 
+			a(href='http://twitter.com/#!/chicoui') @chicoui
+			| .			
+
+.clearfix
+script
+	$(".snippet").expando();

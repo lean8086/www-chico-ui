@@ -1,0 +1,119 @@
+
+div(class='ch-g1 section')
+
+	.ch-g1-4
+		h3 Demos
+		ul.container
+			- each item in demos
+				li
+					a(href='#{item.href}') #{item.label}
+		h3 How-to...
+		ul.container
+			- each item in howtos 
+				li
+					a(href='#{item.href}') #{item.label}
+	.ch-g3-4
+		h1 Menu
+		p.container 
+			| The 
+			a(href='/api/symbols/ch.Menu.html') Menu 
+			| component is a member of the 
+			a(href='/api/symbols/ch.Controllers.html') Controllers
+			|  family. The navigation  component works by folding the information in categories. It lets you organize large lists of links. The user select one of the folds so making focus in a part of the large list.
+		a(id='demo')
+		h2 Demo
+		.box
+			br
+			ul.demo_menu
+				li
+					span Buy
+					ul
+						li
+							a(href='#') Following
+						li
+							a(href='#') Questions
+				li
+					span Sell
+					ul
+						li
+							a(href='#') Answers
+						li
+							a(href='#') Items
+				li
+					span Payments
+					ul
+						li
+							a(href='#') Example 1
+						li
+							a(href='#') Example 2
+				li
+					a(href='#') Tools
+		.snippet
+			p Snippet
+			div
+				pre.code
+					|<ul id="example">
+					|	<li>
+					|		<span>Buy</span>
+					|		<ul>
+					|			<li><a href="#">Following</a></li>
+					|			<li><a href="#">Questions</a></li>
+					|		</ul>
+					|	</li>
+					|	<li>
+					|		<span>Sell</span>
+					|		<ul>
+					|			<li><a href="#">Answers</a></li>
+					|			<li><a href="#">Items</a></li>
+					|		</ul>
+					|	</li>
+					|	<li>
+					|		<span>Payments</span>
+					|		<ul>
+					|			<li><a href="#">Example 1</a></li>
+					|			<li><a href="#">Example 2</a></li>
+					|		</ul>
+					|	</li>
+					|	<li>
+					|		<a href="#">Tools</a>
+					|	</li>
+					|</ul>
+		p.container	
+			| This is the way to create a new Layer:
+		pre.code
+			| var foo = $("#example").menu();
+		p.container 
+			| The folds are by default closed. But you can use the 
+			code selected
+			|  property to open a specific children. This is the way to initialize the component with a selected item:
+		pre.code
+			| var foo = $("#example").menu({seleted:2});
+		a(id='onselect-event')
+		h2 onSelect event
+		p.container 
+			| When a fold is being selected, the 
+			code onSelect
+			|  event is dispatched. You can set a callback function.
+		hr
+		.ch-g1-2
+			a(id='keep-on-reading')
+			h2 Keep on reading
+			p.container
+				| Read more on our technical documentation, see the 
+				a(href='/api/index.html') class index
+				| , or see more about Menu in the 
+				a(href="/api/symbols/ch.Menu.html") Menu
+				|  documentation.
+		.ch-g1-2
+			a(id='report-a-problem')
+			h2 Problems?
+			p.container
+				| You can easily report problems, like bugs or typos through our 
+				a(href='/api/index.html') issue tracker
+				| , or simply write a twitt to 
+				a(href='http://twitter.com/#!/chicoui') @chicoui
+				| .
+.clearfix
+script
+	$(".demo_menu").menu();
+	$(".snippet").expando();

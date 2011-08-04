@@ -1,0 +1,78 @@
+
+.ch-g1.section
+	
+	.ch-g1-4
+		h3 Docs
+		ul
+			- each item in docs
+				li
+					a(href='#{item.href}') #{item.label}
+
+	.ch-g3-4
+		h1 Getting started
+		p.container
+			| This quick guide is intented to explain the basics of Chico.
+		
+		a#what-is-chico
+		h2 What is Chico?
+		p.container
+			| Chico is a collection of 
+			em easy-to-use 
+			| web toys for developers and designers.
+			| Built on top of 
+			a(href='http://www.jquery.com') jQuery
+			| , this open source toolbox brings a couple of known visual patterns
+			| for the web and takes advantages of the new HTML5 and CSS3 features.
+		a#installing-in-your-site
+		h2 Installing in your site
+		p.container
+			| In a few steps you'll 
+			a(href='/docs/how-to/install') install
+			|  chico!
+			
+		a#demos
+		h2 Check out this demos
+		div.container
+			p
+				| To see what is capable of, see these demos and examples.
+			- each item in demos
+				a(href='#{item.href}') #{item.label}, 
+
+		a#download
+		h2 Download
+		div.container
+			p
+				| You can get the lastest 
+				a(href='/download') full version 
+				| of the library which comes with all 
+				a(href='/docs/demos') UI Components,
+				| or build your own 
+				a(href='/download') custom download
+				|.
+	
+			p
+				| The package comes with all the source code and assets you need to
+				| run Chico on your web page. The package structure look like this:
+				
+			
+			pre
+				| /assets
+				| /src/js
+				| /src/css
+		
+		a#who-is-using
+		h2 Who is using Chico?
+		div.container
+			p
+				| There is a couple of products using Chico on the web:
+			ol
+				li
+					a(href='http://www.mercadolibre.com') MercadoLibre,
+				li
+					a(href='http://www.mercadopago.com') MercadoPago,
+				li
+					a(href='http://www.mercadoshops.com') MercadoShops,
+				li
+					a(href='http://www.mercadoclics.com') MercadoClic.
+				
+.clearfix

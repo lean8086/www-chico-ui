@@ -7,10 +7,9 @@ var meta = {
 	
 		"top": [
 			{"label": "Home", "href": "/"},
-			{"label": "Download", "href": "/download"},
-			{"label": "Getting Started", "href": "/getting-started"},
-			{"label": "API", "href": "/api/index.html"},
+			{"label": "Docs", "href": "/docs"},
 			{"label": "Discussion", "href": "/discussion"},
+			{"label": "Download", "href": "/download"}
 		],
 
 		"bottom": [
@@ -30,37 +29,47 @@ var meta = {
 
 	},
 	
+	"docs": [
+		{"label": "Getting started", "href": "/docs/getting-started"},
+		{"label": "Demos", "href": "/docs/demos"},
+		{"label": "How to ...", "href": "/docs/how-to"},
+		{"label": "Api reference", "href": "/api/index.html"}
+	],
+	
 	"howtos": [
-		{"label": "Mesh your layout in 5 min", "href": "/how-to/mesh-your-layout-in-5-min"},
-		{"label": "Change the content of a modal", "href": "/how-to/change-the-content-of-modal-window"},
-		{"label": "Validate two fields like one", "href": "/how-to/validate-two-fields-like-one"},
-		{"label": "Use callbacks functions", "href": "/how-to/use-callback-functions"},
-		{"label": "Position something on screen", "href": "/how-to/position-something-on-screen"},
-		{"label": "Disable and enable watchers", "href": "/how-to/disable-and-enable-watchers"}
+		{"label": "Install Chico", "href": "/docs/how-to/install"},
+		{"label": "Use Chico on a Web page", "href": "/docs/how-to/use-chico-on-a-web-page"},
+		{"label": "Mesh your layout in 5 min", "href": "/docs/how-to/mesh-your-layout-in-5-min"},
+		{"label": "Change the content of a modal", "href": "/docs/how-to/change-the-content-of-modal-window"},
+		{"label": "Validate two fields like one", "href": "/docs/how-to/validate-two-fields-like-one"},
+		{"label": "Use callbacks functions", "href": "/docs/how-to/use-callback-functions"},
+		{"label": "Position something on screen", "href": "/docs/how-to/position-something-on-screen"},
+		{"label": "Disable and enable watchers", "href": "/docs/how-to/disable-and-enable-watchers"},
+		{"label": "Report a bug", "href": "/docs/how-to/report-a-bug"}
 	],
 	
 	"demos": [
-/*		{"label": "Cache", "href": "/demos/cache"},*/
-		{"label": "Calendar", "href": "/demos/calendar"},
-		{"label": "Carousel", "href": "/demos/carousel"},
-		{"label": "Dropdown", "href": "/demos/dropdown"},
-/*		{"label": "Factory", "href": "/demos/factory"},*/
-		{"label": "Form", "href": "/demos/form"},
-/*		{"label": "Eraser", "href": "/demos/eraser"},*/
-		{"label": "Expando", "href": "/demos/expando"},
-/*		{"label": "Extend", "href": "/demos/extend"},
-		{"label": "Keyboard", "href": "/demos/keyboard"},*/
-		{"label": "Layer", "href": "/demos/layer"},
-/*		{"label": "List", "href": "/demos/list"},*/
-		{"label": "Menu", "href": "/demos/menu"},
-		{"label": "Modal", "href": "/demos/modal"},
-/*		{"label": "onImagesLoads", "href": "/demos/onImagesLoads"},*/
-		{"label": "Positioner", "href": "/demos/positioner"},
-/*		{"label": "Preload", "href": "/demos/preload"},*/
-		{"label": "TabNavigator", "href": "/demos/tabNavigator"},
-		{"label": "Tooltip", "href": "/demos/tooltip"},
-		{"label": "Watcher", "href": "/demos/watcher"},
-		{"label": "Zoom", "href": "/demos/zoom"}
+/*		{"label": "Cache", "href": "/docs/demos/cache"},*/
+		{"label": "Calendar", "href": "/docs/demos/calendar"},
+		{"label": "Carousel", "href": "/docs/demos/carousel"},
+		{"label": "Dropdown", "href": "/docs/demos/dropdown"},
+/*		{"label": "Factory", "href": "/docs/demos/factory"},*/
+		{"label": "Form", "href": "/docs/demos/form"},
+/*		{"label": "Eraser", "href": "/docs/demos/eraser"},*/
+		{"label": "Expando", "href": "/docs/demos/expando"},
+/*		{"label": "Extend", "href": "/docs/demos/extend"},
+		{"label": "Keyboard", "href": "/docs/demos/keyboard"},*/
+		{"label": "Layer", "href": "/docs/demos/layer"},
+/*		{"label": "List", "href": "/docs/demos/list"},*/
+		{"label": "Menu", "href": "/docs/demos/menu"},
+		{"label": "Modal", "href": "/docs/demos/modal"},
+/*		{"label": "onImagesLoads", "href": "/docs/demos/onImagesLoads"},*/
+		{"label": "Positioner", "href": "/docs/demos/positioner"},
+/*		{"label": "Preload", "href": "/docs/demos/preload"},*/
+		{"label": "TabNavigator", "href": "/docs/demos/tabNavigator"},
+		{"label": "Tooltip", "href": "/docs/demos/tooltip"},
+		{"label": "Watcher", "href": "/docs/demos/watcher"}/*,
+		{"label": "Zoom", "href": "/docs/demos/zoom"}*/
 	]
 }
 
