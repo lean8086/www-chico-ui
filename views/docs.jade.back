@@ -1,0 +1,65 @@
+
+div.ch-g1.section.docs
+	.container
+		h1 Docs
+	.ch-g1-4
+		.box.centercolumn
+			h2 Getting started
+			p
+				| Here is explained Chico's basics features.
+			ul
+				li
+					a(href='/docs/getting-started#what-is-chico') What is chico?
+				li
+					a(href='/docs/getting-started#installing-in-your-site') Installing chico
+				li
+					a(href='/docs/getting-started#demos') Check out this demos
+				li
+					a(href='/docs/getting-started#download') Download
+				li
+					a(href='/docs/getting-started#who-is-using') Who is using Chico?
+			p
+				a(href='/docs/getting-started') Start here!
+
+	.ch-g1-4
+		.box.leftcolumn
+			h2 Demos
+			p
+				| Check out this demos
+				|  to see Chico what's capable of.
+				ul
+					- each item, i in demos
+						- if (i<5)
+							li
+								a(href='#{item.href}') #{item.label}
+			p
+				a(href='/docs/demos') See all demos
+	.ch-g1-4
+		.box.leftcolumn
+			h2 How to...
+			p
+				| The how to
+				|  guides, explains how to take a specific task.
+				ul
+					- each item, i in howtos
+						- if (i<5)
+							li
+								a(href='#{item.href}') #{item.label}
+			p
+				a(href='/docs/how-to') See all How to
+	.ch-g1-4
+		.box.leftcolumn
+			h2 Api reference
+			p
+				| Here there is a lot of examples, but It really is  a complete, vast and specific guide to customize and use the Chico's components.
+			P
+				| You can read about Calendar, Modal, and Forms.
+				| But, you could start reading 
+				code ch
+				|  the core of Chico UI
+			p
+				a(href='/api/symbols/ch.html') Start here!
+		
+.clearfix
+script
+	$(".snippet").expando();
