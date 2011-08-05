@@ -1,40 +1,49 @@
 
 .ch-g1.section
-		
-	.ch-g1-4
-		&nbsp;
-	.ch-g3-4
-		h1 Discussion
-		p.container
-			| Hi! Having some problems eh? Well, in this page you will find 
-			| a Frequently asked question section, with a lot of awnsers. If
-			| need to make a new one, feel free to do so in our google group
-			| page, or a simple twitt to 
-			a(href="http://twitter.com/#!/chicoui") @chicoui
-			|.
-		
-		h3 FAQ
-		ol.container
-			li 
-				h4 This isn't working...
-				p If nothing run like it should, try this checklist:
-				ul
-					li 
-						| Have you installed Chico?
-						a(href='/docs/how-to/install') See how
-						|.
-					li Have you installed Chico's dependencies?
-					li Are you sure you are editing the right file?
-			li 
-				h4 How can I validate two fields at once?
-				p 
-				| The fastest way is using a Custom validator, there is other 
-				| way by extending some components, but let's start with the 
-				| easy first, follow this guide: 
-				a(href="/how-to/validate-two-fields-at-once") How-to validate two fields like one
-				|.
-			li 
-				h4 How can I get in touch with you guys?
-				p You can reach us trought Github, Twitter, Facebook or by email.
+	.ch-g1-3
+		h1 Discussion group
+		form.container(action="http://groups.google.com/group/chico-ui/boxsubscribe")
+			p
+				| Post all your thoughts and doubts on our 
+				a(href="http://groups.google.com/group/chico-ui", rel="nofollow") Google Group.
+				| Subscribe yourself on our mailing list:
+			input(type="text", name="email")
+			input(type="submit", name="sub", value="Subscribe")	
 
+		h3 IRC Chat
+		p.container
+			| There's a chat room available on 
+			a(href="http://freenode.net/", rel="nofollow") freenode.net
+			|  servers. Is a quiet place, but you can find Chico team there
+			| during office hours, from 9 to 18hs (GMT-3).
+			br
+			strong Server: 
+			| irc.freenode.net
+			br
+			strong Room: 
+			| #chicoui
+
+
+	.ch-g1-3        
+		.ninja
+			img(src='src/assets/ninja.jpg')
+
+	.ch-g1-3
+		h2 Social ninja
+		p.container
+			| Follow 
+			a(href="http://twitter.com/#!/chicoui", rel="nofollow") @chicoui
+			|  on Twitter to get information about releases and new features.
+			| Also we have a Facebook
+			a(href="http://www.facebook.com/pages/Chico-UI/189546681062056", rel="nofollow") product page
+			| .
+
+
+		h2 Issue tracker
+		p.container
+			| You can easily report problems, like bugs or typos through our 
+			a(href='https://github.com/mercadolibre/chico/issues?milestone=23&sort=created&direction=desc&state=open', rel="nofollow") issue tracker
+			| , or simply write a twitt to 
+			a(href='http://twitter.com/#!/chicoui', rel="nofollow") @chicoui
+			| .
 hr.clearfix
