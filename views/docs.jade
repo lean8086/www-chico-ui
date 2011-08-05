@@ -1,65 +1,111 @@
 
-div.ch-g1.section.docs
-	.container
-		h1 Docs
+.ch-g1.section
+	
 	.ch-g1-4
-		.box.centercolumn
-			h2 Getting started
-			p
-				| Here is explained Chico's basics features.
-			ul
+		h3 Docs
+		ul
+			li
+				a(href='/api/index.html') API reference
+			
+		h3 Demos
+		ul
+			- each item in demos
 				li
-					a(href='/docs/getting-started#what-is-chico') What is chico?
-				li
-					a(href='/docs/getting-started#installing-in-your-site') Installing chico
-				li
-					a(href='/docs/getting-started#demos') Check out this demos
-				li
-					a(href='/docs/getting-started#download') Download
-				li
-					a(href='/docs/getting-started#who-is-using') Who is using Chico?
-			p
-				a(href='/docs/getting-started') Start here!
+					a(href='#{item.href}') #{item.label}
 
-	.ch-g1-4
-		.box.leftcolumn
-			h2 Demos
-			p
-				| Check out this demos
-				|  to see Chico what's capable of.
-				ul
-					- each item, i in demos
-						- if (i<5)
-							li
-								a(href='#{item.href}') #{item.label}
-			p
-				a(href='/docs/demos') See all demos
-	.ch-g1-4
-		.box.leftcolumn
-			h2 How to...
-			p
-				| The how to
-				|  guides, explains how to take a specific task.
-				ul
-					- each item, i in howtos
-						- if (i<5)
-							li
-								a(href='#{item.href}') #{item.label}
-			p
-				a(href='/docs/how-to') See all How to
-	.ch-g1-4
-		.box.leftcolumn
-			h2 Api reference
-			p
-				| Here there is a lot of examples, but It really is  a complete, vast and specific guide to customize and use the Chico's components.
-			P
-				| You can read about Calendar, Modal, and Forms.
-				| But, you could start reading 
-				code ch
-				|  the core of Chico UI
-			p
-				a(href='/api/symbols/ch.html') Start here!
+		h3 How-to...
+		ul
+			- each item in howtos 
+				li
+					a(href='#{item.href}') #{item.label}
+
+	.ch-g3-4
+		h1 Docs
+		h2 Getting started
+		p.container
+			| This quick guide is intented to explain the basics of Chico.
 		
+		a#what-is-chico
+		h3 What is Chico?
+		p.container
+			| Chico is a collection of 
+			em easy-to-use 
+			| web toys for developers and designers.
+			| Built on top of 
+			a(href='http://www.jquery.com') jQuery
+			| , this open source toolbox brings a couple of known visual patterns
+			| for the web and takes advantages of the new HTML5 and CSS3 features.
+		a#installing-in-your-site
+		h3 Installing in your site
+		p.container
+			| In a few steps you'll 
+			a(href='/docs/how-to/install') install
+			|  chico!
+			
+		a#demos
+		h3 Check out this demos
+		div.container
+			p
+				| To see what is capable of, see these demos and examples.
+				br
+				- each item in demos
+					a(href='#{item.href}') #{item.label}, 
+		h3 How to guides...
+		p.container
+			| The how to
+			|  guides, explains how to take a specific task.
+			br
+			- each item, i in howtos
+				- if (i<3)
+					a(href='#{item.href}') How-to #{item.label}
+					| ,
+			| and 
+			a(href='/docs/how-to') other How-to
+			| ...
+		h3 Api reference
+		p.container
+			| Here is  a complete, vast and specific content to customize and use Chico.
+			| You can read about Calendar, Modal, and Forms,
+			| but you could start reading 
+			code ch
+			|  the core of Chico UI.
+			br
+			a(href='/api/symbols/ch.html') Start here!
+			a#download
+		h3 Download
+		div.container
+			p
+				| You can get the lastest 
+				a(href='/download') full version 
+				| of the library which comes with all 
+				a(href='/docs/demos') UI Components,
+				| or build your own 
+				a(href='/download') custom download
+				|.
+	
+			p
+				| The package comes with all the source code and assets you need to
+				| run Chico on your web page. The package structure look like this:
+				
+			
+			pre
+				| /assets
+				| /src/js
+				| /src/css
+		
+		a#who-is-using
+		h3 Who is using Chico?
+		div.container
+			p
+				| There is a couple of products using Chico on the web:
+			ol
+				li
+					a(href='http://www.mercadolibre.com') MercadoLibre,
+				li
+					a(href='http://www.mercadopago.com') MercadoPago,
+				li
+					a(href='http://www.mercadoshops.com') MercadoShops,
+				li
+					a(href='http://www.mercadoclics.com') MercadoClic.
+				
 .clearfix
-script
-	$(".snippet").expando();

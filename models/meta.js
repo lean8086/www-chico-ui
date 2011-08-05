@@ -30,10 +30,9 @@ var meta = {
 	},
 	
 	"docs": [
-		{"label": "Getting started", "href": "/docs/getting-started"},
 		{"label": "Demos", "href": "/docs/demos"},
 		{"label": "How to ...", "href": "/docs/how-to"},
-		{"label": "Api reference", "href": "/api/index.html"}
+		{"label": "API", "href": "/api/index.html"}
 	],
 	
 	"howtos": [
