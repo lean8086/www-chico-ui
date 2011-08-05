@@ -1,18 +1,19 @@
 .ch-g1.overview.section
 	.ch-g1-3
-		h1 Get things done, quickly
-		p.container
-			| Chico is a collection of 
-			em easy-to-use 
-			| web toys for developers and designers.
-			| Built on top of 
-			a(href='http://www.jquery.com',rel='nofollow') jQuery
-			| , this open source toolbox brings a couple of known visual patterns
-			| for the web and takes advantages of the new HTML5 and CSS3 features. We want to 
-			a(href='http://github.com/mercadolibre/chico',rel='nofollow') share this tool 
-			| to help making the web more beautiful.
-		form.container(action='/getting-started')
-			input.btn.primary.button(type='submit', value='Getting Started')
+		.introduction.center
+			h1 Get things done, quickly
+			p.container
+				| Chico is a collection of 
+				em easy-to-use 
+				| web toys for developers and designers.
+				| Built on top of 
+				a(href='http://www.jquery.com',rel='nofollow') jQuery
+				| , this open source toolbox brings a couple of known visual patterns
+				| for the web and takes advantages of the new HTML5 and CSS3 features. We want to 
+				a(href='http://github.com/mercadolibre/chico',rel='nofollow') share this tool 
+				| to help making the web more beautiful.
+			form.container(action='/getting-started')
+				input.btn.primary.button(type='submit', value='Getting Started')
 	.ch-g1-3        
 		.ninja
 			img(src='src/assets/ninja.jpg')
@@ -21,98 +22,141 @@
 			h2 
 				| Get lastest version 
 				
-			p.container
-				| Version
-				span.version
-				| . Get 
-				a(href='http://download.chico-ui.com.ar/') older versions
+			
 			form(action='/download')
 				fieldset
 					ul
 						li.field-box
 							input.btn.secondary.skin.button(type='submit', value='Download full package')
-					ul
-						li.field-box
-							input.btn.primary.button(type='submit', value='Build custom download')
+					p.container
+						| Version
+						span.version
+						| . Get 
+						a(href='/download') older versions
+						//-ul
+						//-	li.field-box
+						//-		input.btn.primary.button(type='submit', value='Build custom download')
 					
 						
 					
 					
 					
 					
-						//-p
-						//-a(href='/api/index.html') API Reference
-						//-|,
-						//-a(href='/discussion') Discussion
-						//-|,
-						//-a(href='/docs/how-to/report-a-bug') Report a bug
-						//-|.
+						p.container
+							a(href='/api/index.html') API Reference
+							|,
+							a(href='/discussion') Discussion
+							|,
+							a(href='/docs/how-to/report-a-bug') Report a bug
+							|.
 						
 hr.clearfix
 div.container.home
 	ul.clearfix
+		li.ch-g1-2
+			.ui-components-demo
+				ul.ui-components-demo-list
+					li.ui-components-demo-list-item
+						a(href='/docs/demos/calendar') 
+							span.rounded
+								img(src='src/assets/icons/calendar-icon-64x64.jpg',alt='Calendar')
+							span Calendar
+					li.ui-components-demo-list-item
+						a(href='/docs/demos/carousel') 
+							span.rounded
+								img(src='src/assets/icons/carousel-icon-64x64.jpg',alt='Carousel')
+							span Carousel
+					li.ui-components-demo-list-item
+						a(href='/docs/demos/dropdown') 
+							span.rounded
+								img(src='src/assets/icons/dropdown-icon-64x64.jpg',alt='Dropdown')
+							span Dropdown
+					li.ui-components-demo-list-item
+						a(href='/docs/demos/expando') 
+							span.rounded
+								img(src='src/assets/icons/expando-icon-64x64.jpg',alt='Expando')
+							span Expando
+					li.ui-components-demo-list-item
+						a(href='/docs/demos/form') 
+							span.rounded
+								img(src='src/assets/icons/form-icon-64x64.jpg',alt='Form')
+							span Form 
+					li.ui-components-demo-list-item
+						a(href='/docs/demos/layer') 
+							span.rounded
+								img(src='src/assets/icons/layer-icon-64x64.jpg',alt='Layer')
+							span Layer
+					li.ui-components-demo-list-item
+						a(href='/docs/demos/menu') 
+							span.rounded
+								img(src='src/assets/icons/menu-icon-64x64.jpg',alt='Menu')
+							span Menu
+					li.ui-components-demo-list-item
+						a(href='/docs/demos/modal') 
+							span.rounded
+								img(src='src/assets/icons/modal-icon-64x64.jpg',alt='Modal')
+							span Modal
+					li.ui-components-demo-list-item
+						a(href='/docs/demos/positioner') 
+							span.rounded
+								img(src='src/assets/icons/positioner-icon-64x64.jpg',alt='Positioner')
+							span Positioner 
+					li.ui-components-demo-list-item
+						a(href='/docs/demos/tabnavigator') 
+							span.rounded
+								img(src='src/assets/icons/tabNavigator-icon-64x64.jpg',alt='TabNavigator')
+							span TabNavigator
+					li.ui-components-demo-list-item
+						a(href='/docs/demos/tooltip') 
+							span.rounded
+								img(src='src/assets/icons/tooltip-icon-64x64.jpg',alt='Tooltip')
+							span Tooltip
+					li.ui-components-demo-list-item
+						a(href='/docs/demos/watcher') 
+							span.rounded
+								img(src='src/assets/icons/watcher-icon-64x64.jpg',alt='Watcher')
+							span Watcher
+			
+		//-h3 Flavor your components
+		//-ul 
+		//-li 
+		//-a(href='/flavors/browse') Browse Flavors
+		//-li 
+		//-a(href='/docs/how-to/create-a-theme') How-to create a theme
+		//-li 
+		//-a(href='/flavors/design-playbook') Design playbook
 		li.ch-g1-4
-			h3 UI Components
-			p
-				a(href='/docs/demos/tooltip') Tooltip
-				|,
-				a(href='/docs/demos/layer') Layer
-				|, 
-				a(href='/docs/demos/modal') Modal
-				|,
-				a(href='/docs/demos/calendar') Calendar
-				|,
-				a(href='/docs/demos/carousel') Carousel
-				|,
-				a(href='/docs/demos/tabnavigator') TabNavigator
-				|,
-				a(href='/docs/demos/accordion') Accordion
-				|, 
-				a(href='/docs/demos/menu') Menu
-				|, 
-				a(href='/docs/demos/expando') Expando
-				|,
-				a(href='/docs/demos/zoom') Zoom
-				|, 
-				a(href='/docs/demos/form') Form 
-				|,
-				br
-				a(href='/docs/demos/watcher') Validator
-				|, and 
-				a(href='/docs/demos') more...
-		li.ch-g1-4
-			h3 Flavor your components
-			ul 
-				li 
-					a(href='/flavors/browse') Browse Flavors
-				li 
-					a(href='/docs/how-to/create-a-theme') How-to create a theme
-				li 
-					a(href='/flavors/design-playbook') Design playbook
-		li.ch-g1-4
-			h3 Mesh-up your layouts
+			h3 How-to guides
 			ul
-				li 
-					a(href='/docs/how-to/mesh-your-layout-in-5-min') How-to mesh in 5 min
-				li 
-					a(href='/mesh/layouts') Wide adjustable and fixed layouts
-				li 
-					a(href='/mesh/examples') Gallery and examples
+				- each item, i in howtos
+					- if (i<4)
+						li
+							a(href='#{item.href}') #{item.label}
+			//-h3 Mesh-up your layouts
+			//-ul
+			//-	li 
+			//-		a(href='/docs/how-to/mesh-your-layout-in-5-min') How-to mesh in 5 min
+			//-	li 
+			//-		a(href='/mesh/layouts') Wide adjustable and fixed layouts
+			//-	li 
+			//-		a(href='/mesh/examples') Gallery and examples
 		
 		li.ch-g1-4  
 			h3 Developers
-			ul
-				li 
-					a(href='/docs/how-to/create-a-component') How-to create a component
-				li 
-					a(href='/docs/how-to/collaborate') How-to collaborate
+			ul.ch-g1-2
 				li 
 					a(href='/api/index.html') API documentation
 				li 
 					a(href='http://github.com/mercadolibre/chico',rel='nofollow') Github repository
 				li 
+					a(href='/discussion') Discussion
+				li 
 					a(href='/docs/how-to/report-a-bug') How-to report a bug
-
+				//-li 
+				//-	a(href='/docs/how-to/create-a-component') How-to create a component
+				//-li 
+				//-	a(href='/docs/how-to/collaborate') How-to collaborate
+			
 hr.clearfix
 div.container.home
 	ul
@@ -138,6 +182,8 @@ div.container.home
 				a(href='https://raw.github.com/mercadolibre/chico/bc982b922d041057c9dde9566536ebfb517d1a70/LICENSE.txt', title='It means you can use it and modify it as you like.',rel='nofollow') MIT Licence!
 				| We are sharing our work like other cool projects like jQuery, NodeJS, Apache.
 .clearfix
-
+script
+	var uiComponentsDemo = $(".ui-components-demo").carousel({pagination:true});
+		uiComponentsDemo.goTo(2);	
 //script(type='text/javascript', src='/src/js/index.js')
 //script(type='text/javascript', src='/src/js/activity-widget.js')
