@@ -1,49 +1,56 @@
 !!! 5
 html.no-js(lang='en')
-  head
-    script
-    meta(charset='utf-8')
-    link(rel='author', href='/humans.txt', type='text/plain')
-    link(rel='shortcut icon', href='/src/assets/favicon.ico', type='image/vnd.microsoft.icon')
-    title #{title}
-       
-    link(rel='stylesheet', href='/src/css/chico-min-0.7.2.css')
-    link(rel='stylesheet', href='/src/css/mesh.css')
-    link(rel='stylesheet', href='/src/css/styles.css')
-    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Kreon:300,400,700&v1')
-    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic&v1')
-    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Ubuntu:300,300italic,regular,italic,500,500italic,bold,bolditalic&v1')
+	head
+		script
+		meta(charset='utf-8')
+		link(rel='author', href='/humans.txt', type='text/plain')
+		link(rel='shortcut icon', href='/src/assets/favicon.ico', type='image/vnd.microsoft.icon')
+		title #{title}
 
-    script(type='text/javascript', src='/src/js/jquery.js')
-    script(type='text/javascript', src='/src/js/chico-min-0.7.2.js')
-    script(type='text/javascript', src='/src/js/scripts.js')
-  
-    /if lt IE 7 
-        script(src='/src/js/dd_belatedpng.js')
-        script
-           DD_belatedPNG.fix('img, .ico');
-  body
-    .header.clearfix
-      h1(title='MercadoLibre\'s Visual Framework')
-        a(href='/') Chico UI
-        span.version
+		meta(property="og:title", content="Chico UI")
+		meta(property="og:type", content="product")
+		meta(property="og:url", content="http://www.chico-ui.com.ar")
+		meta(property="og:image", content="http://chico-ui.com.ar/sites/all/themes/chico/images/ninja.jpg")
+		meta(property="og:site_name", content="Chico UI, MercadoLibre&#039;s visual framework.")
+		meta(property="fb:admins", content="100001929271879")
 
-      ul
-        - each item in navigation.top 
-          li
-            a(href='#{item.href}') #{item.label}
-    hr
-  body!= body
-  
+		link(rel='stylesheet', href='/src/css/chico-min-0.7.2.css')
+		link(rel='stylesheet', href='/src/css/mesh.css')
+		link(rel='stylesheet', href='/src/css/styles.css')
+		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Kreon:300,400,700&v1')
+		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic&v1')
+		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Ubuntu:300,300italic,regular,italic,500,500italic,bold,bolditalic&v1')
+
+		script(type='text/javascript', src='/src/js/jquery.js')
+		script(type='text/javascript', src='/src/js/chico-min-0.7.2.js')
+		script(type='text/javascript', src='/src/js/scripts.js')
+	
+		/if lt IE 7 
+			script(src='/src/js/dd_belatedpng.js')
+			script
+				DD_belatedPNG.fix('img, .ico');
+	body
+		.header.clearfix
+			h1(title='MercadoLibre\'s Visual Framework')
+				a(href='/') Chico UI
+				span.version
+
+			ul
+				- each item in navigation.top 
+					li
+						a(href='#{item.href}') #{item.label}
+		hr
+	body!= body
+	
 //hr.clearfix
 //.ch-g1
-//  .bottom
-//   - each link in navigation.bottom
-//      a(href='#{link.href}') #{link.label}
+//	.bottom
+//		each link in navigation.bottom
+//			a(href='#{link.href}') #{link.label}
 
 
 hr.clearfix
 p.footer
-    | ©2011
-    a(href='http://www.mercadolibre.com') MercadoLibre
-    | .
+	| ©2011
+	a(href='http://www.mercadolibre.com') MercadoLibre
+	| .
