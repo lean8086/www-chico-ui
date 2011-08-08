@@ -39,18 +39,15 @@ html.no-js(lang='en')
 				- each item in navigation.top 
 					li
 						a(href='#{item.href}') #{item.label}
-		hr
-	body!= body
-	
-//hr.clearfix
-//.ch-g1
-//	.bottom
-//		each link in navigation.bottom
-//			a(href='#{link.href}') #{link.label}
 
+		hr
+
+	body!= body
 
 hr.clearfix
 p.footer
 	| ©2011
 	a(href='http://www.mercadolibre.com') MercadoLibre
 	| .
+
+//iframe(src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.chico-ui.com.ar%3A8080%2F", scrolling="no", frameborder="0", style="height: 62px; width: 100%", allowTransparency="true")

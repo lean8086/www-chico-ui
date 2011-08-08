@@ -7,9 +7,7 @@ var express = require('express'),
 		events = require('events'),
 		sys = require('sys'),
 		fs = require('fs'),
-//		gzippo = require('gzippo'),
 		CustomBuild = require('./services/builder/custom_build').CustomBuild,
-		Encode64 = require('./services/builder/encode64').Encode64,
 		meta = require('./models/meta').meta;
 		undefined;
 
@@ -30,9 +28,6 @@ app.configure(function(){
 	app.use(express.methodOverride());
 	app.use(app.router);
 	app.use(express.static(__dirname + '/public'));
-	app.use(express.errorHandler({ showStack: true, dumpExceptions: true }));
-// gzip compression
-//	app.use(gzippo.staticGzip(__dirname + '/public'));
 });
 
 app.configure('development', function(){
@@ -45,7 +40,7 @@ app.configure('production', function(){
 
 /**
  * rutes
-
+*/
 // build lastest version
 app.get( '/lastest/:type/:min?', function( req, res ) {
  			
@@ -68,19 +63,24 @@ app.get( '/lastest/:type/:min?', function( req, res ) {
 				});
 		
 });
-*/
 
 /**
  * Download
  */
+
 // get 
 app.get( '/download', function( req, res ) {
-		
+	
+	// new title
+	var _meta = Object.create(meta);
+		_meta.title = meta.title + " download.";
+	
 	res.render( 'download', meta );
 	
 });
 
 // post 
+
 app.post('/download', function( req, res ){
 
 //		console.log( req.body );
@@ -200,13 +200,6 @@ app.get('/getting-started', function(req, res){
 /**
  * Docs.
  */
-// get
-/*app.get('/docs', function(req, res){
-	// new title
-	meta.title = "Getting started with Chico UI";
-	res.render('docs', meta );
-});
-*/
 
 app.get('/docs',function(req, res){
 		res.render('docs', meta);
@@ -247,64 +240,28 @@ app.get('/docs/:branch/:label?',function(req, res){
 			return;
 });
 
-/*
-// get
-app.get('/how-to/:label?', function(req, res){
 
-	// get label
-	var label = req.params.label;
-
-	// no label, go to getting started	
-	if (label == undefined) {
-		res.render('getting-started', meta );
-	return;
-	}
-
-	// re define title
-	var title = label.split("-").join(" ");
-		
-	// new title
-	var _meta = Object.create(meta);
-		_meta.title = title;
-	
-	// render
-	res.render('how-to/'+label, _meta );
-	
-});
-*/
 /**
- * Demos
+ * Error pages
  */
-/*
-// get
-app.get('/demos/:label?', function(req, res){
-
-	// get label
-	var label = req.params.label;
-
-	// no label, go to getting started	
-	if (label == undefined) {
-		res.render('getting-started', meta );
-	return;
-	}
-
-	// re define title
-	var title = label.split("-").join(" ");
-
-	// new title
-	var _meta = Object.create(meta);
-		_meta.title = title + " demo.";
-
-	// render
-	res.render('demos/'+label, _meta );
-	
+app.get('/404', function(req, res){
+	res.render('404', meta );
 });
-*/
+
+app.get('/500', function(req, res){
+	res.render('404', meta );
+});
+
 /**
  * Index.
  */
 // get
-app.get('/', function(req, res){
+app.get('/', function(req, res, next){
+
+    if (req.headers.host.indexOf("download")>-1){
+    	next();
+    }
+
 	res.render('index', meta );
 });
 

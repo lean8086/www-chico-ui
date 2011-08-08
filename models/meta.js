@@ -8,6 +8,7 @@ var meta = {
 		"top": [
 			{"label": "Home", "href": "/"},
 			{"label": "Docs", "href": "/docs"},
+			{"label": "API", "href": "/api/index.html"},
 			{"label": "Discussion", "href": "/discussion"},
 			{"label": "Download", "href": "/download"}
 		],

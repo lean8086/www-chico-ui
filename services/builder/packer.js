@@ -233,7 +233,7 @@ Packer.prototype.embedImages = function( str ) {
 	return str.replace(/(url\(\')(.*)(\'\);)/gi, function(str, $1, $2){
         // Generate dataURI
         //TODO: make this url variable
-        var encoded = new Encode64( __dirname + "/../../../chicotest/src/" + $2).encoded_data;
+        var encoded = new Encode64( __dirname + "/../../../chico.master/src/" + $2).encoded_data;
 
 		return "url(\'data:image/png;base64," + encoded + "\');*background-image:url(\'" + $2 + "\');";
 
