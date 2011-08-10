@@ -71,12 +71,12 @@ app.get( '/lastest/:type/:min?', function( req, res ) {
 app.get('/download', function(req, res) {
 	
 	var versions = [],
-		folders = fs.readdirSync("./public/versions/");
+		folders = fs.readdirSync( __dirname + "/public/versions/");
 		
 	if (folders) {
 		folders.forEach(function(folder) {
 			var version = {version:folder, files:[]};
-			var subFolder = fs.readdirSync("./public/versions/" + folder);
+			var subFolder = fs.readdirSync( __dirname + "/public/versions/" + folder);
 			if (subFolder) {
 				subFolder.forEach(function(file){
 					version.files.push({label: file, href: "/versions/"+folder+"/"+file});
