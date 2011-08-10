@@ -44,23 +44,22 @@ app.configure('production', function(){
 // build lastest version
 app.get( '/lastest/:type/:min?', function( req, res ) {
  			
-		var type = req.params.type;
-		var min = req.params.min;
-		
-		var packages = [{
+		var type = req.params.type,
+			min = req.params.min,
+			packages = [{
 				"name": "chico",
-				"input": "../chico/src/"+type+"/",
+				"input": (type==="js")?"../chico/src/"+type+"/":"../chico/src/ml/"+type+"/",
 				"type": type,
 				"min": (min) ? true : false,
-				"virtual": true // Don't write the files
-		}];
-		
-		var custom = new CustomBuild( packages );
-				custom.avoidCompress();
-				custom.on( "processed" , function( data ) {
-						res.header('Content-Type', (type3==="js") ? "text/javascript" : "text/css" );
-						res.send( data );
-				});
+				"embed": false,
+				"avoid": true // Don't write the files
+			}],
+			custom = new CustomBuild(packages, "ml", true); // to avoid create the zip file send last argument true
+			custom.avoidCompress();
+			custom.on( "processed" , function( data ) {
+				res.header('Content-Type', (type==="js") ? "text/javascript" : "text/css" );
+				res.send( data );
+			});
 		
 });
 
@@ -69,13 +68,30 @@ app.get( '/lastest/:type/:min?', function( req, res ) {
  */
 
 // get 
-app.get( '/download', function( req, res ) {
+app.get('/download', function(req, res) {
+	
+	var versions = [],
+		folders = fs.readdirSync("./public/versions/");
+		
+	if (folders) {
+		folders.forEach(function(folder) {
+			var version = {version:folder, files:[]};
+			var subFolder = fs.readdirSync("./public/versions/" + folder);
+			if (subFolder) {
+				subFolder.forEach(function(file){
+					version.files.push({label: file, href: "/versions/"+folder+"/"+file});
+				});
+			}
+			versions.push(version);
+		});
+	}
 	
 	// new title
 	var _meta = Object.create(meta);
-		_meta.title = meta.title + " download.";
-	
-	res.render( 'download', meta );
+		_meta.title = "Download Chico-UI.";
+		_meta.versions = versions.reverse();
+
+	res.render( 'download', _meta );
 	
 });
 
@@ -83,17 +99,15 @@ app.get( '/download', function( req, res ) {
 
 app.post('/download', function( req, res ){
 
-//		console.log( req.body );
-
 		var components = ( typeof req.body.class === "object" ) ? // If collection 
-												req.body.class.join(",") : 
-												req.body.class,
+								  req.body.class.join(",") : 
+								  req.body.class,
 				abstracts = ( typeof req.body.abstract === "object" ) ? // If collection 
-												req.body.abstract.join(",") : 
-												req.body.abstract,
+									 req.body.abstract.join(",") : 
+									 req.body.abstract,
 				utils = ( typeof req.body.util === "object" ) ? // If collection 
-												req.body.util.join(",") : 
-												req.body.util,
+								 req.body.util.join(",") : 
+								 req.body.util,
 				flavor = req.body.flavor,
 				use_mesh = req.body.mesh,
 				embed = req.body.embed;
@@ -119,9 +133,10 @@ app.post('/download', function( req, res ){
 				return {
 						"name": "chico",
 						"input": "../chico/src/" + flavor + "/css/",
-						"components": components + ( ( use_mesh ) ? ",mesh" : "" ),
+						"components": components,
 						"embed": ( embed ) ? true : false,
-						"type": "css"
+						"type": "css",
+						"flavor": flavor
 				}
 		};
 		
@@ -129,10 +144,11 @@ app.post('/download', function( req, res ){
 		var mesh = function() {
 				return {
 						"name": "mesh",
-						"input": "../chico/src/css/",
+						"input": "../chico/src/" + flavor + "/css/",
 						"components": "mesh",
 						"embed": ( embed ) ? true : false,
-						"type": "css"
+						"type": "css",
+						"flavor": flavor
 				}
 		};
 
@@ -142,30 +158,27 @@ app.post('/download', function( req, res ){
 		if ( env.toString().indexOf("p") > -1 ) {
 				// JS
 				var p_js = js();
-						p_js.min = true;
-						packages.push(p_js);
+					p_js.min = true;
+				packages.push(p_js);
 				// CSS
 				var p_css = css();
-						p_css.min = true;
-						packages.push(p_css);
+					p_css.min = true;
+				packages.push(p_css);
 		}
 		
 		// for Dev
 		if ( env.toString().indexOf("d") > -1 ) {
 				// JS
 				var d_js = js();
-						packages.push( d_js );
+				packages.push( d_js );
 				// CSS
 				var d_css = css();
-						packages.push( d_css );
+				packages.push( d_css );
 		}
-
-		console.log(packages);
 		
-		var custom = new CustomBuild( packages );
+		var custom = new CustomBuild(packages, flavor);
 				custom.on("done", function( uri ) {
-						//res.send( uri );
-						res.redirect( uri );
+						res.redirect(uri);
 				});
 
 });

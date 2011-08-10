@@ -369,8 +369,15 @@ code {
 .mesh-reset ul{margin:0;}
 
 /**
-SECTIONS
+
+	DOWNLOAD
 
 */
-.
 
+.disabled {
+    color: #999;    
+}
+
+#versions {
+	width: 200px;
+}

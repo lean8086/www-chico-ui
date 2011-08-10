@@ -15,7 +15,7 @@ var sys = require("sys"),
     exec  = require("child_process").exec;
 
 
-var CustomBuild = function(_packages) {
+var CustomBuild = function(_packages, flavor, avoid) {
 	
 	var self = this;
     
@@ -23,7 +23,9 @@ var CustomBuild = function(_packages) {
 
     self._packages = _packages;
     
-    self.avoid = false; // key to avoid create the zip file
+    self.flavor = flavor;
+    
+    self.avoid = avoid || false; // key to avoid create the zip file
     
     self.run();
     
@@ -65,7 +67,6 @@ CustomBuild.prototype.run = function() {
 	    sys.puts( "Preparing " + packages.size + " packages." );
 	    
 		for (var i in self._packages) {
-			
 			self.pack( self._packages[i] );
 			
 		};
@@ -83,7 +84,7 @@ CustomBuild.prototype.pack = function( package ) {
 		_package.build = self.build.build;
 		//_package.upload = build.locations[_package.upload];
 		_package.template = self.build.templates[_package.type];
-		
+
         var packer = new Packer( _package );        
 
             packer.on( "processed" , function( out ) {
@@ -95,7 +96,7 @@ CustomBuild.prototype.pack = function( package ) {
             packer.on( "done" , function( package ) {
                
                self.compress( package );
-               
+
             });
 	
 }
@@ -125,26 +126,54 @@ CustomBuild.prototype.compress = function( package ) {
     if ( packages.map.length !== packages.size ) {
     	return;
     };
-    
+
+	// fix index routes    
+    var filename = "chico"+package.filename.split("chico")[1];
+    var indexFile = fs.readFileSync((package.input.split("/src")[0]) + "/index.html");
+		indexFile = indexFile.toString().replace("php/packer.php?type=css", "src/" + self.flavor + "/css/"+ filename);
+		indexFile = indexFile.toString().replace("php/packer.php?debug=true", "src/js/" + filename.replace(".css",".js"));
+		fs.writeFileSync(self.folder + "index.html", indexFile);
+
+	// fix the background routes	
+	if (package.type === "css" ){
+    var cssFile = fs.readFileSync(package.filename);
+		cssFile = cssFile.toString().replace("../src/ml/assets/", "../assets/");
+		fs.writeFileSync(package.filename, cssFile);
+	}
+	
         // routes
     var path = package.input.replace( "css/" , "assets/" ); //"../chico/src/assets/",
         zipName = self.build.name + "-" + package.fullversion + ".zip",
 
         // commands
-        createFolders = "mkdir " + self.folder + "src && mkdir " + self.folder + "src/assets",
-        copyImages = "cp " + path + "* " + self.folder + "src/assets",
-        createZip = "cd " + self.folder + " && tar -cvf " + zipName + " * && rm -rf *.js *.css src",
+        createFolders = "mkdir " + self.folder + "src && "
+					  + "mkdir " + self.folder + "src/js && "
+					  + "mkdir " + self.folder + "src/" + self.flavor + " && "
+					  + "mkdir " + self.folder + "src/" + self.flavor + "/assets && "
+					  + "mkdir " + self.folder + "src/" + self.flavor + "/css",
+		movingJS = "mv " + self.folder + "*.js " + self.folder + "/src/js/",
+		movingCSS = "mv " + self.folder + "*.css " + self.folder + "/src/" + self.flavor + "/css/",
+        copyImages = (package.type === "css") ? "cp " + path + "* " + self.folder + "src/" + self.flavor + "/assets" : "ls",
+        copyLicense = "cp " + (package.input.split("src/")[0]) + "LICENSE.txt " + self.folder,
+        copyReadme = "cp " + (package.input.split("src/")[0]) + "README.md " + self.folder + "README.txt",
+        createZip = "cd " + self.folder + " && tar -cvf " + zipName + " * && rm -rf *.js *.css *.html src",
 
         // package url
         url = self.folder.split("./public").join("") + zipName;
-console.log(">>>>"+path);
-	sys.puts( "Compressing files..." );
-    
+
+	sys.puts("Building package…");
+
     // Exec commands ;)
-	exec( createFolders + ( (package.type === "css") ? " && " + copyImages : "" ) + " && " + createZip , function(err) {
+	exec(createFolders + " && " + 
+		 copyLicense + " && " + 
+		 copyReadme + " && " + 
+		 copyImages + " && " +
+		 movingJS + " && " +
+		 movingCSS + " && " +
+		 createZip , function(err) {
 	   
         if ( err ) {
-            sys.puts( "Error: <Creating folder> " + err );
+            sys.puts( "Error: <Creating Package> " + err );
             return;
         }
 		

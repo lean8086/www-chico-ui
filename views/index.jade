@@ -14,15 +14,14 @@
 				| to help making the web more beautiful.
 			form.container(action='/getting-started')
 				input.btn.primary.button(type='submit', value='Getting Started')
-	.ch-g1-3        
+	.ch-g1-3
 		.ninja
 			img(src='src/assets/ninja.jpg')
 	.ch-g1-3
 		div.download-container.center
 			h2 
 				| Get lastest version 
-				
-			
+
 			form(action='/download')
 				fieldset
 					ul
@@ -33,15 +32,10 @@
 						span.version
 						| . Get 
 						a(href='/download') older versions
-						//-ul
-						//-	li.field-box
-						//-		input.btn.primary.button(type='submit', value='Build custom download')
-					
-						
-					
-					
-					
-					
+						ul
+							li.field-box
+								input.btn.primary.button(type='submit', value='Build custom download')
+
 						p.container
 							a(href='/api/index.html') API Reference
 							|,
@@ -49,7 +43,7 @@
 							|,
 							a(href='/docs/how-to/report-a-bug') Report a bug
 							|.
-						
+
 hr.clearfix
 div.container.home
 	ul.clearfix
@@ -183,7 +177,4 @@ div.container.home
 				| We are sharing our work like other cool projects like jQuery, NodeJS, Apache.
 .clearfix
 script
-	var uiComponentsDemo = $(".ui-components-demo").carousel({pagination:true});
-		uiComponentsDemo.goTo(2);	
-//script(type='text/javascript', src='/src/js/index.js')
-//script(type='text/javascript', src='/src/js/activity-widget.js')
+	$(".ui-components-demo").carousel({pagination:true}).goTo(2);	

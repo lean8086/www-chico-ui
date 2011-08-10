@@ -15,6 +15,13 @@ var sys = require("sys"),
 
 var Builder = function(){
 	var self = this;
+	
+    sys.puts( "________       ___________________ " );           
+    sys.puts( "___  __ )___  ____(_)__  /_____  /____________" );
+    sys.puts( "__  __  |  / / /_  /__  /_  __  /_  _ \\_  ___/" );
+    sys.puts( "_  /_/ // /_/ /_  / _  / / /_/ / /  __/  / "+version );
+    sys.puts( "/_____/ \\__,_/ /_/  /_/  \\__,_/  \\___//_/   " );
+    sys.puts( " " );
 
     self.packages = { size: 0, map: [] };
 	self.donePackages = 0;

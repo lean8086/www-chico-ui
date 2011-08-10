@@ -1,3 +1,7 @@
+var menu = $('#versions').accordion();
+
+
+
 var map = {}
 
 $.getJSON("/data/inheritanceMap.js", function(data){

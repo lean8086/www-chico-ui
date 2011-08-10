@@ -26,7 +26,7 @@ sys.puts( " " );
 sys.puts( " > Starting Cartographer..." );
 
 // Create a temporal map of all classes
-var child = exec("cat ../../../chico/src/js/* > tmp_map.js", function (err) {
+var child = exec("cat ../../../chico.master/src/js/* > tmp_map.js", function (err) {
     
     if (err) {
         sys.puts( err );

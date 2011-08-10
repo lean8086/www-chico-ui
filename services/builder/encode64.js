@@ -8,7 +8,7 @@
 var sys = require("sys"),
     fs = require("fs"),
     events = require('events'),
-    version = "1.0";
+    version = "1.1";
 
 var Encode64 = function( o ) {
 /*
@@ -25,8 +25,6 @@ var Encode64 = function( o ) {
         self.encoded_data;
         self.image = o || "";
 
-        sys.puts( " > Encoding " + o );
-
         self._toBase64( o );
 };
 
@@ -37,17 +35,13 @@ Encode64.prototype._toBase64 = function( o ) {
 
     var self = this;
 
-    o = o || self.image_data;
-
     self.image_data = fs.readFileSync( o );
                 
     self.emit( "processed" , self.image_data );
 
-    self.encoded_data = new Buffer( self.image_data.toString() , 'binary' ).toString( 'base64' );
+    self.encoded_data = "data:image/png;base64," + new Buffer(self.image_data.toString(), 'binary').toString( 'base64' );
 
     self.emit( "encoded" , self.encoded_data );
-
-    sys.puts( "   Done! " );
 
 }
 

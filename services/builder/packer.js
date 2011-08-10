@@ -13,15 +13,7 @@ var sys = require("sys"),
     Encode64 = require('./encode64').Encode64,
     exec  = child.exec,
     spawn = child.spawn,
-    version = "1.2";
-
-    sys.puts( "________       ___________________ " );           
-    sys.puts( "___  __ )___  ____(_)__  /_____  /____________" );
-    sys.puts( "__  __  |  / / /_  /__  /_  __  /_  _ \\_  ___/" );
-    sys.puts( "_  /_/ // /_/ /_  / _  / / /_/ / /  __/  / "+version );
-    sys.puts( "/_____/ \\__,_/ /_/  /_/  \\__,_/  \\___//_/   " );
-    sys.puts( " " );
-
+    version = "1.3";
     
 var Packer = function(o) {
 
@@ -37,7 +29,8 @@ var Packer = function(o) {
     self.min = o.min;
     self.upload = o.upload;
     self.template = o.template;
-
+    self.embed = o.embed;
+    
     self.filename = o.output.uri + o.name + ( ( self.min ) ? "-min-" : "-" ) + self.fullversion + "." + self.type ;
     if (o.components) {
         self.components = (o.components.split(",").join("." + self.type + ",").split(",")) + "." + self.type;
@@ -104,7 +97,7 @@ Packer.prototype.run = function() {
     	testComp(self.components);
     	
     } else {
-        console.log(self.input);       
+    
 	    // Get files for the defined package
 	    fs.readdir( self.input , function( err, files ) {
 	    
@@ -129,10 +122,13 @@ Packer.prototype.loadFile = function( file, savedIndex ) {
     
     // Read file
     fs.readFile( self.input + file , function( err , data ) { 
-        
+
+        // Increment loaded counter
+        _files.loaded += 1;
+
         if (err) {
             sys.puts("Error: <Reading file "+file+"> "+err);
-            _files.loaded += 1;
+
             return;
         }
         
@@ -150,9 +146,6 @@ Packer.prototype.loadFile = function( file, savedIndex ) {
         
         // Save file size
         _files.bytesLoaded += data.length;
-        
-        // Increment loaded counter
-        _files.loaded += 1;
         
         // Are we ready ?
         if ( _files.ready()  ) {
@@ -186,15 +179,13 @@ Packer.prototype.process = function() {
     var output_min = false;
     
     sys.puts( "   original size " + output.length );            
-    
-    
-    //if ( self.embed_images && self.type == "css" ) {
+        
+    if ( self.embed && self.type == "css" ) {
     	
     	output = self.embedImages(output.toString());
-    		
-    //};
+    	
+    };
     
-    //console.log(">>>>>>>>>>>>>>>" + self.min);
     if ( self.min ) {
     
         switch( self.type ) {
@@ -232,10 +223,9 @@ Packer.prototype.embedImages = function( str ) {
 
 	return str.replace(/(url\(\')(.*)(\'\);)/gi, function(str, $1, $2){
         // Generate dataURI
-        //TODO: make this url variable
-        var encoded = new Encode64( __dirname + "/../../../chico.master/src/" + $2).encoded_data;
-
-		return "url(\'data:image/png;base64," + encoded + "\');*background-image:url(\'" + $2 + "\');";
+        var repo = self.input.split("/")[1];
+        var encoded = new Encode64( __dirname + "/../../../" + repo + "/src/" + $2).encoded_data;
+		return "url(\'" + encoded + "\');*background-image:url(\'" + $2 + "\');";
 
 	});
 
