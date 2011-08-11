@@ -156,7 +156,7 @@ CustomBuild.prototype.compress = function( package ) {
         copyImages = (package.type === "css") ? "cp " + path + "* " + self.folder + "src/" + self.flavor + "/assets" : "ls",
         copyLicense = "cp " + (package.input.split("src/")[0]) + "LICENSE.txt " + self.folder,
         copyReadme = "cp " + (package.input.split("src/")[0]) + "README.md " + self.folder + "README.txt",
-        createZip = "cd " + self.folder + " && tar -cvf " + zipName + " * && rm -rf *.js *.css *.html src",
+        createZip = "cd " + self.folder + " && tar -cvf " + zipName + " * && rm -rf *.js *.css *.html *.txt src",
 
         // package url
         url = self.folder.split("./public").join("") + zipName;

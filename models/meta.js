@@ -6,7 +6,7 @@ var meta = {
 	"navigation": {
 	
 		"top": [
-			{"label": "Home", "href": "/"},
+			{"label": "Blog", "href": "http://blog.chico-ui.com.ar"},
 			{"label": "Docs", "href": "/docs"},
 			{"label": "API", "href": "/api/index.html"},
 			{"label": "Discussion", "href": "/discussion"},

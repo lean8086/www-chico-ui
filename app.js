@@ -89,7 +89,7 @@ app.get('/download', function(req, res) {
 	// new title
 	var _meta = Object.create(meta);
 		_meta.title = "Download Chico-UI.";
-		_meta.versions = versions.reverse();
+		_meta.versions = versions.sort().reverse();
 
 	res.render( 'download', _meta );
 	
