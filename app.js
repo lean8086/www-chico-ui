@@ -67,9 +67,6 @@ app.get( '/lastest/:type/:min?', function( req, res ) {
  * Download
  */
 
-// get 
-app.get('/download', function(req, res) {
-	
 	var versions = [],
 		folders = fs.readdirSync( __dirname + "/public/versions/");
 		
@@ -86,10 +83,20 @@ app.get('/download', function(req, res) {
 		});
 	}
 	
+	// Reorder
+	var t = versions.length, temp = [];
+	while (t--) {
+		temp.push(versions[t]);
+	}
+	versions = temp;
+
+// get 
+app.get('/download', function(req, res) {
+	
 	// new title
 	var _meta = Object.create(meta);
 		_meta.title = "Download Chico-UI.";
-		_meta.versions = versions.sort().reverse();
+		_meta.versions = versions;
 
 	res.render( 'download', _meta );
 	
@@ -178,6 +185,7 @@ app.post('/download', function( req, res ){
 		
 		var custom = new CustomBuild(packages, flavor);
 				custom.on("done", function( uri ) {
+						res.send("<a href=\""+uri+"\">Download</a>");
 						res.redirect(uri);
 				});
 
