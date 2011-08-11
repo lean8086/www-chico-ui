@@ -17,7 +17,37 @@ var app = module.exports = express.createServer();
 /**
  * constants.
  */
- 
+
+// get versions
+var versions = (function(){
+
+	var versions = [], 
+		temp = [],
+		folders = fs.readdirSync( __dirname + "/public/versions/");
+	if (folders) {
+		folders.forEach(function(folder) {
+			versions.push(folder);
+		});
+		// reorder versions
+		versions.sort();
+		versions.reverse();
+		// get files from each version
+		versions.forEach(function(folder) {
+				subFolder = fs.readdirSync( __dirname + "/public/versions/" + folder),
+				version = {version:folder, files:[]};
+			if (subFolder) {
+				subFolder.forEach(function(file){
+					version.files.push({label: file, href: "/versions/"+folder+"/"+file});
+				});
+			}
+			temp.push(version);
+		});
+	}
+	return temp;
+	
+})();
+
+
 /**
  * app configuration.
  */
@@ -66,34 +96,7 @@ app.get( '/lastest/:type/:min?', function( req, res ) {
 /**
  * Download
  */
-
-	var versions = [],
-		folders = fs.readdirSync( __dirname + "/public/versions/");
-		
-	if (folders) {
-		folders.forEach(function(folder) {
-			var version = {version:folder, files:[]},
-				subFolder = fs.readdirSync( __dirname + "/public/versions/" + folder);
-			if (subFolder) {
-				subFolder.forEach(function(file){
-					version.files.push({label: file, href: "/versions/"+folder+"/"+file});
-				});
-			}
-			versions.push(version);
-		});
-	}
 	
-	versions.sort();
-	versions.reverse();
-	console.log(versions)
-	// Reorder
-/*	var t = versions.length, temp = [];
-	while (t--) {
-		temp.push(versions[t]);
-		console.log(versions[t])
-	}
-	versions = temp;*/
-
 // get 
 app.get('/download', function(req, res) {
 	
@@ -105,7 +108,6 @@ app.get('/download', function(req, res) {
 	res.render( 'download', _meta );
 	
 });
-
 // post 
 
 app.post('/download', function( req, res ){
