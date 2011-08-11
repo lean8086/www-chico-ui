@@ -191,7 +191,6 @@ app.post('/download', function( req, res ){
 		
 		var custom = new CustomBuild(packages, flavor);
 				custom.on("done", function( uri ) {
-						res.send("<a href=\""+uri+"\">Download</a>");
 						res.redirect(uri);
 				});
 
