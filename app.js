@@ -72,8 +72,8 @@ app.get( '/lastest/:type/:min?', function( req, res ) {
 		
 	if (folders) {
 		folders.forEach(function(folder) {
-			var version = {version:folder, files:[]};
-			var subFolder = fs.readdirSync( __dirname + "/public/versions/" + folder);
+			var version = {version:folder, files:[]},
+				subFolder = fs.readdirSync( __dirname + "/public/versions/" + folder);
 			if (subFolder) {
 				subFolder.forEach(function(file){
 					version.files.push({label: file, href: "/versions/"+folder+"/"+file});
@@ -83,12 +83,16 @@ app.get( '/lastest/:type/:min?', function( req, res ) {
 		});
 	}
 	
+	versions.sort();
+	versions.reverse();
+	console.log(versions)
 	// Reorder
-	var t = versions.length, temp = [];
+/*	var t = versions.length, temp = [];
 	while (t--) {
 		temp.push(versions[t]);
+		console.log(versions[t])
 	}
-	versions = temp;
+	versions = temp;*/
 
 // get 
 app.get('/download', function(req, res) {
