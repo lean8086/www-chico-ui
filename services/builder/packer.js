@@ -1,224 +1,158 @@
 /**
- * Chico-UI Builder Class.
- * @class Builder
+ * Chico-UI Packer Class.
+ * @class Packer
  * @autor Natan Santolo <natan.santolo@mercadolibre.com>
  */
  
 var sys = require("sys"),
     fs = require("fs"),
     events = require('events'),
-    child = require("child_process"),
     uglify = require("uglify-js"),
     cssmin = require('cssmin').cssmin,
-    Encode64 = require('./encode64').Encode64,
-    exec  = child.exec,
-    spawn = child.spawn,
-    version = "1.3";
+    version = "2.0";
     
 var Packer = function(o) {
 
+    if(false === (this instanceof Packer)) {
+        return new Packer();
+    }
+
+	// super constructor
+	events.EventEmitter.call(this);
+
     var self = this;
-    
     // Package data
-    self.ui = [];
     self.name = o.name;
     self.version = o.version;
-    self.fullversion = o.version + "-" + o.build;
     self.input = o.input;
     self.type = o.type;
+    self.flavor = o.flavor;
     self.min = o.min;
-    self.upload = o.upload;
-    self.template = o.template;
     self.embed = o.embed;
-    
-    self.filename = o.output.uri + o.name + ( ( self.min ) ? "-min-" : "-" ) + self.fullversion + "." + self.type ;
+    self.avoid = o.avoid;
+    self.template = o.template;
+	// Compose data
+    self.fullversion = o.version + "-" + o.build;
+    self.filename = o.output + o.name + ( ( self.min ) ? "-min-" : "-" ) + self.fullversion + "." + self.type ;
+	// Files collection
+    self.files = [];
+    // Are components defined?
     if (o.components) {
         self.components = (o.components.split(",").join("." + self.type + ",").split(",")) + "." + self.type;
     }
 
-    self._files = {
-        names: [], // name of the files
-        data: [], // content of the files
-        total: 0,
-        loaded: 0,
-        bytesLoaded: 0
-    };
-
-    self._files.ready = function() { return self._files.total === self._files.loaded; };
-
     // Begin ;)
-    self.run();
-            
-};
-
-// Inherit from EventEmitter
-Packer.prototype = new events.EventEmitter();
-
-Packer.prototype.run = function() {
-    
-    // private scope
-    var self = this;
-    var _files = self._files;
-    var core = "core."+self.type;
-    
-    // TODO: refactor
-    var testComp = function(files){
-    	
-    	// Iteration variables
-        var t = _files.total = files.length, file = "", i = 0;
-
-        // Iteration
-        for ( i ; i < t ; i++ ) {
-            // each file
-            file = files[i];
-            
-            // ignore ".DS_Store"
-            if ( file === ".DS_Store" ) {
-                _files.total -= 1;
-                continue;
-            }
-
-            // Save file name
-            var savedIndex = _files.names.push( file );
-
-            // Get data from file and process it.
-            self.loadFile( file , savedIndex );
-
-        } // end Iteration
-
-        self.emit( "run-complete", files );
-    };
-    
-    if ( self.components && self.components.length > 0 ){
-    	
-    	// Puts core always first.
-		self.components = ( core + "," + self.components.split( core + "," ).join("") ).split(",");
-    	
-    	testComp(self.components);
-    	
-    } else {
-    
-	    // Get files for the defined package
-	    fs.readdir( self.input , function( err, files ) {
-	    
-	        if ( err ) {
-	            sys.puts("Error: <Reading files> "+err);
-	            return;
-	        }
-
-	        // Puts core always first.
-	        files = ( core + "," + files.join(",").split( core + "," ).join("") ).split(",");
+	self.emit("begin");
 	
-	        testComp(files);
-	        
-	    }); // end Get files
-    };
 };
 
-Packer.prototype.loadFile = function( file, savedIndex ) {
-    
-    var self = this;
-    var _files = self._files;
-    
-    // Read file
-    fs.readFile( self.input + file , function( err , data ) { 
+// inheritance from EventEmmiter
+sys.inherits(Packer, events.EventEmitter);
 
-        // Increment loaded counter
-        _files.loaded += 1;
+Packer.prototype.process = function() {
 
-        if (err) {
-            sys.puts("Error: <Reading file "+file+"> "+err);
+    // private scope
+    var self = this,
+    	core = "core." + self.type,
+    	// file information
+    	files = [], file,
+    	// raw data
+		data = "",
+		output,
+		out;
 
-            return;
-        }
-        
-        if (self.type=="js") {
-            // Get the first comment
-            var raw = data.toString().split("/**").join("><><").split(" */").join("><><").split("><><")[1];
-            // Seek for UI Components
-            if ( !/@abstract/.test( raw ) && file !== "core.js") {
-                self.ui.push( file );
-            }
-        }
-        
-        // Save file data
-        _files.data[savedIndex] = data;
-        
-        // Save file size
-        _files.bytesLoaded += data.length;
-        
-        // Are we ready ?
-        if ( _files.ready()  ) {
-            
-            self.emit( "loaded", file );
-            
-            // All files saved then process
-            self.process();
-        }
-        
-    });
+    // Get files for the defined package
+	// Define the location
+	var uri = self.input + (self.type === "css" ? self.flavor + "/" : "") + self.type;
 
-};
+	if (!self.components){
+		// Save the files from the location
+		files = fs.readdirSync(uri);
+    } else {
+    	files = self.components.split(",");
+    }
 
-Packer.prototype.process = function() {
+	// Puts core always first.
+	files = files.join(",");
+	// filter ".DS_Store,"
+	files = files.replace(".DS_Store,","");
+	// and "core.js" should be the first thing...
+	files = core + "," + files.replace(core + ",", "");
+	// save the file collection
+	files = files.split(",").reverse();
+	var t = files.length;
+	// iterate each file to get its raw data.
+	while (t--) {
+		// file name
+		file = files[t];
+		try {
+			// try to get the data
+			data = fs.readFileSync( uri + "/" + file, encoding="utf8");
+		} catch(e) {
+			// catch error… avoid stack
+			sys.puts("Error - Packer: <File " + uri + "/" + file + " dosen't exists> " + e);
+			continue;
+		}
+		
+		if (!data) {
+			continue;
+		}
+				
+		// sabe the file with is specific data
+		self.files.push({
+			name: file,
+			data: data
+		});
+		// concatenate data in the global scope
+		self.data += data.toString();
+	}
 
-    var self = this;
-    var _files = self._files;
-
-    sys.puts( " > Processing " + self.filename );
-
-    self.ui = self.ui.join(",").split(".js").join("");
-    
-    // Code replacements
-    var output = _files.data.join("");
-        // Add UI Components
-        output = output.replace( "components: \"\"," , "components: \"" + self.ui + "\"," );
-        // Add version number
-        output = output.replace( "version:\"\"" , "version:\"" + self.fullversion + "\"" );
-
-    var output_min = false;
-    
-    sys.puts( "   original size " + output.length );            
-        
-    if ( self.embed && self.type == "css" ) {
-    	
-    	output = self.embedImages(output.toString());
-    	
+	// Embed images on CSS sources
+    if (self.embed && self.type == "css") {
+    	// (DEPRECATED) Data URI isn't working
     };
     
-    if ( self.min ) {
-    
-        switch( self.type ) {
-        
-            case "js":
-                //output_min = uglify(output.toString()); // compressed code here
-                var ast = uglify.parser.parse(output.toString());
-					ast = uglify.uglify.ast_mangle(ast);
-					ast = uglify.uglify.ast_squeeze(ast);
-				output_min = uglify.uglify.gen_code(ast);
-                break;
-    
-            case "css":
-                output_min = cssmin(output);
-                break;
-        }
-
-        sys.puts( "   optimized size " + output_min.length );
-
-    };
+    // Minification process
+	output = self.optimize(self.data);
     
     // Templating
-    var out = self.template.replace( "<version>" , self.fullversion );
-        out = out.replace( "<code>" , ( output_min || output ) );
-        
-    self.emit( "processed" , out );
-    
-    self.write( self.filename , out );    
+    out = self.template.replace("<version>", self.fullversion);
+    out = out.replace("<code>", output);
+	
+    self.emit("processed", out);
+
+	self.write(self.filename, out);
+
+	return out;
 
 };
 
+Packer.prototype.optimize = function(data) {
 
-Packer.prototype.embedImages = function( str ) {
+	var self = this,
+		output;
+		
+    if (self.min) {
+        switch(self.type) {
+            case "js":
+                var ast = uglify.parser.parse(data);
+					ast = uglify.uglify.ast_mangle(ast);
+					ast = uglify.uglify.ast_squeeze(ast);
+				output = uglify.uglify.gen_code(ast);
+			break;
+            case "css":
+                output = cssmin(data);
+			break;
+        }
+        sys.puts(" > Optimized size " + output.length);
+    };
+
+	return output || data;
+
+}
+
+Packer.prototype.embedImages = function(str) {
+
 	var self = this;
 
 	return str.replace(/(url\(\')(.*)(\'\);)/gi, function(str, $1, $2){
@@ -232,24 +166,17 @@ Packer.prototype.embedImages = function( str ) {
 };
 
 
-Packer.prototype.write = function( file , data ) {
+Packer.prototype.write = function(file, data) {
     
     var self = this;
-    
-    fs.writeFile( file , data , function( err ) {
-        
-        if ( err ) {
-            sys.puts( err );
-            return;
-        }
 
-        sys.puts( " > Writting " + self.filename + "..." );
-        sys.puts( "   Done! " );
-
-        self.emit( "writed", self.filename );
-        self.emit( "done", self );
-    });
-
+    if (!self.avoid) {
+		fs.writeFileSync(file, data, encoding="utf8");
+		sys.puts(" > Writting " + self.filename + "...");
+		sys.puts("   Done!");
+	}
+	
+    self.emit("done", self);
 };
 
 /* -----[ Exports ]----- */

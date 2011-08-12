@@ -10,123 +10,110 @@
 var sys = require("sys"),
     fs = require("fs"),
     events = require('events'),
-    Packer = require("./packer").Packer,
     packages = { size: 0, map: [] },
+    Packer = require("./packer").Packer,
     exec  = require("child_process").exec;
 
 
-var CustomBuild = function(_packages, flavor, avoid) {
+var CustomBuild = function(conf) {
 	
 	var self = this;
-    
-    self.folder = "./public/downloads/temp" + ~~(Math.random() * 99999) + "/";
 
-    self._packages = _packages;
-    
-    self.flavor = flavor;
-    
-    self.avoid = avoid || false; // key to avoid create the zip file
-    
-    self.run();
+	// super constructor
+	events.EventEmitter.call(self);
+	
+    self.packages = conf.packages;
+    self.flavor = conf.flavor;
+    self.avoid = conf.avoid || false; // key to avoid create the zip file
+    self.build;
+    self.packed = 0;
     
 };
 
-// Inherit from EventEmitter
-CustomBuild.prototype = new events.EventEmitter();
+// inheritance from EventEmmiter
+sys.inherits(CustomBuild, events.EventEmitter);
 
+CustomBuild.prototype.process = function() {
 
-CustomBuild.prototype.run = function() {
+	sys.puts("> Reading 'builder.conf'.");
 	
-	var self = this;
-	
-	fs.readFile( __dirname + "/builder.conf", function(err, data) {
+	var self = this,
+		package;
+	    // Get 'builder.conf' and parse JSON data
+	    self.conf = JSON.parse(fs.readFileSync( __dirname + "/builder.conf"));
+	    // Define output folder
+        self.folder = self.conf.output + "temp" + ~~(Math.random() * 99999) + "/";
+		// Echo message 
+	    sys.puts( "Building version " + self.conf.version + " build nº " + self.conf.build + " - "
+	    		+ "Preparing " + self.packages.length + " packages to save in " + self.folder );
 
-	    if (err) {
-	        sys.puts(err);
-	        return;
-	    }
-	    
-	    // Parse JSON data
-	    self.build = JSON.parse(data);
-	    self.build.output.uri = self.folder;
-		
-		// Save the amount of packages configured
-		packages.size = self._packages.length;
-	        
 	    // Create temporary folder
-		exec("mkdir " + self.folder, function(err) {
-		
-			if ( err ) {
-				sys.puts( "Error: <Creating folder> " + err );
-				return;
-			}
-		
-		});
-	        
-	    sys.puts( "Building version " + self.build.version + " build nº " + self.build.build );
-	    sys.puts( "Preparing " + packages.size + " packages." );
-	    
-		for (var i in self._packages) {
-			self.pack( self._packages[i] );
-			
+		if (!self.avoid) {
+			sys.puts("CustomBuild > Creating folder " + self.folder);
+			exec("mkdir " + self.folder, function(err) {
+				if (err) {
+					sys.puts( "Error - Custom Builder: <Creating temporary folder> " + err );
+					return;
+				}
+			});
+		}
+
+		// Pack packages
+		for (var i in self.packages) {
+			package = self.packages[i];
+			package.flavor = self.flavor;
+			package.output = self.folder;
+			package.input = self.conf.input;
+			package.version = self.conf.version;
+			package.build = self.conf.build;
+			package.avoid = self.avoid;
+			package.template = self.conf.templates[package.type];			
+			// pack it
+			self.pack(package);
 		};
-	});
 }
 
 
-CustomBuild.prototype.pack = function( package ) {
+CustomBuild.prototype.pack = function(package) {
+
+	sys.puts("> Packing files.");
+
+	var self = this;
+	
+	self.emit("packing");
+
+	var pack = new Packer(package);
+	
+		pack.on("begin", function() {
+			console.log(" > Begin packing file.")
+		});
+
+		pack.on("processed", function(out) {
+			console.log("Custom build processed");
+			self.emit("processed", out);
+		});
+
+		pack.on("done", function(packaged) {
+			// increment packed packages
+			self.packed++;
+			// if the ammount of packed packages is equal 
+			// to the ammount of packages to pack,
+			// we are done packing, compress all packages.
+			if (self.packed == self.packages.length) {
+				// Aovid packing into zip file 
+				if (!self.avoid) {
+					self.compress(packaged);
+				}
+			}
+		});
+
+		pack.process();
+}
+
+CustomBuild.prototype.compress = function(package) {
 	
 	var self = this;
 	
-	var _package = Object.create(package);
-		_package.version = self.build.version;
-		_package.output = self.build.output;
-		_package.build = self.build.build;
-		//_package.upload = build.locations[_package.upload];
-		_package.template = self.build.templates[_package.type];
-
-        var packer = new Packer( _package );        
-
-            packer.on( "processed" , function( out ) {
-                
-                self.emit( "processed" , out );
-                
-            });
-
-            packer.on( "done" , function( package ) {
-               
-               self.compress( package );
-
-            });
-	
-}
-
-CustomBuild.prototype.avoidCompress = function( bool ) {
-
-    var self = this;
-    
-    self.avoid = bool || true;   
-
-}
-
-CustomBuild.prototype.compress = function( package ) {
-	
-	var self = this;
-	
-	if (self.avoid) {
-	   return;   
-    }
-	
-	if ( !package.upload ) {
-        packages.size -= 1;    
-    } else {
-        packages.map.push( package );
-    }
-    
-    if ( packages.map.length !== packages.size ) {
-    	return;
-    };
-
 	// fix index routes    
     var filename = "chico"+package.filename.split("chico")[1];
     var indexFile = fs.readFileSync((package.input.split("/src")[0]) + "/index.html");
@@ -134,16 +121,17 @@ CustomBuild.prototype.compress = function( package ) {
 		indexFile = indexFile.toString().replace("php/packer.php?debug=true", "src/js/" + filename.replace(".css",".js"));
 		fs.writeFileSync(self.folder + "index.html", indexFile);
 
-	// fix the background routes	
+	// fix the background routes
+	/*	
 	if (package.type === "css" ){
     var cssFile = fs.readFileSync(package.filename);
 		cssFile = cssFile.toString().replace("../src/ml/assets/", "../assets/");
 		fs.writeFileSync(package.filename, cssFile);
-	}
+	}*/
 	
         // routes
     var path = package.input.replace( "css/" , "assets/" ); //"../chico/src/assets/",
-        zipName = self.build.name + "-" + package.fullversion + ".zip",
+        zipName = package.name + "-" + package.fullversion + ".zip",
 
         // commands
         createFolders = "mkdir " + self.folder + "src && "
@@ -151,17 +139,17 @@ CustomBuild.prototype.compress = function( package ) {
 					  + "mkdir " + self.folder + "src/" + self.flavor + " && "
 					  + "mkdir " + self.folder + "src/" + self.flavor + "/assets && "
 					  + "mkdir " + self.folder + "src/" + self.flavor + "/css",
-		movingJS = "mv " + self.folder + "*.js " + self.folder + "/src/js/",
-		movingCSS = "mv " + self.folder + "*.css " + self.folder + "/src/" + self.flavor + "/css/",
-        copyImages = (package.type === "css") ? "cp " + path + "* " + self.folder + "src/" + self.flavor + "/assets" : "ls",
         copyLicense = "cp " + (package.input.split("src/")[0]) + "LICENSE.txt " + self.folder,
         copyReadme = "cp " + (package.input.split("src/")[0]) + "README.md " + self.folder + "README.txt",
+        copyImages = (package.type === "css") ? "cp " + path + self.flavor + "/assets/* " + self.folder + "src/" + self.flavor + "/assets/" : "ls",
+		movingJS = "mv " + self.folder + "*.js " + self.folder + "src/js/",
+		movingCSS = "mv " + self.folder + "*.css " + self.folder + "src/" + self.flavor + "/css/",
         createZip = "cd " + self.folder + " && tar -cvf " + zipName + " * && rm -rf *.js *.css *.html *.txt src",
 
         // package url
         url = self.folder.split("./public").join("") + zipName;
 
-	sys.puts("Building package…");
+	sys.puts("Compressing packages.");
 
     // Exec commands ;)
 	exec(createFolders + " && " + 
@@ -173,7 +161,7 @@ CustomBuild.prototype.compress = function( package ) {
 		 createZip , function(err) {
 	   
         if ( err ) {
-            sys.puts( "Error: <Creating Package> " + err );
+            sys.puts( "Error - Custom Builder: <Creating Package> " + err );
             return;
         }
 		

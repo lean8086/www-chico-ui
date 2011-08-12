@@ -39,13 +39,5 @@
         "js": "/*!\n * Chico UI <version> MIT Licence\n * @autor <chico@mercadolibre.com>\n * @link http://www.chico-ui.com.ar\n * @team Natan Santolo, Hernan Mammana, Leandro Linares, Guillermo Paz, Natalia Devalle\n */\n;(function($){<code>;ch.init();})($);",
         "css": "/*!\n * Chico UI <version> MIT Licence\n * @autor <chico@mercadolibre.com>\n * @link http://www.chico-ui.com.ar\n * @team Natan Santolo, Hernan Mammana, Leandro Linares, Guillermo Paz, Natalia Devalle\n */\n<code>"
   
-    },
-    
-    "locations": {
-        "A3": {
-            "key": "-i ~/chicoui.pem",
-            "host": "ubuntu@chico-ui.com.ar",
-            "uri": "/chico/downloads/lastest/"
-        }
     }
 }

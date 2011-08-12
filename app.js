@@ -7,8 +7,8 @@ var express = require('express'),
 		events = require('events'),
 		sys = require('sys'),
 		fs = require('fs'),
-		CustomBuild = require('./services/builder/custom_build').CustomBuild,
 		meta = require('./models/meta').meta;
+		CustomBuild = require('./services/builder/custom_build').CustomBuild,
 		undefined;
 
 
@@ -72,25 +72,30 @@ app.configure('production', function(){
  * rutes
 */
 // build lastest version
-app.get( '/lastest/:type/:min?', function( req, res ) {
+app.get( '/latest/:type/:min?', function( req, res ) {
  			
-		var type = req.params.type,
-			min = req.params.min,
-			packages = [{
-				"name": "chico",
-				"input": (type==="js")?"../chico/src/"+type+"/":"../chico/src/ml/"+type+"/",
-				"type": type,
-				"min": (min) ? true : false,
-				"embed": false,
-				"avoid": true // Don't write the files
-			}],
-			custom = new CustomBuild(packages, "ml", true); // to avoid create the zip file send last argument true
-			custom.avoidCompress();
-			custom.on( "processed" , function( data ) {
-				res.header('Content-Type', (type==="js") ? "text/javascript" : "text/css" );
-				res.send( data );
-			});
+	var type = req.params.type,
+		min = req.params.min,
+		packages = [{
+			"name": "chico",
+			"type": type,
+			"min": (min) ? true : false,
+			"embed": false,
+			"avoid": true // Don't write the files
+		}],
 		
+		custom = new CustomBuild({
+			packages: packages, 
+			flavor: "ml", 
+			avoid: true
+		}); // to avoid create the zip file send last argument true
+
+		custom.on("processed", function(data) {
+			res.header('Content-Type', (type==="js") ? "text/javascript" : "text/css" );
+			res.send(data);
+		});
+		
+		custom.process();
 });
 
 /**
@@ -135,7 +140,6 @@ app.post('/download', function( req, res ){
 		var js = function() {
 				return {
 						"name": "chico",
-						"input": "../chico/src/js/",
 						"components": abstracts.toLowerCase() + "," + utils.toLowerCase() + "," + components.toLowerCase(),
 						"type": "js"
 				}
@@ -145,9 +149,8 @@ app.post('/download', function( req, res ){
 		var css = function() {
 				return {
 						"name": "chico",
-						"input": "../chico/src/" + flavor + "/css/",
 						"components": components,
-						"embed": ( embed ) ? true : false,
+//						"embed": ( embed ) ? true : false,
 						"type": "css",
 						"flavor": flavor
 				}
@@ -157,9 +160,8 @@ app.post('/download', function( req, res ){
 		var mesh = function() {
 				return {
 						"name": "mesh",
-						"input": "../chico/src/" + flavor + "/css/",
 						"components": "mesh",
-						"embed": ( embed ) ? true : false,
+//						"embed": ( embed ) ? true : false,
 						"type": "css",
 						"flavor": flavor
 				}
@@ -188,12 +190,17 @@ app.post('/download', function( req, res ){
 				var d_css = css();
 				packages.push( d_css );
 		}
-		
-		var custom = new CustomBuild(packages, flavor);
-				custom.on("done", function( uri ) {
-						res.redirect(uri);
-				});
 
+		var custom = new CustomBuild({
+			packages: packages, 
+			flavor: flavor
+		});
+
+		custom.on("done", function(url) {
+			res.redirect(url);
+		});
+		
+		custom.process();
 });
 
 /**
