@@ -72,7 +72,28 @@ app.configure('production', function(){
 /**
  * rutes
 */
-// build lastest version
+
+app.get('/assets/:img', function(req, res){
+
+	var img = req.params.img;
+	
+	var data = fs.readFileSync('../chico.master/src/ml/assets/'+img);
+	
+	if (img&&data) { 
+
+		res.header('Content-Type', "image/png");
+		res.send(data);
+		
+	}
+	
+
+});
+
+/*
+	build lastest version
+	../latest/js?debug=true
+	../latest/css?debug=true
+*/ 
 app.get( '/latest/:type', function( req, res ) {
  			
 	var type = req.params.type,
@@ -300,7 +321,7 @@ app.get('/', function(req, res, next){
 
 /**
  * app start
- */ 
+ */
 app.listen(8080);
 
 /**
