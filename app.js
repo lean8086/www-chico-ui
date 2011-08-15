@@ -140,7 +140,7 @@ app.post('/download', function( req, res ){
 		var js = function() {
 				return {
 						"name": "chico",
-						"components": abstracts.toLowerCase() + "," + utils.toLowerCase() + "," + components.toLowerCase(),
+						"components": abstracts + "," + utils + "," + components,
 						"type": "js"
 				}
 		};
