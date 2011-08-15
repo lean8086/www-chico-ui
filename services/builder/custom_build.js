@@ -25,7 +25,7 @@ var CustomBuild = function(conf) {
     self.packages = conf.packages;
     self.flavor = conf.flavor;
     self.avoid = conf.avoid || false; // key to avoid create the zip file
-    self.build;
+    self.input = conf.input;
     self.packed = 0;
     
 };
@@ -63,7 +63,7 @@ CustomBuild.prototype.process = function() {
 			package = self.packages[i];
 			package.flavor = self.flavor;
 			package.output = self.folder;
-			package.input = self.conf.input;
+			package.input = self.input || self.conf.input; // if not self.input use the default
 			package.version = self.conf.version;
 			package.build = self.conf.build;
 			package.avoid = self.avoid;
@@ -117,17 +117,9 @@ CustomBuild.prototype.compress = function(package) {
 	// fix index routes    
     var filename = "chico"+package.filename.split("chico")[1];
     var indexFile = fs.readFileSync((package.input.split("/src")[0]) + "/index.html");
-		indexFile = indexFile.toString().replace("php/packer.php?type=css", "src/" + self.flavor + "/css/"+ filename);
-		indexFile = indexFile.toString().replace("php/packer.php?debug=true", "src/js/" + filename.replace(".css",".js"));
+		indexFile = indexFile.toString().replace("http://chico.com:8080/latest/css", "src/" + self.flavor + "/css/"+ filename);
+		indexFile = indexFile.toString().replace("http://chico.com:8080/latest/js", "src/js/" + filename.replace(".css",".js"));
 		fs.writeFileSync(self.folder + "index.html", indexFile);
-
-	// fix the background routes
-	/*	
-	if (package.type === "css" ){
-    var cssFile = fs.readFileSync(package.filename);
-		cssFile = cssFile.toString().replace("../src/ml/assets/", "../assets/");
-		fs.writeFileSync(package.filename, cssFile);
-	}*/
 	
         // routes
     var path = package.input.replace( "css/" , "assets/" ); //"../chico/src/assets/",

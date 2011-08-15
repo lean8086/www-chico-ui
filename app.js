@@ -17,6 +17,7 @@ var app = module.exports = express.createServer();
 /**
  * constants.
  */
+ 
 
 // get versions
 var versions = (function(){
@@ -72,18 +73,17 @@ app.configure('production', function(){
  * rutes
 */
 // build lastest version
-app.get( '/latest/:type/:min?', function( req, res ) {
+app.get( '/latest/:type', function( req, res ) {
  			
 	var type = req.params.type,
-		min = req.params.min,
+		debug = req.query.debug,
 		packages = [{
 			"name": "chico",
 			"type": type,
-			"min": (min) ? true : false,
+			"min": (debug) ? false : true,
 			"embed": false,
 			"avoid": true // Don't write the files
 		}],
-		
 		custom = new CustomBuild({
 			packages: packages, 
 			flavor: "ml", 
