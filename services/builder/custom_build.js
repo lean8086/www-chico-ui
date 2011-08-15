@@ -38,14 +38,20 @@ CustomBuild.prototype.process = function() {
 	sys.puts("> Reading 'builder.conf'.");
 	
 	var self = this,
-		package;
+		package,
+		message;
 	    // Get 'builder.conf' and parse JSON data
 	    self.conf = JSON.parse(fs.readFileSync( __dirname + "/builder.conf"));
 	    // Define output folder
         self.folder = self.conf.output + "temp" + ~~(Math.random() * 99999) + "/";
-		// Echo message 
-	    sys.puts( "Building version " + self.conf.version + " build nº " + self.conf.build + " - "
-	    		+ "Preparing " + self.packages.length + " packages to save in " + self.folder );
+		// Echo message
+		message = "Building version " + self.conf.version + " build nº " + self.conf.build + " - ";
+	    message += "Preparing " + self.packages.length + " packages";
+	    if (!self.avoid) {
+		    message +=  "to save in " + self.folder;
+	    }
+
+	    sys.puts(message);
 
 	    // Create temporary folder
 		if (!self.avoid) {

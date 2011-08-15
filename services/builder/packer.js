@@ -1,6 +1,6 @@
 /**
- * Chico-UI Packer Class.
- * @class Packer
+ * Chico-UI Source Code Compiler.
+ * @namespace Packer
  * @autor Natan Santolo <natan.santolo@mercadolibre.com>
  */
  
@@ -9,8 +9,24 @@ var sys = require("sys"),
     events = require('events'),
     uglify = require("uglify-js"),
     cssmin = require('cssmin').cssmin,
-    version = "2.0";
-    
+    version = "2.1";
+  
+/*
+* Normalize name function
+* @function nn
+* @param string
+* @return string
+*/ 
+var nn = function(s) { 
+	return (s + '').charAt(0).toLowerCase() + s.substr(1); 
+};
+
+/*
+* Compiles al source files and generates a new file,
+* Support minification for CSS and JS files.
+* @class Packer
+* @param {object} Object with configuration properties
+*/ 
 var Packer = function(o) {
 
     if(false === (this instanceof Packer)) {
@@ -83,8 +99,9 @@ Packer.prototype.process = function() {
 	var t = files.length;
 	// iterate each file to get its raw data.
 	while (t--) {
-		// file name
-		file = files[t];
+		// file name, parsed with nn() function
+		// to make the first character lowerCase
+		file = nn(files[t]);
 		try {
 			// try to get the data
 			data = fs.readFileSync( uri + "/" + file, encoding="utf8");
