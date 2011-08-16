@@ -260,38 +260,39 @@ app.get('/docs',function(req, res){
 });
 
 app.get('/docs/:branch/:label?',function(req, res){
-		var branch = req.params.branch,
-			label = req.params.label;
+	var branch = req.params.branch,
+		label = req.params.label;
 			
-			if(branch!=undefined && label!=undefined){
-				var redefBranch = (branch=='how-to')?'howtos':branch;
-				var url = '/docs/'+branch+'/'+label;
-				items = meta[redefBranch];
-				for(var i in items){
-					if(items[i].href == url){
-						res.render('docs/'+branch+'/'+label, meta );
-						return;
-					}
-				}
-				res.render('404', meta );
-				return;
-				//res.render('docs/'+brancDzh+'/'+label, meta );
-			} else if(label==undefined){
-				var url = '/docs/'+branch;
-				items = meta.docs;
-				for(var i in items){
-					if(items[i].href == url){
-						res.render('docs/'+branch, meta );
-						return;
-					}
-				}
-				//res.send("Error 404 | Branch: "+branch+", Label: "+label);
-				res.render('404', meta );
+	if(branch!=undefined && label!=undefined){
+		var redefBranch = (branch=='how-to')?'howtos':branch;
+		url = '/docs/'+branch+'/'+label;
+		items = meta[redefBranch];
+		for(var i in items){
+			if(items[i].href == url){
+				res.render('docs/'+branch+'/'+label, meta );
 				return;
 			}
-			//res.send("Error 404 | Branch: "+branch+", Label: "+label);
-			res.render('404', meta );
-			return;
+		}
+		res.render('404', meta );
+		return;
+		//res.render('docs/'+brancDzh+'/'+label, meta );
+		
+	} else if(label==undefined){
+		var url = '/docs/'+branch;
+		items = meta.docs;
+		for(var i in items){
+			if(items[i].href == url){
+				res.render('docs/'+branch, meta );
+				return;
+			}
+		}
+		//res.send("Error 404 | Branch: "+branch+", Label: "+label);
+		res.render('404', meta );
+		return;
+	}
+	//res.send("Error 404 | Branch: "+branch+", Label: "+label);
+	res.render('404', meta );
+	return;
 });
 
 
