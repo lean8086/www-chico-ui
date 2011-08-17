@@ -54,7 +54,7 @@ meta.latest = (function(){
 		file, css, js;
 	// find the .tar file from the latest version
 	current.files.forEach(function(i){
-		if (/^.+(\.tar)$/.test(i.label)) { file = i; }
+		if (/^.+(\.(tar|zip))$/.test(i.label)) { file = i; }
 		if (/^.+-min-.+(\.css)$/.test(i.label)) { css = i; }
 		if (/^.+-min-.+(\.js)$/.test(i.label)) { js = i; }
 	});
@@ -64,6 +64,17 @@ meta.latest = (function(){
 		javascript: js,
 		stylesheet: css
 	}
+})();
+
+// Dynamic API Docs
+(function(){
+	var top = meta.navigation.top;
+		top.forEach(function(item){
+			if (item.label === "API"){
+				item.href = "api/" + meta.latest.version + "/index.html";
+			}	
+		})
+		meta.navigation.top = top;
 })();
 
 /**
@@ -90,20 +101,17 @@ app.configure('production', function(){
 * rutes
 */
 
-app.get('/assets/:img', function(req, res){
+app.get('/versions/assets/:img', function(req, res, next){
 
 	var img = req.params.img;
 	
 	var data = fs.readFileSync(meta.conf.input + '/ml/assets/'+img);
-	
+
 	if (img&&data) { 
 		res.header('Content-Type', "image/png");
 		res.send(data);
-	} else {
-		res.render('404', meta );
 	}
 	
-
 });
 
 /*
