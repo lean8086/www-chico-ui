@@ -120,7 +120,9 @@ app.get('/versions/assets/:img', function(req, res, next){
 	../latest/css?debug=true
 */ 
 app.get( '/latest/:type', function( req, res ) {
- 			
+
+	console.log(req);
+
 	var type = req.params.type,
 		debug = req.query.debug,
 		packages = [{
