@@ -1,4 +1,4 @@
-var menu = $('#versions').accordion();
+var menu = $('#versions').accordion().select(1);
 
 
 
@@ -142,8 +142,6 @@ var custom = {
                 });  
             }
         }
-                
-        $(".selected-components").html( $("#components input:checked").size() + $("#abstracts input:checked").size() + $("#utils input:checked").size());
     }
 };
         

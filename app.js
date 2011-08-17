@@ -15,14 +15,16 @@ var express = require('express'),
 var app = module.exports = express.createServer();
 
 /**
- * constants.
- */
- 
+* app constructor.
+* 
+*/
 
-// get versions
-var versions = (function(){
+// get 'builder.conf' and parse JSON data
+meta.conf = JSON.parse(fs.readFileSync(__dirname + "/services/builder/builder.conf"));
 
-	var versions = [], 
+// creates a collection of all versions inside /public/versions
+meta.versions = (function(){
+	var versions = [],
 		temp = [],
 		folders = fs.readdirSync( __dirname + "/public/versions/");
 	if (folders) {
@@ -45,13 +47,28 @@ var versions = (function(){
 		});
 	}
 	return temp;
-	
 })();
 
+meta.latest = (function(){
+	var current = meta.versions[0],
+		file, css, js;
+	// find the .tar file from the latest version
+	current.files.forEach(function(i){
+		if (/^.+(\.tar)$/.test(i.label)) { file = i; }
+		if (/^.+-min-.+(\.css)$/.test(i.label)) { css = i; }
+		if (/^.+-min-.+(\.js)$/.test(i.label)) { js = i; }
+	});
+	return {
+		version: current.version,
+		download: file,
+		javascript: js,
+		stylesheet: css
+	}
+})();
 
 /**
- * app configuration.
- */
+* app configuration.
+*/
 app.configure(function(){
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'jade');
@@ -70,20 +87,20 @@ app.configure('production', function(){
 });
 
 /**
- * rutes
+* rutes
 */
 
 app.get('/assets/:img', function(req, res){
 
 	var img = req.params.img;
 	
-	var data = fs.readFileSync('../chico.master/src/ml/assets/'+img);
+	var data = fs.readFileSync(meta.conf.input + '/ml/assets/'+img);
 	
 	if (img&&data) { 
-
 		res.header('Content-Type', "image/png");
 		res.send(data);
-		
+	} else {
+		res.render('404', meta );
 	}
 	
 
@@ -129,7 +146,6 @@ app.get('/download', function(req, res) {
 	// new title
 	var _meta = Object.create(meta);
 		_meta.title = "Download Chico-UI.";
-		_meta.versions = versions;
 
 	res.render( 'download', _meta );
 	

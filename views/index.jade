@@ -22,8 +22,9 @@
 			h2 
 				| Get latest version 
 			span.version
+				#{latest.version}
 
-			form(action='/download')
+			form(action='#{latest.download.href}')
 				fieldset
 					ul
 						li.field-box
@@ -32,10 +33,11 @@
 						| See 
 						a(href='/download') older versions
 						| .
-						
-						ul
-							li.field-box
-								input.btn.primary.button(type='submit', value='Build custom package')
+			form(action='/download')
+				fieldset						
+					ul
+						li.field-box
+							input.btn.primary.button(type='submit', value='Build custom package')
 
 					p
 						a(href='/api/index.html') API Reference
