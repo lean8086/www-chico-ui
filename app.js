@@ -9,7 +9,8 @@ var express = require('express'),
 		fs = require('fs'),
 		meta = require('./models/meta').meta;
 		CustomBuild = require('./services/builder/custom_build').CustomBuild,
-		undefined;
+		undefined,
+		port = 80;
 
 
 var app = module.exports = express.createServer();
@@ -91,10 +92,12 @@ app.configure(function(){
 
 app.configure('development', function(){
 	app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+	port = 8080;
 });
 
 app.configure('production', function(){
 	app.use(express.errorHandler()); 
+	port = 80;
 });
 
 /**
@@ -348,7 +351,7 @@ app.get('/', function(req, res, next){
 /**
  * app start
  */
-app.listen(8080);
+app.listen(port);
 
 /**
  * log
