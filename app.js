@@ -10,8 +10,7 @@ var express = require('express'),
 		meta = require('./models/meta').meta;
 		CustomBuild = require('./services/builder/custom_build').CustomBuild,
 		undefined,
-		port = 80;
-
+		port = process.argv[2] || 80;
 
 var app = module.exports = express.createServer();
 
@@ -91,15 +90,11 @@ app.configure(function(){
 });
 
 app.configure('production', function(){
-	console.log("Production mode");
 	app.use(express.errorHandler()); 
-	port = 80;
 });
 
 app.configure('development', function(){
-	console.log("Development mode");
 	app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
-	port = 8080;
 });
 
 
