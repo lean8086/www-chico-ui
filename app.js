@@ -105,12 +105,13 @@ app.get('/versions/assets/:img', function(req, res, next){
 
 	var img = req.params.img;
 	
-	var data = fs.readFileSync(meta.conf.input + 'ml/assets/'+img);
+//	var data = fs.readFileSync(meta.conf.input + 'ml/assets/'+img);
 
-	if (img&&data) { 
-		res.header('Content-Type', "image/png");
-		res.send(data);
-	}
+//	if (img&&data) { 
+//		res.header('Content-Type', "image/png");
+//		res.send(data);
+		res.redirect("/assets/"+img)
+//	}
 	
 });
 
