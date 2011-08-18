@@ -1,4 +1,4 @@
-
+	
 /**
  * module dependencies.
  */
@@ -141,6 +141,7 @@ app.get( '/latest/:type', function( req, res ) {
 		custom.on("processed", function(data) {
 			res.header('Content-Type', (type==="js") ? "text/javascript" : "text/css" );
 			res.send(data);
+			res.end();
 		});
 		
 		custom.process();
@@ -158,6 +159,7 @@ app.get('/download', function(req, res) {
 		_meta.title = "Download Chico-UI.";
 
 	res.render( 'download', _meta );
+	res.end();
 	
 });
 // post 
@@ -180,6 +182,7 @@ app.post('/download', function( req, res ){
 
 		if ( !abstracts || !utils || !components ) {
 				res.send(); // Avoid process without components
+				res.end();
 				return;
 		}
 
@@ -245,6 +248,7 @@ app.post('/download', function( req, res ){
 
 		custom.on("done", function(url) {
 			res.redirect(url);
+			res.end();
 		});
 		
 		custom.process();
@@ -256,6 +260,7 @@ app.post('/download', function( req, res ){
 // get
 app.get('/snippets', function(req, res){
 	res.render('snippets', meta );
+	res.end();
 });
 
 /**
@@ -265,6 +270,7 @@ app.get('/snippets', function(req, res){
 app.get('/discussion', function(req, res){
 	meta.title = "Discussion on Chico UI";
 	res.render('discussion', meta );
+	res.end();
 });
 
 /**
@@ -275,6 +281,7 @@ app.get('/getting-started', function(req, res){
 	// new title
 	meta.title = "Getting started with Chico UI";
 	res.render('getting-started', meta );
+	res.end();
 });
 
 /**
@@ -282,7 +289,8 @@ app.get('/getting-started', function(req, res){
  */
 
 app.get('/docs',function(req, res){
-		res.render('docs', meta);
+	res.render('docs', meta);
+	res.end();
 });
 
 app.get('/docs/:branch/:label?',function(req, res){
@@ -314,10 +322,12 @@ app.get('/docs/:branch/:label?',function(req, res){
 		}
 		//res.send("Error 404 | Branch: "+branch+", Label: "+label);
 		res.render('404', meta );
+		res.end();
 		return;
 	}
 	//res.send("Error 404 | Branch: "+branch+", Label: "+label);
 	res.render('404', meta );
+	res.end();
 	return;
 });
 
@@ -327,10 +337,12 @@ app.get('/docs/:branch/:label?',function(req, res){
  */
 app.get('/404', function(req, res){
 	res.render('404', meta );
+	res.end();
 });
 
 app.get('/500', function(req, res){
 	res.render('404', meta );
+	res.end();
 });
 
 /**
@@ -339,6 +351,7 @@ app.get('/500', function(req, res){
 // get
 app.get('/', function(req, res, next){
 	res.render('index', meta );
+	res.end();
 });
 
 /**
