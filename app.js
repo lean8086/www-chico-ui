@@ -90,17 +90,18 @@ app.configure(function(){
 	app.use(express.static(__dirname + '/public'));
 });
 
+app.configure('production', function(){
+	console.log("Production mode");
+	app.use(express.errorHandler()); 
+	port = 80;
+});
+
 app.configure('development', function(){
 	console.log("Development mode");
 	app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 	port = 8080;
 });
 
-app.configure('production', function(){
-	console.log("Production mode");
-	app.use(express.errorHandler()); 
-	port = 80;
-});
 
 /**
 * rutes
