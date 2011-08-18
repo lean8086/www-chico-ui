@@ -105,7 +105,7 @@ app.get('/versions/assets/:img', function(req, res, next){
 
 	var img = req.params.img;
 	
-	var data = fs.readFileSync(meta.conf.input + '/ml/assets/'+img);
+	var data = fs.readFileSync(meta.conf.input + 'ml/assets/'+img);
 
 	if (img&&data) { 
 		res.header('Content-Type', "image/png");
@@ -349,7 +349,7 @@ app.get('/', function(req, res, next){
 /**
  * app start
  */
-app.listen(8080);
+app.listen(80);
 
 /**
  * log
