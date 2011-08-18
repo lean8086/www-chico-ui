@@ -122,8 +122,6 @@ app.get('/versions/assets/:img', function(req, res, next){
 */ 
 app.get( '/latest/:type', function( req, res ) {
 
-	console.log(req);
-
 	var type = req.params.type,
 		debug = req.query.debug,
 		packages = [{
@@ -350,7 +348,7 @@ app.get('/', function(req, res, next){
 /**
  * app start
  */
-app.listen(80);
+app.listen(8080);
 
 /**
  * log
