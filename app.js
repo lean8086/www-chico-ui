@@ -91,11 +91,13 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
+	console.log("Development mode");
 	app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 	port = 8080;
 });
 
 app.configure('production', function(){
+	console.log("Production mode");
 	app.use(express.errorHandler()); 
 	port = 80;
 });
@@ -340,11 +342,6 @@ app.get('/500', function(req, res){
  */
 // get
 app.get('/', function(req, res, next){
-
-    if (req.headers.host.indexOf("download")>-1){
-    	next();
-    }
-
 	res.render('index', meta );
 });
 
