@@ -150,6 +150,7 @@ CustomBuild.prototype.compress = function(package) {
 	sys.puts("Compressing packages.");
 
     // Exec commands ;)
+
 	exec(createFolders + " && " + 
 		 copyLicense + " && " + 
 		 copyReadme + " && " + 
@@ -159,12 +160,19 @@ CustomBuild.prototype.compress = function(package) {
 		 createZip , function(err) {
 	   
         if ( err ) {
+sys.puts(createFolders + " && " +
+                 copyLicense + " && " +
+                 copyReadme + " && " +
+                 copyImages + " && " +
+                 movingJS + " && " +
+                 movingCSS + " && " +
+                 createZip);
             sys.puts( "Error - Custom Builder: <Creating Package> " + err );
+
             return;
         }
 		
 		sys.puts("Package builded at " + self.folder + zipName );
-		
 		self.emit( "done" , url );
 		
     });
