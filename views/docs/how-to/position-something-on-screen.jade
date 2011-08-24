@@ -1,17 +1,8 @@
-
 .ch-g1.section
-
+	h1 Docs
 	.ch-g1-4
-		h3 How-to...
-		ul.container
-			- each item in howtos 
-				li
-					a(href='#{item.href}') #{item.label}
-		h3 Demos
-		ul.container
-			- each item in demos
-				li
-					a(href='#{item.href}') #{item.label}
+		!=partial('partials/howtos')
+		!=partial('partials/demos')
 
 	.ch-g3-4
 		h1 How to position something on screen?
@@ -23,11 +14,11 @@
 		div.container
 			p
 				| To perform this task we need to use
-				a(href='/demos/positioner') Positioner 
+				a(href='/docs/demos/positioner') Positioner 
 				| component. The role of this component is to position any element relative to any context.
 			p
 				| Read more about 
-				a(href='/demos/positioner') Positioner
+				a(href='/docs/demos/positioner') Positioner
 				| .
 			
 		a#step-by-step
@@ -79,7 +70,7 @@
 				code element
 				|  parameter.
 			pre.code
-				| configuration.element = “.element”;
+				| configuration.element = $(“.element”);
 			p
 				| Then, we’ll specify the 
 				strong context 
@@ -87,7 +78,7 @@
 				strong red element 
 				| will take reference to positionate itself.
 			pre.code
-				| configuration.context = “.context”;
+				| configuration.context = $(“.context”);
 			p
 				| Finally, we must specify which position will be the connector between 
 				strong context 
@@ -114,8 +105,8 @@
 				| format at same time as the component is invoked.
 			pre.code
 				| var example = ch.positioner({
-				|     element: “.element”,
-				|     context: “.context”,
+				|     element: $(“.element”),
+				|     context: $(“.context”),
 				|     points: “lt rt”
 				| });
 			p
@@ -140,47 +131,47 @@
 					| Set a new position by resetting the specified parameters of configuration object.
 			p
 				| Read more about 
-				a(href='/demos/positioner') Positioner
+				a(href='/docs/demos/positioner') Positioner
 				| .
 				
 		a#relocating
-		h2 Relocating
-		div.container
-			p
-				| To change 
-				code points
-				|  of the current position, we can use the public method 
-				code position()
-				| , specifying a new configuration object that contains a new 
-				code points
-				|  reference.
+		//h2 Relocating
+		//div.container
+		//	p
+		//		| To change 
+		//		code points
+		//		|  of the current position, we can use the public method 
+		//		code position()
+		//		| , specifying a new configuration object that contains a new 
+		//		code points
+		//		|  reference.
 				
-			pre.code
-				| example.position({
-				|     points: “lt lb”
-				| });
-			p
-				| Final result should be seen like this:
-			.context.c2
-				| Context
-			.target.e2
-				| Element
+		//	pre.code
+		//		| example.position({
+		//		|     points: “lt lb”
+		//		| });
+		//	p
+		//		| Final result should be seen like this:
+		//	.context.c2
+		//		| Context
+		//	.target.e2
+		//		| Element
 		hr
 		.ch-g1-2
 			a(id='keep-on-reading')
 			h2 Keep on reading
 			p.container
 				| Read more on our technical documentation, see the 
-				a(href='/api/index.html') class index
+				a(href='/api/#{latest.version}/index.html') class index
 				| , or see more about positioner in the 
-				a(href="/api/symbols/ch.Positioner.html") Positioner
+				a(href="/api/#{latest.version}/symbols/ch.Positioner.html") Positioner
 				|  documentation.
 		.ch-g1-2
 			a(id='report-a-problem')
 			h2 Problems?
 			p.container
 				| You can easily report problems, like bugs or typos through our 
-				a(href='/api/index.html') issue tracker
+				a(href='#{common.issuetracker}') issue tracker
 				| , or simply write a twitt to 
 				a(href='http://twitter.com/#!/chicoui') @chicoui
 				| .
@@ -189,8 +180,8 @@
 script
 	// First example initialization
 	var example1 = ch.positioner({
-		element: ".e1",
-		context: ".c1",
+		element: $(".e1"),
+		context: $(".c1"),
 		points: "lt rt"
 	});
 	
@@ -199,12 +190,12 @@ script
 	
 	// Second example initialization
 	var example2 = ch.positioner({
-		element: ".e2",
-		context: ".c2",
+		element: $(".e2"),
+		context: $(".c2"),
 		points: "lt rt"
 	});
 	
 	// Relocating second example
-	example2.position({
-		points: "lt lb"
-	});
+	//example2.position({
+	//	points: "lt lb"
+	//});

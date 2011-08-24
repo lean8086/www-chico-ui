@@ -1,26 +1,13 @@
 .ch-g1.section
 	h1 Docs
 	.ch-g1-4
-		ul
-			li
-				a(href='/api/#{latest.version}/index.html') API reference
-			
-		h3 Demos
-		ul
-			- each item in demos
-				li
-					a(href='#{item.href}') #{item.label}
-
-		h3 How-to...
-		ul
-			- each item in howtos 
-				li
-					a(href='#{item.href}') #{item.label}
-
+		!=partial('partials/demos')
+		!=partial('partials/howtos')
+		
 	.ch-g3-4
 		h2 Getting started
 		p.container
-			| This quick guide is intented to explain the basics of Chico.
+			| This quick guide is intended to explain the basics of Chico.
 		
 		a#what-is-chico
 		h3 What is Chico?

@@ -10,8 +10,8 @@ html.no-js(lang='en')
 		meta(property="og:title", content="Chico UI")
 		meta(property="og:type", content="product")
 		meta(property="og:url", content="http://www.chico-ui.com.ar")
-		meta(property="og:image", content="http://chico-ui.com.ar/sites/all/themes/chico/images/ninja.jpg")
-		meta(property="og:site_name", content="Chico UI, MercadoLibre&#039;s visual framework.")
+		meta(property="og:image", content="http://chico-ui.com.ar/src/assets/ninja.jpg")
+		meta(property="og:site_name", content="Chico UI, MercadoLibre&#039;s Web Tools.")
 		meta(property="fb:admins", content="100001929271879")
 
 		link(rel='stylesheet', href='#{latest.stylesheet.href}')
@@ -37,10 +37,9 @@ html.no-js(lang='en')
 					#{latest.version}
 
 			ul
-				- each item in navigation.top 
+				- each item in navigation 
 					li
 						a(href='#{item.href}') #{item.label}
-
 		hr
 
 	body!= body
@@ -50,5 +49,5 @@ p.footer
 	| ©2011
 	a(href='http://www.mercadolibre.com') MercadoLibre
 	| .
-
-//iframe(src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.chico-ui.com.ar%3A8080%2F", scrolling="no", frameborder="0", style="height: 62px; width: 100%", allowTransparency="true")
+a(href="http://twitter.com/share", class="twitter-share-button") Tweet
+<g:plusone size="medium" href="http://www.chico-ui.com.ar"></g:plusone>
