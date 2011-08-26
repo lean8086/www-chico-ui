@@ -3,15 +3,19 @@
 		.introduction.center
 			h1 Get things done, quickly
 			p.container
-				| Chico is a collection of 
+				| Chico is a 
+				strong free 
+				| and 
+				strong open source 
+				| collection of 
 				em easy-to-use 
 				| web toys for developers and designers.
 				| Built on top of 
 				a(href='http://www.jquery.com',rel='nofollow') jQuery
-				| , this open source toolbox brings a couple of known visual patterns
+				| , this toolbox brings a couple of known visual patterns
 				| for the web and takes advantages of the new HTML5 and CSS3 features. We want to 
 				a(href='http://github.com/mercadolibre/chico',rel='nofollow') share this tool 
-				| to help making the web more beautiful.
+				| with the world to help making the web more beautiful.
 			form.container(action='/docs')
 				input.btn.primary.button(type='submit', value='Getting Started')
 	.ch-g1-3
@@ -21,18 +25,17 @@
 		div.download-container.center
 			h2 
 				| Get latest version 
-			span.version
-				#{latest.version}
 
 			form(action='#{latest.download.href}')
 				fieldset
 					ul
 						li.field-box
-							input.btn.secondary.skin.button(type='submit', value='Download full package')
+							input.btn.secondary.skin.button(type='submit', value='Download #{latest.version} full package')
 					p
-						| See 
+						| Looking for
 						a(href='/download') older versions
-						| .
+						| ?
+
 			form(action='/download')
 				fieldset						
 					ul
@@ -40,14 +43,9 @@
 							input.btn.primary.button(type='submit', value='Build custom package')
 
 					p
-						a(href='/api/#{latest.version}/index.html') API documentation
-						|,
-						a(href='/discussion') Discussion
-						|,
-						a(href='https://github.com/mercadolibre/chico') Github
-						|,
-						a(href='/docs/how-to/report-a-bug') Report a bug
-						|.
+						| Select all the components you need from latest release
+						| and download your custom package ready to use.
+			hr
 
 hr.clearfix
 div.container.home
@@ -115,15 +113,7 @@ div.container.home
 							span.rounded
 								img(src='src/assets/icons/watcher-icon-64x64.jpg',alt='Watcher')
 							span Watcher
-			
-		//-h3 Flavor your components
-		//-ul 
-		//-li 
-		//-a(href='/flavors/browse') Browse Flavors
-		//-li 
-		//-a(href='/docs/how-to/create-a-theme') How-to create a theme
-		//-li 
-		//-a(href='/flavors/design-playbook') Design playbook
+
 		li.ch-g1-4
 			h3 How-to guides
 			ul
@@ -131,36 +121,23 @@ div.container.home
 					- if (i<4)
 						li
 							a(href='#{item.href}') #{item.label}
-			//-h3 Mesh-up your layouts
-			//-ul
-			//-	li 
-			//-		a(href='/docs/how-to/mesh-your-layout-in-5-min') How-to mesh in 5 min
-			//-	li 
-			//-		a(href='/mesh/layouts') Wide adjustable and fixed layouts
-			//-	li 
-			//-		a(href='/mesh/examples') Gallery and examples
-		
-		li.ch-g1-4  
+		li.ch-g1-4
 			h3 Developers
-			ul.ch-g1-2
+			ul
 				li 
 					a(href='/api/#{latest.version}/index.html') API documentation
 				li 
-					a(href='http://github.com/mercadolibre/chico',rel='nofollow') Github repository
+					a(href='http://github.com/mercadolibre/chico') Code on Github
+				li 
+					a(href='#{common.issuetracker}') Issue tracker
 				li 
 					a(href='/discussion') Discussion
-				li 
-					a(href='/docs/how-to/report-a-bug') How-to report a bug
-				//-li 
-				//-	a(href='/docs/how-to/create-a-component') How-to create a component
-				//-li 
-				//-	a(href='/docs/how-to/collaborate') How-to collaborate
 			
 hr.clearfix
 div.container.home
 	ul
 		li.ch-g1-3
-			a(href='http://www.w3.org/html/logo/',rel='nofollow')
+			a(href='http://www.w3.org/html/logo/', rel='nofollow')
 				img(alt='HTML5', src='http://www.w3.org/html/logo/badge/html5-badge-h-solo.png')
 			h3 We love the open web
 			p
@@ -173,12 +150,12 @@ div.container.home
 			/if lt IE 7 
 				p You are using a really really old browser! Please, try to upgrade the thing and help engineers to push the web forward, much further than you think!
 		li.ch-g1-3
-			a(href='http://opensource.org/',rel='nofollow')
+			a(href='http://opensource.org/', rel='nofollow')
 				img(alt='Open Source Initiative', src='src/assets/opensource.png')
 			h3 Open source
 			p 
 				| Released under              
-				a(href='https://raw.github.com/mercadolibre/chico/bc982b922d041057c9dde9566536ebfb517d1a70/LICENSE.txt', title='It means you can use it and modify it as you like.',rel='nofollow') MIT Licence!
+				a(href='https://raw.github.com/mercadolibre/chico/bc982b922d041057c9dde9566536ebfb517d1a70/LICENSE.txt', title='It means you can use it and modify it as you like.', rel='nofollow') MIT License!
 				| We are sharing our work like other cool projects like jQuery, NodeJS, Apache.
 .clearfix
 script
