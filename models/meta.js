@@ -8,7 +8,8 @@ var meta = {
 			{"label": "Docs", "href": "/docs"},
 			{"label": "API", "href": "/api"},
 			{"label": "Discussion", "href": "/discussion"},
-			{"label": "Download", "href": "/download"}
+			{"label": "Download", "href": "/download"},
+			{"label": "About", "href": "/about"}
 		],
 	
 	"common": {

@@ -21,7 +21,7 @@ var app = module.exports = express.createServer();
 
 var title = function(title){
 	var _meta = Object.create(meta);
-	 _meta.title = title || "Chico UI, MercadoLibre's Web Tools ;)";
+	 _meta.title = title || "Chico UI, MercadoLibre's Open Source Web Tools.";
 	return _meta;
 }
 
@@ -343,9 +343,15 @@ app.get('/500', function(req, res){
 /**
  * Index.
  */
-// get
+app.get('/about', function(req, res, next){
+	res.render('about', title("About Chico UI") );
+});
+
+/**
+ * Index.
+ */
 app.get('/', function(req, res, next){
-	res.render('index', meta );
+	res.render('index', title() );
 });
 
 /**
