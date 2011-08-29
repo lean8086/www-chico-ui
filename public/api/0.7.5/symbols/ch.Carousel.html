@@ -32,13 +32,14 @@
 
 <body>
 <div class="header clearfix">
-<h1><a href="/">Chico UI</a><span class="version">0.7.4</span></h1>
+<h1><a href="/">Chico UI</a><span class="version">0.7.5</span></h1>
 <ul>
 	<li><a href="http://blog.chico-ui.com.ar/">Blog</a></li>
 	<li><a href="/docs">Docs</a></li>
 	<li><a href="/api/0.7.4/index.html">API</a></li>
 	<li><a href="/discussion">Discussion</a></li>
 	<li><a href="/download">Download</a></li>
+	<li><a href="/about">About</a></li>
 </ul>
 </div>
 
@@ -243,7 +244,7 @@
 								</div>
 							</td>
 							<td class="nameDescription">
-								<div class="description">List of items.</div>
+								<div class="description">HTMLLiElement with a list of items.</div>
 							</td>
 						</tr>
 					
@@ -328,7 +329,7 @@
 								</div>
 							</td>
 							<td class="nameDescription">
-								<div class="description">The element reference.</div>
+								<div class="description">Public reference to element that was used to init the component.</div>
 							</td>
 						</tr>
 					
@@ -358,11 +359,11 @@
 							&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/ch.Carousel.html#getPage">getPage</a></b>
+								<b><a href="../symbols/ch.Carousel.html#getItemsPerPage">getItemsPerPage</a></b>
 								</div>
 							</td>
 							<td class="nameDescription">
-								<div class="description">Get the current page.</div>
+								<div class="description">Deprecated - Get the items amount of each page.</div>
 							</td>
 						</tr>
 					
@@ -386,8 +387,8 @@
 						<tr>
 							<td class="attributes">
 							<!-- # start Public & protected scope fix # -->
+								&lt;public&gt;
 								
-								&lt;protected&gt;
 							<!-- # end Public & protected scope fix # -->
 							&nbsp;</td>
 							<td class="nameDescription">
@@ -396,7 +397,7 @@
 								</div>
 							</td>
 							<td class="nameDescription">
-								<div class="description">Amount of items on each page.</div>
+								<div class="description">Get the items amount of each page (Since 0.7.4).</div>
 							</td>
 						</tr>
 					
@@ -426,7 +427,7 @@
 							&nbsp;</td>
 							<td class="nameDescription">
 								<div class="fixedFont">
-								<b><a href="../symbols/ch.Carousel.html#itemWidth">itemWidth</a></b>
+								<b><a href="../symbols/ch.Carousel.html#itemsWidth">itemsWidth</a></b>
 								</div>
 							</td>
 							<td class="nameDescription">
@@ -447,92 +448,7 @@
 								</div>
 							</td>
 							<td class="nameDescription">
-								<div class="description">Size of carousel mask.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">
-							<!-- # start Public & protected scope fix # -->
-								&lt;public&gt;
-								
-							<!-- # end Public & protected scope fix # -->
-							&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/ch.Carousel.html#next">next</a></b>
-								</div>
-							</td>
-							<td class="nameDescription">
-								<div class="description">Moves to the next page.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">
-							<!-- # start Public & protected scope fix # -->
-								
-								
-							<!-- # end Public & protected scope fix # -->
-							&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/ch.Carousel.html#onItemsAdded">onItemsAdded</a></b>
-								</div>
-							</td>
-							<td class="nameDescription">
-								<div class="description">Callback function</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">
-							<!-- # start Public & protected scope fix # -->
-								
-								
-							<!-- # end Public & protected scope fix # -->
-							&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/ch.Carousel.html#onMove">onMove</a></b>
-								</div>
-							</td>
-							<td class="nameDescription">
-								<div class="description">Callback function</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">
-							<!-- # start Public & protected scope fix # -->
-								
-								
-							<!-- # end Public & protected scope fix # -->
-							&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/ch.Carousel.html#onNext">onNext</a></b>
-								</div>
-							</td>
-							<td class="nameDescription">
-								<div class="description">Callback function</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">
-							<!-- # start Public & protected scope fix # -->
-								
-								
-							<!-- # end Public & protected scope fix # -->
-							&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/ch.Carousel.html#onPrev">onPrev</a></b>
-								</div>
-							</td>
-							<td class="nameDescription">
-								<div class="description">Callback function</div>
+								<div class="description">Size of Carousel mask.</div>
 							</td>
 						</tr>
 					
@@ -549,24 +465,7 @@
 								</div>
 							</td>
 							<td class="nameDescription">
-								<div class="description">Amount of pages.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">
-							<!-- # start Public & protected scope fix # -->
-								&lt;public&gt;
-								
-							<!-- # end Public & protected scope fix # -->
-							&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/ch.Carousel.html#prev">prev</a></b>
-								</div>
-							</td>
-							<td class="nameDescription">
-								<div class="description">Moves to the previous page.</div>
+								<div class="description">Total amount of pages.</div>
 							</td>
 						</tr>
 					
@@ -584,23 +483,6 @@
 							</td>
 							<td class="nameDescription">
 								<div class="description">List of items that should be loaded asynchronously on page movement.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">
-							<!-- # start Public & protected scope fix # -->
-								&lt;public&gt;
-								
-							<!-- # end Public & protected scope fix # -->
-							&nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">
-								<b><a href="../symbols/ch.Carousel.html#redraw">redraw</a></b>
-								</div>
-							</td>
-							<td class="nameDescription">
-								<div class="description">Re-calculate positioning, sizing, paging, and re-draw.</div>
 							</td>
 						</tr>
 					
@@ -799,16 +681,16 @@
 						<tr>
 							<td class="attributes">
 							<!-- # start Public & protected scope fix # -->
+								&lt;public&gt;
 								
-								&lt;protected&gt;
 							<!-- # end Public & protected scope fix # -->
 							&nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont"><b><a href="../symbols/ch.Carousel.html#getItemsPerPage">getItemsPerPage</a></b>()
+								<div class="fixedFont"><b><a href="../symbols/ch.Carousel.html#getPage">getPage</a></b>()
 								</div>
 							</td>
 							<td class="nameDescription">
-								<div class="description">Calculates items amount on each page.</div>
+								<div class="description">Deprecated - Gets the current page.</div>
 							</td>							
 						</tr>
 					
@@ -840,7 +722,7 @@
 								</div>
 							</td>
 							<td class="nameDescription">
-								<div class="description">Moves to a defined page.</div>
+								<div class="description">Deprecated - Moves to a defined page.</div>
 							</td>							
 						</tr>
 					
@@ -884,11 +766,59 @@
 							<!-- # end Public & protected scope fix # -->
 							&nbsp;</td>
 							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ch.Carousel.html#next">next</a></b>()
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">Moves to the next page.</div>
+							</td>							
+						</tr>
+					
+						<tr>
+							<td class="attributes">
+							<!-- # start Public & protected scope fix # -->
+								&lt;public&gt;
+								
+							<!-- # end Public & protected scope fix # -->
+							&nbsp;</td>
+							<td class="nameDescription">
 								<div class="fixedFont"><b><a href="../symbols/ch.Carousel.html#page">page</a></b>(page)
 								</div>
 							</td>
 							<td class="nameDescription">
-								<div class="description">Gets the current page or moves to a defined page.</div>
+								<div class="description">Gets the current page or moves to a defined page (Since 0.7.4).</div>
+							</td>							
+						</tr>
+					
+						<tr>
+							<td class="attributes">
+							<!-- # start Public & protected scope fix # -->
+								&lt;public&gt;
+								
+							<!-- # end Public & protected scope fix # -->
+							&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ch.Carousel.html#prev">prev</a></b>()
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">Moves to the previous page.</div>
+							</td>							
+						</tr>
+					
+						<tr>
+							<td class="attributes">
+							<!-- # start Public & protected scope fix # -->
+								&lt;public&gt;
+								
+							<!-- # end Public & protected scope fix # -->
+							&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ch.Carousel.html#redraw">redraw</a></b>()
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">Re-calculate positioning, sizing, paging, and re-draw.</div>
 							</td>							
 						</tr>
 					
@@ -904,7 +834,7 @@
 								</div>
 							</td>
 							<td class="nameDescription">
-								<div class="description">Moves to a defined page.</div>
+								<div class="description">Moves to a defined page (Since 0.7.5).</div>
 							</td>							
 						</tr>
 					
@@ -921,6 +851,93 @@
 	</div>
 	<div id="events">
 <!-- ============================== events summary ======================== -->
+			
+				
+				
+				<table class="summaryTable datagrid" cellspacing="0" summary="A summary of the events documented in the class ch.Carousel.">
+					<!--caption>Event Summary</caption-->
+					<thead>
+						<tr>
+							<th scope="col">Visibility</th>
+							<th scope="col">Name</th>
+							<th scope="col">Description</th>
+						</tr>
+					</thead>
+					<tbody>
+					
+						<tr>
+							<td class="attributes">
+							<!-- # start Public & protected scope fix # -->
+								&lt;public&gt;
+								
+							<!-- # end Public & protected scope fix # -->
+							&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ch.Carousel.html#event:itemsAdded">itemsAdded</a></b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">Triggers when component adds items asynchronously from queue.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">
+							<!-- # start Public & protected scope fix # -->
+								&lt;public&gt;
+								
+							<!-- # end Public & protected scope fix # -->
+							&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ch.Carousel.html#event:move">move</a></b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">Triggers when component moves to next or previous page.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">
+							<!-- # start Public & protected scope fix # -->
+								&lt;public&gt;
+								
+							<!-- # end Public & protected scope fix # -->
+							&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ch.Carousel.html#event:next">next</a></b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">Triggers when component moves to next page.</div>
+							</td>
+						</tr>
+					
+						<tr>
+							<td class="attributes">
+							<!-- # start Public & protected scope fix # -->
+								&lt;public&gt;
+								
+							<!-- # end Public & protected scope fix # -->
+							&nbsp;</td>
+							<td class="nameDescription">
+								<div class="fixedFont"><b><a href="../symbols/ch.Carousel.html#event:prev">prev</a></b>
+								</div>
+							</td>
+							<td class="nameDescription">
+								<div class="description">Triggers when component moves to previous page.</div>
+							</td>
+						</tr>
+					
+					</tbody>
+				</table>
+				
+				
+				
+				<dl class="inheritsList">
+				
+				</dl>
+				
 			
 	</div>
     </div>
@@ -964,7 +981,7 @@
 						<dt>Returns</dt>
 						<dd>
 							
-								Chico-UI Object
+								Chico UI Object
 							
 						</dd>
 					
@@ -1002,7 +1019,7 @@
 					</h3>
 
 					<div class="description">
-						<p>List of items.</p>
+						<p>HTMLLiElement with a list of items.</p>
 						
 						
 					</div>
@@ -1141,13 +1158,13 @@
 							
 							<!-- # end Public & protected scope fix # -->
 							
-							<span class="light">{HTMLElement}</span>
+							<span class="light">{HTMLDivElement}</span>
 							
 						</span>
 					</h3>
 
 					<div class="description">
-						<p>The element reference.</p>
+						<p>Public reference to element that was used to init the component.</p>
 						
 						
 					</div>
@@ -1176,7 +1193,7 @@
 					</h3>
 
 					<div class="description">
-						<p>Extra size calculated on content. Fix some IE6 issues.</p>
+						<p>Extra size calculated on content. Fix issues of collection size in IE6.</p>
 						
 						
 					</div>
@@ -1189,10 +1206,10 @@
 					</dl>
 					<hr />
 				
-					<a name="getPage"> </a>					
+					<a name="getItemsPerPage"> </a>					
 					
 					<h3>
-						getPage 
+						getItemsPerPage 
 						<span class="visibility">
 							<!-- # start Public & protected scope fix # -->
 							&lt;public&gt;
@@ -1205,7 +1222,7 @@
 					</h3>
 
 					<div class="description">
-						<p>Get the current page.</p>
+						<p>Deprecated - Get the items amount of each page.</p>
 						
 						
 					</div>
@@ -1253,23 +1270,26 @@
 						itemsPerPage 
 						<span class="visibility">
 							<!-- # start Public & protected scope fix # -->
+							&lt;public&gt;
 							
-							&lt;protected&gt;
 							<!-- # end Public & protected scope fix # -->
 							
-							<span class="light">{Number}</span>
+							
 							
 						</span>
 					</h3>
 
 					<div class="description">
-						<p>Amount of items on each page.</p>
+						<p>Get the items amount of each page (Since 0.7.4).</p>
 						
 						
 					</div>
 					
 					<dl class="member-details">
 						
+						
+							<dt>Since:</dt>
+							<dd>0.7.4</dd>
 						
 						
 						
@@ -1305,10 +1325,10 @@
 					</dl>
 					<hr />
 				
-					<a name="itemWidth"> </a>					
+					<a name="itemsWidth"> </a>					
 					
 					<h3>
-						itemWidth 
+						itemsWidth 
 						<span class="visibility">
 							<!-- # start Public & protected scope fix # -->
 							
@@ -1350,165 +1370,7 @@
 					</h3>
 
 					<div class="description">
-						<p>Size of carousel mask.</p>
-						
-						
-					</div>
-					
-					<dl class="member-details">
-						
-						
-						
-						
-					</dl>
-					<hr />
-				
-					<a name="next"> </a>					
-					
-					<h3>
-						next 
-						<span class="visibility">
-							<!-- # start Public & protected scope fix # -->
-							&lt;public&gt;
-							
-							<!-- # end Public & protected scope fix # -->
-							
-							
-							
-						</span>
-					</h3>
-
-					<div class="description">
-						<p>Moves to the next page.</p>
-						
-						
-					</div>
-					
-						<div class="examples">
-							<h4>Examples</h4>
-							<div>
-								
-									<pre class="code">// Create a carousel
-var foo = $("bar").carousel();
-
-// Go to next page
-foo.next();</pre>
-								
-							</div>
-						</div>
-					
-					<dl class="member-details">
-						
-						
-						
-						
-					</dl>
-					<hr />
-				
-					<a name="onItemsAdded"> </a>					
-					
-					<h3>
-						onItemsAdded 
-						<span class="visibility">
-							<!-- # start Public & protected scope fix # -->
-							
-							
-							<!-- # end Public & protected scope fix # -->
-							
-							<span class="light">{Function}</span>
-							
-						</span>
-					</h3>
-
-					<div class="description">
-						<p>Callback function</p>
-						
-						
-					</div>
-					
-					<dl class="member-details">
-						
-						
-						
-						
-					</dl>
-					<hr />
-				
-					<a name="onMove"> </a>					
-					
-					<h3>
-						onMove 
-						<span class="visibility">
-							<!-- # start Public & protected scope fix # -->
-							
-							
-							<!-- # end Public & protected scope fix # -->
-							
-							<span class="light">{Function}</span>
-							
-						</span>
-					</h3>
-
-					<div class="description">
-						<p>Callback function</p>
-						
-						
-					</div>
-					
-					<dl class="member-details">
-						
-						
-						
-						
-					</dl>
-					<hr />
-				
-					<a name="onNext"> </a>					
-					
-					<h3>
-						onNext 
-						<span class="visibility">
-							<!-- # start Public & protected scope fix # -->
-							
-							
-							<!-- # end Public & protected scope fix # -->
-							
-							<span class="light">{Function}</span>
-							
-						</span>
-					</h3>
-
-					<div class="description">
-						<p>Callback function</p>
-						
-						
-					</div>
-					
-					<dl class="member-details">
-						
-						
-						
-						
-					</dl>
-					<hr />
-				
-					<a name="onPrev"> </a>					
-					
-					<h3>
-						onPrev 
-						<span class="visibility">
-							<!-- # start Public & protected scope fix # -->
-							
-							
-							<!-- # end Public & protected scope fix # -->
-							
-							<span class="light">{Function}</span>
-							
-						</span>
-					</h3>
-
-					<div class="description">
-						<p>Callback function</p>
+						<p>Size of Carousel mask.</p>
 						
 						
 					</div>
@@ -1537,52 +1399,10 @@ foo.next();</pre>
 					</h3>
 
 					<div class="description">
-						<p>Amount of pages.</p>
+						<p>Total amount of pages.</p>
 						
 						
 					</div>
-					
-					<dl class="member-details">
-						
-						
-						
-						
-					</dl>
-					<hr />
-				
-					<a name="prev"> </a>					
-					
-					<h3>
-						prev 
-						<span class="visibility">
-							<!-- # start Public & protected scope fix # -->
-							&lt;public&gt;
-							
-							<!-- # end Public & protected scope fix # -->
-							
-							
-							
-						</span>
-					</h3>
-
-					<div class="description">
-						<p>Moves to the previous page.</p>
-						
-						
-					</div>
-					
-						<div class="examples">
-							<h4>Examples</h4>
-							<div>
-								
-									<pre class="code">// Create a carousel
-var foo = $("bar").carousel();
-
-// Go to previous page
-foo.prev();</pre>
-								
-							</div>
-						</div>
 					
 					<dl class="member-details">
 						
@@ -1612,48 +1432,6 @@ foo.prev();</pre>
 						
 						
 					</div>
-					
-					<dl class="member-details">
-						
-						
-						
-						
-					</dl>
-					<hr />
-				
-					<a name="redraw"> </a>					
-					
-					<h3>
-						redraw 
-						<span class="visibility">
-							<!-- # start Public & protected scope fix # -->
-							&lt;public&gt;
-							
-							<!-- # end Public & protected scope fix # -->
-							
-							
-							
-						</span>
-					</h3>
-
-					<div class="description">
-						<p>Re-calculate positioning, sizing, paging, and re-draw.</p>
-						
-						
-					</div>
-					
-						<div class="examples">
-							<h4>Examples</h4>
-							<div>
-								
-									<pre class="code">// Create a carousel
-var foo = $("bar").carousel();
-
-// Re-draw carousel
-foo.redraw();</pre>
-								
-							</div>
-						</div>
 					
 					<dl class="member-details">
 						
@@ -2016,13 +1794,13 @@ foo.redraw();</pre>
 					</dl>
 					<hr />
 				
-					<a name="getItemsPerPage"> </a>
+					<a name="getPage"> </a>
 					<h3>
-						getItemsPerPage 
+						getPage 
 						<span class="visibility">
 							<!-- # start Public & protected scope fix # -->
+								&lt;public&gt;
 								
-								&lt;protected&gt;
 							<!-- # end Public & protected scope fix # -->
 							
 							
@@ -2032,7 +1810,7 @@ foo.redraw();</pre>
 						</span>
 					</h3>
 					<div class="description">
-						<p>Calculates items amount on each page.</p>
+						<p>Deprecated - Gets the current page.</p>
 						
 						
 						
@@ -2041,12 +1819,19 @@ foo.redraw();</pre>
 					<dl class="member-details">
 						<!--dt>Syntax</dt>
 						<dd>
-							<pre class="code">Carousel.getItemsPerPage()</pre>
+							<pre class="code">Carousel.getPage()</pre>
 						</dd-->
 						
 						
 						
 						
+						
+							<dt>Returns</dt>
+							<dd>
+								
+									Number
+								
+							</dd>
 						
 										
 						
@@ -2113,7 +1898,7 @@ foo.redraw();</pre>
 						</span>
 					</h3>
 					<div class="description">
-						<p>Moves to a defined page. Only works when Carousel hasn't asynchronous item load.</p>
+						<p>Deprecated - Moves to a defined page. Only works when Carousel hasn't asynchronous item load.</p>
 						
 						
 						
@@ -2123,7 +1908,7 @@ foo.redraw();</pre>
 							<h4>Examples</h4>
 							<div>
 								
-									<pre class="code">// Create a carousel
+									<pre class="code">// Create a Carousel
 var foo = $("bar").carousel();
 
 // Go to second page
@@ -2154,7 +1939,7 @@ foo.goTo(2);</pre>
 							<dt>Returns</dt>
 							<dd>
 								
-									Chico-UI Object
+									Chico UI Object
 								
 							</dd>
 						
@@ -2255,6 +2040,63 @@ foo.goTo(2);</pre>
 					</dl>
 					<hr />
 				
+					<a name="next"> </a>
+					<h3>
+						next 
+						<span class="visibility">
+							<!-- # start Public & protected scope fix # -->
+								&lt;public&gt;
+								
+							<!-- # end Public & protected scope fix # -->
+							
+							
+							<!-- avoid showing the return here
+							
+							-->
+						</span>
+					</h3>
+					<div class="description">
+						<p>Moves to the next page.</p>
+						
+						
+						
+					</div>
+					
+						<div class="examples">
+							<h4>Examples</h4>
+							<div>
+								
+									<pre class="code">// Create a carousel
+var foo = $("bar").carousel();
+
+// Go to next page
+foo.next();</pre>
+								
+							</div>
+						</div>
+					
+					<dl class="member-details">
+						<!--dt>Syntax</dt>
+						<dd>
+							<pre class="code">Carousel.next()</pre>
+						</dd-->
+						
+						
+						
+						
+						
+							<dt>Returns</dt>
+							<dd>
+								
+									Chico UI Object
+								
+							</dd>
+						
+										
+						
+					</dl>
+					<hr />
+				
 					<a name="page"> </a>
 					<h3>
 						page 
@@ -2271,7 +2113,7 @@ foo.goTo(2);</pre>
 						</span>
 					</h3>
 					<div class="description">
-						<p>Gets the current page or moves to a defined page.</p>
+						<p>Gets the current page or moves to a defined page (Since 0.7.4).</p>
 						
 						
 						
@@ -2281,7 +2123,7 @@ foo.goTo(2);</pre>
 							<h4>Examples</h4>
 							<div>
 								
-									<pre class="code">// Create a carousel
+									<pre class="code">// Create a Carousel
 var foo = $("bar").carousel();
 
 // Go to second page
@@ -2318,7 +2160,121 @@ foo.page();</pre>
 							<dt>Returns</dt>
 							<dd>
 								
-									Chico-UI Object
+									Chico UI Object
+								
+							</dd>
+						
+										
+						
+					</dl>
+					<hr />
+				
+					<a name="prev"> </a>
+					<h3>
+						prev 
+						<span class="visibility">
+							<!-- # start Public & protected scope fix # -->
+								&lt;public&gt;
+								
+							<!-- # end Public & protected scope fix # -->
+							
+							
+							<!-- avoid showing the return here
+							
+							-->
+						</span>
+					</h3>
+					<div class="description">
+						<p>Moves to the previous page.</p>
+						
+						
+						
+					</div>
+					
+						<div class="examples">
+							<h4>Examples</h4>
+							<div>
+								
+									<pre class="code">// Create a Carousel
+var foo = $("bar").carousel();
+
+// Go to previous page
+foo.prev();</pre>
+								
+							</div>
+						</div>
+					
+					<dl class="member-details">
+						<!--dt>Syntax</dt>
+						<dd>
+							<pre class="code">Carousel.prev()</pre>
+						</dd-->
+						
+						
+						
+						
+						
+							<dt>Returns</dt>
+							<dd>
+								
+									Chico UI Object
+								
+							</dd>
+						
+										
+						
+					</dl>
+					<hr />
+				
+					<a name="redraw"> </a>
+					<h3>
+						redraw 
+						<span class="visibility">
+							<!-- # start Public & protected scope fix # -->
+								&lt;public&gt;
+								
+							<!-- # end Public & protected scope fix # -->
+							
+							
+							<!-- avoid showing the return here
+							
+							-->
+						</span>
+					</h3>
+					<div class="description">
+						<p>Re-calculate positioning, sizing, paging, and re-draw.</p>
+						
+						
+						
+					</div>
+					
+						<div class="examples">
+							<h4>Examples</h4>
+							<div>
+								
+									<pre class="code">// Create a Carousel
+var foo = $("bar").carousel();
+
+// Re-draw Carousel
+foo.redraw();</pre>
+								
+							</div>
+						</div>
+					
+					<dl class="member-details">
+						<!--dt>Syntax</dt>
+						<dd>
+							<pre class="code">Carousel.redraw()</pre>
+						</dd-->
+						
+						
+						
+						
+						
+							<dt>Returns</dt>
+							<dd>
+								
+									Chico UI Object
 								
 							</dd>
 						
@@ -2343,7 +2299,7 @@ foo.page();</pre>
 						</span>
 					</h3>
 					<div class="description">
-						<p>Moves to a defined page.</p>
+						<p>Moves to a defined page (Since 0.7.5).</p>
 						
 						
 						
@@ -2353,7 +2309,7 @@ foo.page();</pre>
 							<h4>Examples</h4>
 							<div>
 								
-									<pre class="code">// Create a carousel
+									<pre class="code">// Create a Carousel
 var foo = $("bar").carousel();
 
 // Go to second page
@@ -2387,7 +2343,7 @@ foo.select(2);</pre>
 							<dt>Returns</dt>
 							<dd>
 								
-									Chico-UI Object
+									Chico UI Object
 								
 							</dd>
 						
@@ -2400,13 +2356,189 @@ foo.select(2);</pre>
 						
 <!-- ============================== event details ========================= -->		
 			
+				<div class="details"><h2>Event Detail</h2>
+					
+						<a name="event:itemsAdded"> </a>
+						<h3>
+							itemsAdded 
+							<span class="visibility">
+							<!-- # start Public & protected scope fix # -->
+								&lt;public&gt;
+								
+							<!-- # end Public & protected scope fix # -->
+							
+							
+							
+							
+							</span>
+						</h3>
+
+						<div class="description">
+							<p>Triggers when component adds items asynchronously from queue.</p>
+							
+							
+						</div>				
+						
+							<div class="examples">
+								<h4>Examples</h4>
+								<div>
+									
+										<pre class="code">example.on("itemsAdded",function () {
+	alert("Some asynchronous items was added.");
+});</pre>
+									
+								</div>
+							</div>
+						
+						<dl class="member-details">
+							
+							
+							
+							
+							
+													
+							
+						</dl>
+						<hr />
+					
+						<a name="event:move"> </a>
+						<h3>
+							move 
+							<span class="visibility">
+							<!-- # start Public & protected scope fix # -->
+								&lt;public&gt;
+								
+							<!-- # end Public & protected scope fix # -->
+							
+							
+							
+							
+							</span>
+						</h3>
+
+						<div class="description">
+							<p>Triggers when component moves to next or previous page.</p>
+							
+							
+						</div>				
+						
+							<div class="examples">
+								<h4>Examples</h4>
+								<div>
+									
+										<pre class="code">example.on("move",function () {
+	alert("I moved!");
+});</pre>
+									
+								</div>
+							</div>
+						
+						<dl class="member-details">
+							
+							
+							
+							
+							
+													
+							
+						</dl>
+						<hr />
+					
+						<a name="event:next"> </a>
+						<h3>
+							next 
+							<span class="visibility">
+							<!-- # start Public & protected scope fix # -->
+								&lt;public&gt;
+								
+							<!-- # end Public & protected scope fix # -->
+							
+							
+							
+							
+							</span>
+						</h3>
+
+						<div class="description">
+							<p>Triggers when component moves to next page.</p>
+							
+							
+						</div>				
+						
+							<div class="examples">
+								<h4>Examples</h4>
+								<div>
+									
+										<pre class="code">example.on("next",function () {
+	alert("Next!");
+});</pre>
+									
+								</div>
+							</div>
+						
+						<dl class="member-details">
+							
+							
+							
+							
+							
+													
+							
+						</dl>
+						<hr />
+					
+						<a name="event:prev"> </a>
+						<h3>
+							prev 
+							<span class="visibility">
+							<!-- # start Public & protected scope fix # -->
+								&lt;public&gt;
+								
+							<!-- # end Public & protected scope fix # -->
+							
+							
+							
+							
+							</span>
+						</h3>
+
+						<div class="description">
+							<p>Triggers when component moves to previous page.</p>
+							
+							
+						</div>				
+						
+							<div class="examples">
+								<h4>Examples</h4>
+								<div>
+									
+										<pre class="code">example.on("prev",function () {
+	alert("Previous!");
+});</pre>
+									
+								</div>
+							</div>
+						
+						<dl class="member-details">
+							
+							
+							
+							
+							
+													
+							
+						</dl>
+						
+					
+				</div>
+			
 			
 			<hr />
 		</div>
 
 
 		<p class="footer">
-		Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Mon Aug 29 2011 16:45:59 GMT-0300 (GMT-03:00)
+		Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Mon Aug 29 2011 18:09:11 GMT-0300 (GMT-03:00)
 	</p>
 <!-- ============================== footer ================================= -->
 <script>
@@ -2428,5 +2560,7 @@ foo.select(2);</pre>
 	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 	})();
 	</script>
+	<g:plusone size="medium" href="http://www.chico-ui.com.ar"></g:plusone>
+	<a href="http://twitter.com/share" class="twitter-share-button" data-via="chicoui" data-text="Chico UI, MercadoLibre's Open Source Web Tools." data-url='http://chico-ui.com.ar'>Tweet</a>
 </body>
 </head>
