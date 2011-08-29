@@ -20,12 +20,15 @@
 	Twitter: @taly
 	From:La Punta, San Luis, Argentina
 
-/* THANKS */
+/* THANKS TO */
 
+	Web Designer: Leandro Quintana
+	From:Buenos Aires, Argentina
 
+	Web Designer: Patricia Martins
+	From:Buenos Aires, Argentina
 
 /* SITE */
-	Last update:2011/07/28
-	Language:English / Castellano
+	Last update:2011/08/26
+	Language:English
 	Doctype:HTML5
-	IDE:Coda, GEdit, Smultron, Fireworks

@@ -10,14 +10,42 @@ var express = require('express'),
 		meta = require('./models/meta').meta;
 		CustomBuild = require('./services/builder/custom_build').CustomBuild,
 		undefined,
-		port = process.argv[2] || 80;
+		port = process.argv[2] || 8080;
 
 var app = module.exports = express.createServer();
 
 /**
-* app constructor.
-* 
+* app constructor. 
 */
+
+
+var title = function(title){
+	var _meta = Object.create(meta);
+	 _meta.title = title || "Chico UI, MercadoLibre's Open Source Web Tools.";
+	return _meta;
+}
+
+var labelit = function(label){
+	var label = label.split("-").join(" ");
+	return (label + '').charAt(0).toUpperCase() + label.substr(1)
+}
+var createNavigationMapFrom = function(folder){
+	var temp =[],
+        folders = fs.readdirSync( __dirname + "/views/docs/" + folder),
+	filename;
+        folders.forEach(function(file){
+                filename = file.split(".jade").join("");
+		temp.push({
+                        label: labelit(filename),
+                        href: "/docs/" + folder + "/" + filename
+                });
+        });
+        return temp;
+}
+
+meta.howtos = createNavigationMapFrom("how-to");
+
+meta.demos = createNavigationMapFrom("demos");
 
 // get 'builder.conf' and parse JSON data
 meta.conf = JSON.parse(fs.readFileSync(__dirname + "/services/builder/builder.conf"));
@@ -67,16 +95,16 @@ meta.latest = (function(){
 })();
 
 // Dynamic API Docs
-(function(){
-	var top = meta.navigation.top;
+/*meta.navigarion = (function(){
+	var top = meta.navigation;
 		top.forEach(function(item){
 			if (item.label === "API"){
 				item.href = "api/" + meta.latest.version + "/index.html";
 			}	
-		})
-		meta.navigation.top = top;
+		});
+	return top;
 })();
-
+*/
 /**
 * app configuration.
 */
@@ -101,6 +129,11 @@ app.configure('development', function(){
 /**
 * rutes
 */
+
+app.get('/api', function(req, res, next){
+	res.redirect("/api/"+meta.latest.version+"/index.html");
+//	next();
+});
 
 app.get('/versions/assets/:img', function(req, res, next){
 
@@ -141,7 +174,6 @@ app.get( '/latest/:type', function( req, res ) {
 		custom.on("processed", function(data) {
 			res.header('Content-Type', (type==="js") ? "text/javascript" : "text/css" );
 			res.send(data);
-			res.end();
 		});
 		
 		custom.process();
@@ -153,14 +185,7 @@ app.get( '/latest/:type', function( req, res ) {
 	
 // get 
 app.get('/download', function(req, res) {
-	
-	// new title
-	var _meta = Object.create(meta);
-		_meta.title = "Download Chico-UI.";
-
-	res.render( 'download', _meta );
-	res.end();
-	
+	res.render( 'download', title("Download Chico UI") );	
 });
 // post 
 
@@ -182,7 +207,6 @@ app.post('/download', function( req, res ){
 
 		if ( !abstracts || !utils || !components ) {
 				res.send(); // Avoid process without components
-				res.end();
 				return;
 		}
 
@@ -248,19 +272,9 @@ app.post('/download', function( req, res ){
 
 		custom.on("done", function(url) {
 			res.redirect(url);
-			res.end();
 		});
 		
 		custom.process();
-});
-
-/**
- * Snippets.
- */
-// get
-app.get('/snippets', function(req, res){
-	res.render('snippets', meta );
-	res.end();
 });
 
 /**
@@ -268,20 +282,7 @@ app.get('/snippets', function(req, res){
  */
 // get
 app.get('/discussion', function(req, res){
-	meta.title = "Discussion on Chico UI";
-	res.render('discussion', meta );
-	res.end();
-});
-
-/**
- * Getting started.
- */
-// get
-app.get('/getting-started', function(req, res){
-	// new title
-	meta.title = "Getting started with Chico UI";
-	res.render('getting-started', meta );
-	res.end();
+	res.render('discussion', title("Dicussion on Chico UI") );
 });
 
 /**
@@ -289,8 +290,7 @@ app.get('/getting-started', function(req, res){
  */
 
 app.get('/docs',function(req, res){
-	res.render('docs', meta);
-	res.end();
+	res.render('docs', title("Getting started with Chico UI"));
 });
 
 app.get('/docs/:branch/:label?',function(req, res){
@@ -303,31 +303,28 @@ app.get('/docs/:branch/:label?',function(req, res){
 		items = meta[redefBranch];
 		for(var i in items){
 			if(items[i].href == url){
-				res.render('docs/'+branch+'/'+label, meta );
+				res.render('docs/'+branch+'/'+label, title(branch + " " + labelit(label)) );
 				return;
 			}
 		}
 		res.render('404', meta );
 		return;
-		//res.render('docs/'+brancDzh+'/'+label, meta );
 		
 	} else if(label==undefined){
 		var url = '/docs/'+branch;
 		items = meta.docs;
 		for(var i in items){
 			if(items[i].href == url){
-				res.render('docs/'+branch, meta );
+				res.render('docs/', title("Getting started with Chico UI") );
 				return;
 			}
 		}
 		//res.send("Error 404 | Branch: "+branch+", Label: "+label);
 		res.render('404', meta );
-		res.end();
 		return;
 	}
 	//res.send("Error 404 | Branch: "+branch+", Label: "+label);
 	res.render('404', meta );
-	res.end();
 	return;
 });
 
@@ -337,21 +334,24 @@ app.get('/docs/:branch/:label?',function(req, res){
  */
 app.get('/404', function(req, res){
 	res.render('404', meta );
-	res.end();
 });
 
 app.get('/500', function(req, res){
 	res.render('404', meta );
-	res.end();
 });
 
 /**
  * Index.
  */
-// get
+app.get('/about', function(req, res, next){
+	res.render('about', title("About Chico UI") );
+});
+
+/**
+ * Index.
+ */
 app.get('/', function(req, res, next){
-	res.render('index', meta );
-	res.end();
+	res.render('index', title() );
 });
 
 /**

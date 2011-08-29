@@ -1,17 +1,8 @@
-
 .ch-g1.section
-
+	h1 Docs
 	.ch-g1-4
-		h3 How-to...
-		ul.container
-			- each item in howtos 
-				li
-					a(href='#{item.href}') #{item.label}
-		h3 Demos
-		ul.container
-			- each item in demos
-				li
-					a(href='#{item.href}') #{item.label}
+		!=partial('partials/howtos')
+		!=partial('partials/demos')
 
 	.ch-g3-4
 		h1 How to disable and enable watchers?
@@ -21,14 +12,13 @@
 			| 
 			| (
 			a(href="/docs/demos/form") form's
-			| 
-			| validations).
+			|  validations ).
 
 		a#create-yours-validations
 		h2 Create yours validations
 		p.container
 			| First, you'll initilize the 
-			a(href="/demos/watcher") watchers
+			a(href="/docs/demos/watcher") watchers
 			|  that you will use in your project.
 			| In this case, we'll create a
 			code required
@@ -46,7 +36,7 @@
 			code disable
 			| . Therefore, the next time that you run validation this watcher will not execute.
 		pre.code
-			| requiredValidation.disable();
+			| requiredVal.disable();
 
 		a#enable-a-watcher
 		h2 Enable a watcher
@@ -56,7 +46,7 @@
 			| .
 
 		pre.code
-			| requiredValidation.enable();
+			| requiredVal.enable();
 
 		hr
 		.ch-g1-2
@@ -64,16 +54,16 @@
 			h2 Keep on reading
 			p.container
 				| Read more on our technical documentation, see the 
-				a(href='/api/index.html') class index
-				| , or see more about modals in the 
-				a(href="/api/symbols/ch.Watcher.html") Watcher
+				a(href='/api/#{latest.version}/index.html') class index
+				| , or see more about validations in the 
+				a(href="/api/#{latest.version}/symbols/ch.Watcher.html") Watcher
 				|  documentation.
 		.ch-g1-2
 			a(id='report-a-problem')
 			h2 Problems?
 			p.container
 				| You can easily report problems, like bugs or typos through our 
-				a(href='/api/index.html') issue tracker
+				a(href='#{common.issuetracker}') issue tracker
 				| , or simply write a twitt to 
 				a(href='http://twitter.com/#!/chicoui') @chicoui
 				| .

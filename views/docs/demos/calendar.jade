@@ -1,18 +1,9 @@
 
 div(class='ch-g1 section')
 
-	.ch-g1-4
-		h3 Demos
-		ul.container
-			- each item in demos
-				li
-					a(href='#{item.href}') #{item.label}
+	!=partial('partials/demos')
 
-		h3 How-to...
-		ul.container
-			- each item in howtos 
-				li
-					a(href='#{item.href}') #{item.label}
+	!=partial('partials/howtos')
 					
 	.ch-g3-4
 		h1 Calendar

@@ -1,17 +1,8 @@
-
 .ch-g1.section
-
+	h1 Docs
 	.ch-g1-4
-		h3 How-to...
-		ul.container
-			- each item in howtos 
-				li
-					a(href='#{item.href}') #{item.label}
-		h3 Demos
-		ul.container
-			- each item in demos
-				li
-					a(href='#{item.href}') #{item.label}
+		!=partial('partials/howtos')
+		!=partial('partials/demos')
 
 	.ch-g3-4
 		h1 How to use callbacks functions?
@@ -26,8 +17,8 @@
 			| Almost every component has different states, you can know when something happens through
 			| callback functions. To assign a callback function simply pass the configuration
 			| object as an argument to a component constructor. Let's see an example with 
-			a(href='/demos/modal') Modal
-			|  component:
+			a(href='/docs/demos/modal') Modal
+			| component:
 		pre.code
 			| var myModal = $("#my-modal").modal({
 			| 	onShow: function() {
@@ -35,8 +26,8 @@
 			| 	}
 			| });
 		p.container
-			| To see all the availables callbacks see the 
-			a(href='/api/index.html') API Docs.
+			| All the available callbacks are written down for each component on the
+			a(href='/api/#{latest.version}/index.html') API Docs.
 		
 		a#the-scope-inside
 		h2 The scope inside
@@ -71,22 +62,52 @@
 			| 	}
 			| });
 
+		a#deferred-callbacks
+		h2 Deferred callbacks
+		p.container
+			| Another useful pattern is to assign deferred handlers to callbacks. 
+			| That way you could assign behavior to the components depending on user 
+			| behavior or your app configuration. To accomplish that all 
+			a(href='/api/#{latest.version}/symbols/ch.Object.html') Objects 
+			| have a public method called 
+			code on()
+			| , that let you define deferred callbacks, and 
+			| another method called 
+			code off()
+			| , to remove callbacks. 
+		pre.code
+			| // Create a Modal with some content
+			| var myModal = $("#my-modal").modal("/some/content.html");
+			| if (user.isLogged) {
+			|	myModal.on("show", function(){
+			|		// do something different for logged users
+			|	});
+			| }
+		p.container
+			| As you see in the previous example, the use of the method 
+			code on()
+			|  to assign
+			| special behavior to logged users with a cool and simple sugar syntax.
 		hr
 		.ch-g1-2
-			a(id='keep-on-reading')
+			a#keep-on-reading
 			h2 Keep on reading
 			p.container
 				| Read more on our technical documentation, see the 
-				a(href='/api/index.html') class index
-				| , or see more about modals in the 
-				a(href="/api/symbols/ch.Modal.html") Modal
+				a(href='/api/#{latest.version}/index.html') class index
+				| , or see more about 
+				code on()
+				|  and
+				code off()
+				|  methods in the 
+				a(href='/api/#{latest.version}/symbols/ch.Object.html#!methods') Object
 				|  documentation.
 		.ch-g1-2
-			a(id='report-a-problem')
+			a#report-a-problem
 			h2 Problems?
 			p.container
 				| You can easily report problems, like bugs or typos through our 
-				a(href='/api/index.html') issue tracker
+				a(href='#{common.issuetracker}') issue tracker
 				| , or simply write a twitt to 
 				a(href='http://twitter.com/#!/chicoui') @chicoui
 				| .
