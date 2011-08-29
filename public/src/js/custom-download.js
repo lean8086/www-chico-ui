@@ -8,29 +8,29 @@ $.getJSON("/data/inheritanceMap.js", function(data){
 
     map = data;
     custom.populate();
-    /*
-    $("#abstracts, #utils, #components").each(function(i,e){
+
+    $("#components").each(function(i,e){
     	$(e).parent()
-	    	.hover(custom.select.add, custom.select.remove);
-    });*/
+	    	.hover(custom.select.add, custom.select.rem);
+    });
     
 });
 
 var custom = {
 
 	select: {
-		
+
+		tpl: $("<a class=\"all\">toggle select</a>"),
+
 		action: function(e) {
-			var isChecked = $(this).parent().find("input:checked");
+			var isChecked = $(this).parent().find("input:checked")[0];
 			if (isChecked) {
 				$(this).parent().find("input").removeAttr("checked");
 			} else {
 				$(this).parent().find("input").attr("checked","checked");
 			}
-			
+			console.log(isChecked);
 		},
-		
-		tpl: $("<a class=\"all\">toggle select</a>"),
 		
 		add: function(w){
 			custom.select.tpl
@@ -38,10 +38,11 @@ var custom = {
 				.prependTo(this);
 		},
 		
-		remove: function(){
+		rem: function(){
+			console.log(cutom.select.tpl)
 			custom.select.tpl
 				.unbind("click", custom.select.action)
-				.detach(this);
+				.detach();
 		}
 	},
     
