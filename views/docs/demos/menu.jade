@@ -1,17 +1,11 @@
 
-div(class='ch-g1 section')
-
+div.ch-g1.section
+	h1 Docs
 	.ch-g1-4
-		h3 Demos
-		ul.container
-			- each item in demos
-				li
-					a(href='#{item.href}') #{item.label}
-		h3 How-to...
-		ul.container
-			- each item in howtos 
-				li
-					a(href='#{item.href}') #{item.label}
+		!=partial('partials/demos')
+
+		!=partial('partials/howtos')
+					
 	.ch-g3-4
 		h1 Menu
 		p.container 
@@ -100,7 +94,7 @@ div(class='ch-g1 section')
 			h2 Keep on reading
 			p.container
 				| Read more on our technical documentation, see the 
-				a(href='/api/index.html') class index
+				a(href='/api/') class index
 				| , or see more about Menu in the 
 				a(href="/api/#{latest.version}/symbols/ch.Menu.html") Menu
 				|  documentation.
@@ -109,7 +103,7 @@ div(class='ch-g1 section')
 			h2 Problems?
 			p.container
 				| You can easily report problems, like bugs or typos through our 
-				a(href='/api/index.html') issue tracker
+				a(href='/api/') issue tracker
 				| , or simply write a twitt to 
 				a(href='http://twitter.com/#!/chicoui') @chicoui
 				| .

@@ -1,8 +1,8 @@
 /* TEAM */
-	Chief:Natan Santolo
-	Contact: natan.santolo [at] mercadolibre.com
-	Twitter: @natos
-	From:Buenos Aires, Argentina
+	
+	Frontender: Hernan Mammana
+	Twitter: @hmammana
+	From: Buenos Aires, Argentina
 
 	Frontender: Leandro Linares
 	Twitter: @lean8086
@@ -11,10 +11,6 @@
 	Frontender: Guillermo Paz
 	Twitter: @pazguille
 	From:Buenos Aires, Argentina
-	
-	Frontender: Hernan Mammana
-	Twitter: @hmammana
-	From: Buenos Aires, Argentina
 
 	Web Designer: Natalia Devalle
 	Twitter: @taly
@@ -28,7 +24,12 @@
 	Web Designer: Patricia Martins
 	From:Buenos Aires, Argentina
 
+/* PAST TEAM MEMBERS*/
+
+	Chief:Natan Santolo
+	Twitter: @natos
+
 /* SITE */
-	Last update:2011/08/26
+	Last update:2011/08/29
 	Language:English
 	Doctype:HTML5
