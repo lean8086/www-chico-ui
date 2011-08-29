@@ -1,4 +1,7 @@
 
+style
+	.example li { width:110px; height:110px; }
+
 div(class='ch-g1 section')
 
 	.ch-g1-4
@@ -14,80 +17,150 @@ div(class='ch-g1 section')
 					a(href='#{item.href}') #{item.label}
 	.ch-g3-4
 		h1 Carousel
-		p.container
-			| The 
-			a(href='/api/#{latest.version}/symbols/ch.Carousel.html') Carousel
-			|  component extend the 
-			a(href='/api/#{latest.version}/symbols/ch.Object.html') Object
-			|  object. This is a large list of elements. Some elements will be shown in a preset area, 
-			|  and the others elements will be hidden waiting for the user interaction to show it. 
-			|  The component has two arrows, one at the left and the other one at the right, to slide the content list.
+		div.container
+			p
+				| The 
+				a(href='/api/#{latest.version}/symbols/ch.Carousel.html') Carousel
+				|  component extend the 
+				a(href='/api/#{latest.version}/symbols/ch.Object.html') Object
+				|  object.
+			p
+				|  This is a large list of elements controlled by two arrows to slide the content list.
 		a(id='demo')
 		h2 Demo
 		.box
-			.demo-carousel
-				ul.carousel
+			.example.ch-carousel
+				ul
 					li
-						img(src='http://img2.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg')
+						img(src='http://img1.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg')
 					li
-						img(src='http://img2.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg')
+						img(src='http://img1.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg')
 					li
-						img(src='http://img2.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg')
+						img(src='http://img1.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg')
+					li
+						img(src='http://img1.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg')
+					li
+						img(src='http://img1.mlstatic.com/s_MLA_v_G_f_65213880_2657.jpg')
+					li
+						img(src='http://img1.mlstatic.com/s_MLA_v_G_f_65213880_2657.jpg')
+					li
+						img(src='http://img1.mlstatic.com/s_MLA_v_G_f_65213880_2657.jpg')
+					li
+						img(src='http://img1.mlstatic.com/s_MLA_v_G_f_65213880_2657.jpg')
+					li
+						img(src='http://img2.mlstatic.com/s_MLA_v_G_f_98530811_2188.jpg')
+					li
+						img(src='http://img2.mlstatic.com/s_MLA_v_G_f_98530811_2188.jpg')
+					li
+						img(src='http://img2.mlstatic.com/s_MLA_v_G_f_98530811_2188.jpg')
+					li
+						img(src='http://img2.mlstatic.com/s_MLA_v_G_f_98530811_2188.jpg')
 		.snippet
 			p Snippet
 			div
 				pre.code
-					|<div class="SELECTOR">
-					|	<ul class="carousel">
-					|		<li><img src="http://img2.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg"></li>
-					|		<li><img src="http://img2.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg"></li>
-					|		<li><img src="http://img2.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg"></li>
-					|		<li><img src="http://img2.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg"></li>
-					|		<li><img src="http://img2.mlstatic.com/s_MLA_v_G_f_65213880_2657.jpg"></li>
-					|		<li><img src="http://img2.mlstatic.com/s_MLA_v_G_f_65213880_2657.jpg"></li>
-					|		<li><img src="http://img2.mlstatic.com/s_MLA_v_G_f_65213880_2657.jpg"></li>
-					|		<li><img src="http://img2.mlstatic.com/s_MLA_v_G_f_65213880_2657.jpg"></li>
-					|		<li><img src="http://img1.mlstatic.com/s_MLA_v_G_f_98530811_2188.jpg"></li>
-					|		<li><img src="http://img1.mlstatic.com/s_MLA_v_G_f_98530811_2188.jpg"></li>
-					|		<li><img src="http://img1.mlstatic.com/s_MLA_v_G_f_98530811_2188.jpg"></li>
-					|		<li><img src="http://img1.mlstatic.com/s_MLA_v_G_f_98530811_2188.jpg"></li>
+					|<div class="example ch-carousel">
+					|	<ul>
+					|		<li><img src="http://img1.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg"></li>
+					|		<li><img src="http://img1.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg"></li>
+					|		<li><img src="http://img1.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg"></li>
+					|		<li><img src="http://img1.mlstatic.com/s_MLA_v_G_f_62634838_9736.jpg"></li>
+					|		<li><img src="http://img1.mlstatic.com/s_MLA_v_G_f_65213880_2657.jpg"></li>
+					|		<li><img src="http://img1.mlstatic.com/s_MLA_v_G_f_65213880_2657.jpg"></li>
+					|		<li><img src="http://img1.mlstatic.com/s_MLA_v_G_f_65213880_2657.jpg"></li>
+					|		<li><img src="http://img1.mlstatic.com/s_MLA_v_G_f_65213880_2657.jpg"></li>
+					|		<li><img src="http://img2.mlstatic.com/s_MLA_v_G_f_98530811_2188.jpg"></li>
+					|		<li><img src="http://img2.mlstatic.com/s_MLA_v_G_f_98530811_2188.jpg"></li>
+					|		<li><img src="http://img2.mlstatic.com/s_MLA_v_G_f_98530811_2188.jpg"></li>
+					|		<li><img src="http://img2.mlstatic.com/s_MLA_v_G_f_98530811_2188.jpg"></li>
 					|	</ul>
 					|</div>
 		p.container
 			| This is the way to create a Carousel:
 		pre.code 
-			| var foo = $("#example").carousel();
+			| var foo = $(".example").carousel();
 		a(id='working-with-pages')
 		h2 Working with pages
 		
-		p.container 
-			| The carousel shows pages of elements and you can move between pages with the 
-			code prev()
-			|  and the 
-			code next()
-			|  methods.  Also, you can move the carousel directly to a page with the 
-			code goTo()
-			|  method. The 
-			code getItemsPerPage()
-			|  method allow you know the numbers of items to be displayed on each page.
+		div.container
+			p
+				| The Carousel shows pages of elements and you can move between pages with the 
+				code prev()
+				|  and the 
+				code next()
+				|  methods.  Also, you can move the Carousel directly to a page with the 
+				code select()
+				|  method (before version 0.7.5, called 
+				code goTo()
+				| ).
+			p
+				| The 
+				code itemsPerPage()
+				|  method (before version 0.7.4, called 
+				code getItemsPerPage()
+				| , allow you to know the numbers of items to be displayed on each page.
 		a(id='pagination')
 		h3 Pagination
 		
 		p.container 
 			| The component has a pagination feature, which is set hidden by default, but you can make it visible.
 		pre.code 
-			| var foo = $("#example").carousel({pagination:true});
+			| var foo = $("#example").carousel({ pagination:true });
 		a(id='callbacks')
 		h2 Callbacks
 		
 		p.container 
 			| The component has a 
 			code onMove
-			|  callback that is executed after the carousel movement is donde. The 
+			|  callback that is executed after the Carousel movement is done. The 
 			code onNext
 			|  and 
 			code onPrev
-			|  will be executed when the next button or prev button are pressed. 
+			|  will be executed when the next button or previous button are pressed. 
+		
+		a(id='asynchronous')
+		h2 Asynchronous load
+		
+		div.container
+			p
+				| Initializing the Carousel with 
+				code asyncData
+				|  and
+				code asyncRender
+				|  configuration properties exists two ways to load items asynchronously.
+			p
+				| One way is to using 
+				code asyncData
+				| to define the content of each item that will be load asnchronously as array.
+			pre.code 
+				| var foo = $("#example").carousel({
+				|     asyncData: [
+				|         '<img src="a.png" alt="A"/>',
+				|         '<img src="b.png" alt="B"/>',
+				|         '<img src="c.png" alt="C"/>'
+				|     ]
+				| });
+			p
+				| The second way is to using 
+				code asyncData
+				| through 
+				code asyncRender
+				| . This is a function that receives
+				code asyncData
+				|  content and must return an array with result of manipulate that content.
+				|  This way is one that requires less HTML code.
+			pre.code 
+				| var foo = $("#example").carousel({
+				|     asyncData: [
+				|         {src: 'a.png', alt: 'A'},
+				|         {src: 'b.png', alt: 'B'},
+				|         {src: 'c.png', alt: 'C'}
+				|     ],
+				|     asyncRender: function (o) {
+				|         return '<img src="' + o.src + '" alt="' + o.alt + '"/>';
+				|     }
+				| });
+				
 		hr
 		.ch-g1-2
 			a(id='keep-on-reading')
@@ -109,5 +182,5 @@ div(class='ch-g1 section')
 				| .
 .clearfix
 script
-	$(".demo-carousel").carousel();
+	$(".example").carousel();
 	$(".snippet").expando();
