@@ -123,6 +123,34 @@ app.configure('production', function(){
 
 app.configure('development', function(){
 	app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+
+	// Only for DEV environments
+	// /latest/js 
+	app.get( '/latest/:type', function( req, res ) {
+
+	var type = req.params.type,
+		debug = req.query.debug,
+		packages = [{
+			"name": "chico",
+			"type": type,
+			"min": (debug) ? false : true,
+			"embed": false,
+			"avoid": true // Don't write the files
+		}],
+		custom = new CustomBuild({
+			packages: packages, 
+			flavor: "ml", 
+			avoid: true
+		}); // to avoid create the zip file send last argument true
+
+		custom.on("processed", function(data) {
+			res.header('Content-Type', (type==="js") ? "text/javascript" : "text/css" );
+			res.send(data);
+		});
+		
+		custom.process();
+	});
+
 });
 
 
@@ -149,36 +177,6 @@ app.get('/versions/assets/:img', function(req, res, next){
 	
 });
 
-/*
-	build lastest version
-	../latest/js?debug=true
-	../latest/css?debug=true
-*/ 
-app.get( '/latest/:type', function( req, res ) {
-
-	var type = req.params.type,
-		debug = req.query.debug,
-		packages = [{
-			"name": "chico",
-			"type": type,
-			"min": (debug) ? false : true,
-			"embed": false,
-			"avoid": true // Don't write the files
-		}],
-		custom = new CustomBuild({
-			packages: packages, 
-			flavor: "ml", 
-			avoid: true
-		}); // to avoid create the zip file send last argument true
-
-		custom.on("processed", function(data) {
-			res.header('Content-Type', (type==="js") ? "text/javascript" : "text/css" );
-			res.send(data);
-		});
-		
-		custom.process();
-});
-
 /**
  * Download
  */
@@ -201,7 +199,9 @@ app.post('/download', function( req, res ){
 								 req.body.util.join(",") : 
 								 req.body.util,
 				flavor = req.body.flavor,
-				use_mesh = req.body.mesh,
+				add_mesh = req.body.mesh,
+				add_jquery = req.body.jquery,
+				add_belated = req.body.belated,
 				embed = req.body.embed;
 				env = req.body.env;
 
@@ -224,7 +224,7 @@ app.post('/download', function( req, res ){
 				return {
 						"name": "chico",
 						"components": components,
-//						"embed": ( embed ) ? true : false,
+						"embed": ( embed ) ? true : false,
 						"type": "css",
 						"flavor": flavor
 				}
@@ -235,7 +235,7 @@ app.post('/download', function( req, res ){
 				return {
 						"name": "mesh",
 						"components": "mesh",
-//						"embed": ( embed ) ? true : false,
+						"embed": ( embed ) ? true : false,
 						"type": "css",
 						"flavor": flavor
 				}
@@ -245,29 +245,53 @@ app.post('/download', function( req, res ){
 		var packages = [];
 		// for Production
 		if ( env.toString().indexOf("p") > -1 ) {
-				// JS
-				var p_js = js();
-					p_js.min = true;
-				packages.push(p_js);
-				// CSS
-				var p_css = css();
-					p_css.min = true;
-				packages.push(p_css);
+			// Mesh	
+			if (add_mesh) {
+				var p_mesh = mesh();
+					p_mesh.min = true;
+				packages.push(p_mesh);
+			}
+			// JS
+			var p_js = js();
+				p_js.min = true;
+			packages.push(p_js);
+			// CSS
+			var p_css = css();
+				p_css.min = true;
+			packages.push(p_css);
 		}
 		
 		// for Dev
 		if ( env.toString().indexOf("d") > -1 ) {
-				// JS
-				var d_js = js();
-				packages.push( d_js );
-				// CSS
-				var d_css = css();
-				packages.push( d_css );
+			// Mesh	
+			if (add_mesh) {
+				var p_mesh = mesh();
+				packages.push(p_mesh);
+			}
+			// JS
+			var d_js = js();
+			packages.push( d_js );
+			// CSS
+			var d_css = css();
+			packages.push( d_css );
 		}
 
+/*		console.log({
+			packages: packages, 
+			flavor: flavor,
+			depends: {
+				jquery: add_jquery,
+				belated: add_belated
+			}
+		});*/
+		
 		var custom = new CustomBuild({
 			packages: packages, 
-			flavor: flavor
+			flavor: flavor,
+			depends: {
+				jquery: add_jquery,
+				belated: add_belated
+			}
 		});
 
 		custom.on("done", function(url) {
@@ -275,6 +299,7 @@ app.post('/download', function( req, res ){
 		});
 		
 		custom.process();
+
 });
 
 /**

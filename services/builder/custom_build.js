@@ -26,6 +26,7 @@ var CustomBuild = function(conf) {
     self.flavor = conf.flavor;
     self.avoid = conf.avoid || false; // key to avoid create the zip file
     self.input = conf.input;
+	self.depends = conf.depends;
     self.packed = 0;
     
 };
@@ -125,6 +126,12 @@ CustomBuild.prototype.compress = function(package) {
     var indexFile = fs.readFileSync((package.input.split("/src")[0]) + "/index.html");
 		indexFile = indexFile.toString().replace("http://chico.com:8080/latest/css", "src/" + self.flavor + "/css/"+ filename);
 		indexFile = indexFile.toString().replace("http://chico.com:8080/latest/js", "src/js/" + filename.replace(".css",".js"));
+		// avoid a jquery crash
+		if (!self.depends.jquery) {
+			indexFile = indexFile.toString().replace("./libs/js/jquery.js","http://code.jquery.com/jquery.min.js");
+		}
+		
+		
 		fs.writeFileSync(self.folder + "index.html", indexFile);
 	
         // routes
@@ -147,11 +154,35 @@ CustomBuild.prototype.compress = function(package) {
         // package url
         url = self.folder.split("./public").join("") + zipName;
 
+	// Dependencies
+	// Create lib folder
+	var depends = "mkdir " + self.folder + "libs && "
+						+ "mkdir " + self.folder + "libs/js";
+	// Add jquery
+	if (self.depends.jquery) {
+		depends += " && cp " + (package.input.split("src/")[0]) + "libs/js/jquery.js " + self.folder + "libs/js/";
+	}
+	// Add belated
+	if (self.depends.belated) {
+		depends += " && cp " + (package.input.split("src/")[0]) + "libs/js/dd_belatedpng.js " + self.folder + "libs/js/";
+	}
+	// If there a dependency defined, exec the command
+	var copyDepends = (self.depends.jquery||self.depends.belated) ? depends : "ls" ;
+	
 	sys.puts("Compressing packages.");
 
     // Exec commands ;)
+	sys.puts(createFolders + " && " +
+			copyDepends + " && " +
+			copyLicense + " && " +
+			copyReadme + " && " +
+			copyImages + " && " +
+			movingJS + " && " +
+			movingCSS + " && " +
+			createZip);
 
-	exec(createFolders + " && " + 
+	exec(createFolders + " && " +
+		 copyDepends + " && " +
 		 copyLicense + " && " + 
 		 copyReadme + " && " + 
 		 copyImages + " && " +
@@ -160,13 +191,6 @@ CustomBuild.prototype.compress = function(package) {
 		 createZip , function(err) {
 	   
         if ( err ) {
-sys.puts(createFolders + " && " +
-                 copyLicense + " && " +
-                 copyReadme + " && " +
-                 copyImages + " && " +
-                 movingJS + " && " +
-                 movingCSS + " && " +
-                 createZip);
             sys.puts( "Error - Custom Builder: <Creating Package> " + err );
 
             return;

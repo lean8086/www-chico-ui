@@ -9,6 +9,7 @@ var sys = require("sys"),
     events = require('events'),
     uglify = require("uglify-js"),
     cssmin = require('cssmin').cssmin,
+    Encode64 = require('./encode64').Encode64,
     version = "2.1";
   
 /*
@@ -107,7 +108,7 @@ Packer.prototype.process = function() {
 			data = fs.readFileSync( uri + "/" + file, encoding="utf8");
 		} catch(e) {
 			// catch error… avoid stack
-			sys.puts("Error - Packer: <File " + uri + "/" + file + " dosen't exists> " + e);
+			// sys.puts("Error - Packer: <File " + uri + "/" + file + " dosen't exists> " + e);
 			continue;
 		}
 		
@@ -127,6 +128,7 @@ Packer.prototype.process = function() {
 	// Embed images on CSS sources
     if (self.embed && self.type == "css") {
     	// (DEPRECATED) Data URI isn't working
+    	//self.data = self.embedImages(self.data)
     };
     
     // Minification process

@@ -1,22 +1,8 @@
-var menu = $('#versions').accordion().select(1);
+var menu = $('#versions').accordion().select(1),
 
+	map = {},
 
-
-var map = {}
-
-$.getJSON("/data/inheritanceMap.js", function(data){
-
-    map = data;
-    custom.populate();
-
-    $("#components").each(function(i,e){
-    	$(e).parent()
-	    	.hover(custom.select.add, custom.select.rem);
-    });
-    
-});
-
-var custom = {
+	custom = {
 
 	select: {
 
@@ -29,7 +15,6 @@ var custom = {
 			} else {
 				$(this).parent().find("input").attr("checked","checked");
 			}
-			console.log(isChecked);
 		},
 		
 		add: function(w){
@@ -39,8 +24,8 @@ var custom = {
 		},
 		
 		rem: function(){
-			console.log(cutom.select.tpl)
-			custom.select.tpl
+			$(this)
+				.find(".all")
 				.unbind("click", custom.select.action)
 				.detach();
 		}
@@ -75,4 +60,12 @@ var custom = {
         }    
     }
 };
-        
+
+$.getJSON("/data/inheritanceMap.js", function(data){
+
+    map = data;
+    custom.populate();
+
+    $(".toggle").hover(custom.select.add, custom.select.rem);
+    
+});

@@ -1,3 +1,4 @@
+
 link(rel='stylesheet', href='/src/css/download.css')
 
 h2 Download
@@ -27,17 +28,69 @@ h2 Download
 						.clearfix
 						hr(width='50%',align="left")
 						legend Utils
-						.options
+						.options.toggle
 							ul#utils
 		.ch-g1-3
 			.centercolumn
 				fieldset
 					legend Components
-					.options
+					.options.toggle
 						ul#components
 		.ch-g1-3
 			.leftcolumn
-				fieldset
+				fieldset					
+					legend Dependencies
+					.options.toggle
+						ul
+							li
+								label
+									input(type='checkbox', value='true', name='jquery', checked='checked')
+									span
+									|	jQuery 
+									small (min)
+							li
+								label
+									input(type='checkbox', value='true', name='belated', checked='checked')
+									span
+									|	DD_belatedPNG
+									small (png fix)
+							//li
+							//	label
+							//		input(type='checkbox', value='true', name='embed', checked='checked')
+							//		span
+							//		|	Embed sprites
+					
+					hr(width='50%',align="left")
+					
+					legend Extras
+					.options
+						ul
+							li
+								label
+									input(type='checkbox', value='true', name='mesh', checked='checked')
+									span
+									|	Include 
+									a(href='/docs/how-to/mesh-your-layout-in-5-min') Mesh
+
+					hr(width='50%',align="left") 
+					legend Environment
+					.options
+						ul
+							li
+								label
+									input(type='checkbox', value='p', name='env', checked='checked')
+									span
+										|	Production
+										small (minified)
+							li
+								label
+									input(type='checkbox', value='d', name='env', checked='checked')
+									span
+										|	Development
+										small (with comments)
+
+					hr(width='50%',align="left")
+
 					legend Select a Flavor
 					.options
 						ul
@@ -58,39 +111,6 @@ h2 Download
 									span
 									|	MercadoShops 
 									small (soon)
-
-					hr(width='50%',align="left") 
-					legend Environment
-					.options
-						ul
-							li
-								label
-									input(type='checkbox', value='p', name='env', checked='checked')
-									span
-										|	Production
-										small (minified)
-							li
-								label
-									input(type='checkbox', value='d', name='env', checked='checked')
-									span
-										|	Development
-										small (with comments)
-
-					//hr(width='50%',align="left")
-					//legend Extras
-					.options
-						ul
-							//li
-							//	label
-							//		input(type='checkbox', value='true', name='embed', checked='checked')
-							//		span
-							//		|	Embed images
-							//li
-							//	label
-							//		input(type='checkbox', value='true', name='mesh', checked='checked')
-							//		span
-							//		|	Include Mesh
-
 
 					hr(width='50%',align="left")
 					input.btn.primary(type='submit', value='Download')
