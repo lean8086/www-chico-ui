@@ -24,12 +24,11 @@
 	.ch-g1-3
 		div.download-container.center
 			h2 
-				| Get latest version 
-
+				| Get latest version 						
 			form(action='#{latest.download.href}')
 				fieldset
 					ul
-						li.field-box
+						li
 							input.btn.secondary.skin.button(type='submit', value='Download #{latest.version} full package')
 					p
 						| Looking for
@@ -39,18 +38,41 @@
 			form(action='/download')
 				fieldset						
 					ul
-						li.field-box
+						li
 							input.btn.primary.button(type='submit', value='Build custom package')
 
 					p
 						| Select all the components you need from latest release
 						| and download your custom package ready to use.
 			hr
-
+			a(href='http://github.com/mercadolibre/chico', rel='nofollow') Get all the source code form Github
+			hr
 hr.clearfix
 div.container.home
 	ul.clearfix
-		li.ch-g1-2
+
+		li.ch-g2-8
+			h3 How-to guides
+			ul
+				- each item, i in howtos
+					- if (i<5)
+						li
+							a(href='#{item.href}') #{item.label}
+		li.ch-g1-8
+			h3 Developers
+			ul
+				li 
+					a(href='/api/#{latest.version}/index.html') API documentation
+				li 
+					a(href='http://github.com/mercadolibre/chico', rel='nofollow') Code on Github
+				li 
+					a(href='#{common.issuetracker}') Issue tracker
+				li 
+					a(href='/discussion') Discussion
+				li 
+					a(href='http://blog.chico-ui.com.ar/tagged/Release_Notes') Release Notes
+						
+		li.ch-g5-8
 			.ui-components-demo
 				ul.ui-components-demo-list
 					li.ui-components-demo-list-item
@@ -113,28 +135,7 @@ div.container.home
 							span.rounded
 								img(src='src/assets/icons/watcher-icon-64x64.jpg',alt='Watcher')
 							span Watcher
-
-		li.ch-g1-4
-			h3 How-to guides
-			ul
-				- each item, i in howtos
-					- if (i<5)
-						li
-							a(href='#{item.href}') #{item.label}
-		li.ch-g1-4
-			h3 Developers
-			ul
-				li 
-					a(href='/api/#{latest.version}/index.html') API documentation
-				li 
-					a(href='http://github.com/mercadolibre/chico') Code on Github
-				li 
-					a(href='#{common.issuetracker}') Issue tracker
-				li 
-					a(href='/discussion') Discussion
-				li 
-					a(href='http://blog.chico-ui.com.ar/tagged/Release_Notes') Release Notes
-			
+	
 hr.clearfix
 div.container.home
 	ul
@@ -158,11 +159,14 @@ div.container.home
 			p 
 				| Released under              
 				a(href='https://raw.github.com/mercadolibre/chico/bc982b922d041057c9dde9566536ebfb517d1a70/LICENSE.txt', title='It means you can use it and modify it as you like.', rel='nofollow') MIT License!
-				| We are sharing our work like other cool projects such as 
+				| We are sharing our work like other cool projects like 
 				a(href='http://jquery.com/', rel='nofollow') jQuery
 				|  and 
 				a(href='http://nodejs.org/', rel='nofollow') nodeJS
 				|  among others.
-.clearfix
 script
-	$(".ui-components-demo").carousel({pagination:true}).page(2);	
+	$(".ui-components-demo").carousel({pagination:true}).page(2);
+
+.clearfix
+
+//!=partial('widgets/activity')

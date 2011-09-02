@@ -1,7 +1,6 @@
 (function() {
     /**
      * Github Activity Widget
-     * @class Activity
      */
     
     var renderEvent = function( event ) {
@@ -58,7 +57,7 @@
             
             case "WatchEvent":    
 
-                render += event.actor.login + " " + event.payload.action + " to watch Chico-UI's repository on Github.";
+                render += event.actor.login + " " + event.payload.action + " to watch Chico UI's repository on Github.";
             
                 break;
             
@@ -98,11 +97,11 @@
         
     }
     
-    $(".activity").append("<h3>Github activity:</h3>").append("<li class=\"loading\">");
-    
+    $(".github").append("<h4>Github activity</h4>").append("<li class=\"loading\">");
+
     $.getJSON( "https://api.github.com/repos/mercadolibre/chico/events?callback=?" , function(github) {
         
-        $(".activity .loading").remove();
+        $(".github .loading").remove();
         
         var ul = $("<ul>"), i = 0, t = github.data.length, render = "";
 
@@ -113,8 +112,65 @@
         
         $(render).appendTo(ul);
         
-        $(".activity").append(ul);
+        $(".github").append(ul);
 
     });
+
+    /**
+     * Twitter Activity Widget
+     */
+
+	//$.getScript("http://platform.twitter.com/anywhere.js?id=YOUR_API_KEY&v=1");
+
+    $(".twitter").append("<h4>Twitter activity</h4>").append("<li class=\"loading\">");
+
+	$.getJSON("https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name=chicoui&callback=?",function(data){
+
+	        $(".twitter .loading").remove();
+
+	        var ul = $("<ul>"), render = "";
+
+	        $(data).each(function(i,e){
+	        	// get the link url
+	        	var link = e.text.match(/http:\/\/(\w|\.|\/)*/g);
+	        	// create the <a>
+				e.text = e.text.replace(link,"<a href=\""+link+"\">"+link+"</a>");
+				// render the thing
+	        	render += "<li class=\"clearfix\"><p>" + e.text + "</p></li>";
+	        });
+
+			$(render).appendTo(ul);
+			
+	        $(".twitter").append(ul);
+
+	})
+
+    /**
+     * Blog Activity Widget
+     */
+     
+     $(".tumblr").append("<h4>Tumblr activity</h4>").append("<li class=\"loading\">");
+
+	$.getJSON("http://api.tumblr.com/v2/blog/chicoui.tumblr.com/posts/text?api_key=uaUU96yOFuC0pvyqt1xqn4ql4EXwv3QHv6LgT13tlfmCdbVRMe&notes_info&jsonp=?", function(data){
+		
+			$(".tumblr .loading").remove();
+
+	        var ul = $("<ul>"), render = "";
+
+	        $(data.response.posts).each(function(i,e){
+	        	// get the link url
+//	        	var link = e.text.match(/http:\/\/(\w|\.|\/)*/g);
+	        	// create the <a>
+//				e.text = e.text.replace(link,"<a href=\""+link+"\">"+link+"</a>");
+				// render the thing
+	        	render += "<li class=\"clearfix\"><h3><a href=\""+e.post_url+"\">" + e.title + "</a></h3><p>"+e.body+"</p</li>";
+
+	        });
+
+			$(render).appendTo(ul);
+	        	console.log(ul);			
+	        $(".tumblr").append(ul);
+	        
+	});
 
 })($);
