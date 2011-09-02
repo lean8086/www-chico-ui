@@ -12,13 +12,15 @@ div.ch-g1.section
 			| The 
 			a(href='/api/#{latest.version}/symbols/ch.Watcher.html') Watcher
 			|  is a validation engine for the web forms. 
-			| Each one sends a feedback message to the end user. This message, called Helper, must indicate the error. 
+			| Each one send a feedback message to the end user. This message, called 
+			a(href='/api/#{latest.version}/symbols/ch.Helper.html') Helper
+			|, must indicate the error. 
 		a(id='demo')
 		h2 Demo
 		form.demo_form.box
 			fieldset
 				legend Watchers
-				ol
+				ul
 					li.fieldBox
 						label(for='demo_email').required
 							span E-mail:
@@ -33,14 +35,14 @@ div.ch-g1.section
 					|<form action="test.html" class="demo_form">
 					|	<fieldset>
 					|		<legend>Watchers</legend>
-					|		<ol>
+					|		<ul>
 					|			<li class="fieldBox">
 					|				<label class="required" for="example">
 					|					<span>E-mail: <em>*</em></span>
 					|					<input id="example" type="email" required="required">
 					|				</label>
 					|			</li>
-					|		</ol>
+					|		</ul>
 					|	</fieldset>
 					|	<p class="actions">
 					|		<input type="submit" value="Submit form" class="btn primary">
@@ -49,19 +51,19 @@ div.ch-g1.section
 		a(id='circular-reference')
 		h2 Circular reference 
 		p.container 
-			| Each instance of watcher must have a reference with a Form component instance. If any explicit instance wasn't created, the watchers component will create a Form component.
+			| Each instance of Watcher must have a reference with a Form component instance. If any explicit instance wasn't created, the Watcher component will create a Form component.
 		p.container 
-			| The component form and watchers make a circular reference between themselves. The form knows the watcher and the watchers knows the form. 
+			| The Form and Watchers make a circular reference between themselves. The Form knows the Watcher and the Watcher knows the Form. 
 		p.container 
 			| This is the way to create a new watcher:
 		pre.code 
-			| var foo = $("#exapmle").watcher( CONFIGURATION_OBJECT );
+			| var foo = $("#example").watcher( CONFIGURATION_OBJECT );
 		a(id='configuration')
 		h2 Configuration
 		p.container 
-			| Most of the interfaces for watchers receives a configuration object. This object changes the default configuration.
+			| Most of the interfaces for Watchers receive a configuration object. This object changes the default configuration.
 		p.container 
-			| This is the common configuration object for all the watches:
+			| This is the common configuration object for all the Watchers:
 		pre.code
 			| {
 			| 	messages: {},
@@ -70,7 +72,7 @@ div.ch-g1.section
 			| 	onReset: function(){}
 			| }
 		p.container
-			| When you instance a watcher it returns a control object. It gives you information about the instance and some methods to manipulate the watcher. 
+			| When you instance a Watcher it returns a control object. It gives you information about the instance and some methods to manipulate the Watcher. 
 		a(id='the-interfaces')
 		h2 The interfaces
 		p.container
@@ -82,7 +84,9 @@ div.ch-g1.section
 		p.container
 			| It allows you to add a personalized validation.
 			| Read more about
-			a(href='/api/symbols/ch.Custom.html') Custom
+			a(href='/api/#{latest.version}/symbols/ch.Custom.html') Custom
+			| .
+			
 		pre.code
 			|var foo = $("demo_custom").custom()
 		
@@ -91,7 +95,9 @@ div.ch-g1.section
 		p.container
 			| It makes the field to be required. 
 			| Read more about
-			a(href='/api/symbols/ch.Required.html') Required
+			a(href='/api/#{latest.version}/symbols/ch.Required.html') Required
+			| .
+			
 		pre.code
 			|var foo = $("demo_required").required()
 		
@@ -100,7 +106,9 @@ div.ch-g1.section
 		p.container
 			| It validates that the field only have words with letters a-z and A-Z.
 			| Read more about
-			a(href='/api/symbols/ch.String.html') String
+			a(href='/api/#{latest.version}/symbols/ch.String.html') String
+			| .
+			
 		pre.code
 			|var foo = $("demo_string").string()
 		
@@ -109,43 +117,53 @@ div.ch-g1.section
 		p.container
 			| It validates that the field is a valid email. 
 			| Read more about
-			a(href='/api/symbols/ch.String.html') String
+			a(href='/api/#{latest.version}/symbols/ch.String.html') String
+			| .
+			
 		pre.code
 			|var foo = $("demo_email").email()
 		
 		a(id='the-url-interface')
 		h3 The url() interface 
 		p.container
-			| It validates that the field is a valid url.
+			| It validates that the field is a valid url. 
 			| Read more about
-			a(href='/api/symbols/ch.String.html') String
+			a(href='/api/#{latest.version}/symbols/ch.String.html') String
+			| .
+			
 		pre.code
 			|var foo = $("demo_url").url()
 			
 		a(id='the-maxlength-interface')
 		h3 The maxLength() interface
 		p.container
-			| It validates that the field length is lower than the indicated value.
+			| It validates that the field length is lower than the indicated value. 
 			| Read more about
-			a(href='/api/symbols/ch.String.html') String
+			a(href='/api/#{latest.version}/symbols/ch.String.html') String
+			| .
+			
 		pre.code
 			|var foo = $("demo_maxLength").maxLength()
 			
 		a(id='the-minlength-interface')
 		h3 The minLength() interface
 		p.container
-			| It validates that the field length is greater than the indicated value.
+			| It validates that the field length is greater than the indicated value. 
 			| Read more about
-			a(href='/api/symbols/ch.String.html') String
+			a(href='/api/#{latest.version}/symbols/ch.String.html') String
+			| .
+			
 		pre.code
 			|var foo = $("demo_minLength").minLength()
 		
 		a(id='the-number-interface')
 		h3 The number() interface
 		p.container
-			| It validates that the field is valid number.
+			| It validates that the field is valid number. 
 			| Read more about
-			a(href='/api/symbols/ch.Number.html') Number
+			a(href='/api/#{latest.version}/symbols/ch.Number.html') Number
+			| .
+			
 		pre.code
 			|var foo = $("demo_number").number()
 			
@@ -154,7 +172,9 @@ div.ch-g1.section
 		p.container
 			| It validates that the field is a smaller number than the indicated value. 
 			| Read more about
-			a(href='/api/symbols/ch.Max.html') Max
+			a(href='/api/#{latest.version}/symbols/ch.Max.html') Max
+			| .
+			
 		pre.code
 			|var foo = $("demo_max").max()
 			
@@ -163,19 +183,21 @@ div.ch-g1.section
 		p.container
 			| It validates that the field is a bigger number than the indicated value. 
 			| Read more about
-			a(href='/api/symbols/ch.Min.html') Min
+			a(href='/api/#{latest.version}/symbols/ch.Min.html') Min
 		pre.code
 			|var foo = $("demo_min").min()
-		
+			| .
+			
 		a(id='the-price-interface')
 		h3 The price() interface 
 		p.container
 			| It validates a valid price format number.
 			| Read more about
-			a(href='/api/symbols/ch.Price.html') Price
+			a(href='/api/#{latest.version}/symbols/ch.Price.html') Price
 		pre.code
 			|var foo = $("demo_price").price()
-		
+			| .
+			
 		a(id='more-validations-by-field')
 		h2 More validations by field
 		p.container
@@ -189,16 +211,16 @@ div.ch-g1.section
 			p.container
 				| Read more on our technical documentation, see the 
 				a(href='/api/') class index
-				| , or see more about modals in the 
-				a(href="/api/symbols/ch.Watcher.html") Watcher
+				| , or see more about Watchers in the 
+				a(href="/api/#{latest.version}/symbols/ch.Watcher.html") Watcher
 				|  documentation.
 		.ch-g1-2
 			a(id='report-a-problem')
 			h2 Problems?
 			p.container
 				| You can easily report problems, like bugs or typos through our 
-				a(href='/api/') issue tracker
-				| , or simply write a twitt to 
+				a(href='https://github.com/mercadolibre/chico/issues/new') issue tracker
+				| , or simply tweet us about it: 
 				a(href='http://twitter.com/#!/chicoui') @chicoui
 				| .
 
