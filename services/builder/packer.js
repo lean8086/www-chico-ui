@@ -127,7 +127,7 @@ Packer.prototype.process = function() {
 
 	// Embed images on CSS sources
     if (self.embed && self.type == "css") {
-    	// (DEPRECATED) Data URI isn't working
+    	// Data URI isn't working
     	//self.data = self.embedImages(self.data)
     };
     
@@ -177,7 +177,7 @@ Packer.prototype.embedImages = function(str) {
 	return str.replace(/(url\(\')(.*)(\'\);)/gi, function(str, $1, $2){
         // Generate dataURI
         var repo = self.input.split("/")[1];
-        var encoded = new Encode64( __dirname + "/../../../" + repo + "/src/" + $2).encoded_data;
+        var encoded = new Encode64( __dirname + "/../../../" + repo + "/src/" + self.flavor + "/assets/" + $2).encoded_data;
 		return "url(\'" + encoded + "\');*background-image:url(\'" + $2 + "\');";
 
 	});
