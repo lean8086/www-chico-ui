@@ -118,7 +118,7 @@ div.container.home
 			h3 How-to guides
 			ul
 				- each item, i in howtos
-					- if (i<4)
+					- if (i<5)
 						li
 							a(href='#{item.href}') #{item.label}
 		li.ch-g1-4
@@ -132,6 +132,8 @@ div.container.home
 					a(href='#{common.issuetracker}') Issue tracker
 				li 
 					a(href='/discussion') Discussion
+				li 
+					a(href='http://blog.chico-ui.com.ar/tagged/Release_Notes') Release Notes
 			
 hr.clearfix
 div.container.home
@@ -156,7 +158,7 @@ div.container.home
 			p 
 				| Released under              
 				a(href='https://raw.github.com/mercadolibre/chico/bc982b922d041057c9dde9566536ebfb517d1a70/LICENSE.txt', title='It means you can use it and modify it as you like.', rel='nofollow') MIT License!
-				| We are sharing our work like other cool projects like 
+				| We are sharing our work like other cool projects such as 
 				a(href='http://jquery.com/', rel='nofollow') jQuery
 				|  and 
 				a(href='http://nodejs.org/', rel='nofollow') nodeJS
