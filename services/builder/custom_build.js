@@ -172,6 +172,7 @@ CustomBuild.prototype.compress = function(package) {
 	sys.puts("Compressing packages.");
 
     // Exec commands ;)
+    /*
 	sys.puts(createFolders + " && " +
 			copyDepends + " && " +
 			copyLicense + " && " +
@@ -180,7 +181,7 @@ CustomBuild.prototype.compress = function(package) {
 			movingJS + " && " +
 			movingCSS + " && " +
 			createZip);
-
+*/
 	exec(createFolders + " && " +
 		 copyDepends + " && " +
 		 copyLicense + " && " + 

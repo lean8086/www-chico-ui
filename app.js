@@ -54,10 +54,15 @@ meta.conf = JSON.parse(fs.readFileSync(__dirname + "/services/builder/builder.co
 meta.versions = (function(){
 	var versions = [],
 		temp = [],
+		// read versions folder
 		folders = fs.readdirSync( __dirname + "/public/versions/");
 	if (folders) {
+		// Ignore some specific folders
 		folders.forEach(function(folder) {
-			versions.push(folder);
+			// Like the assets folder
+			if (folder!=="assets") {
+				versions.push(folder);
+			}
 		});
 		// reorder versions
 		versions.sort();
@@ -66,8 +71,10 @@ meta.versions = (function(){
 		versions.forEach(function(folder) {
 				subFolder = fs.readdirSync( __dirname + "/public/versions/" + folder),
 				version = {version:folder, files:[]};
+				// read the subfolder to map all files
 			if (subFolder) {
 				subFolder.forEach(function(file){
+					// create a object for each file
 					version.files.push({label: file, href: "/versions/"+folder+"/"+file});
 				});
 			}
@@ -94,17 +101,6 @@ meta.latest = (function(){
 	}
 })();
 
-// Dynamic API Docs
-/*meta.navigarion = (function(){
-	var top = meta.navigation;
-		top.forEach(function(item){
-			if (item.label === "API"){
-				item.href = "api/" + meta.latest.version + "/index.html";
-			}	
-		});
-	return top;
-})();
-*/
 /**
 * app configuration.
 */
@@ -163,6 +159,7 @@ app.get('/api', function(req, res, next){
 //	next();
 });
 
+/*
 app.get('/versions/assets/:img', function(req, res, next){
 
 	var img = req.params.img;
@@ -176,7 +173,7 @@ app.get('/versions/assets/:img', function(req, res, next){
 //	}
 	
 });
-
+*/
 /**
  * Download
  */
