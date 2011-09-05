@@ -118,10 +118,15 @@ app.configure('production', function(){
 });
 
 app.configure('development', function(){
+
 	app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
 
-	// Only for DEV environments
-	// /latest/js 
+    /**
+     * Only for DEV environments
+     * Latest JS and CSS
+     * /latest/js 
+     * /latest/css
+     */
 	app.get( '/latest/:type', function( req, res ) {
 
 	var type = req.params.type,
@@ -147,6 +152,20 @@ app.configure('development', function(){
 		custom.process();
 	});
 
+    /**
+     * Latest Sprite images
+     */
+    app.get('/versions/assets/:img', function(req, res, next){
+
+    	var img = req.params.img,
+            data = fs.readFileSync(meta.conf.input + 'ml/assets/'+img);
+
+    	if (img&&data) { 
+    	   	res.header('Content-Type', "image/png");
+            res.send(data);
+        }
+    });
+
 });
 
 
@@ -159,21 +178,6 @@ app.get('/api', function(req, res, next){
 //	next();
 });
 
-/*
-app.get('/versions/assets/:img', function(req, res, next){
-
-	var img = req.params.img;
-	
-//	var data = fs.readFileSync(meta.conf.input + 'ml/assets/'+img);
-
-//	if (img&&data) { 
-//		res.header('Content-Type', "image/png");
-//		res.send(data);
-		res.redirect("/assets/"+img)
-//	}
-	
-});
-*/
 /**
  * Download
  */
