@@ -115,9 +115,6 @@
 				|         }
 				|     }
 				| 
-				|     // Here validation is false. Add error class to first field
-				|     field.addClass("error");
-				| 
 				|     // Returns false for second field error
 				|     return false;
 				| 
@@ -127,7 +124,11 @@
 				| var crazy = $("#example-phone-number")
 				|                    .custom(phone_validation, "Enter a valid phone number.")
 				|                    .and()
-				|                    .required("This is a required field");
+				|                    .required("This is a required field")
+				|                    // Here validation is false. Add error class to first field
+				|                    on("error", function () {
+				|                        $("#example-phone-code").addClass("error");
+				|                    });
 		hr
 		.ch-g1-2
 			a(id='keep-on-reading')
