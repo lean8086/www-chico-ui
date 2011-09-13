@@ -247,11 +247,11 @@ app.post('/download', function( req, res ){
 		// for Production
 		if ( env.toString().indexOf("p") > -1 ) {
 			// Mesh	
-			if (add_mesh) {
+			/*if (add_mesh) {
 				var p_mesh = mesh();
 					p_mesh.min = true;
 				packages.push(p_mesh);
-			}
+			}*/
 			// JS
 			var p_js = js();
 				p_js.min = true;
@@ -265,10 +265,10 @@ app.post('/download', function( req, res ){
 		// for Dev
 		if ( env.toString().indexOf("d") > -1 ) {
 			// Mesh	
-			if (add_mesh) {
+			/*if (add_mesh) {
 				var p_mesh = mesh();
 				packages.push(p_mesh);
-			}
+			}*/
 			// JS
 			var d_js = js();
 			packages.push( d_js );
