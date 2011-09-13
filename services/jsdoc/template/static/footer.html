@@ -1,17 +1,25 @@
 
     <hr class="clearfix">
     <p class="footer">©2011 <a href="http://www.mercadolibre.com">MercadoLibre</a>.</p>
+	<script type="text/javascript" src="/src/js/jquery.js"></script>
+	<script type="text/javascript" src="/versions/0.7.7/chico-min-0.7.7.js"></script>
+	<script type="text/javascript" src="/src/js/scripts.js"></script>
 	<script type="text/javascript">
-	var _gaq = _gaq || [];
-	_gaq.push(['_setAccount', 'UA-22230214']);
-	_gaq.push(['_trackPageview']);
-	(function() {
-	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	})();
+		$(function(){
+			$(".examples").expando();
+			$("#members-tabs").tabNavigator();
+		});
+
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-22230214']);
+		_gaq.push(['_trackPageview']);
+		(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
 	</script>
 	<g:plusone size="medium" href="http://www.chico-ui.com.ar"></g:plusone>
 	<a href="http://twitter.com/share" class="twitter-share-button" data-via="chicoui" data-text="Chico UI, MercadoLibre's Open Source Web Tools." data-url='http://chico-ui.com.ar'>Tweet</a>
 </body>
-</head>
+</html>
