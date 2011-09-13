@@ -149,7 +149,8 @@ CustomBuild.prototype.compress = function(package) {
         copyImages = (package.type === "css") ? "cp " + path + self.flavor + "/assets/* " + self.folder + "src/" + self.flavor + "/assets/" : "ls",
 		movingJS = "mv " + self.folder + "*.js " + self.folder + "src/js/",
 		movingCSS = "mv " + self.folder + "*.css " + self.folder + "src/" + self.flavor + "/css/",
-        createZip = "cd " + self.folder + " && tar -cvf " + zipName + " * && rm -rf *.js *.css *.html *.txt src",
+        //createZip = "cd " + self.folder + " && tar -cvf " + zipName + " * && rm -rf *.js *.css *.html *.txt src",
+        createZip = "cd " + self.folder + " && zip " + zipName + " -r * && rm -rf *.js *.css *.html *.txt src",
 
         // package url
         url = self.folder.split("./public").join("") + zipName;
