@@ -1,0 +1,411 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span> * Zoom is a standalone UI component that shows a contextual reference to an augmented version of main declared image.
+<span class='line'>  3</span> * @name Zoom
+<span class='line'>  4</span> * @class Zoom
+<span class='line'>  5</span> * @augments ch.Floats
+<span class='line'>  6</span> * @requires ch.Positioner
+<span class='line'>  7</span> * @requires ch.onImagesLoads
+<span class='line'>  8</span> * @memberOf ch
+<span class='line'>  9</span> * @param {Object} [conf] Object with configuration properties.
+<span class='line'> 10</span> * @param {Boolean} [conf.fx] Enable or disable UI effects. By default, the effects are enable.
+<span class='line'> 11</span> * @param {Boolean} [conf.context] Sets a reference to position and size of component that will be considered to carry out the position. By default is the viewport.
+<span class='line'> 12</span> * @param {String} [conf.points] Sets the points where component will be positioned, specified by configuration or centered by default: "cm cm".
+<span class='line'> 13</span> * @param {String} [conf.offset] Sets the offset in pixels that component will be displaced from original position determined by points. It's specified by configuration or zero by default: "0 0".
+<span class='line'> 14</span> * @returns itself
+<span class='line'> 15</span> * @see ch.Modal
+<span class='line'> 16</span> * @see ch.Tooltip
+<span class='line'> 17</span> * @see ch.Layer
+<span class='line'> 18</span> */</span><span class="WHIT">
+<span class='line'> 19</span> 
+<span class='line'> 20</span> </span><span class="NAME">ch.zoom</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 21</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 22</span> 	* Reference to an internal component instance, saves all the information and configuration properties.
+<span class='line'> 23</span> 	* @private
+<span class='line'> 24</span> 	* @name ch.Zoom#that
+<span class='line'> 25</span> 	* @type itself
+<span class='line'> 26</span> 	*/</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> 
+<span class='line'> 29</span> </span><span class="COMM">/**
+<span class='line'> 30</span> *	Constructor
+<span class='line'> 31</span> */</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">	</span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.clon</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">	</span><span class="NAME">conf.fx</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 34</span> 
+<span class='line'> 35</span> </span><span class="WHIT">	</span><span class="NAME">conf.aria</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">	</span><span class="NAME">conf.aria.role</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"tooltip"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span> </span><span class="WHIT">	</span><span class="NAME">conf.aria.identifier</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"aria-describedby"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 38</span> 
+<span class='line'> 39</span> </span><span class="WHIT">	</span><span class="NAME">conf.position</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">	</span><span class="NAME">conf.position.context</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.context</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">that.$element</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">	</span><span class="NAME">conf.position.offset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.offset</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="STRN">"20 0"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">	</span><span class="NAME">conf.position.points</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.points</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="STRN">"lt rt"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">	</span><span class="NAME">conf.position.hold</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 44</span> 
+<span class='line'> 45</span> </span><span class="WHIT">	</span><span class="NAME">that.conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 46</span> 
+<span class='line'> 47</span> </span><span class="COMM">/**
+<span class='line'> 48</span> *	Inheritance
+<span class='line'> 49</span> */</span><span class="WHIT">
+<span class='line'> 50</span> 
+<span class='line'> 51</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.floats.call</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">	</span><span class="NAME">that.parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.clon</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span> 
+<span class='line'> 54</span> </span><span class="COMM">/**
+<span class='line'> 55</span> *	Private Members
+<span class='line'> 56</span> */</span><span class="WHIT">
+<span class='line'> 57</span> 
+<span class='line'> 58</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 59</span> 	* Reference to main image declared on HTML code snippet.
+<span class='line'> 60</span> 	* @private
+<span class='line'> 61</span> 	* @name ch.Zoom#original
+<span class='line'> 62</span> 	* @type object
+<span class='line'> 63</span> 	*/</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">original</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">		</span><span class="NAME">original.img</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.$element.children</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">		</span><span class="NAME">original</span><span class="PUNC">[</span><span class="STRN">"width"</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">original.img.prop</span><span class="PUNC">(</span><span class="STRN">"width"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">		</span><span class="NAME">original</span><span class="PUNC">[</span><span class="STRN">"height"</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">original.img.prop</span><span class="PUNC">(</span><span class="STRN">"height"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span> 
+<span class='line'> 69</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 70</span> 	* Reference to the augmented version of image, that will be displayed in context.
+<span class='line'> 71</span> 	* @private
+<span class='line'> 72</span> 	* @name ch.Zoom#zoomed
+<span class='line'> 73</span> 	* @type object
+<span class='line'> 74</span> 	*/</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">zoomed</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">		</span><span class="COMM">// Define the content source </span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">		</span><span class="NAME">zoomed.img</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.source</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"&lt;img src=\""</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">that.element.href</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"\" alt=\"Zoomed image\">"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 78</span> 
+<span class='line'> 79</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 80</span> 	* Seeker is the visual element that follows mouse movement for referencing to zoomable area into original image.
+<span class='line'> 81</span> 	* @private
+<span class='line'> 82</span> 	* @name ch.Zoom#seeker
+<span class='line'> 83</span> 	* @type object
+<span class='line'> 84</span> 	*/</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">seeker</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">		</span><span class="NAME">seeker.shape</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"&lt;div class=\"ch-seeker ch-hide\">"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span> 
+<span class='line'> 88</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 89</span> 	* Gets the mouse position relative to original image position, and accordingly moves the zoomed image.
+<span class='line'> 90</span> 	* @private
+<span class='line'> 91</span> 	* @function
+<span class='line'> 92</span> 	* @name ch.Zoom#move
+<span class='line'> 93</span> 	* @param event event
+<span class='line'> 94</span> 	*/</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">move</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 96</span> 
+<span class='line'> 97</span> </span><span class="WHIT">		</span><span class="COMM">// Cursor coordinates relatives to original image</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">event.pageX</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">original.offset.left</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">event.pageY</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">original.offset.top</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> 
+<span class='line'>101</span> </span><span class="WHIT">		</span><span class="COMM">// Seeker axis</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">limit</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">			</span><span class="NAME">limit.left</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">seeker</span><span class="PUNC">[</span><span class="STRN">"width"</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">			</span><span class="NAME">limit.right</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">seeker</span><span class="PUNC">[</span><span class="STRN">"width"</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">			</span><span class="NAME">limit.top</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">seeker</span><span class="PUNC">[</span><span class="STRN">"height"</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">			</span><span class="NAME">limit.bottom</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">y</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">seeker</span><span class="PUNC">[</span><span class="STRN">"height"</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span> 
+<span class='line'>108</span> </span><span class="WHIT">		</span><span class="COMM">// Horizontal: keep seeker into limits</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">limit.left</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">limit.right</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">original</span><span class="PUNC">[</span><span class="STRN">"width"</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">			</span><span class="NAME">zoomed.img.css</span><span class="PUNC">(</span><span class="STRN">"left"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">zoomed</span><span class="PUNC">[</span><span class="STRN">"width"</span><span class="PUNC">]</span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">original</span><span class="PUNC">[</span><span class="STRN">"width"</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf.width</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">			</span><span class="NAME">seeker.shape.css</span><span class="PUNC">(</span><span class="STRN">"left"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">limit.left</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>113</span> 
+<span class='line'>114</span> </span><span class="WHIT">		</span><span class="COMM">// Vertical: keep seeker into limits</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">limit.top</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">limit.bottom</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">original</span><span class="PUNC">[</span><span class="STRN">"height"</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">			</span><span class="NAME">zoomed.img.css</span><span class="PUNC">(</span><span class="STRN">"top"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">zoomed</span><span class="PUNC">[</span><span class="STRN">"height"</span><span class="PUNC">]</span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">y</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">original</span><span class="PUNC">[</span><span class="STRN">"height"</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf.height</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">			</span><span class="NAME">seeker.shape.css</span><span class="PUNC">(</span><span class="STRN">"top"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">limit.top</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>119</span> 
+<span class='line'>120</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span> 
+<span class='line'>122</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>123</span> 	* Calculates zoomed image sizes and adds event listeners to trigger of float element
+<span class='line'>124</span> 	* @private
+<span class='line'>125</span> 	* @function
+<span class='line'>126</span> 	* @name ch.Zoom#init
+<span class='line'>127</span> 	*/</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">init</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">		</span><span class="COMM">// Zoomed image size</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">		</span><span class="NAME">zoomed</span><span class="PUNC">[</span><span class="STRN">"width"</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">zoomed.img.prop</span><span class="PUNC">(</span><span class="STRN">"width"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">		</span><span class="NAME">zoomed</span><span class="PUNC">[</span><span class="STRN">"height"</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">zoomed.img.prop</span><span class="PUNC">(</span><span class="STRN">"height"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>132</span> 
+<span class='line'>133</span> </span><span class="WHIT">		</span><span class="COMM">// Anchor</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">		</span><span class="NAME">that.$element</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">			</span><span class="COMM">// Apend Seeker</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">			</span><span class="PUNC">.</span><span class="NAME">append</span><span class="PUNC">(</span><span class="NAME">seeker.shape</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>137</span> 
+<span class='line'>138</span> </span><span class="WHIT">			</span><span class="COMM">// Show</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">			</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="STRN">"mouseenter"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">that.show</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>140</span> 
+<span class='line'>141</span> </span><span class="WHIT">			</span><span class="COMM">// Hide</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">			</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="STRN">"mouseleave"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">that.hide</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>144</span> 
+<span class='line'>145</span> </span><span class="COMM">/**
+<span class='line'>146</span> *	Protected Members
+<span class='line'>147</span> */</span><span class="WHIT">
+<span class='line'>148</span> 
+<span class='line'>149</span> </span><span class="WHIT">	</span><span class="NAME">that.innerShow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">		</span><span class="COMM">// Recalc offset of original image</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">		</span><span class="NAME">original.offset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">original.img.offset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span> 
+<span class='line'>153</span> </span><span class="WHIT">		</span><span class="COMM">// Move</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">		</span><span class="NAME">that.$element.bind</span><span class="PUNC">(</span><span class="STRN">"mousemove"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">			</span><span class="NAME">move</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>157</span> 
+<span class='line'>158</span> </span><span class="WHIT">		</span><span class="COMM">// Seeker</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">		</span><span class="NAME">seeker.shape.removeClass</span><span class="PUNC">(</span><span class="STRN">"ch-hide"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>160</span> 
+<span class='line'>161</span> </span><span class="WHIT">		</span><span class="COMM">// Floats show</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">		</span><span class="NAME">that.parent.innerShow</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>163</span> 
+<span class='line'>164</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>166</span> 
+<span class='line'>167</span> </span><span class="WHIT">	</span><span class="NAME">that.innerHide</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">		</span><span class="COMM">// Move</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">		</span><span class="NAME">that.$element.unbind</span><span class="PUNC">(</span><span class="STRN">"mousemove"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>170</span> 
+<span class='line'>171</span> </span><span class="WHIT">		</span><span class="COMM">// Seeker</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">		</span><span class="NAME">seeker.shape.addClass</span><span class="PUNC">(</span><span class="STRN">"ch-hide"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>173</span> 
+<span class='line'>174</span> </span><span class="WHIT">		</span><span class="COMM">// Floats hide</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">		</span><span class="NAME">that.parent.innerHide</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>176</span> 
+<span class='line'>177</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>179</span> 
+<span class='line'>180</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>181</span> 	* Triggered on anchor click, it prevents redirection to zoomed image file.
+<span class='line'>182</span> 	* @protected
+<span class='line'>183</span> 	* @function
+<span class='line'>184</span> 	* @name ch.Zoom#enlarge
+<span class='line'>185</span> 	* @param {mouseEvent} event
+<span class='line'>186</span> 	* @returns itself
+<span class='line'>187</span> 	*/</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">	</span><span class="NAME">that.enlarge</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">		</span><span class="NAME">that.prevent</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">		</span><span class="COMM">// Do what you want...</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>193</span> 
+<span class='line'>194</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>195</span> 	* Getter and setter for size attributes of float that contains the zoomed image.
+<span class='line'>196</span> 	* @protected
+<span class='line'>197</span> 	* @function
+<span class='line'>198</span> 	* @name ch.Zoom#size
+<span class='line'>199</span> 	* @param {string} prop Property that will be setted or getted, like "width" or "height".
+<span class='line'>200</span> 	* @param {string} [data] Only for setter. It's the new value of defined property.
+<span class='line'>201</span> 	* @returns itself
+<span class='line'>202</span> 	*/</span><span class="WHIT">
+<span class='line'>203</span> </span><span class="WHIT">	</span><span class="NAME">that.size</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">prop</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>204</span> 
+<span class='line'>205</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>206</span> 
+<span class='line'>207</span> </span><span class="WHIT">			</span><span class="COMM">// Seeker: shape size relative to zoomed image respect zoomed area</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">size</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">original</span><span class="PUNC">[</span><span class="NAME">prop</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">zoomed</span><span class="PUNC">[</span><span class="NAME">prop</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>209</span> 
+<span class='line'>210</span> </span><span class="WHIT">			</span><span class="COMM">// Seeker: sets shape size</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">			</span><span class="NAME">seeker.shape</span><span class="PUNC">[</span><span class="NAME">prop</span><span class="PUNC">]</span><span class="PUNC">(</span><span class="NAME">size</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>212</span> 
+<span class='line'>213</span> </span><span class="WHIT">			</span><span class="COMM">// Seeker: save shape half size for position it respect cursor</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">			</span><span class="NAME">seeker</span><span class="PUNC">[</span><span class="NAME">prop</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">size</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>215</span> 
+<span class='line'>216</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>217</span> 
+<span class='line'>218</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that.parent.size</span><span class="PUNC">(</span><span class="NAME">prop</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>220</span> 
+<span class='line'>221</span> </span><span class="COMM">/**
+<span class='line'>222</span> *	Public Members
+<span class='line'>223</span> */</span><span class="WHIT">
+<span class='line'>224</span> 
+<span class='line'>225</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>226</span> 	* The 'uid' is the Chico's unique instance identifier. Every instance has a different 'uid' property. You can see its value by reading the 'uid' property on any public instance.
+<span class='line'>227</span> 	* @public
+<span class='line'>228</span> 	* @name ch.Zoom#uid
+<span class='line'>229</span> 	* @type number
+<span class='line'>230</span> 	*/</span><span class="WHIT">
+<span class='line'>231</span> 
+<span class='line'>232</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>233</span> 	* Reference to a DOM Element. This binding between the component and the HTMLElement, defines context where the component will be executed. Also is usual that this element triggers the component default behavior.
+<span class='line'>234</span> 	* @public
+<span class='line'>235</span> 	* @name ch.Zoom#element
+<span class='line'>236</span> 	* @type HTMLElement
+<span class='line'>237</span> 	*/</span><span class="WHIT">
+<span class='line'>238</span> 
+<span class='line'>239</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>240</span> 	* This public property defines the component type. All instances are saved into a 'map', grouped by its type. You can reach for any or all of the components from a specific type with 'ch.instances'.
+<span class='line'>241</span> 	* @public
+<span class='line'>242</span> 	* @name ch.Zoom#type
+<span class='line'>243</span> 	* @type string
+<span class='line'>244</span> 	*/</span><span class="WHIT">
+<span class='line'>245</span> 
+<span class='line'>246</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>247</span> 	* Gets component content. To get the defined content just use the method without arguments, like 'me.content()'.
+<span class='line'>248</span> 	* @public
+<span class='line'>249</span> 	* @name ch.Zoom#content
+<span class='line'>250</span> 	* @function
+<span class='line'>251</span> 	* @param {string} content Static content, DOM selector or URL. If argument is empty then will return the content.
+<span class='line'>252</span> 	* @returns {HTMLIMGElement}
+<span class='line'>253</span> 	* @example
+<span class='line'>254</span> 	* // Get the defined content
+<span class='line'>255</span> 	* me.content();
+<span class='line'>256</span> 	* @see ch.Object#content
+<span class='line'>257</span> 	*/</span><span class="WHIT">
+<span class='line'>258</span> 
+<span class='line'>259</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="WHIT">		</span><span class="COMM">// Only on Zoom, it's limmited to be a getter</span><span class="WHIT">
+<span class='line'>261</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that.content</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>263</span> 
+<span class='line'>264</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>265</span> 	* Returns a Boolean if the component's core behavior is active. That means it will return 'true' if the component is on and it will return false otherwise.
+<span class='line'>266</span> 	* @public
+<span class='line'>267</span> 	* @function 
+<span class='line'>268</span> 	* @name ch.Zoom#isActive
+<span class='line'>269</span> 	* @returns boolean
+<span class='line'>270</span> 	*/</span><span class="WHIT">
+<span class='line'>271</span> 
+<span class='line'>272</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>273</span> 	* Triggers the innerShow method and returns the public scope to keep method chaining.
+<span class='line'>274</span> 	* @public
+<span class='line'>275</span> 	* @function
+<span class='line'>276</span> 	* @name ch.Zoom#show
+<span class='line'>277</span> 	* @returns itself
+<span class='line'>278</span> 	* @see ch.Floats#show
+<span class='line'>279</span> 	* @example
+<span class='line'>280</span> 	* // Following the first example, using 'me' as modal's instance controller:
+<span class='line'>281</span> 	* me.show();
+<span class='line'>282</span> 	*/</span><span class="WHIT">
+<span class='line'>283</span> 
+<span class='line'>284</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>285</span> 	* Triggers the innerHide method and returns the public scope to keep method chaining.
+<span class='line'>286</span> 	* @public
+<span class='line'>287</span> 	* @function
+<span class='line'>288</span> 	* @name ch.Zoom#hide
+<span class='line'>289</span> 	* @returns itself
+<span class='line'>290</span> 	* @see ch.Floats#hide
+<span class='line'>291</span> 	* @example
+<span class='line'>292</span> 	* // Following the first example, using 'me' as modal's instance controller:
+<span class='line'>293</span> 	* me.hide();
+<span class='line'>294</span> 	*/</span><span class="WHIT">
+<span class='line'>295</span> </span><span class="WHIT">	
+<span class='line'>296</span> 	</span><span class="COMM">/**
+<span class='line'>297</span> 	* Sets or gets the width property of the component's layout. Use it without arguments to get the value. To set a new value pass an argument, could be a Number or CSS value like '300' or '300px'.
+<span class='line'>298</span> 	* @public
+<span class='line'>299</span> 	* @function
+<span class='line'>300</span> 	* @name ch.Zoom#width
+<span class='line'>301</span> 	* @returns itself
+<span class='line'>302</span> 	* @see ch.Floats#size
+<span class='line'>303</span> 	* @example
+<span class='line'>304</span> 	* // Gets width of Zoom float element.
+<span class='line'>305</span> 	* foo.width();
+<span class='line'>306</span> 	* @example
+<span class='line'>307</span> 	* // Sets width of Zoom float element and updates the seeker size to keep these relation.
+<span class='line'>308</span> 	* foo.width(500);
+<span class='line'>309</span> 	*/</span><span class="WHIT">
+<span class='line'>310</span> 
+<span class='line'>311</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>312</span> 	* Sets or gets the height property of the component's layout. Use it without arguments to get the value. To set a new value pass an argument, could be a Number or CSS value like '100' or '100px'.
+<span class='line'>313</span> 	* @public
+<span class='line'>314</span> 	* @function
+<span class='line'>315</span> 	* @name ch.Zoom#height
+<span class='line'>316</span> 	* @returns itself
+<span class='line'>317</span> 	* @see ch.Floats#size
+<span class='line'>318</span> 	* @example
+<span class='line'>319</span> 	* // Gets height of Zoom float element.
+<span class='line'>320</span> 	* foo.height();
+<span class='line'>321</span> 	* @example
+<span class='line'>322</span> 	* // Sets height of Zoom float element and update the seeker size to keep these relation.
+<span class='line'>323</span> 	* foo.height(500);
+<span class='line'>324</span> 	*/</span><span class="WHIT">
+<span class='line'>325</span> 
+<span class='line'>326</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>327</span> 	* Sets or gets positioning configuration. Use it without arguments to get actual configuration. Pass an argument to define a new positioning configuration.
+<span class='line'>328</span> 	* @public
+<span class='line'>329</span> 	* @function
+<span class='line'>330</span> 	* @name ch.Zoom#position
+<span class='line'>331</span> 	* @example
+<span class='line'>332</span> 	* // Change default position.
+<span class='line'>333</span> 	* $("a").zoom().position({
+<span class='line'>334</span> 	*	offset: "0 10",
+<span class='line'>335</span> 	*	points: "lt lb"
+<span class='line'>336</span> 	* });
+<span class='line'>337</span> 	* @example
+<span class='line'>338</span> 	* // Refresh position.
+<span class='line'>339</span> 	* $("a").zoom().position("refresh");
+<span class='line'>340</span> 	* @example
+<span class='line'>341</span> 	* // Get current position.
+<span class='line'>342</span> 	* $("a").zoom().position();
+<span class='line'>343</span> 	* @see ch.Object#position
+<span class='line'>344</span> 	*/</span><span class="WHIT">
+<span class='line'>345</span> 
+<span class='line'>346</span> 
+<span class='line'>347</span> </span><span class="COMM">/**
+<span class='line'>348</span> *	Default event delegation
+<span class='line'>349</span> */</span><span class="WHIT">
+<span class='line'>350</span> 
+<span class='line'>351</span> </span><span class="WHIT">	</span><span class="COMM">// Anchor</span><span class="WHIT">
+<span class='line'>352</span> </span><span class="WHIT">	</span><span class="NAME">that.$element</span><span class="WHIT">
+<span class='line'>353</span> </span><span class="WHIT">		</span><span class="PUNC">.</span><span class="NAME">addClass</span><span class="PUNC">(</span><span class="STRN">"ch-zoom-trigger"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>354</span> 
+<span class='line'>355</span> </span><span class="WHIT">		</span><span class="COMM">// Size (same as image)</span><span class="WHIT">
+<span class='line'>356</span> </span><span class="WHIT">		</span><span class="PUNC">.</span><span class="NAME">css</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"width"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">original</span><span class="PUNC">[</span><span class="STRN">"width"</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"height"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">original</span><span class="PUNC">[</span><span class="STRN">"height"</span><span class="PUNC">]</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>357</span> 
+<span class='line'>358</span> </span><span class="WHIT">		</span><span class="COMM">// Enlarge</span><span class="WHIT">
+<span class='line'>359</span> </span><span class="WHIT">		</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="STRN">"click"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">that.enlarge</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>360</span> </span><span class="WHIT">	
+<span class='line'>361</span> 	</span><span class="COMM">// Initialize when zoomed image loads...</span><span class="WHIT">
+<span class='line'>362</span> </span><span class="WHIT">	</span><span class="NAME">zoomed.img.onImagesLoads</span><span class="PUNC">(</span><span class="NAME">init</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>363</span> 
+<span class='line'>364</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>365</span> 	* Triggers when component is visible.
+<span class='line'>366</span> 	* @name ch.Zoom#show
+<span class='line'>367</span> 	* @event
+<span class='line'>368</span> 	* @public
+<span class='line'>369</span> 	* @example
+<span class='line'>370</span> 	* me.on("show",function () {
+<span class='line'>371</span> 	*	this.content("Some new content");
+<span class='line'>372</span> 	* });
+<span class='line'>373</span> 	* @see ch.Floats#event:show
+<span class='line'>374</span> 	*/</span><span class="WHIT">
+<span class='line'>375</span> 
+<span class='line'>376</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>377</span> 	* Triggers when component is not longer visible.
+<span class='line'>378</span> 	* @name ch.Zoom#hide
+<span class='line'>379</span> 	* @event
+<span class='line'>380</span> 	* @public
+<span class='line'>381</span> 	* @example
+<span class='line'>382</span> 	* me.on("hide",function () {
+<span class='line'>383</span> 	*	otherComponent.show();
+<span class='line'>384</span> 	* });
+<span class='line'>385</span> 	* @see ch.Floats#event:hide
+<span class='line'>386</span> 	*/</span><span class="WHIT">
+<span class='line'>387</span> 
+<span class='line'>388</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>389</span> 	* Triggers when the component is ready to use.
+<span class='line'>390</span> 	* @name ch.Zoom#ready
+<span class='line'>391</span> 	* @event
+<span class='line'>392</span> 	* @public
+<span class='line'>393</span> 	* @example
+<span class='line'>394</span> 	* // Following the first example, using 'me' as modal's instance controller:
+<span class='line'>395</span> 	* me.on("ready",function () {
+<span class='line'>396</span> 	*	this.show();
+<span class='line'>397</span> 	* });
+<span class='line'>398</span> 	*/</span><span class="WHIT">
+<span class='line'>399</span> </span><span class="WHIT">	</span><span class="NAME">that.trigger</span><span class="PUNC">(</span><span class="STRN">"ready"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>400</span> 
+<span class='line'>401</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>402</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>403</span> 
+<span class='line'>404</span> </span><span class="NAME">ch.factory</span><span class="PUNC">(</span><span class="STRN">"zoom"</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

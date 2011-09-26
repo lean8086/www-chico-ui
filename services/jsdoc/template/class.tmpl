@@ -70,7 +70,7 @@
 					<tr>
 						<td class="nameDescription" {!if (data.comment.getTag("hilited").length){output += 'style="color: red"'}!}>
 							<div class="fixedFont">
-								<b>{+ new Link().toSymbol(data.alias).inner('constructor')+}</b><if test="classType != 'Namespace '">{+ makeSignature(data.params) +}</if>
+								<b>{+ new Link().toSymbol(data.alias).inner('constructor')+}</b><if test="classType != 'Namespace '"><a href="#params">{+ makeSignature(data.params) +}</a></if>
 							</div>
 						</td>
 						<td class="nameDescription">
@@ -321,19 +321,9 @@
 					<p>{+resolveLinks(data.desc)+}</p>
 					<if test="data.author"><p>Author: {+data.author+}.</p></if>
 				</div>
-				<if test="data.example.length">
-					<div class="examples">
-						<h4>Examples</h4>
-						<div>
-							<for each="example" in="data.example">
-								<pre class="code">{+example+}</pre>
-							</for>
-						</div>
-					</div>
-				</if>
 				<dl class="member-details">
 					<if test="data.params.length">
-					<dt>Parameters</dt>
+					<dt id="params">Parameters</dt>
 					<dd>
 						<ul>
 						<for each="item" in="data.params">
@@ -386,7 +376,7 @@
 						</dd>
 					</if>
 					<if test="data.see.length">
-						<dt>Requires</dt>
+						<dt>See</dt>
 						<dd>
 							<ul>
 								<for each="item" in="data.see">
@@ -396,6 +386,16 @@
 						</dd>
 					</if>
 				</dl>
+				<if test="data.example.length">
+					<div class="examples">
+						<h4>Examples</h4>
+						<div>
+							<for each="example" in="data.example">
+								<pre class="code">{+example+}</pre>
+							</for>
+						</div>
+					</div>
+				</if>
 			</div>
 			</if>
 <!-- ============================== field details ========================== -->		
