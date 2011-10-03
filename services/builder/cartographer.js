@@ -64,7 +64,7 @@ var child = exec("cat ../../../chico.master/src/js/* > tmp_map.js", function (er
             var classDesc = "";
             
             tags += tt;
-
+			
             var chunk = tmp[i].join(" ");
             
             // @class
@@ -74,20 +74,30 @@ var child = exec("cat ../../../chico.master/src/js/* > tmp_map.js", function (er
                     className = className.toString().split("@class ").join("");
                     classType = "class";
                 }
-            // @interface
-            var interface = chunk.match( /@interface(\s+)(\w)+/g );
-            
-                if ( interface ) {
-                    interface = interface.toString().split("@interface ").join("");
-                    className = interface;
-                    classType = "interface";
-                }
-            
+
             // description
             var classDesc = trim( chunk.split("@")[0] );
-            
+
             // Create Map
-            m = map[className] = { description: classDesc, type: classType };
+            m = map[className] = { "name": className, "description": classDesc, "type": classType };
+
+			// @interface
+            var interface = chunk.match( /@interface/g );
+
+                if ( interface ) {
+                    //interface = interface.toString().split("@interface ").join("");
+                    //className = interface;
+                    //classType = "interface";
+                    m["interface"] = true;
+                }
+
+			// @standalone
+            var standalone = chunk.match( /@standalone/g );
+
+                if ( standalone ) {
+                    m["standalone"] = true;
+                }
+
 
             // @aguments
             var augments = chunk.match( /@augments(\s+)(ch.)(\w)+/g );
