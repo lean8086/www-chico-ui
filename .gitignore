@@ -3,5 +3,6 @@
 .cache
 .project
 .settings
+.monitor
 nbproject
 thumb.db

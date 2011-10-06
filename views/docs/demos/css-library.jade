@@ -1,0 +1,275 @@
+
+div.ch-g1.section
+	h1 Docs
+	.ch-g1-4
+		!=partial('partials/demos')
+
+		!=partial('partials/howtos')
+					
+	.ch-g3-4
+		h1 CSS Library
+		p.container 
+			| Here's a list of css components that are part of Chico UI look and feel. They will help you with common layout elements, such as buttons and tables. 
+		a(id='typography')
+		h2 Typography
+		.ch-g2-5
+			h3 Headings
+			.box.leftcolumn
+				|<h1>Heading 1
+				|<h2>Heading 2
+				|<h3>Heading 3
+				|<h4>Heading 4
+				|<h5>Heading 5
+				|<h6>Heading 6
+			
+		.ch-g3-5
+			h3 Paragraphs
+			.box
+				p
+					|Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+				p
+					|Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		.clearfix
+		
+		hr
+		h3 Boxes
+		.ch-g2-5
+			.box.leftcolumn
+				br
+				br
+		.ch-g3-5
+			pre.code
+				|<div class="box"></div>
+		.clearfix
+		hr
+		h3 Buttons
+		table(width=").datagrid
+			thead
+				th
+					|Button
+				th
+					|Snippet
+			tbody
+				tr
+					td	
+						input(type='submit', value='Primary Button').btn.primary	
+					td
+						pre.code
+							|<input class="btn primary">
+				tr
+					td
+						input(type='submit', value='Secondary Button').btn.secondary	
+					td
+						pre.code
+							|<input class="btn secondary">
+				tr
+					td
+						input(type='submit', value='Secondary Skin Button').btn.secondary.skin
+					td
+						pre.code
+							|<input class="btn secondary skin">
+				tr
+					td
+						input(type='submit', value='Primary Button Disabled', disabled='disabled').btn.primary
+					td
+						pre.code
+							|<input class="btn primary" disabled="disabled">
+				tr
+					td
+						input(type='submit', value='Secondary Button Disabled', disabled='disabled').btn.secondary	
+					td
+						pre.code
+							|<input class="btn secondary" disabled="disabled">
+				tr
+					td	
+						input(type='submit', value='Secondary Skin Button Disabled', disabled='disabled').btn.secondary.skin
+					td
+						pre.code
+							|<input class="btn secondary skin" disabled="disabled">
+		
+		hr		
+		h3 Icons
+		table.datagrid
+			thead
+				th
+					|Type
+				th
+					|Icon
+				th
+					|Snippet
+			tbody
+				tr
+					td
+						|Help
+					td
+						span.ico.help
+					td
+						pre.code
+							|<span class="ico help">
+				tr
+					td
+						|Info
+					td
+						span.ico.information
+					td
+						pre.code
+							|<span class="ico information">
+				tr
+					td
+						|Error
+					td
+						span.ico.error
+					td
+						pre.code
+							|<span class="ico error">
+				tr
+					td
+						|Attention
+					td
+						span.ico.attention
+					td
+						pre.code
+							|<span class="ico attention">
+				tr
+					td
+						|Ok
+					td
+						span.ico.ok
+					td
+						pre.code
+							|<span class="ico ok">	
+				tr
+					td
+						|Check
+					td
+						span.ico.check
+					td
+						pre.code
+							|<span class="ico check">							
+							
+		hr
+		h3 Pagination
+		.ch-g2-5
+			ul.pagination
+				li
+					a(href='/2.html') Previous
+				li
+					a(href='/1.html') 1
+				li
+					a(href='/2.html') 2
+				li.current
+					a(href='/3.html') 3	
+				li
+					a(href='/4.html') 4
+				li
+					a(href='/5.html') 5
+				li
+					a(href='/4.html') Next	
+			.clearfix
+		.ch-g3-5
+			pre.code
+				|<ul class="pagination">
+				|	<li><a type="prev" href="/2.html">Previous</a></li>
+				|	<li><a href="/1.html">1</a></li>
+				|	<li><a href="/2.html">2</a></li>
+				|	<li class="current"><a href="/3.html">3</a></li>
+				|	<li><a href="/4.html">4</a></li>
+				|	<li><a href="/5.html">5</a></li>
+				|	<li><a type="next" href="/4.html">Next</a></li>
+				|</ul>	
+		.clearfix
+		hr
+		
+		h3 Tables
+		.ch-g2-5
+			.leftcolumn
+				table.datagrid
+					thead
+						tr
+							th(scope="col")	
+								input(type='checkbox')
+							th(scope="col")		Code
+							th(scope="col")		Concept
+							th(scope="col")	  Price
+					tbody
+						tr
+							td
+								input(type='checkbox')
+							td
+								|A001XXL
+							td
+								|Red Tshirt XXL
+							td
+								p.price
+									|$100
+									sup 00
+						tr.selected
+							td
+								input(type='checkbox', checked)
+							td
+								|A002XXL
+							td
+								|Green Tshirt XXL
+							td
+								p.price
+									|$110
+									sup 00
+						tr
+							td
+								input(type='checkbox')
+							td
+								|A003XXL
+							td
+								|Blue Tshirt XXL
+							td
+								p.price
+									|$120
+									sup 00
+		.ch-g3-5
+			pre.code
+				|<table class="datagrid">
+				|	<thead>
+				|		<tr>
+				|			<th scope="col"><input type="checkbox"></th>
+				|			<th scope="col">Code</th>
+				|			<th scope="col">Concept</th>
+				|			<th scope="col">Price</th>	
+				|		<tr>
+				|	</thead>
+				|	<tbody>
+				|		<tr>
+				|			<td><input type="checkbox"></td>	
+				|			<td>A001XXL</td>
+				|			<td>Red Tshirt XXL</td>
+				|			<td><p class="price">$100<sup>00<sup></p></td>
+				|		</tr>
+				|		<tr class="selected">
+				|			<td><input type="checkbox" checked></td>
+				|			<td>A002XXL</td>
+				|			<td>Green Tshirt XXL</td>
+				|			<td><p class="price">$110<sup>00<sup></p></td>
+				|		</tr>
+				|	</tbody>
+				|</table>		
+				
+
+		.clearfix
+		
+		hr
+		.ch-g1
+			a(id='report-a-problem')
+			h2 Problems?
+			p.container
+				| You can easily report problems, like bugs or typos through our 
+				a(href='https://github.com/mercadolibre/chico/issues/new') issue tracker
+				| , or simply tweet us about it: 
+				a(href='http://twitter.com/#!/chicoui') @chicoui
+				| .
+
+.clearfix
+
+script
+	var form = $(".demo_form").form();
+	var validation = $(".demo_email").required("The field must be completed");
+		validation.validate();
+	$(".snippet").expando();

@@ -1,0 +1,297 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span> * Simple Tooltip UI-Object. It uses the 'alt' and 'title' attributes to grab its content.
+<span class='line'>  3</span> * @name Tooltip
+<span class='line'>  4</span> * @class Tooltip
+<span class='line'>  5</span> * @augments ch.Floats
+<span class='line'>  6</span> * @standalone
+<span class='line'>  7</span> * @memberOf ch
+<span class='line'>  8</span> * @param {Object} [conf] Object with configuration properties.
+<span class='line'>  9</span> * @param {Boolean} [conf.fx] Enable or disable UI effects. By default, the effects are enable.
+<span class='line'> 10</span> * @param {String} [conf.points] Sets the points where component will be positioned, specified by configuration or centered by default: "cm cm".
+<span class='line'> 11</span> * @param {String} [conf.offset] Sets the offset in pixels that component will be displaced from original position determined by points. It's specified by configuration or zero by default: "0 0".
+<span class='line'> 12</span> * @returns itself
+<span class='line'> 13</span> * @see ch.Modal
+<span class='line'> 14</span> * @see ch.Layer
+<span class='line'> 15</span> * @see ch.Zoom
+<span class='line'> 16</span> * @example
+<span class='line'> 17</span> * // Create a new tooltip with configuration.
+<span class='line'> 18</span> * var me = $("a.example").tooltip({
+<span class='line'> 19</span> *     "fx": false,
+<span class='line'> 20</span> *     "offset": "10 -10",
+<span class='line'> 21</span> *     "points": "lt rt"
+<span class='line'> 22</span> * });
+<span class='line'> 23</span> * @example
+<span class='line'> 24</span> * // Create a simple tooltip
+<span class='line'> 25</span> * var me = $(".some-element").tooltip();
+<span class='line'> 26</span> * @example
+<span class='line'> 27</span> * // Now 'me' is a reference to the tooltip instance controller.
+<span class='line'> 28</span> * // You can set a new content by using 'me' like this: 
+<span class='line'> 29</span> * me.width(300);
+<span class='line'> 30</span> */</span><span class="WHIT">
+<span class='line'> 31</span> 
+<span class='line'> 32</span> </span><span class="NAME">ch.tooltip</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 33</span> 
+<span class='line'> 34</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 35</span> 	* Reference to a internal component instance, saves all the information and configuration properties.
+<span class='line'> 36</span> 	* @private
+<span class='line'> 37</span> 	* @name ch.Tooltip#that
+<span class='line'> 38</span> 	* @type object
+<span class='line'> 39</span> 	*/</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> 
+<span class='line'> 42</span> </span><span class="WHIT">	</span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.clon</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 43</span> 
+<span class='line'> 44</span> </span><span class="WHIT">	</span><span class="NAME">conf.cone</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">	</span><span class="NAME">conf.content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"&lt;span>"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">that.element.title</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">that.element.alt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"&lt;/span>"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 46</span> 
+<span class='line'> 47</span> </span><span class="WHIT">	</span><span class="NAME">conf.aria</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">	</span><span class="NAME">conf.aria.role</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"tooltip"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">	</span><span class="NAME">conf.aria.identifier</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"aria-describedby"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 50</span> 
+<span class='line'> 51</span> </span><span class="WHIT">	</span><span class="NAME">conf.position</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">	</span><span class="NAME">conf.position.context</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">that.element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">	</span><span class="NAME">conf.position.offset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.offset</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="STRN">"0 10"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">	</span><span class="NAME">conf.position.points</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.points</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="STRN">"lt lb"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> 
+<span class='line'> 56</span> </span><span class="WHIT">	</span><span class="NAME">that.conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> 
+<span class='line'> 58</span> </span><span class="COMM">/**
+<span class='line'> 59</span> *	Inheritance
+<span class='line'> 60</span> */</span><span class="WHIT">
+<span class='line'> 61</span> 
+<span class='line'> 62</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.floats.call</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">	</span><span class="NAME">that.parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.clon</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> 
+<span class='line'> 65</span> </span><span class="COMM">/**
+<span class='line'> 66</span> *	Private Members
+<span class='line'> 67</span> */</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 69</span> 	* The attribute that will provide the content. It can be "title" or "alt" attributes.
+<span class='line'> 70</span> 	* @protected
+<span class='line'> 71</span> 	* @name ch.Tooltip#attrReference
+<span class='line'> 72</span> 	* @type string
+<span class='line'> 73</span> 	*/</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">attrReference</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">that.element.title</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"title"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"alt"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 75</span> 
+<span class='line'> 76</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 77</span> 	* The original attribute content.
+<span class='line'> 78</span> 	* @private
+<span class='line'> 79</span> 	* @name ch.Tooltip#attrContent
+<span class='line'> 80</span> 	* @type string
+<span class='line'> 81</span> 	*/</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">		</span><span class="NAME">attrContent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.element.title</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">that.element.alt</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 83</span> 
+<span class='line'> 84</span> </span><span class="COMM">/**
+<span class='line'> 85</span> *	Protected Members
+<span class='line'> 86</span> */</span><span class="WHIT">
+<span class='line'> 87</span> 
+<span class='line'> 88</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 89</span> 	* Inner show method. Attach the component layout to the DOM tree.
+<span class='line'> 90</span> 	* @protected
+<span class='line'> 91</span> 	* @name ch.Tooltip#innerShow
+<span class='line'> 92</span> 	* @function
+<span class='line'> 93</span> 	* @returns itself
+<span class='line'> 94</span> 	*/</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">	</span><span class="NAME">that.innerShow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">		</span><span class="COMM">// IE8 remembers the attribute even when is removed, so ... empty the attribute to fix the bug.</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">		</span><span class="NAME">that.element</span><span class="PUNC">[</span><span class="NAME">attrReference</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 98</span> 
+<span class='line'> 99</span> </span><span class="WHIT">		</span><span class="NAME">that.parent.innerShow</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>100</span> 
+<span class='line'>101</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span> 
+<span class='line'>104</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>105</span> 	* Inner hide method. Hides the component and detach it from DOM tree.
+<span class='line'>106</span> 	* @protected
+<span class='line'>107</span> 	* @name ch.Tooltip#innerHide
+<span class='line'>108</span> 	* @function
+<span class='line'>109</span> 	* @returns itself
+<span class='line'>110</span> 	*/</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">	</span><span class="NAME">that.innerHide</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">		</span><span class="NAME">that.element</span><span class="PUNC">[</span><span class="NAME">attrReference</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">attrContent</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>113</span> 
+<span class='line'>114</span> </span><span class="WHIT">		</span><span class="NAME">that.parent.innerHide</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>115</span> 
+<span class='line'>116</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>118</span> 
+<span class='line'>119</span> </span><span class="COMM">/**
+<span class='line'>120</span> *	Public Members
+<span class='line'>121</span> */</span><span class="WHIT">
+<span class='line'>122</span> 
+<span class='line'>123</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>124</span> 	* The 'uid' is the Chico's unique instance identifier. Every instance has a different 'uid' property. You can see its value by reading the 'uid' property on any public instance.
+<span class='line'>125</span> 	* @public
+<span class='line'>126</span> 	* @name ch.Tooltip#uid
+<span class='line'>127</span> 	* @type number
+<span class='line'>128</span> 	*/</span><span class="WHIT">
+<span class='line'>129</span> 
+<span class='line'>130</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>131</span> 	* Reference to a DOM Element. This binding between the component and the HTMLElement, defines context where the component will be executed. Also is usual that this element triggers the component default behavior.
+<span class='line'>132</span> 	* @public
+<span class='line'>133</span> 	* @name ch.Tooltip#element
+<span class='line'>134</span> 	* @type HTMLElement
+<span class='line'>135</span> 	*/</span><span class="WHIT">
+<span class='line'>136</span> 
+<span class='line'>137</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>138</span> 	* This public property defines the component type. All instances are saved into a 'map', grouped by its type. You can reach for any or all of the components from a specific type with 'ch.instances'.
+<span class='line'>139</span> 	* @public
+<span class='line'>140</span> 	* @name ch.Tooltip#type
+<span class='line'>141</span> 	* @type string
+<span class='line'>142</span> 	*/</span><span class="WHIT">
+<span class='line'>143</span> 
+<span class='line'>144</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>145</span> 	* Sets and gets component content. To get the defined content just use the method without arguments, like 'me.content()'. To define a new content pass an argument to it, like 'me.content("new content")'. Use a valid URL to get content using AJAX. Use a CSS selector to get content from a DOM Element. Or just use a String with HTML code.
+<span class='line'>146</span> 	* @public
+<span class='line'>147</span> 	* @name ch.Tooltip#content
+<span class='line'>148</span> 	* @function
+<span class='line'>149</span> 	* @param {string} content Static content, DOM selector or URL. If argument is empty then will return the content.
+<span class='line'>150</span> 	* @example
+<span class='line'>151</span> 	* // Get the defined content
+<span class='line'>152</span> 	* me.content();
+<span class='line'>153</span> 	* @example
+<span class='line'>154</span> 	* // Set static content
+<span class='line'>155</span> 	* me.content("Some static content");
+<span class='line'>156</span> 	* @example
+<span class='line'>157</span> 	* // Set DOM content
+<span class='line'>158</span> 	* me.content("#hiddenContent");
+<span class='line'>159</span> 	* @example
+<span class='line'>160</span> 	* // Set AJAX content
+<span class='line'>161</span> 	* me.content("http://chico.com/some/content.html");
+<span class='line'>162</span> 	* @see ch.Object#content
+<span class='line'>163</span> 	*/</span><span class="WHIT">
+<span class='line'>164</span> 
+<span class='line'>165</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>166</span> 	* Returns a Boolean if the component's core behavior is active. That means it will return 'true' if the component is on and it will return false otherwise.
+<span class='line'>167</span> 	* @public
+<span class='line'>168</span> 	* @name ch.Tooltip#isActive
+<span class='line'>169</span> 	* @function 
+<span class='line'>170</span> 	* @returns boolean
+<span class='line'>171</span> 	*/</span><span class="WHIT">
+<span class='line'>172</span> 
+<span class='line'>173</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>174</span> 	* Triggers the innerShow method and returns the public scope to keep method chaining.
+<span class='line'>175</span> 	* @public
+<span class='line'>176</span> 	* @name ch.Tooltip#show
+<span class='line'>177</span> 	* @function
+<span class='line'>178</span> 	* @returns itself
+<span class='line'>179</span> 	* @see ch.Floats#show
+<span class='line'>180</span> 	* @example
+<span class='line'>181</span> 	* // Following the first example, using 'me' as modal's instance controller:
+<span class='line'>182</span> 	* me.show();
+<span class='line'>183</span> 	*/</span><span class="WHIT">
+<span class='line'>184</span> 
+<span class='line'>185</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>186</span> 	* Triggers the innerHide method and returns the public scope to keep method chaining.
+<span class='line'>187</span> 	* @public
+<span class='line'>188</span> 	* @name ch.Tooltip#hide
+<span class='line'>189</span> 	* @function
+<span class='line'>190</span> 	* @returns itself
+<span class='line'>191</span> 	* @see ch.Floats#hide
+<span class='line'>192</span> 	* @example
+<span class='line'>193</span> 	* // Following the first example, using 'me' as modal's instance controller:
+<span class='line'>194</span> 	* me.hide();
+<span class='line'>195</span> 	*/</span><span class="WHIT">
+<span class='line'>196</span> 
+<span class='line'>197</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>198</span> 	* Sets or gets the width property of the component's layout. Use it without arguments to get the value. To set a new value pass an argument, could be a Number or CSS value like '300' or '300px'.
+<span class='line'>199</span> 	* @public
+<span class='line'>200</span> 	* @name ch.Tooltip#width
+<span class='line'>201</span> 	* @function
+<span class='line'>202</span> 	* @returns itself
+<span class='line'>203</span> 	* @see ch.Floats#size
+<span class='line'>204</span> 	* @example
+<span class='line'>205</span> 	* // to set the width
+<span class='line'>206</span> 	* me.width(700);
+<span class='line'>207</span> 	* @example
+<span class='line'>208</span> 	* // to get the width
+<span class='line'>209</span> 	* me.width // 700
+<span class='line'>210</span> 	*/</span><span class="WHIT">
+<span class='line'>211</span> 
+<span class='line'>212</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>213</span> 	* Sets or gets the height property of the component's layout. Use it without arguments to get the value. To set a new value pass an argument, could be a Number or CSS value like '100' or '100px'.
+<span class='line'>214</span> 	* @public
+<span class='line'>215</span> 	* @name ch.Tooltip#height
+<span class='line'>216</span> 	* @function
+<span class='line'>217</span> 	* @returns itself
+<span class='line'>218</span> 	* @see ch.Floats#size
+<span class='line'>219</span> 	* @example
+<span class='line'>220</span> 	* // to set the heigth
+<span class='line'>221</span> 	* me.height(300);
+<span class='line'>222</span> 	* @example
+<span class='line'>223</span> 	* // to get the heigth
+<span class='line'>224</span> 	* me.height // 300
+<span class='line'>225</span> 	*/</span><span class="WHIT">
+<span class='line'>226</span> 
+<span class='line'>227</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>228</span> 	* Sets or gets positioning configuration. Use it without arguments to get actual configuration. Pass an argument to define a new positioning configuration.
+<span class='line'>229</span> 	* @public
+<span class='line'>230</span> 	* @name ch.Tooltip#position
+<span class='line'>231</span> 	* @example
+<span class='line'>232</span> 	* // Change component's position.
+<span class='line'>233</span> 	* me.position({
+<span class='line'>234</span> 	*	offset: "0 10",
+<span class='line'>235</span> 	*	points: "lt lb"
+<span class='line'>236</span> 	* });
+<span class='line'>237</span> 	* @see ch.Object#position
+<span class='line'>238</span> 	*/</span><span class="WHIT">
+<span class='line'>239</span> 
+<span class='line'>240</span> </span><span class="COMM">/**
+<span class='line'>241</span> *	Default event delegation
+<span class='line'>242</span> */</span><span class="WHIT">
+<span class='line'>243</span> 
+<span class='line'>244</span> </span><span class="WHIT">	</span><span class="NAME">that.$element</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">		</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="STRN">"mouseenter"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">that.innerShow</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">		</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="STRN">"mouseleave"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">that.innerHide</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>247</span> 
+<span class='line'>248</span> </span><span class="WHIT">	</span><span class="COMM">// Fix: change layout problem</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">	</span><span class="NAME">ch.utils.body.bind</span><span class="PUNC">(</span><span class="NAME">ch.events.LAYOUT.CHANGE</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">that.position</span><span class="PUNC">(</span><span class="STRN">"refresh"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>250</span> 
+<span class='line'>251</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>252</span> 	* Triggers when component is visible.
+<span class='line'>253</span> 	* @name ch.Tooltip#show
+<span class='line'>254</span> 	* @event
+<span class='line'>255</span> 	* @public
+<span class='line'>256</span> 	* @example
+<span class='line'>257</span> 	* me.on("show",function () {
+<span class='line'>258</span> 	*	this.content("Some new content");
+<span class='line'>259</span> 	* });
+<span class='line'>260</span> 	* @see ch.Floats#event:show
+<span class='line'>261</span> 	*/</span><span class="WHIT">
+<span class='line'>262</span> 
+<span class='line'>263</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>264</span> 	* Triggers when component is not longer visible.
+<span class='line'>265</span> 	* @name ch.Tooltip#hide
+<span class='line'>266</span> 	* @event
+<span class='line'>267</span> 	* @public
+<span class='line'>268</span> 	* @example
+<span class='line'>269</span> 	* me.on("hide",function () {
+<span class='line'>270</span> 	*	otherComponent.show();
+<span class='line'>271</span> 	* });
+<span class='line'>272</span> 	* @see ch.Floats#event:hide
+<span class='line'>273</span> 	*/</span><span class="WHIT">
+<span class='line'>274</span> 
+<span class='line'>275</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>276</span> 	* Triggers when component is ready to use.
+<span class='line'>277</span> 	* @name ch.Tooltip#ready
+<span class='line'>278</span> 	* @event
+<span class='line'>279</span> 	* @public
+<span class='line'>280</span> 	* @example
+<span class='line'>281</span> 	* me.on("ready",function () {
+<span class='line'>282</span> 	*	this.show();
+<span class='line'>283</span> 	* });
+<span class='line'>284</span> 	*/</span><span class="WHIT">
+<span class='line'>285</span> </span><span class="WHIT">	</span><span class="NAME">that.trigger</span><span class="PUNC">(</span><span class="STRN">"ready"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>286</span> 
+<span class='line'>287</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>288</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>289</span> 
+<span class='line'>290</span> </span><span class="NAME">ch.factory</span><span class="PUNC">(</span><span class="STRN">"tooltip"</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>
