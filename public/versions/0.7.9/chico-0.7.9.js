@@ -1,4 +1,4 @@
-/*!
+/*
  * Chico UI 0.7.9-1 MIT Licence
  * @autor <chico@mercadolibre.com>
  * @link http://www.chico-ui.com.ar
@@ -2052,7 +2052,7 @@ ch.carousel = function (conf) {
 	*/
 	that["public"].select = function (data) {
 		// TODO: Add support to goTo function on asynchronous item load.
-		if (ch.utils.hasOwn(conf, "asyncData")) { return that["public"];Â }
+		if (ch.utils.hasOwn(conf, "asyncData")) { return that["public"]; }
 		
 		that.goTo(data);
 
@@ -3693,7 +3693,7 @@ ch.form = function(conf) {
 	};
 
 	// Bind the submit
-	that.$element.bind("submit", function(event)Â { submit(event) });
+	that.$element.bind("submit", function(event) { submit(event) });
 
 	// Bind the reset
 	that.$element.find(":reset, .resetForm").bind("click", function(event){ reset(event); });
@@ -8887,7 +8887,7 @@ ch.watcher = function (conf) {
 	var hasError = function () {
 
 		// Pre-validation: Don't validate disabled
-		if (that.$element.attr('disabled') ||Â !that.enabled) { return false; }
+		if (that.$element.attr('disabled') || !that.enabled) { return false; }
 
 		/**
 		* Triggers before start validation process.
@@ -9294,7 +9294,7 @@ ch.zoom = function (conf) {
 	* Reference to the augmented version of image, that will be displayed in context.
 	* @private
 	* @name ch.Zoom#zoomed
-	* @typeÂ object
+	* @type object
 	*/
 	var zoomed = {};
 		// Define the content source 
@@ -9304,7 +9304,7 @@ ch.zoom = function (conf) {
 	* Seeker is the visual element that follows mouse movement for referencing to zoomable area into original image.
 	* @private
 	* @name ch.Zoom#seeker
-	* @typeÂ object
+	* @type object
 	*/
 	var seeker = {};
 		seeker.shape = $("<div class=\"ch-seeker ch-hide\">");
