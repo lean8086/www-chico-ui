@@ -115,13 +115,17 @@ var menu = $('#versions').accordion().select(1),
 			if (c.requires) {
 				$(c.requires).each(function(i,e) {
 					custom.action(e);
-					custom.checkMap(map[e]);
+					setTimeout(function(){
+						custom.checkMap(map[e]);
+					}, 0);
 				});
 			}
 
 			if (c.augments) {
 				custom.action(c.augments);
-				custom.checkMap(map[c.augments]);
+				setTimeout(function(){
+					custom.checkMap(map[c.augments]);
+				}, 0);
 			}
 			
 	    }
