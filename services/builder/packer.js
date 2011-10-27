@@ -47,6 +47,7 @@ var Packer = function(o) {
     self.min = o.min;
     self.embed = o.embed;
     self.avoid = o.avoid;
+	self.data = "";
     self.template = o.template;
 	// Compose data
     self.fullversion = o.version + "-" + o.build;
@@ -70,7 +71,7 @@ Packer.prototype.process = function() {
 
     // private scope
     var self = this,
-    	core = "core." + self.type,
+		core = (self.name != "mesh") ? "core." + self.type : "",
     	// file information
     	files = [], file,
     	// raw data
