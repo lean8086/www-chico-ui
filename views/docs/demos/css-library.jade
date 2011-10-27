@@ -52,13 +52,19 @@ div.ch-g1.section
 			tbody
 				tr
 					td	
-						input(type='submit', value='Primary Button').btn.primary	
+						input(type='submit', value='Main Button').btn.main
+					td
+						pre.code
+							|<input class="btn main">
+				tr
+					td	
+						input(type='submit', value='Primary Button').btn.primary
 					td
 						pre.code
 							|<input class="btn primary">
 				tr
 					td
-						input(type='submit', value='Secondary Button').btn.secondary	
+						input(type='submit', value='Secondary Button').btn.secondary
 					td
 						pre.code
 							|<input class="btn secondary">
@@ -68,6 +74,12 @@ div.ch-g1.section
 					td
 						pre.code
 							|<input class="btn secondary skin">
+				tr
+					td
+						input(type='submit', value='Main Button Disabled', disabled='disabled').btn.main
+					td
+						pre.code
+							|<input class="btn main" disabled="disabled">
 				tr
 					td
 						input(type='submit', value='Primary Button Disabled', disabled='disabled').btn.primary
@@ -190,7 +202,8 @@ div.ch-g1.section
 								input(type='checkbox')
 							th(scope="col")		Code
 							th(scope="col")		Concept
-							th(scope="col")	  Price
+							th.selected(scope="col")	  Price
+								span.asc (ascendant)
 					tbody
 						tr
 							td

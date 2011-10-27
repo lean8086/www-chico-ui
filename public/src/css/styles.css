@@ -3,11 +3,6 @@
  */
 
 body {
-  font-family: 'Ubuntu', serif;
-  font-style: normal;
-  text-shadow: none;
-  text-decoration: none;
-  text-transform: none;
   min-width: 760px;
   max-width: 1200px;
 }
@@ -17,28 +12,9 @@ h1 {
   line-height: 1em;
 }
 
-h2 {
-  font-size: 2em;
-  line-height: 1em;
-}
-
-.section h1, h2, h3, h4,.article-summary-title {
-  font-weight: 300;
-  font-family: 'PT Serif', serif;
-}
-
-h2, h3,h4,h5,h6{
+h2, h3, h4, h5, h6{
 	margin:1em 0 .5em 0;
 }
-
-
-h2 { font-size: 2.2em; }
-
-h2 { font-size: 1.8em; }
-
-h3 { font-size: 1.5em; }
-
-h4 { font-size: 1.3em; }
 
 p { margin:0 0 .5em 0; }
 
@@ -67,7 +43,6 @@ ol li { list-style-type: decimal; list-style-position: inside; }
 }
 
 .header h1 {
-	font-family: 'Kreon', serif;
 	font-weight: 400;
 	font-size: 4em;
 	line-height: 1em;
@@ -264,10 +239,6 @@ ol li { list-style-type: decimal; list-style-position: inside; }
   line-height: 50px;
   text-align: center;
   line-height: 1.3em;
-}
-
-.btn {
-  font-family: 'Kreon', serif;
 }
 
 
