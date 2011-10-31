@@ -369,17 +369,20 @@ app.get('/500', function(req, res){
 /**
  * Index.
  */
+app.get('/', function(req, res, next){
+	res.render('index', title() );
+});
+
+/**
+ * About.
+ */
 app.get('/about', function(req, res, next){
 	res.render('about', title("About Chico UI") );
 });
 
 /**
- * Index.
+ * Mesh.
  */
-app.get('/', function(req, res, next){
-	res.render('index', title() );
-});
-
 app.get('/mesh', function(req, res, next){
 	res.render('mesh', title("Chico Mesh") );
 });
