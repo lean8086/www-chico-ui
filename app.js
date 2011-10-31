@@ -47,6 +47,7 @@ meta.howtos = createNavigationMapFrom("how-to");
 
 meta.demos = createNavigationMapFrom("demos");
 
+
 // get 'builder.conf' and parse JSON data
 meta.conf = JSON.parse(fs.readFileSync(__dirname + "/services/builder/builder.conf"));
 
@@ -378,6 +379,11 @@ app.get('/about', function(req, res, next){
 app.get('/', function(req, res, next){
 	res.render('index', title() );
 });
+
+app.get('/mesh', function(req, res, next){
+	res.render('mesh', title("Chico Mesh") );
+});
+
 
 /**
  * app start

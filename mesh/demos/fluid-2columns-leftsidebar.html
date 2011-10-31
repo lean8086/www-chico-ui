@@ -1,0 +1,76 @@
+<!doctype html>
+<!--[if IE]><![endif]-->
+<!--[if lt IE 7 ]> <html lang="es" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="es" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="es" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="es" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="es" class="no-js"> <!--<![endif]-->
+	<head>
+		<title>Elastic Layout - 2 Columns, left sidebar</title>    
+
+		<style>
+					
+			/* ------------------------------------------------------- *
+			 * --- just to highlight columns - you can delete these -- *
+			 * -------------    use chico.css for styles   ----------- *
+			 * ------------------------------------------------------- */
+			
+			body {
+				color: #333333;
+			    font: 13px/20px Arial,Helvetica,"Nimbus Sans L",sans-serif;
+			}
+			
+			.box {
+				border: 1px solid #ccc;
+				padding: 10px;
+				margin: 10px auto;
+			}
+			
+			.header {
+				height: 50px;
+				padding: 20px 10px;
+				background: #eee;
+				margin: 10px auto 0px;
+			}
+			
+			.footer {
+				clear:both;
+				text-align: center;
+				margin: 10px auto;
+				background: #eee;
+				
+			}
+		</style>
+		
+		<link rel="stylesheet" href="chico-mesh.css"><!-- fluid grids -->
+		
+	</head>			
+			
+	<body>
+
+		<div class="header box">
+			<h1>My Site Header</h1>
+		</div>
+		
+		<div class="ch-g1-3">
+			<div class="box leftcolumn">	
+				<h2>Left sidebar fluid</h2>
+				<!-- your sidebar here -->
+			</div>
+		</div>
+
+		
+		<div class="ch-g2-3">
+			<div class="box rightcolumn">
+				<h2>Right elastic content</h2>
+				<!-- your content here -->
+			</div>
+		</div>
+
+		<div class="footer box">
+			<p>Download <strong>Chico Mesh</strong> from <a href="http://chico-ui.com.ar/mesh">http://chico-ui.com.ar/mesh</a></p>
+		</div>
+
+
+	</body>
+</html>
