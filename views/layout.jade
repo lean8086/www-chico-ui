@@ -51,12 +51,12 @@ html.no-js(lang='en')
 					#{latest.version}
 
 			ul
-				- each item in navigation 
+				- each item in navigation
 					li
 						a(href='#{item.href}') #{item.label}
 		hr
 
-	body!= body
+		!= body
 
 .clearfix
 hr
