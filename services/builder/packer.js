@@ -195,7 +195,7 @@ Packer.prototype.write = function(file, data) {
 
     if (!self.avoid) {
 
-		exec("touch " + file, function(err, data){
+		exec("touch " + file, function(err){
 
 			if (err) {
 				sys.puts("Error - " + self.name + ": " + err);
@@ -212,7 +212,18 @@ Packer.prototype.write = function(file, data) {
 
 		});
 
-		/*fs.writeFileSync(file, data, encoding="utf8");
+		/*
+		
+		fs.writeFile(file, data, encoding="utf8", function (err) {
+			if (err) {
+				console.log("Error - " + self.name + ": " + err);
+			} else {
+				sys.puts(" > Writting " + self.filename + "...");
+				sys.puts("   Done!");
+			}
+		});
+		
+		fs.writeFileSync(file, data, encoding="utf8");
 		sys.puts(" > Writting " + self.filename + "...");
 		sys.puts("   Done!");*/
 
