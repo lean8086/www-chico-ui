@@ -51,16 +51,11 @@ hr.clearfix
 div.container.home
 	ul.clearfix
 
-		li.ch-g2-8
-			h3 How-to guides
-			ul
-				- each item, i in howtos
-					- if (i<5)
-						li
-							a(href='#{item.href}') #{item.label}
-		li.ch-g1-8
+							
+							
+		li.ch-g1-6
 			h3 Developers
-			ul
+			ul.centercolumn
 				li 
 					a(href='/api/#{latest.version}/index.html') API documentation
 				li 
@@ -68,11 +63,29 @@ div.container.home
 				li 
 					a(href='#{common.issuetracker}') Issue tracker
 				li 
-					a(href='/discussion') Discussion
-				li 
 					a(href='http://blog.chico-ui.com.ar/tagged/Release_Notes') Release Notes
+					
+
+								
+		li.ch-g1-6
+			h3 Chico Mesh
+			ul.leftcolumn
+				li 
+					a(href='/mesh') Overview
+				li 
+					a(href='/mesh/demos/fluid-mesh.html', rel='nofollow') Fluid Grids
+				li 
+					a(href='/docs/how-to/mesh-your-layout-in-5-min') Mesh your layout
+		
+		li.ch-g1-6
+			h3 How-to guides
+			ul.centercolumn
+				- each item, i in howtos
+					- if (i<4)
+						li
+							a(href='#{item.href}') #{item.label}							
 						
-		li.ch-g5-8
+		li.ch-g3-6
 			.ui-components-demo.rightcolumn
 				ul.ui-components-demo-list
 					li.ui-components-demo-list-item
