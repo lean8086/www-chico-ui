@@ -266,8 +266,8 @@ app.post('/download', function( req, res ){
 		if ( env.toString().indexOf("d") > -1 ) {
 			// Mesh	
 			if (add_mesh) {
-				var p_mesh = mesh();
-				packages.push(p_mesh);
+				var d_mesh = mesh();
+				packages.push(d_mesh);
 			}
 			// JS
 			var d_js = js();

@@ -6,6 +6,8 @@
  
 var sys = require("sys"),
     fs = require("fs"),
+    child = require("child_process"),
+    exec  = child.exec,
     events = require('events'),
     uglify = require("uglify-js"),
     cssmin = require('cssmin').cssmin,
@@ -51,7 +53,8 @@ var Packer = function(o) {
     self.template = o.template;
 	// Compose data
     self.fullversion = o.version + "-" + o.build;
-    self.filename = o.output + o.name + ( ( self.min ) ? "-min-" : "-" ) + self.fullversion + "." + self.type ;
+    if (self.name == "mesh") console.log(self.min);
+    self.filename = o.output + o.name + ( ( self.min ) ? "-min-" : "-" ) + self.version + "." + self.type ;
 	// Files collection
     self.files = [];
     // Are components defined?
@@ -136,7 +139,7 @@ Packer.prototype.process = function() {
 	output = self.optimize(self.data);
     
     // Templating
-    out = self.template.replace("<version>", self.fullversion);
+    out = self.template.replace("<version>", self.version);
     out = out.replace("<code>", output);
 	
     self.emit("processed", out);
@@ -191,11 +194,22 @@ Packer.prototype.write = function(file, data) {
     var self = this;
 
     if (!self.avoid) {
-		
-		fs.writeFile(file, data, encoding="utf8", function (err) {
-			if (err) return err;
-			sys.puts(" > Writting " + self.filename + "...");
-			sys.puts("   Done!");
+
+		exec("touch " + file, function(err, data){
+
+			if (err) {
+				sys.puts("Error - " + self.name + ": " + err);
+			};
+
+			fs.writeFile(file, data, encoding="utf8", function (err) {
+				if (err) {
+					console.log("Error - " + self.name + ": " + err);
+				} else {
+					sys.puts(" > Writting " + self.filename + "...");
+					sys.puts("   Done!");
+				}
+			});
+
 		});
 
 		/*fs.writeFileSync(file, data, encoding="utf8");
