@@ -246,7 +246,7 @@ app.post('/download', function( req, res ){
 		var packages = [];
 		// for Production
 		if ( env.toString().indexOf("p") > -1 ) {
-			// Mesh	
+			// Mesh
 			if (add_mesh) {
 				var p_mesh = mesh();
 					p_mesh.min = true;

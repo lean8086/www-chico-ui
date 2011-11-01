@@ -191,9 +191,17 @@ Packer.prototype.write = function(file, data) {
     var self = this;
 
     if (!self.avoid) {
-		fs.writeFileSync(file, data, encoding="utf8");
+		
+		fs.writeFile(file, data, encoding="utf8", function (err) {
+			if (err) return err;
+			sys.puts(" > Writting " + self.filename + "...");
+			sys.puts("   Done!");
+		});
+
+		/*fs.writeFileSync(file, data, encoding="utf8");
 		sys.puts(" > Writting " + self.filename + "...");
-		sys.puts("   Done!");
+		sys.puts("   Done!");*/
+
 	}
 	
     self.emit("done", self);
