@@ -6,16 +6,12 @@
 
 	.ch-g3-4
 		h1 How to mesh your layout in 5 minutes?
+		
 		p.container
-			| This guide explain you how to use Chico-UI Mesh to build fluid layouts quickly and easily, like we did with this site.
-
-		a#knowing-the-mesh
-		h2 Knowing the mesh
-		p.container
-			| Chico-UI Mesh provides a set of columns (written in CSS) that makes the laying out of a web page, easy and fast. that makes
-			| the laying out of a web page, easy and fast. It isn't part of the CSS core, that's why you have to
-			a(href="/download", target="_blank") download the file.
-
+			| Chico Mesh provides a set of CSS columns that makes the laying out of a web page, easy and fast. It isn't part of the CSS core, that's why you have to download the file and reference it on your html document.
+			form.container(action='/versions/0.8.2/chico-mesh.css')
+				input.btn.primary(type='submit', value='Download Chico Mesh')
+			
 		a#class-names
 		h2 Class names
 		p.container
@@ -29,8 +25,9 @@
 		a#gutters
 		h2 Gutters
 		p.container
-			| The grids have neither padding nor margin. To be able to get the gutters, you have to assign a margin to the element that's
-			| inside the grid. For that, we defined 3 classes that create a 10px margin to the inner element:
+			| The grids have neither padding nor margin. To be able to get the gutters, you have to assign a margin 
+			strong to the element that's inside the grid
+			| . For that, we defined 3 classes that create a 10px margin to the inner element:
 		pre.code
 			| .leftcolumn: assign it to the left element
 			| .centercolumn: assign it to the center element
