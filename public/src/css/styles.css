@@ -422,5 +422,8 @@ ul.layouts li p {
 .did-you-know p{
 	margin: 5px 10px;
 }
+.datagrid .ch-message {
+	min-width: 200px;
+}
 
  */
