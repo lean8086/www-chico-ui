@@ -387,6 +387,28 @@ app.get('/mesh', function(req, res, next){
 	res.render('mesh', title("Chico Mesh") );
 });
 
+/**
+ * Blog.
+ */
+app.get('/blog', function(req, res, next){
+	res.redirect("http://blog.chico-ui.com.ar");
+});
+
+app.get('/blog/:source/:file', function(req, res, next){
+	var contentType = {
+		"assets": "image/png",
+		"css": "text/css",
+		"js": "text/javascript",
+	}
+	var file = req.params.file,
+		source = req.params.source,
+        data = fs.readFileSync(__dirname + "/public/blog/"+source+"/"+file);
+
+	if (file && data) { 
+	   	res.header('Content-Type', contentType[source]);
+        res.send(data);
+    }
+});
 
 /**
  * app start
