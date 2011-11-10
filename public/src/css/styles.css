@@ -273,18 +273,25 @@ ol li { list-style-type: decimal; list-style-position: inside; }
 /*
 	pre.code
 */
-code {
-  background-color: #FFE;
-  border: solid 1px #CCC;
-  margin: 2px;
-  padding: 2px;
-}
+code,
 .code {
-  background-color: #FFE;
-  margin: 1em 0 1em 0;
-  padding: 10px;
-  border: solid 1px #CCC;
-  overflow:auto;
+	background-color: #FAFAFB;
+	border: 1px solid #CACACA;
+	margin: 1em 0 1em 0;
+	padding: 10px;
+	-webkit-border-radius: 3px;
+	-o-border-radius: 3px;
+	-ms-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	color:#393939;
+	overflow:auto;
+	font: 12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+}
+
+code {
+	padding: 2px;
+	margin:2px;
 }
 
 #members-tabs .ch-tabNavigator-triggers{
@@ -426,4 +433,38 @@ ul.layouts li p {
 	min-width: 200px;
 }
 
- */
+
+/* Demo forms */
+
+.ch-g3-4 .datagrid .code {
+	max-width: 530px
+}
+
+.ch-g3-4 .datagrid .ch-form-row label {
+	width:60px;
+}
+
+.ch-g3-4 .datagrid .ch-form-options .ch-form-row label {
+	width:auto;
+}
+
+.ch-g3-4 .datagrid .ch-form-actions {
+	margin-left:72px; 
+}
+
+.ch-g3-4 .datagrid textarea {
+	width: 225px
+}
+
+#demoForm th.desc {
+	width: 40%;
+}
+
+#demoForm .ch-form-hint {
+	margin-left: 73px;
+}
+
+#demoForm td {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
