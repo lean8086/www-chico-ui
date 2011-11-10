@@ -60,8 +60,8 @@ meta.versions = (function(){
 	if (folders) {
 		// Ignore some specific folders
 		folders.forEach(function(folder) {
-			// Like the assets folder
-			if (folder!=="assets") {
+			// Like the assets and latest folder
+			if (folder !== "assets" && folder !== "latest") {
 				versions.push(folder);
 			}
 		});
