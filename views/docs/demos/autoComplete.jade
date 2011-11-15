@@ -7,18 +7,20 @@ div.ch-g1.section
 		!=partial('partials/howtos')
 					
 	.ch-g3-4
-		h1 Form
+		h1 AutoComplete
 		div.container
 			p
-				| The AutoComplete component is a member of 
+				| The AutoComplete component is a member of the 
 				a(href='/api/#{latest.version}/symbols/ch.Navs.html') Navs
 				|  family. 
+				br
+				| It works for input control. It can suggest a list of options like a select control in a form, or it can work as suggester while the user types in a input.
 		a(id='demo')
 		h2 Demo
 		div.box
 			form#example_form(action='#',method='get')
-				div.autoComplete
-					input#autocomplete(type='text',name="autocomplete")
+				div.autoComplete_Example
+					input#autocomplete(type='text',name="autocomplete",placeholder="Search your country i.e. Argentina")
 					ul
 				input.btn.secondary.skin(type='submit', value='Submit form')
 		.snippet
@@ -26,56 +28,55 @@ div.ch-g1.section
 			div
 				pre.code
 					|<form action="/" id="example_form" method="get">
-					|	<div class="autoComplete">
-					|		<input type="text" id="autocomplete" name="autocomplete">
+					|	<div id="example">
+					|		<input type="text" name="autocomplete" placeholder="Search your country i.e. Argentina">
 					|		<ul></ul>
 					|	</div>
 					|	<input type="submit" value="Enviar" class="btn secondary skin">
 					|</form>
+		
+		h2 Like a suggester
+		p.container 
+			| This is the way to create a AutoComplete as a suggestive:
+		pre.code
+			| var foo = $("#example").autoComplete({url:"/suggest/"});
+		
+		h3 Pushing the data
+		p.container
+			| The component executes the callback that returns you server service. 
+			| In the callback function you have to define the 
+			code foo.suggest();
+			|  . Then, you have to give the data returned from the server to the function as parameter 
+			code foo.suggest( SERVER_DATA );
+			|  .
+		
+		pre.code
+			| var autoComplete = function( SERVER_DATA ){
+			| 
+			|     ac.suggest( SERVER_DATA );
+			| 
+			| }
+			
+			
+		h2 Like a list of options
+		p.container 
+			| And this is the way to create the AutoComplete as a list of options:
+		pre.code
+			| var foo = $("#example").autoComplete();
+			| 
+			|     // As a parameter gives an Array
+			|     foo.suggest(["Option 1","Option 2","Option 3"]);
+			
+			
 		p.container
 			| Read more about 
-			a(href='/api/#{latest.version}/symbols/ch.Form.html') Form
+			a(href='/api/#{latest.version}/symbols/ch.AutoComplete.html') AutoComplete
 			| .			
-					
-		a(id='callbacks')
-		h2 Callbacks
-		div.container
-			p
-				| The Form has some uses cases. You can use this component to trigger callbacks on determinated events.
-			pre.code
-				| var myForm = $("#example_form").form({
-				|     onSubmit: function () {
-				|         alert("This was triggered by Form component.");
-				|     }
-				| });
-			
-			p name the other methods	
-			p
-				| Read more about
-				a(href='/how-to/use-callback-functions') Callbacks
-				| .
-			p
-				| You can find all Form callbacks on its 
-				a(href='/api/#{latest.version}/symbols/ch.Form.html') API documentation
-				| .
-	
-		a(id='error-messages')
-		h2 Error messages
-		div.container
-			p
-				| To set default messages for  
-				a(href='/api/#{latest.version}/symbols/ch.Watcher.html') Watchers
-				|  children, you can specify messages on configuration object.
-			p
-				| These messages will be replaced if a Watcher is invoked with a message.
-	
-			pre.code
-				| var myForm = $("#example_form").form({
-				|     messages: {
-				|         required: "Error message for all required fields.",
-				|         email: "Show this message on email format error."
-				|     }
-				| });
+
+		
+		
+		
+		
 		hr
 		.ch-g1-2
 			a(id='keep-on-reading')
@@ -98,10 +99,12 @@ div.ch-g1.section
 .clearfix
 
 script
-	var ac = $(".autoComplete").autoComplete({url:"http://10.10.42.18:8080/suggest/"});
-			//ac.suggest(["Option 1","Option 2","Option 3","Option 4","Option 5"]);
-		
-	var autoComplete = function(data){
-		ac.suggest(data);
-	}
-	$(".snippet").expando();
+	//$(document).ready(function(){
+		var ac = $(".autoComplete_Example").autoComplete({url:"/suggest/"});
+				//ac.suggest(["Option 1","Option 2","Option 3","Option 4","Option 5"]);
+			
+		var autoComplete = function(data){
+			ac.suggest(data);
+		}
+		$(".snippet").expando();
+	//});
