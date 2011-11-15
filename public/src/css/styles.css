@@ -468,3 +468,5 @@ ul.layouts li p {
 	padding-top: 10px;
 	padding-bottom: 10px;
 }
+
+#example_form{position:relative;z-index:1;}
