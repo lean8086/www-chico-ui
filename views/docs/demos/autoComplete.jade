@@ -1,0 +1,107 @@
+
+div.ch-g1.section
+	h1 Docs
+	.ch-g1-4
+		!=partial('partials/demos')
+
+		!=partial('partials/howtos')
+					
+	.ch-g3-4
+		h1 Form
+		div.container
+			p
+				| The AutoComplete component is a member of 
+				a(href='/api/#{latest.version}/symbols/ch.Navs.html') Navs
+				|  family. 
+		a(id='demo')
+		h2 Demo
+		div.box
+			form#example_form(action='#',method='get')
+				div.autoComplete
+					input#autocomplete(type='text',name="autocomplete")
+					ul
+				input.btn.secondary.skin(type='submit', value='Submit form')
+		.snippet
+			p Snippet
+			div
+				pre.code
+					|<form action="/" id="example_form" method="get">
+					|	<div class="autoComplete">
+					|		<input type="text" id="autocomplete" name="autocomplete">
+					|		<ul></ul>
+					|	</div>
+					|	<input type="submit" value="Enviar" class="btn secondary skin">
+					|</form>
+		p.container
+			| Read more about 
+			a(href='/api/#{latest.version}/symbols/ch.Form.html') Form
+			| .			
+					
+		a(id='callbacks')
+		h2 Callbacks
+		div.container
+			p
+				| The Form has some uses cases. You can use this component to trigger callbacks on determinated events.
+			pre.code
+				| var myForm = $("#example_form").form({
+				|     onSubmit: function () {
+				|         alert("This was triggered by Form component.");
+				|     }
+				| });
+			
+			p name the other methods	
+			p
+				| Read more about
+				a(href='/how-to/use-callback-functions') Callbacks
+				| .
+			p
+				| You can find all Form callbacks on its 
+				a(href='/api/#{latest.version}/symbols/ch.Form.html') API documentation
+				| .
+	
+		a(id='error-messages')
+		h2 Error messages
+		div.container
+			p
+				| To set default messages for  
+				a(href='/api/#{latest.version}/symbols/ch.Watcher.html') Watchers
+				|  children, you can specify messages on configuration object.
+			p
+				| These messages will be replaced if a Watcher is invoked with a message.
+	
+			pre.code
+				| var myForm = $("#example_form").form({
+				|     messages: {
+				|         required: "Error message for all required fields.",
+				|         email: "Show this message on email format error."
+				|     }
+				| });
+		hr
+		.ch-g1-2
+			a(id='keep-on-reading')
+			h2 Keep on reading
+			p.container
+				| Read more on our technical documentation, see the 
+				a(href='/api/') class index
+				| , or see more about forms in the 
+				a(href="/api/#{latest.version}/symbols/ch.Form.html") Form
+				|  documentation.
+		.ch-g1-2
+			a(id='report-a-problem')
+			h2 Problems?
+			p.container
+				| You can easily report problems, like bugs or typos through our 
+				a(href='/api/') issue tracker
+				| , or simply write a twitt to 
+				a(href='http://twitter.com/#!/chicoui') @chicoui
+
+.clearfix
+
+script
+	var ac = $(".autoComplete").autoComplete({url:"http://10.10.42.18:8080/suggest/"});
+			//ac.suggest(["Option 1","Option 2","Option 3","Option 4","Option 5"]);
+		
+	var autoComplete = function(data){
+		ac.suggest(data);
+	}
+	$(".snippet").expando();
