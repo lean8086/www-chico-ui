@@ -99,12 +99,9 @@ div.ch-g1.section
 .clearfix
 
 script
-	//$(document).ready(function(){
 		var ac = $(".autoComplete_Example").autoComplete({url:"/suggest/"});
-				//ac.suggest(["Option 1","Option 2","Option 3","Option 4","Option 5"]);
 			
 		var autoComplete = function(data){
 			ac.suggest(data);
 		}
 		$(".snippet").expando();
-	//});
