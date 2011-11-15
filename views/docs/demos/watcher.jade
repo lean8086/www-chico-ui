@@ -226,8 +226,6 @@ div.ch-g1.section
 
 .clearfix
 
-script
-	var form = $(".demo_form").form();
-	var validation = $(".demo_email").required("The field must be completed");
-		validation.validate();
-	$(".snippet").expando();
+- localScripts.push('var form = $(".demo_form").form();')
+- localScripts.push('var validation = $(".demo_email").required("The field must be completed").validate();')
+- localScripts.push('$(".snippet").expando();')

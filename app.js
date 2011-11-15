@@ -102,6 +102,15 @@ meta.latest = (function(){
 	}
 })();
 
+
+/**
+ * Middleware.
+ */
+var localScripts = function(req, res, next) {
+	res.local("localScripts", []);
+	next();
+};
+
 /**
 * app configuration.
 */
@@ -173,7 +182,7 @@ app.configure('development', function(){
 * rutes
 */
 
-app.get('/api', function(req, res, next){
+app.get('/api', localScripts, function(req, res, next){
 	res.redirect("/api/"+meta.latest.version+"/index.html");
 //	next();
 });
@@ -183,7 +192,7 @@ app.get('/api', function(req, res, next){
  */
 	
 // get 
-app.get('/download', function(req, res) {
+app.get('/download', localScripts, function(req, res) {
 	res.render( 'download', title("Download Chico UI") );	
 });
 // post 
@@ -307,7 +316,7 @@ app.post('/download', function( req, res ){
  * Discussion.
  */
 // get
-app.get('/discussion', function(req, res){
+app.get('/discussion', localScripts, function(req, res){
 	res.render('discussion', title("Dicussion on Chico UI") );
 });
 
@@ -315,11 +324,11 @@ app.get('/discussion', function(req, res){
  * Docs.
  */
 
-app.get('/docs',function(req, res){
+app.get('/docs', localScripts, function(req, res){
 	res.render('docs', title("Getting started with Chico UI"));
 });
 
-app.get('/docs/:branch/:label?',function(req, res){
+app.get('/docs/:branch/:label?', localScripts, function(req, res){
 	var branch = req.params.branch,
 		label = req.params.label;
 			
@@ -358,32 +367,32 @@ app.get('/docs/:branch/:label?',function(req, res){
 /**
  * Error pages
  */
-app.get('/404', function(req, res){
+app.get('/404', localScripts, function(req, res){
 	res.render('404', meta );
 });
 
-app.get('/500', function(req, res){
+app.get('/500', localScripts, function(req, res){
 	res.render('404', meta );
 });
 
 /**
  * Index.
  */
-app.get('/', function(req, res, next){
+app.get('/', localScripts, function(req, res, next){
 	res.render('index', title() );
 });
 
 /**
  * About.
  */
-app.get('/about', function(req, res, next){
+app.get('/about', localScripts, function(req, res, next){
 	res.render('about', title("About Chico UI") );
 });
 
 /**
  * Mesh.
  */
-app.get('/mesh', function(req, res, next){
+app.get('/mesh', localScripts, function(req, res, next){
 	res.render('mesh', title("Chico Mesh") );
 });
 

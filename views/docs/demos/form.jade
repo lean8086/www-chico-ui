@@ -718,11 +718,4 @@ div.ch-g1.section
 				a(href='http://twitter.com/#!/chicoui') @chicoui
 
 .clearfix
-
-script
-	$("#example_form").form({
-		onSubmit: function () {
-			alert("This was triggered by Form component.");
-		}
-	});
-	$(".snippet").expando();
+- localScripts.push('$("#example_form").form({onSubmit: function () {alert("This was triggered by Form component.");}});','$(".snippet").expando();')
