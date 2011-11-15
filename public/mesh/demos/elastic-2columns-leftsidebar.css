@@ -1,0 +1,56 @@
+/* Elastic Layout: 2 columns, left fixed sidebar */
+
+.fixed-sidebar {
+	float: left;
+	width:290px; /* defines fixed column width */
+}	
+
+.left.fixed-sidebar{
+	margin:0px 10px 0px 0px; /* margin-right, gutter */
+}
+
+.right.elastic-content{
+	margin:0px 0px 0px 300px; /* same as width, plus gutter */
+}
+
+
+
+
+
+/* ------------------------------------------------------- *
+ * --- just to highlight columns - you can delete these -- *
+ * -------------    use chico.css for styles   ----------- *
+ * ------------------------------------------------------- */
+
+body {
+	color: #333333;
+    font: 13px/20px Arial,Helvetica,"Nimbus Sans L",sans-serif;
+}
+
+.box {
+	border: 1px solid #ccc;
+	padding: 10px;
+}
+
+.fixed-sidebar .box, .elastic-content .box { 
+	height: 400px;
+}
+
+.fixed-sidebar .box {
+	background-color: #ccc;
+}
+
+.header {
+	height: 50px;
+	padding: 20px 10px;
+	background: #eee;
+	margin: 10px auto;
+}
+
+.footer {
+	clear:both;
+	text-align: center;
+	margin: 10px auto;
+	background: #eee;
+	
+}

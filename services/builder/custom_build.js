@@ -136,7 +136,7 @@ CustomBuild.prototype.compress = function(package) {
 	
         // routes
     var path = package.input.replace( "css/" , "assets/" ); //"../chico/src/assets/",
-        zipName = package.name + "-" + package.fullversion + ".zip",
+        zipName = package.name + "-" + package.version + ".zip",
 
         // commands
         createFolders = "mkdir " + self.folder + "src && "

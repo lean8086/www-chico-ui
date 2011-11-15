@@ -48,6 +48,7 @@ meta.howtos = createNavigationMapFrom("how-to");
 
 meta.demos = createNavigationMapFrom("demos");
 
+
 // get 'builder.conf' and parse JSON data
 meta.conf = JSON.parse(fs.readFileSync(__dirname + "/services/builder/builder.conf"));
 
@@ -60,8 +61,8 @@ meta.versions = (function(){
 	if (folders) {
 		// Ignore some specific folders
 		folders.forEach(function(folder) {
-			// Like the assets folder
-			if (folder!=="assets") {
+			// Like the assets and latest folder
+			if (folder !== "assets" && folder !== "latest") {
 				versions.push(folder);
 			}
 		});
@@ -246,7 +247,7 @@ app.post('/download', function( req, res ){
 		var packages = [];
 		// for Production
 		if ( env.toString().indexOf("p") > -1 ) {
-			// Mesh	
+			// Mesh
 			if (add_mesh) {
 				var p_mesh = mesh();
 					p_mesh.min = true;
@@ -266,8 +267,8 @@ app.post('/download', function( req, res ){
 		if ( env.toString().indexOf("d") > -1 ) {
 			// Mesh	
 			if (add_mesh) {
-				var p_mesh = mesh();
-				packages.push(p_mesh);
+				var d_mesh = mesh();
+				packages.push(d_mesh);
 			}
 			// JS
 			var d_js = js();
@@ -382,15 +383,45 @@ app.get('/500', function(req, res){
 /**
  * Index.
  */
+app.get('/', function(req, res, next){
+	res.render('index', title() );
+});
+
+/**
+ * About.
+ */
 app.get('/about', function(req, res, next){
 	res.render('about', title("About Chico UI") );
 });
 
 /**
- * Index.
+ * Mesh.
  */
-app.get('/', function(req, res, next){
-	res.render('index', title() );
+app.get('/mesh', function(req, res, next){
+	res.render('mesh', title("Chico Mesh") );
+});
+
+/**
+ * Blog.
+ */
+app.get('/blog', function(req, res, next){
+	res.redirect("http://blog.chico-ui.com.ar");
+});
+
+app.get('/blog/:source/:file', function(req, res, next){
+	var contentType = {
+		"assets": "image/png",
+		"css": "text/css",
+		"js": "text/javascript",
+	}
+	var file = req.params.file,
+		source = req.params.source,
+        data = fs.readFileSync(__dirname + "/public/blog/"+source+"/"+file);
+
+	if (file && data) { 
+	   	res.header('Content-Type', contentType[source]);
+        res.send(data);
+    }
 });
 
 /**

@@ -87,9 +87,15 @@ ol li { list-style-type: decimal; list-style-position: inside; }
   z-index: 10;
 }
 
+.about {
+	font-size: 16px;
+	line-height: 22px;
+	color: #444;
+}
 .center {
   margin: 0 auto;    
 }
+
 
 .download-container,
 .introduction{
@@ -103,14 +109,36 @@ ol li { list-style-type: decimal; list-style-position: inside; }
 
 .download-container h2{
   margin:0;
+
 }
+
 
 .button {
 	width: 250px;
 	width: 100%;
 }
 
-
+.github {
+	background: rgb(238,238,238); /* Old browsers */
+	background: -moz-linear-gradient(top, rgba(238,238,238,1) 0%, rgba(204,204,204,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(238,238,238,1)), color-stop(100%,rgba(204,204,204,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, rgba(238,238,238,1) 0%,rgba(204,204,204,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, rgba(238,238,238,1) 0%,rgba(204,204,204,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, rgba(238,238,238,1) 0%,rgba(204,204,204,1) 100%); /* IE10+ */
+	background: linear-gradient(top, rgba(238,238,238,1) 0%,rgba(204,204,204,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
+	border: 1px solid #999;
+	cursor: pointer;
+	overflow: visible;
+	padding: 3px 9px;
+	color: #333;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	font-size: 18px;
+	height: 32px;
+	line-height: 28px;	
+}
 .ui-components-demo{
 	margin:0 20px 0 0;
 	height:130px;
@@ -245,18 +273,25 @@ ol li { list-style-type: decimal; list-style-position: inside; }
 /*
 	pre.code
 */
-code {
-  background-color: #FFE;
-  border: solid 1px #CCC;
-  margin: 2px;
-  padding: 2px;
-}
+code,
 .code {
-  background-color: #FFE;
-  margin: 1em 0 1em 0;
-  padding: 10px;
-  border: solid 1px #CCC;
-  overflow:auto;
+	background-color: #FAFAFB;
+	border: 1px solid #CACACA;
+	margin: 1em 0 1em 0;
+	padding: 10px;
+	-webkit-border-radius: 3px;
+	-o-border-radius: 3px;
+	-ms-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	color:#393939;
+	overflow:auto;
+	font: 12px Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+}
+
+code {
+	padding: 2px;
+	margin:2px;
 }
 
 #members-tabs .ch-tabNavigator-triggers{
@@ -351,4 +386,82 @@ code {
 
 #versions {
 	width: 200px;
+}
+
+/**
+ * 	
+ * MESH
+ * 
+ * */
+
+ul.layouts {
+	margin: 10px auto;
+}
+
+ul.layouts li {
+	float: left;
+	margin: 10px;
+	text-align: center;
+}
+
+ul.layouts li img {
+	border: none;
+	margin: 0;
+}
+
+ul.layouts li p {
+	padding: 0 5px;
+}
+
+.did-you-know {
+	padding: 10px;
+	border: 1px solid #ddd;
+	background: #eee;
+	margin: 20px;
+}
+
+.did-you-know h2 {
+	background: url(../assets/lightbulb.png) no-repeat left center;
+	padding: 10px 0 10px 35px;
+	margin:0;
+}
+
+.did-you-know p{
+	margin: 5px 10px;
+}
+
+
+/* Demo forms */
+
+.ch-g3-4 .datagrid .code {
+	max-width: 530px
+}
+
+.ch-g3-4 .datagrid .ch-form-row label {
+	width:60px;
+}
+
+.ch-g3-4 .datagrid .ch-form-options .ch-form-row label {
+	width:auto;
+}
+
+.ch-g3-4 .datagrid .ch-form-actions {
+	margin-left:72px; 
+}
+
+.ch-g3-4 .datagrid textarea {
+	width: 225px
+}
+
+#demoForm th.desc {
+	width: 40%;
+}
+
+#demoForm .ch-form-hint {
+	margin-left: 73px;
+}
+
+#demoForm td {
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
