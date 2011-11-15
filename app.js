@@ -7,7 +7,8 @@ var express = require('express'),
 		events = require('events'),
 		sys = require('sys'),
 		fs = require('fs'),
-		meta = require('./models/meta').meta;
+		meta = require('./models/meta').meta,
+		country = require('./models/country').country;
 		CustomBuild = require('./services/builder/custom_build').CustomBuild,
 		undefined,
 		port = process.argv[2] || 8080;
@@ -363,6 +364,19 @@ app.get('/docs/:branch/:label?', localScripts, function(req, res){
 	return;
 });
 
+app.get('/suggest/:q', function(req, res){
+	var q = req.params.q;
+	var result = [];
+		for(var a=(country.length-1);a;a--){
+			var exist = country[a].search(q);
+			if(!exist){
+				result.push("\""+country[a]+"\"");
+			}
+		}
+		var r = "autoComplete(["+result+"])";
+		res.header('Content-Type', "text/javascript");
+		res.send(r);
+});
 
 /**
  * Error pages

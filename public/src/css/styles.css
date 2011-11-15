@@ -429,6 +429,9 @@ ul.layouts li p {
 .did-you-know p{
 	margin: 5px 10px;
 }
+.datagrid .ch-message {
+	min-width: 200px;
+}
 
 
 /* Demo forms */
@@ -465,3 +468,5 @@ ul.layouts li p {
 	padding-top: 10px;
 	padding-bottom: 10px;
 }
+
+#example_form{position:relative;z-index:1;}
