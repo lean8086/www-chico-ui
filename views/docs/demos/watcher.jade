@@ -204,6 +204,21 @@ div.ch-g1.section
 			| If you need multiple validation on the same field, you can use the .and() method to concatenate like this:
 		pre.code 
 			| var myValidations = $("#example").min(13).and().max(20);	
+		a(id='position')
+		h2 Position
+		p.container
+			| You can use the 
+			a(href="positioner") Positioner
+			|  component to be able to change the Helper position in reference to the field you're validating:
+		pre.code 
+			| myValidations.helper.position({
+			|     points: “lt rt”,	
+			|     offset: "10 10"				
+			|});
+		p.container
+			| Learn 
+			a(href="../how-to/position-something-on-screen") how to position something on screen
+			| .
 		hr
 		.ch-g1-2
 			a(id='keep-on-reading')
@@ -226,8 +241,6 @@ div.ch-g1.section
 
 .clearfix
 
-script
-	var form = $(".demo_form").form();
-	var validation = $(".demo_email").required("The field must be completed");
-		validation.validate();
-	$(".snippet").expando();
+- script('var form = $(".demo_form").form();')
+- script('var validation = $(".demo_email").required("The field must be completed").validate();')
+- script('$(".snippet").expando();')

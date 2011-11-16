@@ -182,14 +182,16 @@ div.container.home
 				|  and 
 				a(href='http://nodejs.org/', rel='nofollow') nodeJS
 				|  among others.
-script
-	$(".ui-components-demo").carousel({pagination:true}).page(2);
-	setTimeout(function(){var a=document.createElement("script");
-	var b=document.getElementsByTagName('script')[0];
-	a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0010/0161.js?"+Math.floor(new Date().getTime()/3600000);
-	a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
-
 
 .clearfix
 
 //!=partial('widgets/activity')
+
+- script('$(".ui-components-demo").carousel({pagination:true}).page(2);')
+- script('$(".snippet").expando();')
+
+script
+	setTimeout(function(){var a=document.createElement("script");
+	var b=document.getElementsByTagName('script')[0];
+	a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0010/0161.js?"+Math.floor(new Date().getTime()/3600000);
+	a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);

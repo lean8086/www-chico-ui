@@ -104,6 +104,43 @@ meta.latest = (function(){
 })();
 
 /**
+* app dynamicHelpers
+*/
+// dynamic helpers are simply functions that are invoked
+// per request (once), passed both the request and response
+// objects. These can be used for request-specific
+// details within a view, such telling the layout which
+// scripts to include.
+app.dynamicHelpers({
+
+	// script(js)
+	script: function(req){
+		req._scripts = [];
+		return function (js) {
+			req._scripts.push(js);
+		}
+	},
+	
+	// to expose our scripts array for iteration
+	scripts: function(req){
+		return req._scripts;
+	},
+
+	// getScripts(path)
+	getScript: function(req) {
+		req._getScripts = [];
+		return function (path) {
+		  req._getScripts.push(path);
+		}
+	},
+	
+	// to expose our scripts array for iteration
+	getScripts: function(req){
+		return req._getScripts;
+	}
+});
+
+/**
 * app configuration.
 */
 app.configure(function(){
@@ -142,7 +179,7 @@ app.configure('development', function(){
 		}],
 		custom = new CustomBuild({
 			packages: packages, 
-			flavor: "ml", 
+			flavor: "ml",
 			avoid: true
 		}); // to avoid create the zip file send last argument true
 
@@ -182,12 +219,12 @@ app.get('/api', function(req, res, next){
 /**
  * Download
  */
-	
+
 // get 
 app.get('/download', function(req, res) {
-	res.render( 'download', title("Download Chico UI") );	
+	res.render( 'download', title("Download Chico UI") );
 });
-// post 
+// post
 
 app.post('/download', function( req, res ){
 
@@ -316,11 +353,11 @@ app.get('/discussion', function(req, res){
  * Docs.
  */
 
-app.get('/docs',function(req, res){
+app.get('/docs', function(req, res){
 	res.render('docs', title("Getting started with Chico UI"));
 });
 
-app.get('/docs/:branch/:label?',function(req, res){
+app.get('/docs/:branch/:label?', function(req, res){
 	var branch = req.params.branch,
 		label = req.params.label;
 			

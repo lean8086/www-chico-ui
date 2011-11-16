@@ -53,7 +53,6 @@ var Packer = function(o) {
     self.template = o.template;
 	// Compose data
     self.fullversion = o.version + "-" + o.build;
-    if (self.name == "mesh") console.log(self.min);
     self.filename = o.output + o.name + ( ( self.min ) ? "-min-" : "-" ) + self.version + "." + self.type ;
 	// Files collection
     self.files = [];

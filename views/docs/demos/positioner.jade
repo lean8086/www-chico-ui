@@ -88,17 +88,17 @@ div.ch-g1.section
 		pre.code 
 			| { points: "cm cm" }	
 		a(id='periodic-table-of-positioning')
-		.periodic-table-expando
-			p Periodic table of the positioning
-			table.datagrid
+		h4.container Periodic table of the positioning:
+		table.datagrid
+			thead
 				tr
 					th 
 					th target points
 					th context	points
 					th example
+			tbody
 				tr 
-					td 
-						code points: cm cm
+					td code points: cm cm
 					td center-middle
 					td center-middle
 					td.example
@@ -194,20 +194,7 @@ div.ch-g1.section
 				a(href='http://twitter.com/#!/chicoui') @chicoui
 				| .
 .clearfix
-script
-	ch.positioner({
-		element: $("#target1"),
-		context: $("#context1"),
-		points: "lt rt"
-	});
-	var points = ["","cm cm","lt lb","lb lt","rt rb","rb rt","lt rt","lm lm","lt lt"];
-	$(".periodic-table-expando").expando({
-		onShow: function(){
-			for(var a=1;a<9;a++){
-				ch.positioner({element: $("#t"+a),context: $("#c"+a),points: points[a],hold:true});
-			}
-		}
-	});
-		
-	
-	$(".snippet").expando();
+
+- script('ch.positioner({element: $("#target1"),context: $("#context1"),points: "lt rt"});')
+- script('var points = ["","cm cm","lt lb","lb lt","rt rb","rb rt","lt rt","lm lm","lt lt"];');
+- script('for(var a=1;a<9;a++){ch.positioner({element: $("#t"+a),context: $("#c"+a),points: points[a],hold:true});}')
