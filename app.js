@@ -103,14 +103,42 @@ meta.latest = (function(){
 	}
 })();
 
-
 /**
- * Middleware.
- */
-var localScripts = function(req, res, next) {
-	res.local("localScripts", []);
-	next();
-};
+* app dynamicHelpers
+*/
+// dynamic helpers are simply functions that are invoked
+// per request (once), passed both the request and response
+// objects. These can be used for request-specific
+// details within a view, such telling the layout which
+// scripts to include.
+app.dynamicHelpers({
+
+	// script(js)
+	script: function(req){
+		req._scripts = [];
+		return function (js) {
+			req._scripts.push(js);
+		}
+	},
+	
+	// to expose our scripts array for iteration
+	scripts: function(req){
+		return req._scripts;
+	},
+
+	// getScripts(path)
+	getScript: function(req) {
+		req._getScripts = [];
+		return function (path) {
+		  req._getScripts.push(path);
+		}
+	},
+	
+	// to expose our scripts array for iteration
+	getScripts: function(req){
+		return req._getScripts;
+	}
+});
 
 /**
 * app configuration.
@@ -151,7 +179,7 @@ app.configure('development', function(){
 		}],
 		custom = new CustomBuild({
 			packages: packages, 
-			flavor: "ml", 
+			flavor: "ml",
 			avoid: true
 		}); // to avoid create the zip file send last argument true
 
@@ -183,7 +211,7 @@ app.configure('development', function(){
 * rutes
 */
 
-app.get('/api', localScripts, function(req, res, next){
+app.get('/api', function(req, res, next){
 	res.redirect("/api/"+meta.latest.version+"/index.html");
 //	next();
 });
@@ -191,12 +219,12 @@ app.get('/api', localScripts, function(req, res, next){
 /**
  * Download
  */
-	
+
 // get 
-app.get('/download', localScripts, function(req, res) {
-	res.render( 'download', title("Download Chico UI") );	
+app.get('/download', function(req, res) {
+	res.render( 'download', title("Download Chico UI") );
 });
-// post 
+// post
 
 app.post('/download', function( req, res ){
 
@@ -317,7 +345,7 @@ app.post('/download', function( req, res ){
  * Discussion.
  */
 // get
-app.get('/discussion', localScripts, function(req, res){
+app.get('/discussion', function(req, res){
 	res.render('discussion', title("Dicussion on Chico UI") );
 });
 
@@ -325,11 +353,11 @@ app.get('/discussion', localScripts, function(req, res){
  * Docs.
  */
 
-app.get('/docs', localScripts, function(req, res){
+app.get('/docs', function(req, res){
 	res.render('docs', title("Getting started with Chico UI"));
 });
 
-app.get('/docs/:branch/:label?', localScripts, function(req, res){
+app.get('/docs/:branch/:label?', function(req, res){
 	var branch = req.params.branch,
 		label = req.params.label;
 			
@@ -381,32 +409,32 @@ app.get('/suggest/:q', function(req, res){
 /**
  * Error pages
  */
-app.get('/404', localScripts, function(req, res){
+app.get('/404', function(req, res){
 	res.render('404', meta );
 });
 
-app.get('/500', localScripts, function(req, res){
+app.get('/500', function(req, res){
 	res.render('404', meta );
 });
 
 /**
  * Index.
  */
-app.get('/', localScripts, function(req, res, next){
+app.get('/', function(req, res, next){
 	res.render('index', title() );
 });
 
 /**
  * About.
  */
-app.get('/about', localScripts, function(req, res, next){
+app.get('/about', function(req, res, next){
 	res.render('about', title("About Chico UI") );
 });
 
 /**
  * Mesh.
  */
-app.get('/mesh', localScripts, function(req, res, next){
+app.get('/mesh', function(req, res, next){
 	res.render('mesh', title("Chico Mesh") );
 });
 

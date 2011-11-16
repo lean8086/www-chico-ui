@@ -67,6 +67,10 @@ html.no-js(lang='en')
 			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 			})();
-			
-		- localScripts.push("")
-		script!= localScripts.join("")
+
+		- if (getScripts && getScripts.length > 0)
+			- for (var i in getScripts)
+				script(src="#{getScripts[i]}")
+
+		-if (scripts && scripts.length > 0)
+			script!= scripts.join("")

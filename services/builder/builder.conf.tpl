@@ -1,6 +1,6 @@
 {
-    "name": "Chico-UI",
-    "version": "0.6.5",
+    "name": "Chico UI",
+    "version": "0.9",
     "build": 12,
     "packages": [
         {
@@ -36,8 +36,8 @@
     },
     
     "templates": {
-        "js": "/*!\n * Chico UI <version> MIT Licence\n * @autor <chico@mercadolibre.com>\n * @link http://www.chico-ui.com.ar\n * @team Natan Santolo, Hernan Mammana, Leandro Linares, Guillermo Paz, Natalia Devalle\n */\n;(function($){<code>;ch.init();})($);",
-        "css": "/*!\n * Chico UI <version> MIT Licence\n * @autor <chico@mercadolibre.com>\n * @link http://www.chico-ui.com.ar\n * @team Natan Santolo, Hernan Mammana, Leandro Linares, Guillermo Paz, Natalia Devalle\n */\n<code>"
+        "js": "/*\n * Chico UI <version> MIT Licence\n * @autor <chico@mercadolibre.com>\n * @link http://www.chico-ui.com.ar\n * @team Hernan Mammana, Leandro Linares, Guillermo Paz, Natalia Devalle\n */\n;(function($){<code>;ch.init();})($);",
+        "css": "/*\n * Chico UI <version> MIT Licence\n * @autor <chico@mercadolibre.com>\n * @link http://www.chico-ui.com.ar\n * @team Hernan Mammana, Leandro Linares, Guillermo Paz, Natalia Devalle\n */\n<code>"
   
     }
 }

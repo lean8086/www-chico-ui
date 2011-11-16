@@ -195,6 +195,6 @@ div.ch-g1.section
 				| .
 .clearfix
 
-- localScripts.push('ch.positioner({element: $("#target1"),context: $("#context1"),points: "lt rt"});')
-- localScripts.push('var points = ["","cm cm","lt lb","lb lt","rt rb","rb rt","lt rt","lm lm","lt lt"];');
-- localScripts.push('for(var a=1;a<9;a++){ch.positioner({element: $("#t"+a),context: $("#c"+a),points: points[a],hold:true});}')
+- script('ch.positioner({element: $("#target1"),context: $("#context1"),points: "lt rt"});')
+- script('var points = ["","cm cm","lt lb","lb lt","rt rb","rb rt","lt rt","lm lm","lt lt"];');
+- script('for(var a=1;a<9;a++){ch.positioner({element: $("#t"+a),context: $("#c"+a),points: points[a],hold:true});}')

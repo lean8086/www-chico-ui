@@ -97,11 +97,6 @@ div.ch-g1.section
 				a(href='http://twitter.com/#!/chicoui') @chicoui
 
 .clearfix
-
-script
-		var ac = $(".autoComplete_Example").autoComplete({url:"/suggest/"});
-			
-		var autoComplete = function(data){
-			ac.suggest(data);
-		}
-		$(".snippet").expando();
+- script('var ac = $(".autoComplete_Example").autoComplete({url:"/suggest/"});')
+- script('var autoComplete = function(data){ ac.suggest(data); };')
+- script('$(".snippet").expando();')

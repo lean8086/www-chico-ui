@@ -178,13 +178,13 @@
 .clearfix
 
 //- First example initialization
-- localScripts.push('var example1 = ch.positioner({element: $(".e1"),context: $(".c1"),points: "lt rt"});')
+- script('var example1 = ch.positioner({element: $(".e1"),context: $(".c1"),points: "lt rt"});')
 
 //- For correct behavior on this how-to
-- localScripts.push('example1("refresh");')
+- script('example1("refresh");')
 
 //- Second example initialization
-- localScripts.push('var example2 = ch.positioner({element: $(".e2"),context: $(".c2"),points: "lt rt"});')
+- script('var example2 = ch.positioner({element: $(".e2"),context: $(".c2"),points: "lt rt"});')
 
 //- Relocating second example
-- localScripts.push('example2({points: "lt lb"});')
+- script('example2({points: "lt lb"});')

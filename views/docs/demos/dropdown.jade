@@ -16,7 +16,7 @@ div.ch-g1.section
 		h2 Demo
 		.box
 			div.myDropdown
-				span Ninja weapons
+				p Ninja weapons
 				ul
 					li 
 						a(href="#") Katana
@@ -29,7 +29,7 @@ div.ch-g1.section
 			div
 				pre.code
 					|<div id="example">
-					|	<span>Sitios</span>
+					|	<p>Sitios</p>
 					|	<ul>
 					|		<li><a href="http://www.mercadolibre.com">MercadoLibre</a></li>
 					|		<li><a href="http://www.mercadopago.com">MercadoPago</a></li>
@@ -126,4 +126,4 @@ div.ch-g1.section
 				a(href='http://twitter.com/#!/chicoui') @chicoui
 				| .
 .clearfix
-- localScripts.push('$(".myDropdown").dropdown();','$(".snippet").expando();')
+- script('$(".myDropdown").dropdown();$(".snippet").expando();')
