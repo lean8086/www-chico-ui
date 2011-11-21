@@ -68,9 +68,11 @@ html.no-js(lang='en')
 			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 			})();
 
-		- if (getScripts && getScripts.length > 0)
-			- for (var i in getScripts)
-				script(src="#{getScripts[i]}")
+		- var scriptGet = script("get")
+		- if (scriptGet.length > 0)
+			- for (var i in scriptGet)
+				script(src='#{scriptGet[i]}')
 
-		-if (scripts && scripts.length > 0)
-			script!= scripts.join("")
+		- var scriptCode = script("code")
+		-if (scriptCode.length > 0)
+			script!= scriptCode.join("")

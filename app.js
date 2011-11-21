@@ -112,31 +112,33 @@ meta.latest = (function(){
 // details within a view, such telling the layout which
 // scripts to include.
 app.dynamicHelpers({
+	script: function (req, type, source) {
+		req._files = [];
+		req._code = [];
+		
+		var script = function (type, source) {
+			if (typeof type  === "undefined") { return; }
 
-	// script(js)
-	script: function(req){
-		req._scripts = [];
-		return function (js) {
-			req._scripts.push(js);
-		}
-	},
-	
-	// to expose our scripts array for iteration
-	scripts: function(req){
-		return req._scripts;
-	},
+			switch (type) {
+				case "get":
+					if (typeof source === "undefined") {
+						return req._files;
+					}
+					req._files.push(source);
+				break;
 
-	// getScripts(path)
-	getScript: function(req) {
-		req._getScripts = [];
-		return function (path) {
-		  req._getScripts.push(path);
-		}
-	},
-	
-	// to expose our scripts array for iteration
-	getScripts: function(req){
-		return req._getScripts;
+				case "code":
+					if (typeof source === "undefined") {
+						return req._code;
+					}
+					req._code.push(source);
+				break;
+			}
+		};
+
+		script(type, source);
+
+		return script;
 	}
 });
 
