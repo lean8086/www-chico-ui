@@ -36,28 +36,28 @@ div.ch-g1.section
 		pre.code
 			| $("#example").blink();
 		
-		p.container
-			| Read more about 
-			a(href='/api/#{latest.version}/symbols/ch.Blink.html') Blink
-			| .	
+		//p.container
+		//	| Read more about 
+		//	a(href='/api/#{latest.version}/symbols/ch.Blink.html') Blink
+		//	| .	
 		hr
-		.ch-g1-2
-			a(id='keep-on-reading')
-			h2 Keep on reading
-			p.container
-				| Read more on our technical documentation, see the 
-				a(href='/api/') class index
-				| , or see more about forms in the 
-				a(href="/api/#{latest.version}/symbols/ch.Blink.html") Blink
-				|  documentation.
-		.ch-g1-2
-			a(id='report-a-problem')
-			h2 Problems?
-			p.container
-				| You can easily report problems, like bugs or typos through our 
-				a(href='/api/') issue tracker
-				| , or simply write a twitt to 
-				a(href='http://twitter.com/#!/chicoui') @chicoui
+		//.ch-g1-2
+		//	a(id='keep-on-reading')
+		//	h2 Keep on reading
+		//	p.container
+		//		| Read more on our technical documentation, see the 
+		//		a(href='/api/') class index
+		//		| , or see more about forms in the 
+		//		a(href="/api/#{latest.version}/symbols/ch.Blink.html") Blink
+		//		|  documentation.
+		//.ch-g1-2
+		a(id='report-a-problem')
+		h2 Problems?
+		p.container
+			| You can easily report problems, like bugs or typos through our 
+			a(href='/api/') issue tracker
+			| , or simply write a twitt to 
+			a(href='http://twitter.com/#!/chicoui') @chicoui
 
 .clearfix
 - script("code", '$("#doHighlight").bind("mousedown",function(){$("#example").blink();});')
