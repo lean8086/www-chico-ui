@@ -34,10 +34,3 @@ table .description {
 .attributes {
     color: #bbb;    
 }
-
-.code {
-    background-color: #ffc;
-    margin: 10px 20px 10px 30px;
-    padding: 10px;
-    border: solid 1px #ccc;    
-}
