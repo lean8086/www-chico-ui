@@ -218,6 +218,51 @@ app.get('/api', function(req, res, next){
 //	next();
 });
 
+app.get('/beta', function(req, res, next){
+	var data = fs.readFileSync(__dirname + "/beta/index.html");
+
+	res.header('Content-Type', "text/html");
+	res.send(data);
+});
+
+app.get('/beta/:file', function(req, res, next){
+	var contentType = {
+		"png": "image/png",
+		"css": "text/css",
+		"js": "text/javascript",
+	}
+	var file = req.params.file,
+        data = fs.readFileSync(__dirname + "/beta/"+file);
+
+   	res.header('Content-Type', contentType[file.substr(-3)]);
+    res.send(data);
+
+});
+
+
+app.get('/beta-inside', function(req, res, next){
+	var data = fs.readFileSync(__dirname + "/beta/inner.html");
+
+	res.header('Content-Type', "text/html");
+	res.send(data);
+});
+
+app.get('/beta-inside/:file', function(req, res, next){
+	var contentType = {
+		"png": "image/png",
+		"css": "text/css",
+		"js": "text/javascript",
+	}
+	var file = req.params.file,
+        data = fs.readFileSync(__dirname + "/beta/"+file);
+
+   	res.header('Content-Type', contentType[file.substr(-3)]);
+    res.send(data);
+
+});
+
+
+
 /**
  * Download
  */

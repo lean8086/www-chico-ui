@@ -1,0 +1,139 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7 ie6" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8 ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9 ie8" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<script></script>
+	<meta charset="utf-8">
+	<title>Chico UI - MercadoLibre's Open Source Web Tools</title>
+	
+	<link rel="shortcut icon" href="/src/assets/favicon.ico" type="image/vnd.microsoft.icon">
+	
+	<meta property="og:title" content="Chico UI" />
+	<meta property="og:type" content="product" />
+	<meta property="og:url" content="http://www.chico-ui.com.ar" />
+	<meta property="og:image" content="http://chico-ui.com.ar/src/assets/ninja.jpg" />
+	<meta property="og:site_name" content="Chico UI, MercadoLibre&#039;s Open Source Web Tools." />
+	<meta property="fb:admins" content="100001929271879" />
+	
+	<link rel="stylesheet" href="/versions/latest/chico.css">
+	<link rel="stylesheet" href="/versions/latest/mesh.css">
+	<link rel="stylesheet" href="/beta/site.css">
+</head>
+<body>
+
+	<header>
+		<h1 class="ch-g1-3"><a href="#21">Chico UI</a></h1>
+		<nav class="ch-g2-3">
+			<ul>
+				<li><a href="#21">Blog</a></li>
+				<li><a href="#21">UI Widgets</a></li>
+				<li><a href="#21">API Docs</a></li>
+				<li><a href="#21">Download</a></li>
+			</ul>
+			<form method="GET" action="/search">
+				<label for="query">Search:</label>
+				<input type="text" role="search" placeholder="Search this site" id="query">
+				<noscript><input id="search" type="submit" value="Go" class="ch-btn ch-secondary ch-skin"></noscript>
+			</form>
+		</nav>
+	</header>
+	
+	<section class="main">
+		<nav class="breadcrumb"><a href="#123456">Home</a> → <a href="#123456">Level1</a> → Page title</nav>
+		
+		<article class="ch-g4-5">
+			<div class="leftcolumn">
+				<h1>Page title</h1>
+				
+				<p class="updated">Text to specify dates, for example <time>September 22<sup>nd</sup>, 2011</time>.</p>
+				
+				<h3>Sub-title</h3>
+				
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dolor ipsum, condimentum scelerisque euismod at, sollicitudin sit amet erat. Integer in massa risus, dictum fringilla odio.</p>
+				
+				<h3>Code like terminal</h3>
+				
+				<pre class="terminal">CURL -a http://mercadolibre.com/ && mkdir something</pre>
+				
+				<h3>Other type of code</h3>
+				
+				<pre>I'm a pretty code man. Look at me! LOOK-AT-ME!!!!!!!</pre>
+				
+				<h3>Another paragraphs</h3>
+				
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dolor ipsum, condimentum scelerisque euismod at, sollicitudin sit amet erat. Integer in massa risus, dictum fringilla odio.</p>
+				
+				<p>Aenean ultricies urna vel lorem ultrices viverra volutpat diam laoreet. Nulla porta fermentum sollicitudin. Maecenas eu sapien et dolor bibendum sollicitudin semper sed augue.</p>
+			</div>
+			
+		</article>
+		
+		<nav class="ch-g1-5">
+			<div class="rightcolumn">
+				<h4>UI Widgets</h4>
+				<ul>
+					<li><a href="#123456">CSS Widgets</a></li>
+					<li><a href="#123456">Menu</a></li>
+					<li><a href="#123456">Calendar</a></li>
+					<li><a href="#123456">AutoComplete</a></li>
+					<li><a href="#123456">Modal</a></li>
+					<li><a href="#123456" class="more">See all Widgets</a></li>
+				</ul>
+			</div>
+			
+			<div class="rightcolumn">
+				<h4>Chico Mesh</h4>
+				<ul>
+					<li><a href="#123456">Overview</a></li>
+					<li><a href="#123456">Fluid Grids Showroom</a></li>
+					<li><a href="#123456">Mesh your layout</a></li>
+				</ul>
+			</div>
+			
+			<div class="rightcolumn">
+				<h4>Learning guides</h4>
+				<ul>
+					<li><a href="#21">Using callback functions</a></li>
+					<li><a href="#21">How to install Chico UI</a></li>
+					<li><a href="#21">Validate two fields like one</a></li>
+					<li><a href="#21">How to report a bug</a></li>
+					<li><a href="#21">Disable and enable Validations</a></li>
+					<li><a href="#21" class="more">Browse all guides</a></li>
+				</ul>
+			</div>
+		</nav>
+	</section>
+	
+	<footer>
+		<nav class="ch-g2-3">
+			<ul>
+				<li>©2011 MercadoLibre.com</li>
+				<li><a href="#21">About us</a></li>
+				<li><a href="#21">Jobs</a></li>
+				<li><a href="#21">Discuss</a></li>
+			</ul>
+		</nav>
+		<aside class="ch-g1-3">
+			<!--img alt="Like buttons" src="/beta/likes.png"-->
+		</aside>
+	</footer>
+	
+	<script src="/src/js/jquery.js"></script>
+	<script src="/versions/latest/chico.js"></script>
+	
+	<script>
+		
+		$("input[name=download]").val("Download v" + ch.version);
+
+		$(".ch-carousel").carousel({
+			"arrows": false,
+			"pagination": true,
+			"width": 465
+		}).page(2);
+		
+	</script>
+
+</body>
+</html>
