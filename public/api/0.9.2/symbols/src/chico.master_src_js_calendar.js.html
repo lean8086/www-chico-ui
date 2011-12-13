@@ -1,0 +1,784 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span> * Is a simple UI-Component for picking dates.
+<span class='line'>  3</span> * @name Calendar
+<span class='line'>  4</span> * @class Calendar
+<span class='line'>  5</span> * @augments ch.Controllers
+<span class='line'>  6</span> * @requires ch.Dropdown
+<span class='line'>  7</span> * @memberOf ch
+<span class='line'>  8</span> * @param {Object} [conf] Object with configuration properties.
+<span class='line'>  9</span> * @param {String} [conf.format] Sets the date format. By default is "DD/MM/YYYY".
+<span class='line'> 10</span> * @param {String} [conf.selected] Sets a date that should be selected by default. By default is the date of today.
+<span class='line'> 11</span> * @param {String} [conf.from] Set a maximum selectable date.
+<span class='line'> 12</span> * @param {String} [conf.to] Set a minimum selectable date.
+<span class='line'> 13</span> * @param {Array} [conf.monthsNames] By default is ["Enero", ... , "Diciembre"].
+<span class='line'> 14</span> * @param {Array} [conf.weekdays] By default is ["Dom", ... , "Sab"].
+<span class='line'> 15</span> * @returns itself
+<span class='line'> 16</span> * @see ch.Dropdown
+<span class='line'> 17</span> * @example
+<span class='line'> 18</span> * // Create a new calendar with configuration.
+<span class='line'> 19</span> * var me = $(".example").calendar({
+<span class='line'> 20</span> *     "format": "YYYY/MM/DD",
+<span class='line'> 21</span> *     "selected": "2011/12/25",
+<span class='line'> 22</span> *     "from": "2010/12/25",
+<span class='line'> 23</span> *     "to": "2012/12/25",
+<span class='line'> 24</span> *     "monthsNames": ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+<span class='line'> 25</span> *     "weekdays": ["Su", "Mo", "Tu", "We", "Thu", "Fr", "Sa"]
+<span class='line'> 26</span> * });
+<span class='line'> 27</span> * @example
+<span class='line'> 28</span> * // Create a new calendar with a class name 'example'.
+<span class='line'> 29</span> * var me = $(".example").calendar();
+<span class='line'> 30</span> */</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="NAME">ch.calendar</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">	
+<span class='line'> 33</span> 	</span><span class="COMM">/**
+<span class='line'> 34</span> 	* Reference to a internal component instance, saves all the information and configuration properties.
+<span class='line'> 35</span> 	* @private
+<span class='line'> 36</span> 	* @name ch.Calendar#that
+<span class='line'> 37</span> 	* @type object
+<span class='line'> 38</span> 	*/</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 40</span> 
+<span class='line'> 41</span> </span><span class="WHIT">	</span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.clon</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> 
+<span class='line'> 43</span> </span><span class="WHIT">	</span><span class="NAME">conf.format</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.format</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="STRN">"DD/MM/YYYY"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">		
+<span class='line'> 45</span> 	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"msg"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">		</span><span class="NAME">conf.msg</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf.msg</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"today"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="NAME">conf.msg</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">	
+<span class='line'> 49</span> 	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"selected"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">		</span><span class="NAME">conf.selected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf.selected</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"today"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="NAME">conf.selected</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 52</span> 
+<span class='line'> 53</span> </span><span class="WHIT">	</span><span class="NAME">that.conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span> 
+<span class='line'> 55</span> </span><span class="COMM">/**
+<span class='line'> 56</span> *	Inheritance
+<span class='line'> 57</span> */</span><span class="WHIT">
+<span class='line'> 58</span> 
+<span class='line'> 59</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.controllers.call</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">	</span><span class="NAME">that.parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.clon</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 61</span> 
+<span class='line'> 62</span> </span><span class="COMM">/**
+<span class='line'> 63</span> *	Private Members
+<span class='line'> 64</span> */</span><span class="WHIT">
+<span class='line'> 65</span> 
+<span class='line'> 66</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 67</span> 	* Collection of months names
+<span class='line'> 68</span> 	* @private
+<span class='line'> 69</span> 	* @name ch.Calendar#MONTHS_NAMES
+<span class='line'> 70</span> 	* @type array
+<span class='line'> 71</span> 	*/</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">	</span><span class="COMM">//TODO: default in english and snnif browser language</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">	</span><span class="COMM">//TODO: cambiar a sintaxis de constante</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">MONTHS_NAMES</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.monthsNames</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="PUNC">[</span><span class="STRN">"Enero"</span><span class="PUNC">,</span><span class="STRN">"Febero"</span><span class="PUNC">,</span><span class="STRN">"Marzo"</span><span class="PUNC">,</span><span class="STRN">"Abril"</span><span class="PUNC">,</span><span class="STRN">"Mayo"</span><span class="PUNC">,</span><span class="STRN">"Junio"</span><span class="PUNC">,</span><span class="STRN">"Julio"</span><span class="PUNC">,</span><span class="STRN">"Agosto"</span><span class="PUNC">,</span><span class="STRN">"Septiembre"</span><span class="PUNC">,</span><span class="STRN">"Octubre"</span><span class="PUNC">,</span><span class="STRN">"Noviembre"</span><span class="PUNC">,</span><span class="STRN">"Diciembre"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 75</span> 
+<span class='line'> 76</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 77</span> 	* Collection of weekdays short names
+<span class='line'> 78</span> 	* @private
+<span class='line'> 79</span> 	* @name ch.Calendar#SHORT_WEEK_NAMES
+<span class='line'> 80</span> 	* @type array
+<span class='line'> 81</span> 	*/</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">	</span><span class="COMM">//TODO: default in english and snnif browser language</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">	</span><span class="COMM">//TODO: cambiar a sintaxis de constante</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">SHORT_WEEK_NAMES</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.weekdays</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">"Dom"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"Lun"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"Mar"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"Mie"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"Jue"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"Vie"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"Sab"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 85</span> 
+<span class='line'> 86</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 87</span> 	* Date of today
+<span class='line'> 88</span> 	* @private
+<span class='line'> 89</span> 	* @name ch.Calendar#today
+<span class='line'> 90</span> 	* @type date
+<span class='line'> 91</span> 	*/</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">today</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span> 
+<span class='line'> 94</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 95</span> 	* Minimum selectable date
+<span class='line'> 96</span> 	* @private
+<span class='line'> 97</span> 	* @since 0.9
+<span class='line'> 98</span> 	* @function
+<span class='line'> 99</span> 	* @name ch.Calendar#from
+<span class='line'>100</span> 	*/</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">from</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"from"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf.from</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"today"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="NAME">conf.from</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> 
+<span class='line'>107</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>108</span> 	* Maximum selectable date
+<span class='line'>109</span> 	* @private
+<span class='line'>110</span> 	* @since 0.9
+<span class='line'>111</span> 	* @function
+<span class='line'>112</span> 	* @name ch.Calendar#to
+<span class='line'>113</span> 	*/</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">to</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"to"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf.to</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"today"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="NAME">conf.to</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>118</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>119</span> 
+<span class='line'>120</span> 
+<span class='line'>121</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>122</span> 	* Parse string to YY/MM/DD format date
+<span class='line'>123</span> 	* @private
+<span class='line'>124</span> 	* @function
+<span class='line'>125</span> 	* @name ch.Calendar#parseDate 	
+<span class='line'>126</span> 	*/</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">parseDate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">value</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">date</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">value.split</span><span class="PUNC">(</span><span class="STRN">"/"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">		
+<span class='line'>130</span> 		</span><span class="KEYW">switch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf.format</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">			</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"DD/MM/YYYY"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">date</span><span class="PUNC">[</span><span class="NUMB">2</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"/"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">date</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"/"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">date</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">			</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">			
+<span class='line'>135</span> 			</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"MM/DD/YYYY"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">date</span><span class="PUNC">[</span><span class="NUMB">2</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"/"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">date</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"/"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">date</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">			</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>140</span> 
+<span class='line'>141</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>142</span> 	* Date of selected day
+<span class='line'>143</span> 	* @private
+<span class='line'>144</span> 	* @name ch.Calendar#selected
+<span class='line'>145</span> 	* @type date
+<span class='line'>146</span> 	*/</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.selected</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">conf.msg</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">that.element.value</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="NAME">parseDate</span><span class="PUNC">(</span><span class="NAME">that.element.value</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>148</span> 
+<span class='line'>149</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>150</span> 	* Creates tag thead with short name of week days
+<span class='line'>151</span> 	* @private
+<span class='line'>152</span> 	* @function
+<span class='line'>153</span> 	* @name ch.Calendar#weekdays
+<span class='line'>154</span> 	* @return string
+<span class='line'>155</span> 	*/</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">	</span><span class="COMM">//TODO: change to constant syntax</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="WHIT">	</span><span class="COMM">//TODO: subfijo de render y cambiar el nombre para que sea mas especifico, thead</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">weekdays</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>159</span> 
+<span class='line'>160</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">thead</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">"&lt;thead>"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>161</span> 
+<span class='line'>162</span> </span><span class="WHIT">		</span><span class="NAME">thead.push</span><span class="PUNC">(</span><span class="STRN">"&lt;tr role=\"row\">"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>163</span> 
+<span class='line'>164</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">7</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="WHIT">			</span><span class="NAME">thead.push</span><span class="PUNC">(</span><span class="STRN">"&lt;th role=\"columnheader\">"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">SHORT_WEEK_NAMES</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"&lt;/th>"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">		</span><span class="NAME">thead.push</span><span class="PUNC">(</span><span class="STRN">"&lt;/tr>"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">		</span><span class="NAME">thead.push</span><span class="PUNC">(</span><span class="STRN">"&lt;/thead>"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>169</span> 
+<span class='line'>170</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">thead.join</span><span class="PUNC">(</span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>171</span> 
+<span class='line'>172</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>173</span> 
+<span class='line'>174</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>175</span> 	* HTML Template to months
+<span class='line'>176</span> 	* @private
+<span class='line'>177</span> 	* @name ch.Calendar#templateMonth
+<span class='line'>178</span> 	* @type jQuery
+<span class='line'>179</span> 	*/</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">templateMonth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"&lt;table class=\"ch-calendar-month datagrid\" role=\"grid\" id=\"ch-calendar-grid-"</span><span class="PUNC">+</span><span class="NAME">that.uid</span><span class="PUNC">+</span><span class="STRN">"\">"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">weekdays</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"&lt;/table>"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">		</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="STRN">"click"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>182</span> 
+<span class='line'>183</span> </span><span class="WHIT">			</span><span class="NAME">event</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">event</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">window.event</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>184</span> 
+<span class='line'>185</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">src</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">event.target</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">event.srcElement</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>186</span> 
+<span class='line'>187</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">src.nodeName</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">"TD"</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">src.className.indexOf</span><span class="PUNC">(</span><span class="STRN">"day"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">src.className.indexOf</span><span class="PUNC">(</span><span class="STRN">"disabled"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">				</span><span class="NAME">that.prevent</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>191</span> 
+<span class='line'>192</span> </span><span class="WHIT">			</span><span class="NAME">select</span><span class="PUNC">(</span><span class="NAME">that.currentDate.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"/"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">that.currentDate.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"/"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">src.innerHTML</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>193</span> 
+<span class='line'>194</span> </span><span class="WHIT">			</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">hide</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>196</span> 
+<span class='line'>197</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>198</span> 	* Creates a complete month and returns it in a table
+<span class='line'>199</span> 	* @private
+<span class='line'>200</span> 	* @function
+<span class='line'>201</span> 	* @name ch.Calendar#createMonth
+<span class='line'>202</span> 	* @return string
+<span class='line'>203</span> 	*/</span><span class="WHIT">
+<span class='line'>204</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">createMonth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">date</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>205</span> 
+<span class='line'>206</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">date</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="NAME">date</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>207</span> 
+<span class='line'>208</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tableMonth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">templateMonth.clone</span><span class="PUNC">(</span><span class="KEYW">true</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>209</span> 
+<span class='line'>210</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">currentMonth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">			</span><span class="NAME">currentMonth.fullDate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="NAME">date.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">date.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">			</span><span class="NAME">currentMonth.date</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">currentMonth.fullDate.getDate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">			</span><span class="NAME">currentMonth.day</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">currentMonth.fullDate.getDay</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">			</span><span class="NAME">currentMonth.month</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">currentMonth.fullDate.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">			</span><span class="NAME">currentMonth.year</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">currentMonth.fullDate.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>216</span> 
+<span class='line'>217</span> </span><span class="WHIT">		</span><span class="COMM">// Get previous month</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">		</span><span class="COMM">/*
+<span class='line'>219</span> 		var prevMonth = {};
+<span class='line'>220</span> 			prevMonth.fullDate = new Date(currentMonth.fullDate.getFullYear(), currentMonth.fullDate.getMonth() - 1, 1);
+<span class='line'>221</span> 
+<span class='line'>222</span> 			// Get the last day of the previous month
+<span class='line'>223</span> 			prevMonth.fullDate.setTime(prevMonth.fullDate.getTime() + ((32 - prevMonth.fullDate.getDate()) * 86400000) );
+<span class='line'>224</span> 			prevMonth.fullDate.setTime(prevMonth.fullDate.getTime() - (prevMonth.fullDate.getDate() * 86400000) );
+<span class='line'>225</span> 			prevMonth.date = prevMonth.fullDate.getDate();
+<span class='line'>226</span> 		*/</span><span class="WHIT">
+<span class='line'>227</span> 
+<span class='line'>228</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">currentDate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.clon</span><span class="PUNC">(</span><span class="NAME">currentMonth</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>229</span> 
+<span class='line'>230</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">firstWeekday</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">currentMonth.day</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>231</span> 
+<span class='line'>232</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">classToday</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="WHIT">			</span><span class="NAME">classSelected</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>234</span> </span><span class="WHIT">			</span><span class="NAME">classDisabled</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>235</span> </span><span class="WHIT">			</span><span class="NAME">waiSelected</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="WHIT">			</span><span class="NAME">weeks</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="STRN">"&lt;tbody>"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>237</span> 
+<span class='line'>238</span> </span><span class="WHIT">		</span><span class="KEYW">do</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">			
+<span class='line'>240</span> 			</span><span class="NAME">weeks.push</span><span class="PUNC">(</span><span class="STRN">"&lt;tr class=\"week\" role=\"row\">"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>241</span> 
+<span class='line'>242</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">7</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>243</span> 
+<span class='line'>244</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">currentDate.date</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">					</span><span class="COMM">/*var last = (prevMonth.date - (firstWeekday - 1));
+<span class='line'>246</span> 					for (var i = 0; i &lt; firstWeekday; i += 1) {
+<span class='line'>247</span> 						weeks.push("&lt;td class=\"otherMonth\" role=\"gridcell\">" + (last + i) + "&lt;/td>");
+<span class='line'>248</span> 					};*/</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">					
+<span class='line'>250</span> 					</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">firstWeekday</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="WHIT">						</span><span class="NAME">weeks.push</span><span class="PUNC">(</span><span class="STRN">"&lt;td class=\"otherMonth\" role=\"gridcell\">&lt;/td>"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">				
+<span class='line'>255</span> 				</span><span class="NAME">classToday</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">currentDate.date</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">today.getDate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">currentDate.month</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">today.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">currentDate.year</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">today.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">" today"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>256</span> 
+<span class='line'>257</span> </span><span class="WHIT">				</span><span class="NAME">classSelected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">currentDate.date</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">selected.getDate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">currentDate.month</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">selected.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">currentDate.year</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">selected.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">" selected"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>258</span> </span><span class="WHIT">				
+<span class='line'>259</span> 				</span><span class="NAME">classDisabled</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">from</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">from.getDate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NAME">currentDate.date</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">from.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">currentDate.month</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">from.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">currentDate.year</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">to</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">to.getDate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">currentDate.date</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">to.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">currentDate.month</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">to.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">currentDate.year</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">" disabled"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>260</span> 
+<span class='line'>261</span> </span><span class="WHIT">				</span><span class="NAME">waiSelected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">classSelected</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"aria-selected=\"true\""</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="WHIT">				
+<span class='line'>263</span> 				</span><span class="NAME">weeks.push</span><span class="PUNC">(</span><span class="STRN">"&lt;td class=\"day"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">classToday</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">classSelected</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">classDisabled</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="STRN">"\" "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">waiSelected</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"  role=\"gridcell\">"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">currentDate.date</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"&lt;/td>"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="WHIT">				
+<span class='line'>265</span> 
+<span class='line'>266</span> 				</span><span class="NAME">currentDate.fullDate.setDate</span><span class="PUNC">(</span><span class="NAME">currentDate.date</span><span class="PUNC">+</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>267</span> </span><span class="WHIT">				</span><span class="NAME">currentDate.date</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">currentDate.fullDate.getDate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>268</span> </span><span class="WHIT">				</span><span class="NAME">currentDate.day</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">currentDate.fullDate.getDay</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>269</span> </span><span class="WHIT">				</span><span class="NAME">currentDate.month</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">currentDate.fullDate.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>270</span> </span><span class="WHIT">				</span><span class="NAME">currentDate.year</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">currentDate.fullDate.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>271</span> 
+<span class='line'>272</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">currentDate.month</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">currentMonth.month</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="WHIT">					</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">j</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">j</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">7</span><span class="PUNC">-</span><span class="NAME">i</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">j</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="WHIT">						</span><span class="NAME">weeks.push</span><span class="PUNC">(</span><span class="STRN">"&lt;td class=\"otherMonth\" role=\"gridcell\">&lt;/td>"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="COMM">//" + j + "</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>276</span> </span><span class="WHIT">					</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>277</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>278</span> 
+<span class='line'>279</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>280</span> 
+<span class='line'>281</span> </span><span class="WHIT">			</span><span class="NAME">weeks.push</span><span class="PUNC">(</span><span class="STRN">"&lt;/tr>"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>282</span> </span><span class="WHIT">			
+<span class='line'>283</span> 		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">while</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">currentDate.month</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">currentMonth.month</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>284</span> 
+<span class='line'>285</span> </span><span class="WHIT">		</span><span class="NAME">weeks.push</span><span class="PUNC">(</span><span class="STRN">"&lt;/tbody>"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>286</span> 
+<span class='line'>287</span> </span><span class="WHIT">		</span><span class="NAME">tableMonth</span><span class="WHIT">
+<span class='line'>288</span> </span><span class="WHIT">			</span><span class="PUNC">.</span><span class="NAME">prepend</span><span class="PUNC">(</span><span class="STRN">"&lt;caption>"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">MONTHS_NAMES</span><span class="PUNC">[</span><span class="NAME">currentMonth.month</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" - "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">currentMonth.year</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"&lt;/caption>"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>289</span> </span><span class="WHIT">			</span><span class="PUNC">.</span><span class="NAME">append</span><span class="PUNC">(</span><span class="NAME">weeks.join</span><span class="PUNC">(</span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>290</span> 
+<span class='line'>291</span> </span><span class="WHIT">		</span><span class="NAME">ch.utils.avoidTextSelection</span><span class="PUNC">(</span><span class="NAME">tableMonth.children</span><span class="PUNC">(</span><span class="STRN">"caption"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>292</span> 
+<span class='line'>293</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">tableMonth</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>294</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>295</span> 
+<span class='line'>296</span> 
+<span class='line'>297</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>298</span> 	* Handles behavior of arrows
+<span class='line'>299</span> 	* @private
+<span class='line'>300</span> 	* @name ch.Calendar#arrows
+<span class='line'>301</span> 	* @type object
+<span class='line'>302</span> 	*/</span><span class="WHIT">
+<span class='line'>303</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">arrows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>304</span> </span><span class="WHIT">	
+<span class='line'>305</span> 		</span><span class="NAME">$prev</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"&lt;p class=\"ch-calendar-prev\" aria-controls=\"ch-calendar-grid-"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">that.uid</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"\">&lt;span>Previous&lt;/span>&lt;/p>"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="STRN">"click"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">that.prevent</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">prevMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>306</span> </span><span class="WHIT">	
+<span class='line'>307</span> 		</span><span class="NAME">$next</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"&lt;p class=\"ch-calendar-next\" aria-controls=\"ch-calendar-grid-"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">that.uid</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"\">&lt;span>Next&lt;/span>&lt;/p>"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="STRN">"click"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">that.prevent</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">nextMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>308</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>309</span> 
+<span class='line'>310</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>311</span> 	* Creates an instance of Dropdown
+<span class='line'>312</span> 	* @private
+<span class='line'>313</span> 	* @function
+<span class='line'>314</span> 	* @name ch.Calendar#createDropdown
+<span class='line'>315</span> 	*/</span><span class="WHIT">
+<span class='line'>316</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">createDropdown</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>317</span> 
+<span class='line'>318</span> </span><span class="WHIT">		</span><span class="NAME">that.$trigger.append</span><span class="PUNC">(</span><span class="STRN">"&lt;strong>Calendar&lt;/strong>"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">append</span><span class="PUNC">(</span><span class="NAME">that.$container</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>319</span> 
+<span class='line'>320</span> </span><span class="WHIT">		</span><span class="NAME">that.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.$trigger.dropdown</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>321</span> </span><span class="WHIT">			</span><span class="NAME">onShow</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>322</span> </span><span class="WHIT">				</span><span class="COMM">// onShow callback</span><span class="WHIT">
+<span class='line'>323</span> </span><span class="WHIT">				</span><span class="COMM">// old callback system</span><span class="WHIT">
+<span class='line'>324</span> </span><span class="WHIT">				</span><span class="NAME">that.callbacks.call</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"onShow"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>325</span> </span><span class="WHIT">				</span><span class="COMM">// new callback</span><span class="WHIT">
+<span class='line'>326</span> </span><span class="WHIT">				</span><span class="NAME">that.trigger</span><span class="PUNC">(</span><span class="STRN">"show"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>327</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>328</span> </span><span class="WHIT">			</span><span class="NAME">onHide</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>329</span> </span><span class="WHIT">				</span><span class="COMM">// onHide callback</span><span class="WHIT">
+<span class='line'>330</span> </span><span class="WHIT">				</span><span class="COMM">// old callback system</span><span class="WHIT">
+<span class='line'>331</span> </span><span class="WHIT">				</span><span class="NAME">that.callbacks.call</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"onHide"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>332</span> </span><span class="WHIT">				</span><span class="COMM">// new callback</span><span class="WHIT">
+<span class='line'>333</span> </span><span class="WHIT">				</span><span class="NAME">that.trigger</span><span class="PUNC">(</span><span class="STRN">"hide"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>334</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>335</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>336</span> 
+<span class='line'>337</span> </span><span class="WHIT">		</span><span class="NAME">that.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">position</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>338</span> </span><span class="WHIT">			</span><span class="NAME">context</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">that.$element</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>339</span> </span><span class="WHIT">			</span><span class="NAME">points</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"lt lb"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>340</span> </span><span class="WHIT">			</span><span class="NAME">offset</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"0 5"</span><span class="WHIT">
+<span class='line'>341</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>342</span> 
+<span class='line'>343</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>344</span> 
+<span class='line'>345</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>346</span> 	* Create component's layout
+<span class='line'>347</span> 	* @private
+<span class='line'>348</span> 	* @function
+<span class='line'>349</span> 	* @name ch.Calendar#createLayout
+<span class='line'>350</span> 	*/</span><span class="WHIT">
+<span class='line'>351</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">createLayout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>352</span> 
+<span class='line'>353</span> </span><span class="WHIT">		</span><span class="NAME">that.$trigger</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">	</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"&lt;div class=\"secondary ch-calendar\">"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>354</span> 
+<span class='line'>355</span> </span><span class="WHIT">		</span><span class="NAME">that.$container</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"&lt;div class=\"ch-calendar-container ch-hide\">"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>356</span> 
+<span class='line'>357</span> </span><span class="WHIT">		</span><span class="NAME">that.$content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"&lt;div class=\"ch-calendar-content\">"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>358</span> 
+<span class='line'>359</span> </span><span class="WHIT">		</span><span class="NAME">that.$element.after</span><span class="PUNC">(</span><span class="NAME">that.$trigger</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>360</span> 
+<span class='line'>361</span> </span><span class="WHIT">		</span><span class="NAME">createDropdown</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>362</span> 
+<span class='line'>363</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>364</span> 
+<span class='line'>365</span> 
+<span class='line'>366</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>367</span> 	* Map of formart's date
+<span class='line'>368</span> 	* @private
+<span class='line'>369</span> 	* @name ch.Calendar#FORMAT_DATE
+<span class='line'>370</span> 	* @type object
+<span class='line'>371</span> 	*/</span><span class="WHIT">
+<span class='line'>372</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">FORMAT_DATE</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>373</span> </span><span class="WHIT">		
+<span class='line'>374</span> 		</span><span class="STRN">"YYYY/MM/DD"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">date</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>375</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">date.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"/"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">date.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"0"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">date.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"/"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">date.getDate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"0"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">date.getDate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>376</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>377</span> </span><span class="WHIT">		
+<span class='line'>378</span> 		</span><span class="STRN">"DD/MM/YYYY"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">date</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>379</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">date.getDate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"0"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">date.getDate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"/"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">date.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"0"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">date.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"/"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">date.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>380</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>381</span> </span><span class="WHIT">		
+<span class='line'>382</span> 		</span><span class="STRN">"MM/DD/YYYY"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">date</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>383</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">date.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"0"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"/"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">date.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"/"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">date.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>384</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>385</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>386</span> 
+<span class='line'>387</span> 
+<span class='line'>388</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>389</span> 	* Selects an specific date to show
+<span class='line'>390</span> 	* @private
+<span class='line'>391</span> 	* @function
+<span class='line'>392</span> 	* @name ch.Calendar#select
+<span class='line'>393</span> 	* @return itself
+<span class='line'>394</span> 	*/</span><span class="WHIT">
+<span class='line'>395</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">select</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">date</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>396</span> 
+<span class='line'>397</span> </span><span class="WHIT">		</span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="NAME">date</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>398</span> 
+<span class='line'>399</span> </span><span class="WHIT">		</span><span class="NAME">that.currentDate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">selected</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>400</span> </span><span class="WHIT">		
+<span class='line'>401</span> 		</span><span class="NAME">that.element.value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">FORMAT_DATE</span><span class="PUNC">[</span><span class="NAME">conf.format</span><span class="PUNC">]</span><span class="PUNC">(</span><span class="NAME">selected</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>402</span> </span><span class="WHIT">		
+<span class='line'>403</span> 		</span><span class="NAME">that.$content.html</span><span class="PUNC">(</span><span class="NAME">createMonth</span><span class="PUNC">(</span><span class="NAME">selected</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>404</span> 
+<span class='line'>405</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>406</span> 		* Callback function
+<span class='line'>407</span> 		* @public
+<span class='line'>408</span> 		* @name ch.Calendar#onSelect
+<span class='line'>409</span> 		* @event
+<span class='line'>410</span> 		*/</span><span class="WHIT">
+<span class='line'>411</span> </span><span class="WHIT">		</span><span class="COMM">// old callback system</span><span class="WHIT">
+<span class='line'>412</span> </span><span class="WHIT">		</span><span class="NAME">that.callbacks</span><span class="PUNC">(</span><span class="STRN">"onSelect"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>413</span> </span><span class="WHIT">		</span><span class="COMM">// new callback</span><span class="WHIT">
+<span class='line'>414</span> </span><span class="WHIT">		</span><span class="NAME">that.trigger</span><span class="PUNC">(</span><span class="STRN">"select"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>415</span> 
+<span class='line'>416</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>417</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>418</span> 
+<span class='line'>419</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>420</span> 	* Move to next month of calendar
+<span class='line'>421</span> 	* @private
+<span class='line'>422</span> 	* @function
+<span class='line'>423</span> 	* @name ch.Calendar#nextMonth
+<span class='line'>424</span> 	* @return itself
+<span class='line'>425</span> 	*/</span><span class="WHIT">
+<span class='line'>426</span> </span><span class="WHIT">	</span><span class="COMM">//TODO: crear una interfaz que resuleva donde moverse</span><span class="WHIT">
+<span class='line'>427</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">nextMonth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>428</span> </span><span class="WHIT">		</span><span class="NAME">that.currentDate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="NAME">that.currentDate.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">that.currentDate.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>429</span> </span><span class="WHIT">		</span><span class="NAME">that.$content.html</span><span class="PUNC">(</span><span class="NAME">createMonth</span><span class="PUNC">(</span><span class="NAME">that.currentDate</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>430</span> 
+<span class='line'>431</span> </span><span class="WHIT">		</span><span class="COMM">//Refresh position</span><span class="WHIT">
+<span class='line'>432</span> </span><span class="WHIT">		</span><span class="NAME">that.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">position</span><span class="PUNC">(</span><span class="STRN">"refresh"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>433</span> </span><span class="WHIT">		</span><span class="NAME">that.$container.prepend</span><span class="PUNC">(</span><span class="NAME">arrows.$prev</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>434</span> 
+<span class='line'>435</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">to</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">to.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&lt;=</span><span class="WHIT"> </span><span class="NAME">that.currentDate.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">to.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">that.currentDate.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>436</span> </span><span class="WHIT">			</span><span class="NAME">arrows.$next.detach</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>437</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>438</span> 
+<span class='line'>439</span> </span><span class="WHIT">		</span><span class="COMM">// Callback</span><span class="WHIT">
+<span class='line'>440</span> </span><span class="WHIT">		</span><span class="NAME">that.callbacks</span><span class="PUNC">(</span><span class="STRN">"onNextMonth"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>441</span> </span><span class="WHIT">		</span><span class="COMM">// new callback</span><span class="WHIT">
+<span class='line'>442</span> </span><span class="WHIT">		</span><span class="NAME">that.trigger</span><span class="PUNC">(</span><span class="STRN">"onNextMonth"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>443</span> </span><span class="WHIT">		
+<span class='line'>444</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>445</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>446</span> 
+<span class='line'>447</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>448</span> 	* Move to prev month of calendar
+<span class='line'>449</span> 	* @private
+<span class='line'>450</span> 	* @function
+<span class='line'>451</span> 	* @name ch.Calendar#prevMonth
+<span class='line'>452</span> 	* @return itself
+<span class='line'>453</span> 	*/</span><span class="WHIT">
+<span class='line'>454</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">prevMonth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>455</span> 
+<span class='line'>456</span> </span><span class="WHIT">		</span><span class="NAME">that.currentDate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="NAME">that.currentDate.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">that.currentDate.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>457</span> 
+<span class='line'>458</span> </span><span class="WHIT">		</span><span class="NAME">that.$content.html</span><span class="PUNC">(</span><span class="NAME">createMonth</span><span class="PUNC">(</span><span class="NAME">that.currentDate</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>459</span> 
+<span class='line'>460</span> </span><span class="WHIT">		</span><span class="COMM">// Refresh position</span><span class="WHIT">
+<span class='line'>461</span> </span><span class="WHIT">		</span><span class="NAME">that.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">position</span><span class="PUNC">(</span><span class="STRN">"refresh"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>462</span> </span><span class="WHIT">		</span><span class="NAME">that.$container.prepend</span><span class="PUNC">(</span><span class="NAME">arrows.$next</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>463</span> 
+<span class='line'>464</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">from</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">from.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NAME">that.currentDate.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">from.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">that.currentDate.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>465</span> </span><span class="WHIT">			</span><span class="NAME">arrows.$prev.detach</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>466</span> 
+<span class='line'>467</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>468</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>469</span> 
+<span class='line'>470</span> </span><span class="WHIT">		</span><span class="COMM">// Callback</span><span class="WHIT">
+<span class='line'>471</span> </span><span class="WHIT">		</span><span class="NAME">that.callbacks</span><span class="PUNC">(</span><span class="STRN">"onPrevMonth"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>472</span> </span><span class="WHIT">		</span><span class="COMM">// new callback</span><span class="WHIT">
+<span class='line'>473</span> </span><span class="WHIT">		</span><span class="NAME">that.trigger</span><span class="PUNC">(</span><span class="STRN">"onPrevMonth"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>474</span> </span><span class="WHIT">		
+<span class='line'>475</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>476</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>477</span> 
+<span class='line'>478</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>479</span> 	* Move to next year of calendar
+<span class='line'>480</span> 	* @private
+<span class='line'>481</span> 	* @function
+<span class='line'>482</span> 	* @name ch.Calendar#nextYear
+<span class='line'>483</span> 	* @return itself
+<span class='line'>484</span> 	*/</span><span class="WHIT">
+<span class='line'>485</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">nextYear</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>486</span> </span><span class="WHIT">		</span><span class="NAME">that.currentDate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="NAME">that.currentDate.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">,</span><span class="NAME">that.currentDate.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>487</span> </span><span class="WHIT">		
+<span class='line'>488</span> 		</span><span class="NAME">that.$content.html</span><span class="PUNC">(</span><span class="NAME">createMonth</span><span class="PUNC">(</span><span class="NAME">that.currentDate</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>489</span> 
+<span class='line'>490</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>491</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>492</span> 
+<span class='line'>493</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>494</span> 	* Move to prev year of calendar
+<span class='line'>495</span> 	* @private
+<span class='line'>496</span> 	* @function
+<span class='line'>497</span> 	* @name ch.Calendar#prevYear
+<span class='line'>498</span> 	* @return itself
+<span class='line'>499</span> 	*/</span><span class="WHIT">
+<span class='line'>500</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">prevYear</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>501</span> </span><span class="WHIT">		</span><span class="NAME">that.currentDate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="NAME">that.currentDate.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">that.currentDate.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>502</span> </span><span class="WHIT">		
+<span class='line'>503</span> 		</span><span class="NAME">that.$content.html</span><span class="PUNC">(</span><span class="NAME">createMonth</span><span class="PUNC">(</span><span class="NAME">that.currentDate</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>504</span> 
+<span class='line'>505</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>506</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>507</span> 
+<span class='line'>508</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>509</span> 	* Move to prev year of calendar
+<span class='line'>510</span> 	* @private
+<span class='line'>511</span> 	* @function
+<span class='line'>512</span> 	* @name ch.Calendar#reset
+<span class='line'>513</span> 	* @return itself
+<span class='line'>514</span> 	*/</span><span class="WHIT">
+<span class='line'>515</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">reset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>516</span> </span><span class="WHIT">		</span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.selected</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>517</span> </span><span class="WHIT">		
+<span class='line'>518</span> 		</span><span class="NAME">that.currentDate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">today</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>519</span> </span><span class="WHIT">		
+<span class='line'>520</span> 		</span><span class="NAME">that.element.value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>521</span> 
+<span class='line'>522</span> </span><span class="WHIT">		</span><span class="NAME">that.$content.html</span><span class="PUNC">(</span><span class="NAME">createMonth</span><span class="PUNC">(</span><span class="NAME">that.currentDate</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>523</span> 
+<span class='line'>524</span> </span><span class="WHIT">		</span><span class="COMM">// Callback</span><span class="WHIT">
+<span class='line'>525</span> </span><span class="WHIT">		</span><span class="NAME">that.callbacks</span><span class="PUNC">(</span><span class="STRN">"onReset"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>526</span> </span><span class="WHIT">		</span><span class="COMM">// new callback</span><span class="WHIT">
+<span class='line'>527</span> </span><span class="WHIT">		</span><span class="NAME">that.trigger</span><span class="PUNC">(</span><span class="STRN">"onReset"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>528</span> </span><span class="WHIT">		
+<span class='line'>529</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>530</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>531</span> 
+<span class='line'>532</span> 
+<span class='line'>533</span> </span><span class="COMM">/**
+<span class='line'>534</span> *  Protected Members
+<span class='line'>535</span> */</span><span class="WHIT">
+<span class='line'>536</span> 
+<span class='line'>537</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>538</span> 	* The current date that should show on calendar
+<span class='line'>539</span> 	* @protected
+<span class='line'>540</span> 	* @name ch.Calendar#currentDate
+<span class='line'>541</span> 	* @type date
+<span class='line'>542</span> 	*/</span><span class="WHIT">
+<span class='line'>543</span> </span><span class="WHIT">	</span><span class="NAME">that.currentDate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">today</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>544</span> 
+<span class='line'>545</span> </span><span class="COMM">/**
+<span class='line'>546</span> *  Public Members
+<span class='line'>547</span> */</span><span class="WHIT">
+<span class='line'>548</span> 
+<span class='line'>549</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>550</span> 	* The 'uid' is the Chico's unique instance identifier. Every instance has a different 'uid' property. You can see its value by reading the 'uid' property on any public instance.
+<span class='line'>551</span> 	* @public
+<span class='line'>552</span> 	* @name ch.Calendar#uid
+<span class='line'>553</span> 	* @type number
+<span class='line'>554</span> 	*/</span><span class="WHIT">
+<span class='line'>555</span> 
+<span class='line'>556</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>557</span> 	* Reference to a DOM Element. This binding between the component and the HTMLElement, defines context where the component will be executed. Also is usual that this element triggers the component default behavior.
+<span class='line'>558</span> 	* @public
+<span class='line'>559</span> 	* @name ch.Calendar#element
+<span class='line'>560</span> 	* @type HTMLElement
+<span class='line'>561</span> 	*/</span><span class="WHIT">
+<span class='line'>562</span> 
+<span class='line'>563</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>564</span> 	* This public property defines the component type. All instances are saved into a 'map', grouped by its type. You can reach for any or all of the components from a specific type with 'ch.instances'.
+<span class='line'>565</span> 	* @public
+<span class='line'>566</span> 	* @name ch.Calendar#type
+<span class='line'>567</span> 	* @type string
+<span class='line'>568</span> 	*/</span><span class="WHIT">
+<span class='line'>569</span> 
+<span class='line'>570</span> 
+<span class='line'>571</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>572</span> 	* Triggers the innerShow method and returns the public scope to keep method chaining.
+<span class='line'>573</span> 	* @public
+<span class='line'>574</span> 	* @function
+<span class='line'>575</span> 	* @name ch.Calendar#show
+<span class='line'>576</span> 	* @returns itself
+<span class='line'>577</span> 	* @example
+<span class='line'>578</span> 	* // Following the first example, using 'me' as modal's instance controller:
+<span class='line'>579</span> 	* me.show();
+<span class='line'>580</span> 	*/</span><span class="WHIT">
+<span class='line'>581</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">show</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>582</span> </span><span class="WHIT">		</span><span class="NAME">that.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">show</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>583</span> </span><span class="WHIT">		
+<span class='line'>584</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>585</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>586</span> 
+<span class='line'>587</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>588</span> 	* Triggers the innerHide method and returns the public scope to keep method chaining.
+<span class='line'>589</span> 	* @public
+<span class='line'>590</span> 	* @function
+<span class='line'>591</span> 	* @name ch.Calendar#hide
+<span class='line'>592</span> 	* @returns itself
+<span class='line'>593</span> 	* @example
+<span class='line'>594</span> 	* // Following the first example, using 'me' as modal's instance controller:
+<span class='line'>595</span> 	* me.hide();
+<span class='line'>596</span> 	*/</span><span class="WHIT">
+<span class='line'>597</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">hide</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>598</span> </span><span class="WHIT">		</span><span class="NAME">that.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">hide</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>599</span> 
+<span class='line'>600</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>601</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>602</span> 
+<span class='line'>603</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>604</span> 	* Select a specific date.
+<span class='line'>605</span> 	* @public
+<span class='line'>606</span> 	* @function
+<span class='line'>607</span> 	* @name ch.Calendar#select
+<span class='line'>608</span> 	* @param {string} "YY/MM/DD".
+<span class='line'>609</span> 	* @return itself
+<span class='line'>610</span> 	* @TODO: Make select() method a get/set member
+<span class='line'>611</span> 	*/</span><span class="WHIT">
+<span class='line'>612</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">select</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">date</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>613</span> 
+<span class='line'>614</span> </span><span class="WHIT">		</span><span class="NAME">select</span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">date</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"today"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">today</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">parseDate</span><span class="PUNC">(</span><span class="NAME">date</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>615</span> 
+<span class='line'>616</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>617</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>618</span> 
+<span class='line'>619</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>620</span> 	* Select a specific date or returns the selected date.
+<span class='line'>621</span> 	* @public
+<span class='line'>622</span> 	* @since 0.9
+<span class='line'>623</span> 	* @function
+<span class='line'>624</span> 	* @name ch.Calendar#select
+<span class='line'>625</span> 	* @param {string} "YYYY/MM/DD".
+<span class='line'>626</span> 	* @return itself
+<span class='line'>627</span> 	*/</span><span class="WHIT">
+<span class='line'>628</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">select</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">date</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>629</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">date</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"undefined"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>630</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">FORMAT_DATE</span><span class="PUNC">[</span><span class="NAME">conf.format</span><span class="PUNC">]</span><span class="PUNC">(</span><span class="NAME">selected</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>631</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>632</span> 
+<span class='line'>633</span> </span><span class="WHIT">		</span><span class="NAME">select</span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">date</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"today"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">today</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">parseDate</span><span class="PUNC">(</span><span class="NAME">date</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">	
+<span class='line'>634</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>635</span> 
+<span class='line'>636</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>637</span> 
+<span class='line'>638</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>639</span> 	* Returns date of today
+<span class='line'>640</span> 	* @public
+<span class='line'>641</span> 	* @since 0.9
+<span class='line'>642</span> 	* @function
+<span class='line'>643</span> 	* @name ch.Calendar#today
+<span class='line'>644</span> 	* @return date
+<span class='line'>645</span> 	*/</span><span class="WHIT">
+<span class='line'>646</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">today</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>647</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">FORMAT_DATE</span><span class="PUNC">[</span><span class="NAME">conf.format</span><span class="PUNC">]</span><span class="PUNC">(</span><span class="NAME">today</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>648</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>649</span> 
+<span class='line'>650</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>651</span> 	* Move to the next month or year. If it isn't specified, it will be moved to next month.
+<span class='line'>652</span> 	* @public
+<span class='line'>653</span> 	* @name ch.Calendar#next
+<span class='line'>654</span> 	* @function
+<span class='line'>655</span> 	* @param {String} time A string that allows specify if it should move to next month or year.
+<span class='line'>656</span> 	* @return {itself}
+<span class='line'>657</span> 	* @default Next month
+<span class='line'>658</span> 	*/</span><span class="WHIT">
+<span class='line'>659</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">next</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">time</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>660</span> </span><span class="WHIT">		
+<span class='line'>661</span> 		</span><span class="KEYW">switch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">time</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>662</span> </span><span class="WHIT">			</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"month"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>663</span> </span><span class="WHIT">			</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>664</span> </span><span class="WHIT">				</span><span class="NAME">nextMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>665</span> </span><span class="WHIT">			</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>666</span> </span><span class="WHIT">			</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"year"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>667</span> </span><span class="WHIT">				</span><span class="NAME">nextYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>668</span> </span><span class="WHIT">			</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>669</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>670</span> </span><span class="WHIT">		
+<span class='line'>671</span> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>672</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>673</span> 
+<span class='line'>674</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>675</span> 	* Move to the previous month or year. If it isn't specified, it will be moved to previous month.
+<span class='line'>676</span> 	* @public
+<span class='line'>677</span> 	* @function
+<span class='line'>678</span> 	* @param {String} time A string that allows specify if it should move to previous month or year.
+<span class='line'>679</span> 	* @return {itself}
+<span class='line'>680</span> 	* @default Previous month
+<span class='line'>681</span> 	*/</span><span class="WHIT">
+<span class='line'>682</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">prev</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">time</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>683</span> </span><span class="WHIT">		
+<span class='line'>684</span> 		</span><span class="KEYW">switch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">time</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>685</span> </span><span class="WHIT">			</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"month"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>686</span> </span><span class="WHIT">			</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>687</span> </span><span class="WHIT">				</span><span class="NAME">prevMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>688</span> </span><span class="WHIT">			</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>689</span> </span><span class="WHIT">			</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"year"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>690</span> </span><span class="WHIT">				</span><span class="NAME">prevYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>691</span> </span><span class="WHIT">			</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>692</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>693</span> 
+<span class='line'>694</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>695</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>696</span> 
+<span class='line'>697</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>698</span> 	* Reset the calendar to date of today
+<span class='line'>699</span> 	* @public
+<span class='line'>700</span> 	* @function
+<span class='line'>701</span> 	* @name ch.Calendar#reset
+<span class='line'>702</span> 	* @return itself
+<span class='line'>703</span> 	*/</span><span class="WHIT">
+<span class='line'>704</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">reset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>705</span> </span><span class="WHIT">		</span><span class="NAME">reset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>706</span> 
+<span class='line'>707</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>708</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>709</span> 
+<span class='line'>710</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>711</span> 	* Set a minimum selectable date.
+<span class='line'>712</span> 	* @public
+<span class='line'>713</span> 	* @since 0.9
+<span class='line'>714</span> 	* @function
+<span class='line'>715</span> 	* @name ch.Calendar#from
+<span class='line'>716</span> 	* @param {string} "YYYY/MM/DD".
+<span class='line'>717</span> 	* @return itself
+<span class='line'>718</span> 	*/</span><span class="WHIT">
+<span class='line'>719</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">from</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">date</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>720</span> </span><span class="WHIT">		</span><span class="NAME">from</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="NAME">date</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>721</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>722</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>723</span> 
+<span class='line'>724</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>725</span> 	* Set a maximum selectable date.
+<span class='line'>726</span> 	* @public
+<span class='line'>727</span> 	* @since 0.9
+<span class='line'>728</span> 	* @function
+<span class='line'>729</span> 	* @name ch.Calendar#to
+<span class='line'>730</span> 	* @param {string} "YYYY/MM/DD".
+<span class='line'>731</span> 	* @return itself
+<span class='line'>732</span> 	*/</span><span class="WHIT">
+<span class='line'>733</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">to</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">date</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>734</span> </span><span class="WHIT">		</span><span class="NAME">to</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Date</span><span class="PUNC">(</span><span class="NAME">date</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>735</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>736</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>737</span> 
+<span class='line'>738</span> </span><span class="COMM">/**
+<span class='line'>739</span> *	Default event delegation
+<span class='line'>740</span> */</span><span class="WHIT">
+<span class='line'>741</span> 
+<span class='line'>742</span> </span><span class="WHIT">	</span><span class="NAME">that.element.type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"text"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>743</span> 
+<span class='line'>744</span> </span><span class="WHIT">	</span><span class="NAME">that.element.value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">FORMAT_DATE</span><span class="PUNC">[</span><span class="NAME">conf.format</span><span class="PUNC">]</span><span class="PUNC">(</span><span class="NAME">selected</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>745</span> 
+<span class='line'>746</span> </span><span class="WHIT">	</span><span class="NAME">createLayout</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>747</span> 
+<span class='line'>748</span> </span><span class="WHIT">	</span><span class="NAME">that.$content.html</span><span class="PUNC">(</span><span class="NAME">createMonth</span><span class="PUNC">(</span><span class="NAME">that.currentDate</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">appendTo</span><span class="PUNC">(</span><span class="NAME">that.$container</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>749</span> 
+<span class='line'>750</span> </span><span class="WHIT">	</span><span class="NAME">ch.utils.avoidTextSelection</span><span class="PUNC">(</span><span class="NAME">that.$container</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>751</span> 
+<span class='line'>752</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">from</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">from.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&lt;=</span><span class="WHIT"> </span><span class="NAME">that.currentDate.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">from.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&lt;=</span><span class="WHIT"> </span><span class="NAME">that.currentDate.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>753</span> </span><span class="WHIT">		</span><span class="NAME">that.$container.prepend</span><span class="PUNC">(</span><span class="NAME">arrows.$prev</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>754</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>755</span> 
+<span class='line'>756</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">to</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">to.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NAME">that.currentDate.getMonth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">to.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NAME">that.currentDate.getFullYear</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>757</span> </span><span class="WHIT">		</span><span class="NAME">that.$container.prepend</span><span class="PUNC">(</span><span class="NAME">arrows.$next</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>758</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>759</span> </span><span class="WHIT">	
+<span class='line'>760</span> 	</span><span class="COMM">/**
+<span class='line'>761</span> 	* Triggers when the component is ready to use (Since 0.8.0).
+<span class='line'>762</span> 	* @name ch.Calendar#ready
+<span class='line'>763</span> 	* @event
+<span class='line'>764</span> 	* @public
+<span class='line'>765</span> 	* @since 0.8.0
+<span class='line'>766</span> 	* @example
+<span class='line'>767</span> 	* // Following the first example, using 'me' as calendar's instance controller:
+<span class='line'>768</span> 	* me.on("ready",function () {
+<span class='line'>769</span> 	*	this.show();
+<span class='line'>770</span> 	* });
+<span class='line'>771</span> 	*/</span><span class="WHIT">
+<span class='line'>772</span> </span><span class="WHIT">	</span><span class="NAME">setTimeout</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">that.trigger</span><span class="PUNC">(</span><span class="STRN">"ready"</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">50</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>773</span> 
+<span class='line'>774</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>775</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>776</span> 
+<span class='line'>777</span> </span><span class="NAME">ch.factory</span><span class="PUNC">(</span><span class="STRN">"calendar"</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

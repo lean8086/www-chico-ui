@@ -113,29 +113,18 @@ meta.latest = (function(){
 // scripts to include.
 app.dynamicHelpers({
 	script: function (req, type, source) {
-		req._files = [];
+		req._get = [];
 		req._code = [];
-		
+
 		var script = function (type, source) {
 			if (typeof type  === "undefined") { return; }
 
-			switch (type) {
-				case "get":
-					if (typeof source === "undefined") {
-						return req._files;
-					}
-					req._files.push(source);
-				break;
-
-				case "code":
-					if (typeof source === "undefined") {
-						return req._code;
-					}
-					req._code.push(source);
-				break;
+			if (typeof source === "undefined") {
+				return req["_" + type];
 			}
+			req["_" + type].push(source);
 		};
-
+		
 		script(type, source);
 
 		return script;
