@@ -1,0 +1,51 @@
+h1 Blink
+p.updated
+	| Documentation updated on 
+	data December 14th
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#description") 1 Description
+		dt
+			a(href="#demo") 2 Demo
+		dt
+			a(href="#snippet") 3 Code snippet
+		dt
+			a(href="#instance") 4 Instance component
+
+h3#description Description
+p
+	| Blink is a UI feedback utility. It creates a visual highlight changing 
+	code background-color
+	|  from 
+	strong yellow
+	|  to 
+	strong white
+	| .
+
+h3#demo Demo
+.box
+	p.example This is a text that you can blink.
+	p
+		button.ch-btn.ch-secondary.ch-skin#doHighlight Blink the paragraph
+
+h3#snippet Code snippet
+p 
+	| Any 
+	code HTMLElement
+	| , for example:
+pre.code
+	| <p class="example">The element you want to blink.</p>
+
+h3#instance Instance component
+p
+	| This is the way to create a Blink:
+pre
+	| $(".example").blink();
+
+!=partial("includes/keep-reading")
+
+- script("code", '$("#doHighlight").bind("mousedown", function () { $(".example").blink(); });')

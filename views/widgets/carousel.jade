@@ -1,0 +1,178 @@
+h1 Carousel
+p.updated
+	| Documentation updated on 
+	data December 14th
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#description") 1 Description
+		dt
+			a(href="#demo") 2 Demo
+		dt
+			a(href="#snippet") 3 Code snippet
+		dt
+			a(href="#instance") 4 Instance component
+		dt
+			a(href="#working-with-pages") 5 Working with pages
+		dt
+			a(href="#pagination") 6 Pagination
+		dt
+			a(href="#callbacks") 7 Callbacks
+		dt
+			a(href="#asynchronous") 8 Asynchronous load
+		dd
+			dl
+				dt
+					a(href="#asyncData") 8.1 asyncData
+				dt
+					a(href="#asyncRender") 8.2 asyncRender
+
+h3#description Description
+p
+	| The Carousel widget extends the 
+	a(href="/api/#{latest.version}/symbols/ch.Object.html") Object
+	|  object. This is a large list of elements controlled by two arrows to slide the content list.
+
+h3#demo Demo
+.box
+	.example.ch-carousel
+		ul
+			li
+				img(src="/src/assets/ninja.png", width="150")
+			li
+				img(src="/src/assets/ninja.png", width="150")
+			li
+				img(src="/src/assets/ninja.png", width="150")
+			li
+				img(src="/src/assets/ninja.png", width="150")
+			li
+				img(src="/src/assets/ninja.png", width="150")
+			li
+				img(src="/src/assets/ninja.png", width="150")
+			li
+				img(src="/src/assets/ninja.png", width="150")
+			li
+				img(src="/src/assets/ninja.png", width="150")
+			li
+				img(src="/src/assets/ninja.png", width="150")
+
+h3#snippet Code snippet
+p
+	|  To make the Carousel work, you need to specify the size of the component elements by CSS, for example:
+pre
+	| .ch-carousel-content li {
+	| 	width: 120px;
+	| 	height: 120px;
+	| }
+p
+	| To create a Carousel you need a container with an unordered list inside. By adding the 
+	code ch-carousel
+	|  class to the container, you can avoid structure changes when widget is in creating process.
+pre
+	| <div class="example ch-carousel">
+	| 	<ul>
+	| 		<li><img src="/src/assets/ninja.png"></li>
+	| 		<li><img src="/src/assets/ninja.png"></li>
+	| 		<li><img src="/src/assets/ninja.png"></li>
+	| 		<li><img src="/src/assets/ninja.png"></li>
+	| 		<li><img src="/src/assets/ninja.png"></li>
+	| 		<li><img src="/src/assets/ninja.png"></li>
+	| 		<li><img src="/src/assets/ninja.png"></li>
+	| 		<li><img src="/src/assets/ninja.png"></li>
+	| 		<li><img src="/src/assets/ninja.png"></li>
+	| 	</ul>
+	| </div>
+
+h3#instance Instance component
+p
+	| This is the way to create a Carousel:
+pre 
+	| var foo = $(".example").carousel();
+
+h3#working-with-pages Working with pages
+p
+	| The Carousel shows pages of elements and you can move between pages with the 
+	code prev
+	|  and the 
+	code next
+	|  methods.  Also, you can move the Carousel directly to a page with the 
+	code select
+	|  method (before version 0.7.5, called 
+	code goTo
+	| ).
+p
+	| The 
+	code itemsPerPage
+	|  method (before version 0.7.4, called 
+	code getItemsPerPage
+	| , allow you to know the numbers of items to be displayed on each page.
+
+h3#pagination Pagination
+p 
+	| The component has a pagination feature, which is set hidden by default, but you can make it visible.
+pre
+	| var foo = $("#example").carousel({ "pagination": true });
+
+h3#callbacks Callbacks
+p 
+	| The component has a 
+	code move
+	|  callback that is executed after the Carousel movement is done. The 
+	code next
+	|  and 
+	code prev
+	|  events will be executed when the "next" button or "previous" button are pressed.
+p
+	| Read more about 
+	a(href="/guides/use-callback-functions") Callbacks
+	| .
+
+h3#asynchronous Asynchronous load
+p
+	| Initializing the Carousel with 
+	code asyncData
+	|  and
+	code asyncRender
+	|  configuration properties exists two ways to load items asynchronously:
+
+h4#asyncData asyncData
+p
+	| One way is to using 
+	code asyncData
+	|  to define the content of each item that will be load asnchronously as array:
+pre 
+	| var foo = $("#example").carousel({
+	| 	asyncData: [
+	| 		'<img src="a.png" alt="A" />',
+	| 		'<img src="b.png" alt="B" />',
+	| 		'<img src="c.png" alt="C" />'
+	| 	]
+	| });
+
+h4#asyncRender asyncRender
+p
+	| The second way is to using 
+	code asyncData
+	|  through 
+	code asyncRender
+	| . This is a function that receives
+	code asyncData
+	|  content and must return a string with result of manipulate that content. This way is one that requires less HTML code.
+pre 
+	| var foo = $("#example").carousel({
+	| 	asyncData: [
+	| 		{"src": "a.png", "alt": "A"},
+	| 		{"src": "b.png", "alt": "B"},
+	| 		{"src": "c.png", "alt": "C"}
+	| 	],
+	| 	asyncRender: function (o) {
+	| 		return '<img src="' + o.src + '" alt="' + o.alt + '" />';
+	| 	}
+	| });
+
+!=partial("includes/keep-reading")
+
+- script("code", '$(".example").carousel();')

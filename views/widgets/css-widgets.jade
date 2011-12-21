@@ -1,0 +1,447 @@
+h1 CSS Widgets
+p.updated
+	| Documentation updated on 
+	data December 14th
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#description") 1 Description
+		dt
+			a(href="#typography") 2 Typography
+		dd
+			dl
+				dt
+					a(href="#headings") 2.1 Headings
+				dt
+					a(href="#paragraphs") 2.2 Paragraphs
+		dt
+			a(href="#lists") 3 Lists
+		dd
+			dl
+				dt
+					a(href="#unstyled") 3.1 Unstyled
+				dt
+					a(href="#unordered") 3.2 Unordered
+				dt
+					a(href="#ordered") 3.3 Ordered
+		dt
+			a(href="#boxes") 4 Boxes
+		dd
+			dl
+				dt
+					a(href="#box") 4.1 Box
+				dt
+					a(href="#cont") 4.2 Container
+		dt
+			a(href="#buttons") 5 Buttons
+		dt
+			a(href="#icons") 6 Icons
+		dt
+			a(href="#message-boxes") 7 Message boxes
+		dt
+			a(href="#pagination") 8 Pagination
+		dt
+			a(href="#tables") 9 Tables
+
+h3#description Description
+p
+	| Here's a list of CSS Widgets that are part of Chico UI look and feel. They will help you with common layout elements, such as buttons and tables.
+
+h3#typography Typography
+
+h4#headings Headings
+table.datagrid
+	thead
+		tr
+			th Example
+			th Code snippet
+	tbody
+		tr
+			td#heading-widget
+				h1 Heading 1
+				h2 Heading 2
+				h3 Heading 3
+				h4 Heading 4
+				h5 Heading 5
+				h6 Heading 6
+			td
+				pre
+					| <h1>Heading 1</h1>
+					| <h2>Heading 2</h2>
+					| <h3>Heading 3</h3>
+					| <h4>Heading 4</h4>
+					| <h5>Heading 5</h5>
+					| <h6>Heading 6</h6>
+
+h4#paragraphs Paragraphs
+table.datagrid
+	thead
+		tr
+			th Example
+			th Code snippet
+	tbody
+		tr
+			td
+				p
+					| Lorem ipsum dolor sit amet.
+				p
+					| Ut enim ad minim veniam, quis nostrud exercitation.
+			td
+				pre
+					|<p>Lorem ipsum dolor sit amet.</p>
+					| <p>Ut enim ad minim veniam, quis nostrud exercitation.</p>
+
+h3#lists Lists
+
+h4#unstyled Unstyled
+.ch-g2-5
+table.datagrid
+	thead
+		tr
+			th Example
+			th Code snippet
+	tbody
+		tr
+			td
+				ul
+					li foo
+					li foobar
+					li bar
+			td
+				pre
+					| <ul>
+					| 	<li>foo</li>
+					| 	<li>foobar</li>
+					| 	<li>bar</li>
+					| </ul>
+
+h4#unordered Unordered
+table.datagrid
+	thead
+		tr
+			th Example
+			th Code snippet
+	tbody
+		tr
+			td
+				ul.ch-list
+					li foo
+					li foobar
+					li bar
+			td
+				pre
+					| <ul class="ch-list">
+					| 	<li>foo</li>
+					| 	<li>foobar</li>
+					| 	<li>bar</li>
+					| </ul>
+
+h4#oreded Ordered
+table.datagrid
+	thead
+		tr
+			th Example
+			th Code snippet
+	tbody
+		tr
+			td
+				ol.ch-list
+					li foo
+					li foobar
+					li bar
+			td
+				pre
+					| <ol class="ch-list">
+					| 	<li>foo</li>
+					| 	<li>foobar</li>
+					| 	<li>bar</li>
+					| </ol>
+
+h3#boxes Boxes
+h4#box Box
+table.datagrid
+	thead
+		tr
+			th Example
+			th Code snippet
+	tbody
+		tr
+			td
+				.box Box
+			td
+				pre
+					| <div class="box">Box</div>
+
+h4#cont Container
+table.datagrid
+	thead
+		tr
+			th Example
+			th Code snippet
+	tbody
+		tr
+			td
+				.container Container
+			td
+				pre
+					| <div class="container">Container</div>
+
+h3#buttons Buttons
+table.datagrid
+	thead
+		tr
+			th Example
+			th Code snippet
+	tbody
+		tr
+			td
+				input.ch-btn.ch-main(type="submit", value="Main Button")
+			td
+				pre
+					| <input class="ch-btn ch-main" />
+		tr
+			td
+				input.ch-btn.ch-primary(type="submit", value="Primary Button")
+			td
+				pre
+					| <input class="ch-btn ch-primary" />
+		tr
+			td
+				input.ch-btn.ch-secondary(type="submit", value="Secondary Button")
+			td
+				pre
+					| <input class="ch-btn ch-secondary" />
+		tr
+			td
+				input.ch-btn.ch-secondary.ch-skin(type="submit", value="Secondary Skin Button")
+			td
+				pre
+					| <input class="ch-btn ch-secondary ch-skin" />
+		tr
+			td
+				input.ch-btn.ch-main(type="submit", value="Main Button Disabled", disabled)
+			td
+				pre
+					| <input class="ch-btn ch-main" disabled="disabled" />
+		tr
+			td
+				input.ch-btn.ch-primary(type="submit", value="Primary Button Disabled", disabled)
+			td
+				pre
+					| <input class="ch-btn ch-primary" disabled="disabled" />
+		tr
+			td
+				input.ch-btn.ch-secondary(type="submit", value="Secondary Button Disabled", disabled)	
+			td
+				pre
+					| <input class="ch-btn ch-secondary" disabled="disabled" />
+		tr
+			td	
+				input.ch-btn.ch-secondary.ch-skin(type="submit", value="Secondary Skin Button Disabled", disabled)
+			td
+				pre
+					| <input class="ch-btn ch-secondary ch-skin" disabled="disabled" />
+
+h3#icons Icons
+table.datagrid
+	thead
+		tr
+			th Type
+			th Example
+			th Code snippet
+	tbody
+		tr
+			td Help
+			td
+				span.ch-ico.ch-help Help
+			td
+				pre
+					| <span class="ch-ico ch-help">Help</span>
+		tr
+			td Info
+			td
+				span.ch-ico.ch-information Info
+			td
+				pre
+					| <span class="ch-ico ch-information">Info</span>
+		tr
+			td Error
+			td
+				span.ch-ico.ch-error Error
+			td
+				pre
+					| <span class="ch-ico ch-error">Error</span>
+		tr
+			td Attention
+			td
+				span.ch-ico.ch-attention Attention
+			td
+				pre
+					| <span class="ch-ico ch-attention">Attention</span>
+		tr
+			td Ok
+			td
+				span.ch-ico.ch-ok OK
+			td
+				pre
+					| <span class="ch-ico ch-ok">OK</span>
+		tr
+			td Check
+			td
+				span.ch-ico.ch-check
+			td
+				pre
+					| <span class="ch-ico ch-check">Check</span>
+
+h3#message-boxes Message Boxes
+table.datagrid
+	thead
+		tr
+			th Example
+			th Code snippet
+	tbody
+		tr
+			td
+				p.ch-message.ch-help Do you need any help?
+			td
+				pre
+					| <p class="ch-message ch-help">Do you need any help?</p>
+		tr
+			td
+				p.ch-message.ch-information Here's more information
+			td
+				pre
+					| <p class="ch-message ch-information">Here's more information</p>
+		tr
+			td
+				p.ch-message.ch-error Oops! something went wrong
+			td
+				pre
+					| <p class="ch-message ch-error">Oops! something went wrong</p>
+		tr
+			td
+				p.ch-message.ch-attention Warning! be careful
+			td
+				pre
+					| <p class="ch-message ch-attention">Warning! be careful</p>
+		tr
+			td
+				p.ch-message.ch-ok Great! you're awesome
+			td
+				pre
+					| <p class="ch-message ch-ok">Great! you're awesome</p>
+		tr
+			td
+				p.ch-message.ch-check Everything is fine
+			td
+				pre
+					| <p class="ch-message ch-check">Everything is fine</p>
+
+h3#pagination Pagination
+table.datagrid
+	thead
+		tr
+			th Example
+			th Code snippet
+	tbody
+		tr
+			td
+				ul.pagination
+					li
+						a(href="/2.html") Previous
+					li
+						a(href="/1.html") 1
+					li
+						a(href="/2.html") 2
+					li.current
+						a(href="/3.html") 3
+					li
+						a(href="/4.html") 4
+					li
+						a(href="/5.html") 5
+					li
+						a(href="/4.html") Next
+			td
+				pre
+					| <ul class="pagination">
+					|  	<li><a type="prev" href="/2.html">Previous</a></li>
+					| 	<li><a href="/1.html">1</a></li>
+					| 	<li><a href="/2.html">2</a></li>
+					| 	<li class="current"><a href="/3.html">3</a></li>
+					| 	<li><a href="/4.html">4</a></li>
+					| 	<li><a href="/5.html">5</a></li>
+					| 	<li><a type="next" href="/4.html">Next</a></li>
+					| </ul>	
+
+h3#tables Tables
+.ch-g2-5
+	.leftcolumn
+		table.datagrid
+			thead
+				tr
+					th(scope="col")
+					th(scope="col") Code
+					th.selected(scope="col") Price
+						span.asc (ascendant)
+			tbody
+				tr
+					td
+						input(type="checkbox")
+					td
+						| A001XXL
+					td
+						p.price
+							| $100
+							sup 00
+				tr.selected
+					td
+						input(type="checkbox", checked)
+					td
+						| A002XXL
+					td
+						p.price
+							| $110
+							sup 00
+				tr
+					td
+						input(type="checkbox")
+					td
+						| A003XXL
+					td
+						p.price
+							| $120
+							sup 00
+.ch-g3-5
+	pre
+		| <table class="datagrid">
+		| 	<thead>
+		| 		<tr>
+		| 			<th scope="col"></th>
+		| 			<th scope="col">Code</th>
+		| 			<th scope="col">Price</th>	
+		| 		<tr>
+		| 	</thead>
+		| 	<tbody>
+		| 		<tr>
+		| 			<td><input type="checkbox" /></td>
+		| 			<td>A001XXL</td>
+		| 			<td><p>$100<sup>00<sup></p></td>
+		| 		</tr>
+		| 		<tr class="selected">
+		| 			<td><input type="checkbox" checked /></td>
+		| 			<td>A002XXL</td>
+		| 			<td><p>$110<sup>00<sup></p></td>
+		| 		</tr>
+		| 		<tr>
+		| 			<td><input type="checkbox" /></td>
+		| 			<td>A003XXL</td>
+		| 			<td><p>$100<sup>00<sup></p></td>
+		| 		</tr>
+		| 	</tbody>
+		| </table>		
+.clearfix
+
+!=partial("includes/keep-reading")

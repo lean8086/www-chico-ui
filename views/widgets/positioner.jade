@@ -1,0 +1,236 @@
+#poi
+h1 Positioner
+p.updated
+	| Documentation updated on 
+	data December 14th
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#description") 1 Description
+		dt
+			a(href="#demo") 2 Demo
+		dt
+			a(href="#snippet") 3 Code snippet
+		dt
+			a(href="#instance") 4 Instance component
+		dt
+			a(href="#conf") 5 Configuration object
+		dt
+			a(href="#we-make-it-easy") 6 We make it easy!
+		dt
+			a(href="#points") 7 Points
+		dt
+			a(href="#periodic-table") Periodic table of the positioning
+		dt
+			a(href="#intelligence") Intelligence
+		dt
+			a(href="#offset") Offset
+
+h3#description Description
+p 
+	| Positioner is a utility that resolve positioning for all 
+	code HTMLElements
+	| . The tool positions an 
+	strong element
+	|  within a 
+	strong context
+	| .
+
+h3#demo Demo
+.positioner-example
+	.context#context1 Context
+	.target#target1 Element
+
+h3#snippet Code snippet
+pre
+	| <div class="context" id="context1">Context</div>
+	| <div class="target" id="target1">Element</div>
+
+h3#instance Instance component
+p
+	| To use Positioner, you need three things:
+ul.ch-list
+	li 
+		| The element to be positioned.
+	li
+		| The context in which you want to position it.
+	li 
+		| How those relate.
+p 
+	| This is the way to position a new element:
+pre
+	| var foo = ch.positioner(CONFIGURATION_OBJECT);
+
+h3#conf Configuration object
+p 
+	| The configuration object has the following basic structure:
+pre 
+	| {
+	| 	"element": String (query selector) or jQuery Object,
+	| 	"context": String (query selector) or jQuery Object,
+	| 	"points": String
+	| }
+p
+	| The element and context can be especified as CSS query selector, like 
+	code ".example"
+	|  or a jQuery object like 
+	code $(".example")
+	| .
+
+h3#we-make-it-easy We make it easy!
+p 
+	| Positioner uses the sides and center of the elements to positions some element. You have to indicate what side of target element has to match with the side of the context. For example, if you want to align some element to the left, you have to indicate that the target must match the "left top" point to the "left top" point of the context.
+p
+	| To make it more simple, the tool uses letters for the sides of the box.
+p
+	| Those are the letters related the sides:
+ul.ch-list
+	li
+		code t
+		| : top
+	li
+		code r
+		| : right
+	li
+		code b
+		| : bottom
+	li
+		code l
+		| : left
+	li
+		code c
+		| : center (horizontally)
+	li
+		code m
+		| : middle (vertically centered)
+p 
+	| By default, the context is the viewport and the target will be centered in this.
+
+h3#points Points
+p 
+	| Points is a string property. It has 2 pair of letters 
+	code "points": "lt lt"
+	| . The first pair is related with the 
+	strong target
+	|  object and the second pair is related with the 
+	stron context
+	|  object. It means what in where.
+pre 
+	| {"points": "TARGET CONTEXT"}
+p	
+	| The first letter of the pair references to the horizontal axis, the options could be: 
+	code l
+	|  (left), 
+	code c
+	|  (center) or 
+	code r
+	|  (right). The second letter of the pair references to the vertical axis, it could be 
+	code t
+	|  (top), 
+	code m
+	|  (middle) or 
+	code b
+	|  (bottom).
+pre 
+	| {"points": "cm cm"}
+
+h3#periodic-table Periodic table of the positioning
+table.datagrid
+	thead
+		tr
+			th Code
+			th Target points
+			th Context points
+			th Demo
+	tbody
+		tr
+			td
+				code "points": "cm cm"
+			td center-middle
+			td center-middle
+			td.example
+				.context#c1 Context
+				.target#t1 Element
+		tr
+			td
+				code "points": "lt lb"
+			td left-top
+			td left-bottom
+			td.example
+				.context#c2 Context
+				.target#t2 Element
+		tr
+			td
+				code "points": "lb lt"
+			td left-bottom
+			td left-top
+			td.example
+				.context#c3 Context
+				.target#t3 Element
+		tr
+			td
+				code "points": "rt rb"
+			td right-top
+			td right-bottom
+			td.example
+				.context#c4 Context
+				.target#t4 Element
+		tr
+			td
+				code "points": "rb rt"
+			td right-bottom
+			td right-top
+			td.example
+				.context#c5 Context
+				.target#t5 Element
+		tr
+			td
+				code "points": "lt rt"
+			td left-top
+			td right-top
+			td.example
+				.context#c6 Context
+				.target#t6 Element
+		tr
+			td
+				code "points": "lm lm"
+			td left-middle
+			td left-middle
+			td.example
+				.context#c7 Context
+				.target#t7 Element
+		tr
+			td
+				code "points": "lt lt"
+			td left-top
+			td left-top
+			td.example
+				.context#c8 Context
+				.target#t8 Element
+
+h3#intelligence Intelligence
+p
+	| The intelligence of the positioner resolves conflicts when the target element doesn't have space in the browser window to be placed. With a simple configuration parameter, the Positioner will try to place the component to be visible as posible:
+pre
+	| "reposition": Boolean
+
+h3#offset Offset
+p
+	| You can move the target from the context with the 
+	code offset
+	|  property. The value of the property must be a string with that indicate the 
+	code X
+	|  axis and 
+	code Y
+	|  axis. Those must be separated by a space. For example 
+	code "10 0"
+	| .
+
+!=partial("includes/keep-reading")
+
+- script("code", 'ch.positioner({"element": $("#target1"), "context": $("#context1"), "points": "lt rt"});')
+- script("code", 'var points = ["","cm cm","lt lb","lb lt","rt rb","rb rt","lt rt","lm lm","lt lt"];');
+- script("code", 'for(var a=1;a<9;a++){ch.positioner({element: $("#t"+a),context: $("#c"+a),points: points[a]});}')

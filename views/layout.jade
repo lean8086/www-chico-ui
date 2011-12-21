@@ -1,72 +1,110 @@
 !!! 5
-html.no-js(lang='en')
+html.no-js(lang="en")
 	head
 		script
-		meta(charset='utf-8')
-		link(rel='author', href='/humans.txt', type='text/plain')
-		link(rel='shortcut icon', href='/src/assets/favicon.ico', type='image/vnd.microsoft.icon')
+		meta(charset="utf-8")
 		title #{title}
+
+		link(rel="shortcut icon", href="/src/assets/ninja.ico", type="image/vnd.microsoft.icon")
+		link(rel="author", href="/humans.txt", type="text/plain")
 
 		meta(property="og:title", content="Chico UI")
 		meta(property="og:type", content="product")
-		meta(property="og:url", content="http://www.chico-ui.com.ar")
-		meta(property="og:image", content="http://chico-ui.com.ar/src/assets/ninja.jpg")
+		meta(property="og:url", content="http://chico-ui.com.ar")
+		meta(property="og:image", content="http://chico-ui.com.ar/src/assets/ninja.png")
 		meta(property="og:site_name", content="Chico UI, MercadoLibre&#039;s Open Source Web Tools.")
 		meta(property="fb:admins", content="100001929271879")
 
-		//link(rel='stylesheet', href='#{latest.stylesheet.href}')
-		link(rel='stylesheet', href='/versions/latest/chico.css')
-		link(rel='stylesheet', href='/versions/latest/mesh.css')
-		link(rel='stylesheet', href='/src/css/styles.css')
-		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Kreon:300,400,700&v1')
-		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic&v1')
-		link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Ubuntu:300,300italic,regular,italic,500,500italic,bold,bolditalic&v1')
+		link(rel="stylesheet", href="/versions/latest/chico.css")
+		link(rel="stylesheet", href="/versions/latest/mesh.css")
+		link(rel="stylesheet", href="/src/css/v4.css")
 					
 	body
-		.header.clearfix
-			h1(title='MercadoLibre\'s Visual Framework')
-				a(href='/') Chico UI
-				span.version
-					#{latest.version}
+		header
+			h1.ch-g1-3
+				a(href="/") Chico UI
 
-			ul
-				- each item in navigation
+			nav.ch-g2-3
+				ul
 					li
-						a(href='#{item.href}') #{item.label}
-		hr
+						a(href="/blog") Blog
+					li
+						a(href="/widgets") UI Widgets
+					li
+						a(href="/api") API Docs
+					li
+						a(href="/guides") Learning guides
+					li
+						a(href="/download") Download
 
-		!= body
+				/*form(method="GET", action="/search")
+					label(for="query") Search:
+					input(type="text", role="search", placeholder="Search this site", id="query")
+					noscript
+						input.ch-btn.ch-secondary.ch-skin(id="search", type="submit", value="Go")
 
-		.clearfix
-		hr
-		p.footer
-			| ©2011
-			a(href='http://www.mercadolibre.com') MercadoLibre
-			| . All rights reserved.
-		
-		<g:plusone size="medium" href="http://www.chico-ui.com.ar"></g:plusone>
-		a(href="http://twitter.com/share", class="twitter-share-button", data-via="chicoui", data-text="Chico UI, MercadoLibre's Open Source Web Tools.", data-url='http://chico-ui.com.ar') Tweet
+		section.main
+			- if (breadcrumb.length > 0)
+				nav.breadcrumb
+					a(href="/") Home
+					- each bread in breadcrumb
+						|  → 
+						- if (bread[1] !== "")
+							a(href="#{bread[1]}")= bread[0]
+						- else
+							#{bread[0]}
+			
+			article.ch-g4-5
+				.leftcolumn
+					!= body
+			
+			nav.ch-g1-5
+				.rightcolumn
+					h4 UI Widgets
+					ul
+						- each item, i in widgets
+							- if (i < 3)
+								li
+									a(href="#{item.href}")= item.label
+						li
+							a.more(href="/widgets") See all Widgets
 
-		script(src='/src/js/jquery.js')
-		script(src='/versions/latest/chico.js')
-		script(src='/src/js/scripts.js')
+				.rightcolumn
+					h4 Chico Mesh
+					ul
+						li
+							a(href="/mesh") Fluid and elastic layouts
+						li
+							a(href="/mesh#showroom") Grids Showroom
+						li
+							a(href="/guides/mesh-your-layout-in-5-min") How to mesh my layout
 
-		/if lt IE 7
-			script(src='/src/js/dd_belatedpng.js')
-			script
-				DD_belatedPNG.fix('img, .ico');
+				.rightcolumn
+					h4 Learning guides
+					ul
+						- each item, i in guides
+							- if (i < 3)
+								li
+									a(href="#{item.href}")= item.label
+						li
+							a.more(href="/guides") Browse all guides
 
-		script
-			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-22230214-1']);
-			_gaq.push(['_setDomainName', '.chico-ui.com.ar']);
-			_gaq.push(['_trackPageview']);
+		footer
+			nav.ch-g2-3
+				ul
+					li ©2011 MercadoLibre.com
+					li
+						a(href="/about") About us
+					li
+						a(href="/discuss") Discuss
 
-			(function() {
-			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-			})();
+			aside.ch-g1-3
+				<g:plusone size="medium" href="http://chico-ui.com.ar"></g:plusone>
+				a.twitter-share-button(href="http://twitter.com/share", data-via="chicoui", data-text="Chico UI, MercadoLibre's Open Source Web Tools.", data-url="http://chico-ui.com.ar") Tweet
+
+		script(src="/src/js/jquery.js")
+		script(src="/versions/latest/chico.js")
+		script(src="/src/js/scripts.js")
 
 		- var scriptGet = script("get")
 		- if (scriptGet.length > 0)

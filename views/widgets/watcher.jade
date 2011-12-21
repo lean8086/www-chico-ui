@@ -1,0 +1,231 @@
+h1 Watcher
+p.updated
+	| Documentation updated on 
+	data December 14th
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#description") 1 Description
+		dt
+			a(href="#demo") 2 Demo
+		dt
+			a(href="#snippet") 3 Code snippet
+		dt
+			a(href="#circular-reference") 4 Circular reference
+		dt
+			a(href="#interfaces") 5 Interfaces
+		dd
+			dl
+				dt
+					a(href="#the-custom-interface") 5.1 The custom() interface
+				dt
+					a(href="#the-required-interface") 5.2 The required() interface
+				dt
+					a(href="#the-string-interface") 5.3 The string() interface
+				dt
+					a(href="#the-email-interface") 5.4 The email() interface
+				dt
+					a(href="#the-url-interface") 5.5 The url() interface
+				dt
+					a(href="#the-maxlength-interface") 5.6 The maxLength() interface
+				dt
+					a(href="#the-minlength-interface") 5.7 The minLength() interface
+				dt
+					a(href="#the-number-interface") 5.8 The number() interface
+				dt
+					a(href="#the-max-interface") 5.9 The max() interface
+				dt
+					a(href="#the-min-interface") 5.10 The min() interface
+				dt
+					a(href="#the-price-interface") 5.11 The price() interface
+				dt
+					a(href="#more-validations-by-field") 5.12 More validations by field
+		dt
+			a(href="#position") 6 Position
+
+h3#description Description
+p
+	| The Watcher is a validation engine for the web forms. Each one send a feedback message to the end user. This message, called 
+	a(href="/api/#{latest.version}/symbols/ch.Helper.html") Helper
+	| , must indicate the error.
+
+h3#demo Demo
+form.box.demo_form
+	.ch-form-row.ch-form-required
+		label(for="demo_email")
+			| E-mail:
+		input.demo_email#demo_email(type="email", required)
+	p.actions
+		input.ch-btn.ch-secondary(type="submit", value="Submit form")
+
+h3#snippet Code snippet
+pre
+	| <form ... >
+	| 	<div class="ch-for-row">
+	| 		<label class="required" for="example">E-mail:</label>
+	| 		<input id="example" type="email" required="required">
+	| 	</div>
+	| 	<p class="actions">
+	| 		<input type="submit" value="Submit form" class="ch-btn ch-secondary">
+	| 	</p>
+	| </form>
+
+h3#circular-reference Circular reference
+p 
+	| Each instance of Watcher must have a reference with a Form component instance. If any explicit instance wasn't created, the Watcher component will create a Form component.
+p 
+	| The Form and Watchers make a circular reference between themselves. The Form knows the Watcher and the Watcher knows the Form. 
+p 
+	| This is the way to create a new Watcher:
+pre 
+	| var foo = $("#example").watcher(CONFIGURATION_OBJECT);
+p
+	| When you instance a Watcher it returns a control object. It gives you information about the instance and some methods to manipulate the Watcher.
+
+h3#interfaces Interfaces
+p
+	| Instead of use the 
+	code ch.watcher
+	|  method you can use the interfaces. Each one of this has their own configuration object.
+
+h4#the-custom-interface The custom() interface
+p
+	| It allows you to add a personalized validation.
+pre
+	| var foo = $("demo_custom").custom();
+p
+	| Read more about
+	a(href="/api/#{latest.version}/symbols/ch.Custom.html") Custom
+	| .
+
+h4#the-required-interface The required() interface
+p
+	| It makes the field to be required.
+pre
+	| var foo = $("demo_required").required();
+p
+	| Read more about
+	a(href="/api/#{latest.version}/symbols/ch.Required.html") Required
+	| .
+
+h4#the-string-interface The string() interface
+p
+	| It validates that the field only have words with letters a-z and A-Z.
+pre
+	| var foo = $("demo_string").string();
+p
+	| Read more about
+	a(href="/api/#{latest.version}/symbols/ch.String.html") String
+	| .
+
+h4#the-email-interface The email() interface
+p
+	| It validates that the field is a valid e-mail.
+pre
+	| var foo = $("demo_email").email();
+p
+	| Read more about
+	a(href="/api/#{latest.version}/symbols/ch.Email.html") Email
+	| .
+
+h4#the-url-interface The url() interface
+p
+	| It validates that the field is a valid url.
+pre
+	|var foo = $("demo_url").url();
+p
+	| Read more about
+	a(href="/api/#{latest.version}/symbols/ch.Url.html") Url
+	| .
+
+h4#the-maxlength-interface The maxLength() interface
+p
+	| It validates that the field length is lower than the indicated value.
+pre
+	| var foo = $("demo_maxLength").maxLength();
+p
+	| Read more about
+	a(href="/api/#{latest.version}/symbols/ch.MaxLength.html") MaxLength
+	| .
+
+h4#the-minlength-interface The minLength() interface
+p
+	| It validates that the field length is greater than the indicated value.
+pre
+	|var foo = $("demo_minLength").minLength();
+p
+	| Read more about 
+	a(href="/api/#{latest.version}/symbols/ch.MinLength.html") MinLength
+	| .
+
+h4#the-number-interface The number() interface
+p
+	| It validates that the field is valid number.
+pre
+	| var foo = $("demo_number").number();
+p
+	| Read more about 
+	a(href="/api/#{latest.version}/symbols/ch.Number.html") Number
+	| .
+
+h4#the-max-interface The max() interface
+p
+	| It validates that the field is a smaller number than the indicated value. 
+pre
+	| var foo = $("demo_max").max();
+p
+	| Read more about 
+	a(href="/api/#{latest.version}/symbols/ch.Max.html") Max
+	| .
+
+h4#the-min-interface The min() interface
+p
+	| It validates that the field is a bigger number than the indicated value.
+pre
+	| var foo = $("demo_min").min();
+p
+	| Read more about 
+	a(href='/api/#{latest.version}/symbols/ch.Min.html') Min
+	| .
+
+h4#the-price-interface The price() interface
+p
+	| It validates a valid price format number.
+pre
+	| var foo = $("demo_price").price();
+p
+	| Read more about
+	a(href="/api/#{latest.version}/symbols/ch.Price.html") Price
+	| .
+
+h3#more-validations-by-field More validations by field
+p
+	| If you need multiple validation on the same field, you can use the 
+	code and
+	|  method to concatenate like this:
+pre
+	| var myValidations = $("#example").min(13).and().max(20);
+
+h3#position Position
+p
+	| You can use the 
+	a(href="/widgets/positioner") Positioner
+	|  component to be able to change the Helper position in reference to the field you're validating:
+pre
+	| myValidations.helper.position({
+	| 	"points": "lt rt", // Sets a new relation points
+	| 	"offset": "10 10", // Sets a new offset
+	| 	"context": "#new-element" // Sets as context a new element in DOM
+	| });
+p
+	| Learn 
+	a(href="/guides/position-something-on-screen") how to position something on screen
+	| .
+
+!=partial("includes/keep-reading")
+
+- script("code", 'var form = $(".demo_form").form();')
+- script("code", 'var validation = $(".demo_email").required("The field must be completed").validate();')

@@ -1,0 +1,47 @@
+h1 How to disable and enable Validations
+p.updated
+	| Documentation updated on 
+	data December 13rd
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#create-your-validations") 1 Create your validations
+		dt
+			a(href="#disable-a-watcher") 2 Disable a Watcher
+		dt
+			a(href="#enable-a-watcher") 3 Enable a Watcher
+
+h3#create-your-validations Create your validations
+p
+	| First, you'll initilize the 
+	a(href="/widgets/watcher") Watchers
+	|  that you will use in your project.
+p
+	| In this case, we'll create a
+	code required
+	|  validation.
+pre
+	| var requiredVal = $(".field-req").required("This field is required.");
+p
+	| You should store Chico UI's components in a JavaScript variable in order to access the methods and properties.
+
+h3#disable-a-watcher Disable a Watcher
+p
+	| To disable this Watcher, you only must use the 
+	code disable
+	|  method. Therefore, the next time that you run validation, this Watcher will not execute.
+pre
+	| requiredVal.disable();
+
+h3#enable-a-watcher Enable a Watcher
+p
+	| Now, if you want to enable it again, you must use the 
+	code enable
+	|  method.
+pre
+	| requiredVal.enable();
+
+!=partial("includes/keep-reading")

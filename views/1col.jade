@@ -1,0 +1,84 @@
+!!! 5
+html.no-js(lang="en")
+	head
+		script
+		meta(charset="utf-8")
+		title #{title}
+
+		link(rel="shortcut icon", href="/src/assets/ninja.ico", type="image/vnd.microsoft.icon")
+		link(rel="author", href="/humans.txt", type="text/plain")
+
+		meta(property="og:title", content="Chico UI")
+		meta(property="og:type", content="product")
+		meta(property="og:url", content="http://chico-ui.com.ar")
+		meta(property="og:image", content="http://chico-ui.com.ar/src/assets/ninja.png")
+		meta(property="og:site_name", content="Chico UI, MercadoLibre&#039;s Open Source Web Tools.")
+		meta(property="fb:admins", content="100001929271879")
+
+		link(rel="stylesheet", href="/versions/latest/chico.css")
+		link(rel="stylesheet", href="/versions/latest/mesh.css")
+		link(rel="stylesheet", href="/src/css/v4.css")
+					
+	body
+		header
+			h1.ch-g1-3
+				a(href="/") Chico UI
+
+			nav.ch-g2-3
+				ul
+					li
+						a(href="/blog") Blog
+					li
+						a(href="/widgets") UI Widgets
+					li
+						a(href="/api") API Docs
+					li
+						a(href="/guides") Learning guides
+					li
+						a(href="/download") Download
+
+				/*form(method="GET", action="/search")
+					label(for="query") Search:
+					input(type="text", role="search", placeholder="Search this site", id="query")
+					noscript
+						input.ch-btn.ch-secondary.ch-skin(id="search", type="submit", value="Go")
+
+		section.main
+			- if (breadcrumb.length > 0)
+				nav.breadcrumb
+					a(href="/") Home
+					- each bread in breadcrumb
+						|  → 
+						- if (bread[1] !== "")
+							a(href="#{bread[1]}")= bread[0]
+						- else
+							#{bread[0]}
+			
+			article
+				!= body
+
+		footer
+			nav.ch-g2-3
+				ul
+					li ©2011 MercadoLibre.com
+					li
+						a(href="/about") About us
+					li
+						a(href="/discuss") Discuss
+
+			aside.ch-g1-3
+				<g:plusone size="medium" href="http://chico-ui.com.ar"></g:plusone>
+				a.twitter-share-button(href="http://twitter.com/share", data-via="chicoui", data-text="Chico UI, MercadoLibre's Open Source Web Tools.", data-url="http://chico-ui.com.ar") Tweet
+
+		script(src="/src/js/jquery.js")
+		script(src="/versions/latest/chico.js")
+		script(src="/src/js/scripts.js")
+
+		- var scriptGet = script("get")
+		- if (scriptGet.length > 0)
+			- for (var i in scriptGet)
+				script(src='#{scriptGet[i]}')
+
+		- var scriptCode = script("code")
+		-if (scriptCode.length > 0)
+			script!= scriptCode.join("")

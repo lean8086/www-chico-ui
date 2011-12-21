@@ -1,0 +1,99 @@
+h1 Zoom
+p.updated
+	| Documentation updated on 
+	data December 14th
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#description") 1 Description
+		dt
+			a(href="#demo") 2 Demo
+		dt
+			a(href="#snippet") 3 Code snippet
+		dt
+			a(href="#instance") 4 Instance component
+		dt
+			a(href="#changing-size") 5 Changing size
+
+h3#description Description
+p
+	| The Zoom widget is a member of 
+	a(href="/api/#{latest.version}/symbols/ch.Floats.html") Floats
+	|  familiy. It shows a contextual reference to an augmented version of a main declared image.
+
+h3#demo Demo
+p
+	| Roll over the HTML5 logo to see a demo:
+.container
+	a#example(href="http://www.w3.org/html/logo/downloads/HTML5_Logo_512.png", target="_blank")
+		img(src="http://www.w3.org/html/logo/downloads/HTML5_Logo_128.png", alt="HTML5")
+
+h3#snippet Code snippet
+p
+	| An anchor 
+	code &lt;a&gt;
+	|  referencing to an augmented image, wrapping the original image in a 
+	code &lt;img&gt;
+	| tag, like this:
+pre
+	| <a href="zoomed-image" id="example">
+	| 	<img src="original-image" alt="HTML5 power!" />
+	| </a>
+
+h3#instance Instance component
+p 
+	| This is the way to create a new Zoom:
+pre
+	| var foo = $("#example").zoom();
+p
+	| As any 
+	a(href="/api/#{latest.version}/symbols/ch.Floats.html") Floats
+	|  children, the Zoom has a few uses cases you can use to modifiy and manipulate its size.
+
+h3#changing-size Changing size
+p
+	| To change the width property to the Zoom container
+	| there is a method called 
+	code width
+	| , also works as a getter and a setter at the same time. To 
+	em get 
+	|  the property simply use the method without arguments, like this:
+pre
+	| var width = foo.width(); // Get its width
+p
+	| To set the property add an argument to the method  
+	code width
+	| , admits 
+	em Numbers
+	|  (200) or 
+	em String
+	|  ("200px") as a CSS property. See an example:
+pre
+	| foo.width(200); // Set its width
+p
+	| Exactly the same thing with the method 
+	code heigth
+	| , admits 
+	em Numbers
+	|  (300) or 
+	em String
+	| ("300px") as a CSS property. Get example:
+pre
+	| foo.height(); // Get its height
+p
+	| Set 
+	code height
+	|  example:
+pre
+	| foo.height(300); // Set its height
+p
+	| Read more about 
+	a(href="/api/#{latest.version}/symbols/ch.Floats.html#.size") Sizing
+	| .
+
+!=partial("includes/keep-reading")
+
+- script("code", '$("#example").zoom();')

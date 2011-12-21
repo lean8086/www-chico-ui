@@ -1,0 +1,38 @@
+h1 How to report a bug
+p.updated
+	| Documentation updated on 
+	data December 13rd
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#tracker") 1 Issue tracker
+		dt
+			a(href="#title") 2 How I have to write the title?
+		dt
+			a(href="#descrip") 3 What I have to write in the description?
+
+h3#tracker Issue tracker
+p
+	| First, be sure it’s a bug of Chico UI. Then, you can report bugs here:
+p.container
+	a(href="https://github.com/mercadolibre/chico/issues", rel="nofollow") https://github.com/mercadolibre/chico/issues
+
+h3#title How I have to write the title?
+p
+	| You could include the component’s name and the problem. For example:
+pre
+	| "Form: submit() method is executed twice"
+
+h3#descrip What I have to write in the description?
+ol.ch-list
+	li
+		| You should write a step by step on how to reproduce the issue.
+	li
+		| Then, you should add the plataform.
+	li
+		| If posible, you should add the browser name, browser version, and the OS.
+
+!=partial("includes/keep-reading")

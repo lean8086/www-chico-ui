@@ -1,0 +1,138 @@
+h1 Modal
+p.updated
+	| Documentation updated on 
+	data December 14th
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#description") 1 Description
+		dt
+			a(href="#demo") 2 Demo
+		dt
+			a(href="#snippet") 3 Code snippet
+		dt
+			a(href="#instance") 4 Instance component
+		dt
+			a(href="#show-n-hide") 5 Show and hide
+		dt
+			a(href="#get-and-set-content") 6 Get and set content
+		dt
+			a(href="#changing-size") 7 Changing size
+
+h3#description Description
+p
+	| The Modal widget is a member of 
+	a(href="/api/#{latest.version}/symbols/ch.Floats.html") Floats
+	|  familiy. It gives rich information about an UI element on the screen.
+
+h3#demo Demo
+p
+	| Click over the ninjas image to see a demo:
+p.actions
+	img.ninjas(src="/src/assets/ninjas.jpg", style="cursor:pointer;")
+
+h3#snippet Code snippet
+p 
+	| Any clickable 
+	code HTMLElement
+	| , for example:
+pre
+	| <img id="example" src="/src/assets/ninjas.jpg" alt="Ninjas" />
+
+h3#instance Instance component
+p 
+	| This is the way to create a new Modal:
+pre
+	| var foo = $("#example").modal("<p>Rich content.</p>");
+p
+	| As any 
+	a(href="/api/#{latest.version}/symbols/ch.Floats.html") Floats
+	|  children, the Modal has a few uses cases you can use to modifiy and manipulate its content and its size.
+
+h3#show-n-hide Show and hide
+p
+	| All 
+	a(href="/api/#{latest.version}/symbols/ch.Floats.html") Floats
+	|  exposes some public methods called 
+	code show
+	|  and 
+	code hide
+	| , both allows to manage the Modal's behavior programmatically. Something like this:
+pre
+	| foo.show(); // Shows the modal
+	| foo.hide(); // Hides the modal
+p
+	| Read more about 
+	a(href="/api/#{latest.version}/symbols/ch.Floats.html") Floats
+	| .
+
+h3#get-and-set-content Get and set content
+p
+	| All 
+	a(href="/api/#{latest.version}/symbols/ch.Floats.html") Floats
+	|  exposes a public method called 
+	code content
+	| , it works as a getter and a setter at the same time. To 
+	em get 
+	| the content of this component simply use the method without arguments, like this:
+pre
+	| var content = foo.content(); // Get its content
+p
+	| To 
+	em set 
+	| content add an argument to the method  
+	code content
+	| , admits static content, DOM content or AJAX content. See an example:
+pre
+	| foo.content("New content!"); // Set its content
+p
+	| Read more about 
+	a(href="/api/#{latest.version}/symbols/ch.Object.html#.content") Content
+	| .
+
+h3#changing-size Changing size
+p
+	| For change the width property to the Modal's container there is a method called 
+	code width
+	| , also works as a getter and a setter at the same time. To 
+	em get 
+	| the property simply use the method without arguments, like this:
+pre
+	| var width = foo.width(); // Get its width
+p
+	| To set the property add an argument to the method 
+	code width
+	| , admits 
+	em Numbers
+	|  (33) or 
+	em String
+	|  ("33px") as a CSS property. See an example:
+pre
+	| foo.width(300); // Set its width
+p
+	| Exactly the same thing with the method 
+	code heigth
+	| , admits 
+	em Numbers
+	|  (22) or 
+	em String
+	| ("22px") as a CSS property. Get example:
+pre
+	| foo.height(); // Get its height
+p
+	| Set 
+	code height
+	|  example:
+pre
+	| foo.height(300); // Set its height
+p
+	| Read more about 
+	a(href="/api/#{latest.version}/symbols/ch.Floats.html#.size") Sizing
+	| .
+
+!=partial("includes/keep-reading")
+
+- script("code", '$(".ninjas").modal("<h2>Here is a question for you!</h2><p>How many ninjas you need to create a awesome library?.</p>");');

@@ -30,23 +30,29 @@ var labelit = function(label){
 	var label = label.split("-").join(" ");
 	return (label + '').charAt(0).toUpperCase() + label.substr(1)
 }
+
+var friendlyMap = {
+	"widgets": "UI Widgets",
+	"guides": "Learning guides"
+};
+
 var createNavigationMapFrom = function(folder){
 	var temp =[],
-        folders = fs.readdirSync( __dirname + "/views/docs/" + folder),
+        folders = fs.readdirSync( __dirname + "/views/" + folder),
 	filename;
         folders.forEach(function(file){
                 filename = file.split(".jade").join("");
 		temp.push({
                         label: labelit(filename),
-                        href: "/docs/" + folder + "/" + filename
+                        href: "/" + folder + "/" + filename
                 });
         });
         return temp;
 }
 
-meta.howtos = createNavigationMapFrom("how-to");
+meta.guides = createNavigationMapFrom("guides");
 
-meta.demos = createNavigationMapFrom("demos");
+meta.widgets = createNavigationMapFrom("widgets");
 
 
 // get 'builder.conf' and parse JSON data
@@ -202,10 +208,24 @@ app.configure('development', function(){
 * rutes
 */
 
-app.get('/api', function(req, res, next){
-	res.redirect("/api/"+meta.latest.version+"/index.html");
-//	next();
+
+app.get('/data/:file', function (req, res) {
+	
+	var contentType = {
+		"png": "image/png",
+		"css": "text/css",
+		".js": "text/javascript",
+	}
+	
+	var file = req.params.file,
+	
+        data = fs.readFileSync(__dirname + "/public/data/" + file);
+        
+   	res.header("Content-Type", contentType[file.substr(-2)]);
+    res.send(data);
+
 });
+
 
 app.get('/beta', function(req, res, next){
 	var data = fs.readFileSync(__dirname + "/beta/index.html");
@@ -213,6 +233,13 @@ app.get('/beta', function(req, res, next){
 	res.header('Content-Type', "text/html");
 	res.send(data);
 });
+
+
+app.get('/api', function(req, res, next){
+	res.redirect("/api/" + meta.latest.version + "/symbols/ch.html");
+//	next();
+});
+
 
 app.get('/beta/:file', function(req, res, next){
 	var contentType = {
@@ -258,7 +285,15 @@ app.get('/beta-inside/:file', function(req, res, next){
 
 // get 
 app.get('/download', function(req, res) {
-	res.render( 'download', title("Download Chico UI") );
+	var opt = title("Download Chico UI");
+	
+	opt.layout = "1col";
+		
+	opt.breadcrumb = [
+		["Download", ""]
+	];
+	
+	res.render('download', opt);
 });
 // post
 
@@ -381,52 +416,27 @@ app.post('/download', function( req, res ){
  * Discussion.
  */
 // get
-app.get('/discussion', function(req, res){
-	res.render('discussion', title("Dicussion on Chico UI") );
+app.get('/discuss', function(req, res){
+	
+	var opt = title("Discuss on Chico UI");
+	
+	opt.layout = "1col";
+		
+	opt.breadcrumb = [
+		["Discuss", ""]
+	];
+	
+	res.render('discuss', opt);
 });
 
 /**
  * Docs.
  */
 
-app.get('/docs', function(req, res){
-	res.render('docs', title("Getting started with Chico UI"));
+app.get('/get-started', function(req, res){
+	res.render('guides/get-started', title("Get started with Chico UI"));
 });
 
-app.get('/docs/:branch/:label?', function(req, res){
-	var branch = req.params.branch,
-		label = req.params.label;
-			
-	if(branch!=undefined && label!=undefined){
-		var redefBranch = (branch=='how-to')?'howtos':branch;
-		url = '/docs/'+branch+'/'+label;
-		items = meta[redefBranch];
-		for(var i in items){
-			if(items[i].href == url){
-				res.render('docs/'+branch+'/'+label, title(branch + " " + labelit(label)) );
-				return;
-			}
-		}
-		res.render('404', meta );
-		return;
-		
-	} else if(label==undefined){
-		var url = '/docs/'+branch;
-		items = meta.docs;
-		for(var i in items){
-			if(items[i].href == url){
-				res.render('docs/', title("Getting started with Chico UI") );
-				return;
-			}
-		}
-		//res.send("Error 404 | Branch: "+branch+", Label: "+label);
-		res.render('404', meta );
-		return;
-	}
-	//res.send("Error 404 | Branch: "+branch+", Label: "+label);
-	res.render('404', meta );
-	return;
-});
 
 app.get('/suggest/:q', function(req, res){
 	var q = req.params.q;
@@ -457,21 +467,43 @@ app.get('/500', function(req, res){
  * Index.
  */
 app.get('/', function(req, res, next){
-	res.render('index', title() );
+	var opt = title("");
+	
+	opt.layout = "1col";
+		
+	opt.breadcrumb = [];
+	
+	res.render("index", opt);
 });
 
 /**
  * About.
  */
 app.get('/about', function(req, res, next){
-	res.render('about', title("About Chico UI") );
+	
+	var opt = title("About Chico UI");
+	
+	opt.layout = "1col";
+		
+	opt.breadcrumb = [
+		["About us", ""]
+	];
+	
+	res.render('about', opt);
 });
 
 /**
  * Mesh.
  */
 app.get('/mesh', function(req, res, next){
-	res.render('mesh', title("Chico Mesh") );
+	
+	var opt = title("Chico Mesh");
+		
+	opt.breadcrumb = [
+		["Chico Mesh", ""]
+	];
+	
+	res.render('mesh', opt);
 });
 
 /**
@@ -496,6 +528,63 @@ app.get('/blog/:source/:file', function(req, res, next){
         res.send(data);
     }
 });
+
+app.get('/:branch/:label?', function(req, res){
+	var branch = req.params.branch,
+		label = req.params.label;
+			
+	if(branch!=undefined && label!=undefined){
+		var redefBranch = (branch=='guides')?'guides':branch;
+		url = '/'+branch+'/'+label;
+		
+		var opt = title("Chico UI | " + labelit(branch) + " | " + labelit(label));
+		
+		opt.breadcrumb = [
+			[friendlyMap[branch], "/" + branch],
+			[labelit(label), ""] 
+		];
+		
+		/*opt.breadcrumb = {
+			labelit(branch): "/" + branch,
+			labelit(label): ""
+		};*/
+	
+		items = meta[redefBranch];
+		for(var i in items){
+			if(items[i].href == url){
+				res.render(branch+'/'+label, opt);
+				return;
+			}
+		}
+		res.render('404', meta );
+		return;
+		
+	} else if(label==undefined){
+		
+		var opt = title("Chico UI | " + labelit(branch));
+		
+		opt.breadcrumb = [
+			[friendlyMap[branch], ""]
+		];
+
+		
+		//var url = '/'+branch;
+		//items = meta.docs;
+		//for(var i in items){
+		//	if(items[i].href == url){
+				res.render(branch+'/home', opt);
+		//		return;
+	//		}
+	//	}
+		//res.send("Error 404 | Branch: "+branch+", Label: "+label);
+	//	res.render('404', meta );
+		return;
+	}
+	//res.send("Error 404 | Branch: "+branch+", Label: "+label);
+	res.render('404', meta );
+	return;
+});
+
 
 /**
  * app start

@@ -1,0 +1,121 @@
+h1 Dropdown
+p.updated
+	| Documentation updated on 
+	data December 14th
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#description") 1 Description
+		dt
+			a(href="#demo") 2 Demo
+		dt
+			a(href="#snippet") 3 Code snippet
+		dt
+			a(href="#instance") 4 Instance component
+		dt
+			a(href="#show-n-hide") 5 Show and hide
+		dt
+			a(href="#positioning") 6 Positioning
+		dt
+			a(href="#changing-size") 7 Changing size
+
+h3#description Description
+p
+	| The Dropdown widget is a member of 
+	a(href="/api/#{latest.version}/symbols/ch.Navs.html") Navs
+	|  familiy. It gives rich information about an UI element on the screen.
+
+h3#demo Demo
+.box
+	.myDropdown
+		p Ninja weapons
+		ul
+			li 
+				a(href="#") Katana
+			li
+				a(href="#") Nunchaku
+			li
+				a(href="#") Chain
+
+h3#snippet Code snippet
+pre
+	| <div id="example">
+	| 	<p>Sitios</p>
+	| 	<ul>
+	| 		<li><a href="http://www.mercadolibre.com">MercadoLibre</a></li>
+	| 		<li><a href="http://www.mercadopago.com">MercadoPago</a></li>
+	| 		<li><a href="http://www.mercadoshops.com">MercadoShops</a></li>
+	| 		<li><a href="http://www.mercadoclics.com">MercadoClics</a></li>
+	| 	</ul>
+	| </div>
+
+h3#instance Instance component
+p This is the way to create a new Dropdown:
+pre
+	| var foo = $("#example").dropdown();
+p
+	| As any 
+	a(href="/api/#{latest.version}/symbols/ch.Navs.html") Navs
+	|  children, the Dropdown has a few uses cases you can use to modifiy and manipulate its content, its size and positioning.
+
+h3#show-n-hide Show and hide
+p
+	| All 
+	a(href="/api/#{latest.version}/symbols/ch.Navs.html") Navs
+	|  exposes some public methods called 
+	code show
+	|  and 
+	code hide
+	| , both allow you to manage the Dropdown behavior programmatically. Something like this:
+pre
+	| foo.show();
+	| foo.hide();
+p
+	| Read more about 
+	a(href="/api/#{latest.version}/symbols/ch.Navs.html") Navs
+	| .
+
+h3#positioning Positioning
+p
+	| Chico has a great utility to position things on screen, is called 
+	a(href="/api/#{latest.version}/symbols/ch.Positioner.html") Positioner
+	| . All 
+	a(href="/api/#{latest.version}/symbols/ch.Navs.html") Navs
+	|  has a 
+	code position
+	|  method related to the Positioner, you can use it to redefine the Dropdown positioning. See an example:			
+pre
+	| myDropdown.position({
+	| 	"offset": "0 10",
+	| 	"points": "lt lb"
+	| });
+p
+	| As you can see, we pass a configuration object to the 
+	code position
+	|  method with some properties. The 
+	code offset
+	|  property let you define a specific pixel values for 
+	code X
+	|  and 
+	code Y
+	|  axis indentation.
+p
+	|The 
+	code points
+	| property defines the position relation between the element and its context. In this case, the value 
+	code "lt lb"
+	|  literally says: 
+	cite 
+		| The element will be positioned by joining its left-bottom point with its 
+		| context by its left-top point.
+p
+	| Read more about 
+	a(href="/api/#{latest.version}/symbols/ch.Positioner.html") Positioner
+	| .
+
+!=partial("includes/keep-reading")
+
+- script("code", '$(".myDropdown").dropdown()')

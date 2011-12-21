@@ -1,0 +1,57 @@
+h1 How to change the content of a Modal
+p.updated
+	| Documentation updated on 
+	data December 13rd
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#create-modal") 1 Create a new Modal
+		dt
+			a(href="#change-content") 2 Is the content boring? Change it!
+		dt
+			a(href="#new-content") 3 New content!
+
+h3#create-modal Create a new Modal
+p
+	| First, we'll have to create our Modal to work on it. You have to store Chico UI's components in a JavaScript variable in order to access the public 
+	a(href="/api/#{latest.version}/symbols/ch.Modal.html#!methods") methods
+	|  and 
+	a(href="/api/#{latest.version}/symbols/ch.Modal.html#!properties") properties
+	| . In this case, we are storing our Modal in the
+	code myModal
+	|  variable.
+p
+	| The Modal will have this configuration:
+pre
+	| var myModal = $("#modal").modal("<p>This is a modal window with static content.</p>");
+
+h3#change-content Is the content boring? Change it!
+p
+	| We'll change the content using, as setter, the
+	code content
+	|  method:
+pre
+	| myModal.content("New content for myModal, using the content() method.");	
+p
+	| See more on 
+	a(href="/api/#{latest.version}/symbols/ch.Modal.html#.content") Modal documentation
+	| .
+
+h3#new-content New content!
+p
+	| Now, if we use the 
+	code content
+	|  method as getter:
+pre
+	| myModal.content();
+p
+	| It returns:
+pre
+	| "New content for myModal, using the content() method."
+p
+	| This is simple, therefore you can try and change the Modal's content on your projects.
+
+!=partial("includes/keep-reading")

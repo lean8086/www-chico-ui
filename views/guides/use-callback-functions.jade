@@ -1,0 +1,116 @@
+h1 How to use callbacks functions
+p.updated
+	| Documentation updated on 
+	data December 13rd
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#overview") 1 Overview
+		dt
+			a(href="#defining-callbacks-functions") 2 Defining callback functions
+		dt
+			a(href="#the-scope-inside") 3 The scope inside
+		dt
+			a(href="#complex-behaviors") 4 Complex behaviors
+		dt
+			a(href="#deferred-callbacks") 5 Deferred callbacks
+
+h3#overview Overview
+p
+	| In this tutorial, we'll learn how to use 
+	a(href="http://en.wikipedia.org/wiki/Callback_(computer_programming)", title="Read more on Wikipedia") callbacks
+	|  to know when a component change into a different state.
+
+h3#defining-callbacks-functions Defining callback functions
+p
+	| Almost every component has different states, you can know when something happens through callback functions.
+p
+	| To assign a callback function simply use the 
+	code on
+	|  method exposed by all UI components.
+p
+	| The 
+	code on
+	|  method receipt 2 arguments:
+ul.ch-list
+	li Callback name
+	li Handler to be executed
+p
+	| Let's see an example with 
+	a(href="/widgets/modal") Modal
+	| component:
+pre
+	| var myModal = $("#my-modal").modal("Some content.");
+	| 
+	| myModal.on("show", function () {
+	| 	// Inside the callback function
+	| });
+p
+	| All the available callbacks are written down for each component on the
+	a(href="/api/#{latest.version}/index.html") API Documentation.
+
+h3#the-scope-inside The scope inside
+p
+	| To make things easy, each callback has a special scope inside its function context.
+p
+	| Through the 
+	code this
+	|  keyword you can access to the component instance to keep on working with it.
+p
+	| Let's see an example:
+pre
+	| var myModal = $("#my-modal").modal("Some content.");
+	| 
+	| myModal.on("show", function () {
+	| 	this.content("New content for 'this', the Modal.").widht(500).heigth(300);
+	| });
+
+h3#complex-behaviors Complex behaviors
+p
+	| You can easily create more complex behaviors by combining a few components through callback functions.
+p
+	| For example: First create an empty Modal.
+pre
+	| var myModal = $("#my-modal").modal();
+p
+	| Then, create a Form controller...
+pre
+	| var myForm = $("#my-form").form();
+p
+	| ...and define a "submit" callback:
+pre
+	| myForm.on("submit", function () {
+	| 	// Change Modal content and show it
+	| 	myModal.content("<p>Are you sure?</p>").show();
+	| });
+
+h3#deferred-callbacks Deferred callbacks
+p
+	| Another useful pattern is to assign deferred handlers to callbacks. That way you could assign behavior to the components depending on user behavior or your app configuration. To accomplish that all 
+	a(href="/api/#{latest.version}/symbols/ch.Object.html") Objects
+	|  have the public method 
+	code on
+	| , that let you define deferred callbacks, and other method called 
+	code off
+	| , to remove callbacks. 
+p
+	| For example, creating a Modal with some content...
+pre
+	| var myModal = $("#my-modal").modal("/some/content.html");
+p
+	| ...you can do something different for logged users:
+pre
+	| if (user.isLogged) {
+	| 	myModal.on("show", function(){
+	| 		// Do something
+	| 	});
+	| }
+p
+	| As you see in the previous example, the use of the 
+	code on
+	|  method to assign special behavior to logged users with a cool and simple sugar syntax.
+
+!=partial("includes/keep-reading")

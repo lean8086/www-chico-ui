@@ -1,0 +1,728 @@
+h1 Form
+p.updated
+	| Documentation updated on 
+	data December 14th
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#description") 1 Description
+		dt
+			a(href="#demo") 2 Demo
+		dd
+			dl
+				dt
+					a(href="#snippet") 2.1 Code snippet of demo
+		dt
+			a(href="#instance") 3 Instance component
+		dt
+			a(href="#markup") 4 Markup
+		dt
+			a(href="#classnames") 6 Classnames
+		dt
+			a(href="#snippets") 7 Code snippets
+		dd
+			dl
+				dt
+					a(href="#alphanumeric") 7.1 Alphanumeric fields
+				dt
+					a(href="#select") 7.2 Select
+				dt
+					a(href="#textarea") 7.3 Textarea
+				dt
+					a(href="#buttons") 7.4 Buttons
+				dt
+					a(href="#legend") 7.5 Legend
+				dt
+					a(href="#radios-n-checks") 7.6 Radio buttons and Checkboxes
+		dt
+			a(href="#callbacks") 8 Callbacks
+		dt
+			a(href="#error-messages") 9 Error messages
+					
+
+h3#description Description
+p
+	| The Form component is a member of 
+	a(href="/api/#{latest.version}/symbols/ch.Controllers.html") Controllers
+	|  family that manages instances of 
+	a(href="/api/#{latest.version}/symbols/ch.Watcher.html") Watchers
+	|  and provides public methods to administrate error messages and Form callbacks.
+
+h3#demo Demo
+form.ch-form.box#example_form(action="./form", method="GET")
+	legend Example form legend
+	p.ch-form-row
+		label(for="text") Input text:
+		input#text(name="text", type="text")
+	p.ch-form-actions
+		input.ch-btn.ch-secondary(type="submit", value="Submit")
+
+h4#snippet Code snippet of demo
+pre
+	| <form class="ch-form" method="GET">
+	| 	<legend>Example form legend</legend>
+	| 	<p class="ch-form-row">
+	| 		<input id="text" name="text" type="text">
+	| 	</p>
+	| 	<p class="ch-form-actions">
+	| 		<input id="submit" class="ch-btn ch-secondary" name="send" type="submit">
+	| 	</p>
+	| </form>
+a.more(href="/static-demo/form.html", target="_blank") See a complete demo
+
+h3#instance Instance component
+
+p This is the way to create a new Form:
+pre
+	| var myForm = $("#example").form();
+
+h3#markup Markup
+p
+	| Form needs some CSS classes and a specific markup to view correctly. The classes provides styles for text inputs, select, textareas, radio buttons and checkboxes, and buttons.
+p
+	| A form contains input elements like text fields, checkboxes, radio-buttons, submit buttons and more (select lists, textareas, fieldsets, legends, and label elements).
+a.more(href="/static-demo/form.html", target="_blank") See a complete demo
+
+h3#classnames Classnames
+
+table.datagrid.tableForm
+	thead
+		tr
+			th(width="30%") Class
+			th(width="30%") Description
+			th(width="40%") Demo
+	tbody
+		tr
+			td 
+				code ch-form
+			td Basic styles
+			td	
+				form.ch-form(action="./form", method="GET")
+					p.ch-form-row
+						label(for="input_text_class1") Text:
+						input(type="text", placeholder="Some text here...", size="30", name="input_text", id="input_text_class1")
+		tr
+			td 
+				code ch-form-row
+			td Inputs and labels wrappers.
+			td	
+				form.ch-form(action="./form", method="GET")
+					p.ch-form-row
+						label(for="input_text_class2") Text:
+						input(type="text", placeholder="Some text here...", size="30", name="input_text", id="input_text_class2")
+		tr
+			td 
+				code ch-form-required
+			td Wrappers that have required fields.
+			td	
+				form.ch-form(action="./form", method="GET")
+					p.ch-form-row.ch-form-required
+						label(for="input_text_class3") 
+							| Text:
+							em *
+						input(type="text", placeholder="Some text here...", size="30", name="input_text", id="input_text_class3", required)
+		tr
+			td 
+				code ch-form-disabled
+			td Wrappers that have disabled fields.
+			td	
+				form.ch-form(action="./form", method="GET")
+					p.ch-form-row.ch-form-disabled
+						label(for="input_text_class4") Text:
+						input(type="text", placeholder="Some text here...", size="30", name="input_text", id="input_text_class4", disabled)
+		tr
+			td 
+				code ch-form-subtitle
+			td Wrappers that have a radio buttons or checkboxes list.
+			td	
+				form.ch-form(action="./form", method="GET")
+					h4.ch-form-row.ch-form-subtitle Subtitle
+					p.ch-form-row
+						label(for="input_text_class5") Text:
+						input(type="text", placeholder="Some text here...", size="30", name="input_text", id="input_text_class5")
+		tr
+			td 
+				code ch-form-hint
+			td Hint or help messages.
+			td	
+				form.ch-form(action="./form", method="GET")
+					p.ch-form-row
+						label(for="input_text_class6") Text:
+						input(type="text", placeholder="Some text here...", size="30", name="input_text", id="input_text_class6")
+						span.ch-form-hint Numbers and dot symbol
+		tr
+			td 
+				code ch-form-options
+			td Wrappers that have a radio buttons or checkboxes list.
+			td	
+				form.ch-form(action="/post", method="GET")
+					div.ch-form-options
+						p.ch-form-row
+							input(type="radio", id="option1_class", value="1", name="option")
+							label(for="option1_class") Option 1
+						p.ch-form-row
+							input(type="radio", id="option2_class", value="2", name="option")
+							label(for="option2_class") Option 2
+		tr
+			td 
+				code ch-form-ico
+			td Wrappers that have icons.
+			td	
+				form.ch-form(action="./form", method="GET")
+					p.ch-form-row
+						label(for="input_text_class7") Text:
+						input(type="text", placeholder="Some text here...", size="30", name="input_text", id="input_text_class7")
+						span(class="ch-form-ico ico help") Help
+		tr
+			td 
+				code ch-form-select-multiple
+			td Select with multiple attribute.
+			td	
+				form.ch-form(action="./form", method="GET")
+					p.ch-form-row
+						label(for="select_multiple_class") Multiple:
+						select(class="ch-form-select-multiple", id="select_multiple_class", name="select_multiple_class", size="5", multiple="multiple")
+							option(value="1") Select option 1
+							option(value="2") Select option 2
+							option(value="3") Select option 3
+							option(value="4") Select option 4
+							option(value="5") Select option 5
+							option(value="6") Select option 6
+							option(value="7") Select option 7
+
+
+h3#snippets Code snippets
+h4#alphanumeric Alphanumeric fields
+
+table.datagrid.tableForm
+	thead
+		th(width="40%") Input
+		th(width="60%") Snippet
+	tbody
+		tr
+			td	
+				form.ch-form(action="./form", method="GET")
+					p.ch-form-row
+						label(for="input_text") Text:
+						input(type="text", placeholder="Some text here...", size="30", name="input_text", id="input_text")
+			td
+				pre
+					|<form ... >
+					|    <p class="ch-form-row">
+					|        <label for="input_text">Text:</label>
+					|        <input type="text" placeholder="Some text here..." size="30" name="input_text" id="input_text">
+					|    </p>
+					|</form>
+		tr
+			td	
+				form.ch-form(action="./form", method="GET")
+					p.ch-form-row.ch-form-required
+						label(for="input_text") 
+							| Text:
+							em *
+						|  
+						input(type="text", required, placeholder="Some text here...", size="30", name="input_text", id="input_text")
+			td
+				pre
+					|<form ... >
+					|    <p class="ch-form-row ch-form-required">
+					|        <label for="input_text">Text:<em>*</em></label>
+					|        <input type="text" required placeholder="Some text here..." size="30" name="input_text" id="input_text">
+					|    </p>
+					|</form>
+		tr
+			td	
+				form.ch-form(action="./form", method="GET")
+					p.ch-form-row.ch-form-required.ch-form-disabled	
+						label(for="input_text") 
+							| Text:
+							em *
+						|  
+						input(type="text", required, disabled, placeholder="Some text here...", size="30", name="input_text", id="input_text")
+			td
+				pre
+					|<form ... >
+					|    <p class="ch-form-row ch-form-required ch-form-disabled">
+					|        <label for="input_text">Text:<em>*</em></label>
+					|        <input type="text" required disabled placeholder="Some text here..." size="30" name="input_text" id="input_text">
+					|    </p>
+					|</form>
+		tr
+			td	
+				form.ch-form(action="./form", method="GET")
+					p.ch-form-row.ch-form-disabled
+						label(for="input_text") Text:
+						input(type="text", disabled, placeholder="Some text here...", size="30", name="input_text", id="input_text")
+			td
+				pre
+					|<form ... >
+					|    <p class="ch-form-row ch-form-disabled">
+					|        <label for="input_text">Text: </label>
+					|        <input type="text" disabled placeholder="Some text here..." size="30" name="input_text" id="input_text">
+					|    </p>
+					|</form>
+
+h4#select Select
+table.datagrid.tableForm
+	thead
+		th(width="40%") Input
+		th(width="60%") Snippet
+	tbody
+		tr
+			td	
+				form.ch-form(action="./form", method="GET")
+					p.ch-form-row
+						label(for="select") Select:
+						select(id="select", name="select")
+							option(value="") Select one...
+							option(value="1") Option 1
+							option(value="2") Option 2
+							option(value="3") Option 3
+							option(value="4") Option 4
+			td
+				pre
+					|<form ... >
+					|    <p class="ch-form-row">
+					|        <label for="select">Select:</label>
+					|        <select id="select" name="select">
+					|            <option value="-1">Select one...</option>
+					|            <option value="1">Option 1</option>
+					|            <option value="2">Option 2</option>
+					|            <option value="3">Option 3</option>
+					|            <option value="4">Option 4</option>
+					|        </select>
+					|    </p>
+					|</form>
+		tr
+			td	
+				form.ch-form(action="./form", method="GET")
+					p.ch-form-row.ch-form-required
+						label(for="select") 
+							| Select:
+							em *
+						| 
+						select(id="select", name="select", required)
+							option(value="") Select one...
+							option(value="1") Option 1
+							option(value="2") Option 2
+							option(value="3") Option 3
+							option(value="4") Option 4
+			td
+				pre
+					|<form ... >
+					|    <p class="ch-form-row ch-form-required">
+					|        <label for="select">Select: <em>*</em></label>
+					|        <select id="select" name="select" required>
+					|            <option value="-1">Select one...</option>
+					|            <option value="1">Option 1</option>
+					|            <option value="2">Option 2</option>
+					|            <option value="3">Option 3</option>
+					|            <option value="4">Option 4</option>
+					|        </select>
+					|    </p>
+					|</form>
+		tr
+			td	
+				form.ch-form(action="./form", method="GET")
+					p.ch-form-row.ch-form-required.ch-form-disabled
+						label(for="select") 
+							| Select:
+							em *
+						| 
+						select(id="select", name="select", required, disabled)
+							option(value="") Select one...
+							option(value="1") Option 1
+							option(value="2") Option 2
+							option(value="3") Option 3
+							option(value="4") Option 4
+			td
+				pre
+					|<form ... >
+					|    <p class="ch-form-row ch-form-required ch-form-disabled">
+					|        <label for="select">Select: <em>*</em></label>
+					|        <select id="select" name="select" required disabled>
+					|            <option value="-1">Select one...</option>
+					|            <option value="1">Option 1</option>
+					|            <option value="2">Option 2</option>
+					|            <option value="3">Option 3</option>
+					|            <option value="4">Option 4</option>
+					|        </select>
+					|    </p>
+					|</form>
+		tr
+			td	
+				form.ch-form(action="./form", method="GET")
+					p.ch-form-row.ch-form-disabled
+						label(for="select") 
+							| Select:
+						| 
+						select(id="select", name="select", disabled)
+							option(value="") Select one...
+							option(value="1") Option 1
+							option(value="2") Option 2
+							option(value="3") Option 3
+							option(value="4") Option 4
+			td
+				pre
+					|<form ... >
+					|    <p class="ch-form-row ch-form-disabled">
+					|        <label for="select">Select: </label>
+					|        <select id="select" name="select" disabled>
+					|            <option value="-1">Select one...</option>
+					|            <option value="1">Option 1</option>
+					|            <option value="2">Option 2</option>
+					|            <option value="3">Option 3</option>
+					|            <option value="4">Option 4</option>
+					|        </select>
+					|    </p>
+					|</form>
+		tr
+			td	
+				form.ch-form(action="./form", method="GET")
+					p.ch-form-row
+						label(for="select_multiple") Multiple:
+						select(class="ch-form-select-multiple", id="select_multiple", name="select_multiple", size="5", multiple="multiple")
+							option(value="1") Select option 1
+							option(value="2") Select option 2
+							option(value="3") Select option 3
+							option(value="4") Select option 4
+							option(value="5") Select option 5
+							option(value="6") Select option 6
+							option(value="7") Select option 7
+			td
+				pre
+					|<form ... >
+					|    <p class="ch-form-row">
+					|        <label for="select_multiple">Multiple:</label>
+					|        <select multiple="multiple" class="ch-form-select-multiple" id="select_multiple" name="select_multiple" size="5" >
+					|            <option value="1">Select option 1</option>
+					|            <option value="2">Select option 2</option>
+					|            <option value="3">Select option 3</option>
+					|            <option value="4">Select option 4</option>
+					|            <option value="5">Select option 5</option>
+					|            <option value="6">Select option 6</option>
+					|            <option value="7">Select option 7</option>	
+					|        </select>
+					|    </p>
+					|</form>
+
+h4#textarea Textarea
+table.datagrid.tableForm
+	thead
+		th(width="40%") Input
+		th(width="60%") Snippet
+	tbody
+		tr
+			td	
+				form.ch-form(action="./form", method="GET")
+					p.ch-form-row
+						label(for="textarea") textarea:
+						textarea(id="textarea")
+			td
+				pre
+					|<form ... >
+					|    <p class="ch-form-row">
+					|        <label for="textarea">textarea:</label>
+					|        <textarea></textarea>
+					|    </p>
+					|</form>
+		tr
+			td	
+				form.ch-form(action="./form", method="GET")
+					p.ch-form-row.ch-form-required
+						label(for="textarea") 
+							| textarea:  
+							em *
+						| 
+						textarea(id="textarea", required)
+			td
+				pre
+					|<form ... >
+					|    <p class="ch-form-row ch-form-required">
+					|        <label for="textarea">textarea: <em>*</em></label>
+					|        <textarea required></textarea>
+					|    </p>
+					|</form>
+		tr
+			td	
+				form.ch-form(action="./form", method="GET")
+					p.ch-form-row.ch-form-required.ch-form-disabled
+						label(for="textarea") 
+							| textarea:  
+							em *
+						| 
+						textarea(id="textarea", required, disabled)
+			td
+				pre
+					|<form ... >
+					|    <p class="ch-form-row ch-form-required ch-form-disabled">
+					|        <label for="textarea">textarea: <em>*</em></label>
+					|        <textarea required disabled></textarea>
+					|    </p>
+					|</form>
+		tr
+			td
+				form.ch-form(action="./form", method="GET")
+					p.ch-form-row.ch-form-disabled
+						label(for="textarea") textarea:
+						textarea(id="textarea", disabled)
+			td
+				pre
+					|<form ... >
+					|    <p class="ch-form-row">
+					|        <label for="textarea" disabled>textarea:</label>
+					|        <textarea></textarea>
+					|    </p>
+					|</form>
+
+
+h4#buttons Buttons
+table.datagrid.tableForm
+	thead
+		th(width="40%") Button
+		th(width="60%") Snippet
+	tbody
+		tr
+			td	
+				input(type='submit', value='Main Button').ch-btn.ch-main
+			td
+				pre
+					|<input class="ch-btn ch-main" type="submit" value="Main Button">
+		tr
+			td	
+				input(type='submit', value='Primary Button').ch-btn.ch-primary
+			td
+				pre
+					|<input class="ch-btn ch-primary" type="submit" value="Primary Button">
+		tr
+			td
+				input(type='submit', value='Secondary Button').ch-btn.ch-secondary
+			td
+				pre
+					|<input class="ch-btn ch-secondary" type="submit" value="Secondary Button">
+		tr
+			td
+				input(type='submit', value='Secondary Skin Button').ch-btn.ch-secondary.ch-skin
+			td
+				pre
+					|<input class="ch-btn ch-ch-secondary ch-skin" type="submit" value="Secondary Skin Button">
+		tr
+			td
+				input(type='submit', value='Main Button Disabled', disabled='disabled').ch-btn.ch-main
+			td
+				pre
+					|<input class="ch-btn ch-main" disabled type="submit" value="Main Disable Button">
+		tr
+			td
+				input(type='submit', value='Primary Button Disabled', disabled='disabled').ch-btn.ch-primary
+			td
+				pre
+					|<input class="ch-btn ch-primary" disabled type="submit" value="Primary Disable Button">
+		tr
+			td
+				input(type='submit', value='Secondary Button Disabled', disabled='disabled').ch-btn.ch-secondary	
+			td
+				pre
+					|<input class="ch-btn ch-secondary" disabled type="submit" value="Secondary Disable Button">
+		tr
+			td	
+				input(type='submit', value='Secondary Skin Button Disabled', disabled='disabled').ch-btn.ch-secondary.ch-skin
+			td
+				pre
+					|<input class="ch-btn ch-secondary ch-skin" disabled type="submit" value="Secondary Skin Disable Button">
+
+
+h4#legend Legend
+table.datagrid.tableForm
+	thead
+		th(width="40%") Legend
+		th(width="60%") Snippet
+	tbody
+		tr
+			td	
+				form.ch-form(action="/post", method="GET")
+					fieldset
+						legend Example form legend
+			td
+				pre
+					|<form ... >
+					|    <fieldset>
+					|        <legend>Example form legend</legend>
+					|    <fieldset>
+					|</form>
+
+h4#radios-n-checks Radio buttons and Checkboxes
+table.datagrid.tableForm
+	thead
+		th(width="40%") Checkboxes and radios
+		th(width="60%") Snippet
+	tbody
+		tr
+			td	
+				form.ch-form(action="/post", method="GET")
+					fieldset
+						legend Example form legend
+						div.ch-form-options
+							p.ch-form-row
+								input(type="radio", id="option1", value="1", name="option")
+								label(for="option1") Option 1
+							p.ch-form-row
+								input(type="radio", id="option2", value="2", name="option")
+								label(for="option2") Option 2
+			td
+				pre
+					|<form ... >
+					|    <fieldset>
+					|        <legend>Example form legend <em>*</em></legend>
+					|        <div class="ch-form-options">
+					|            <p class="ch-form-row">
+					|                <input type="radio" id="option1"  value="1" name="option">
+					|                <label for="option1">Option 1</label>
+					|            </p>
+					|            <p class="ch-form-row">
+					|                <input type="radio" id="option2"  value="2" name="option">
+					|                <label for="option2">Option 1</label>
+					|            </p>
+					|        </div>
+					|    <fieldset>
+					|</form>
+		tr
+			td	
+				form.ch-form(action="/post", method="GET")
+					fieldset
+						legend 
+							| Example form legend
+							em *
+						ul.ch-form-options
+							li.ch-form-row
+								input(type="radio", id="option1a", value="1", name="optionA")
+								label(for="option1b") Option 1-A
+							li.ch-form-row
+								input(type="radio", id="option2a", value="2", name="optionA")
+								label(for="option2a") Option 2-A
+			td
+				pre
+					|<form ... >
+					|    <fieldset>
+					|        <legend>Example form legend <em>*</em></legend>
+					|        <ul class="ch-form-options">
+					|            <li class="ch-form-row">
+					|                <input type="radio" id="option1"  value="1" name="option">
+					|                <label for="option1">Option 1</label>
+					|            </li>
+					|            <li class="ch-form-row">
+					|                <input type="radio" id="option2"  value="2" name="option">
+					|                <label for="option2">Option 1</label>
+					|            </li>
+					|        </ul>
+					|    <fieldset>
+					|</form>
+		tr
+			td	
+				form.ch-form(action="/post", method="GET")
+					fieldset
+						legend Example form legend
+						div.ch-form-options
+							h4.ch-form-subtitle Title of checkboxes group:
+							p.ch-form-row
+								input(type="checkbox", id="option1c", value="1", name="optionC")
+								label(for="option1c") Option 1
+							p.ch-form-row
+								input(type="checkbox", id="option2c", value="2", name="optionC")
+								label(for="option2c") Option 2
+			td
+				pre
+					|<form ... >
+					|    <fieldset>
+					|        <legend>Example form legend</legend>
+					|        <div class="ch-form-options">
+					|        <h4 class="ch-form-subtitle">
+					|            <p class="ch-form-row">
+					|                <input type="checkbox" id="option1"  value="1" name="option">
+					|                <label for="option1">Option 1</label>
+					|            </p>
+					|            <p class="ch-form-row">
+					|                <input type="checkbox" id="option2"  value="2" name="option">
+					|                <label for="option2">Option 1</label>
+					|            </p>
+					|        </div>
+					|    <fieldset>
+					|</form>
+		tr
+			td	
+				form.ch-form(action="/post", method="GET")
+					fieldset
+						legend Example form legend
+						div.ch-form-options.ch-form-required
+							h4.ch-form-subtitle 
+								| Title of checkboxes group:
+								em *
+							p.ch-form-row
+								input(type="checkbox", id="option1d", value="1", name="optionD")
+								label(for="option1d") Option 1
+							p.ch-form-row
+								input(type="checkbox", id="option2d", value="2", name="optionD")
+								label(for="option2d") Option 2
+			td
+				pre
+					|<form ... >
+					|    <fieldset>
+					|        <legend>Example form legend</legend>
+					|        <div class="ch-form-options ch-form-required">
+					|            <h4 class="ch-form-subtitle">Title of checkboxes group: <em>*</em></h4>
+					|            <p class="ch-form-row">
+					|                <input type="checkbox" id="option1"  value="1" name="option">
+					|                <label for="option1">Option 1</label>
+					|            </p>
+					|            <p class="ch-form-row">
+					|                <input type="checkbox" id="option2"  value="2" name="option">
+					|                <label for="option2">Option 1</label>
+					|            </p>
+					|        </div>
+					|    <fieldset>
+					|</form>
+
+p
+	| Read more about 
+	a(href='/api/#{latest.version}/symbols/ch.Form.html') Form
+	| .
+
+h3#callbacks Callbacks
+p
+	| The Form has some uses cases. You can use this component to trigger callbacks on determinated events.
+pre
+	| var myForm = $("#example_form").form();
+	| 
+	| myFrom.on("submit", function () {
+	| 	alert("This was triggered by Form component.");
+	| });
+p
+	| Read more about
+	a(href="/guides/use-callback-functions") Callbacks
+	| .
+p
+	| You can find all Form callbacks on its 
+	a(href="/api/#{latest.version}/symbols/ch.Form.html") API documentation
+	| .
+
+h3#error-messages Error messages
+p
+	| To set default messages for 
+	a(href="/api/#{latest.version}/symbols/ch.Watcher.html") Watchers
+	|  children, you can specify messages on configuration object.
+p
+	| These messages will be replaced if a Watcher is invoked with a message.
+pre
+	| var myForm = $("#example_form").form({
+	| 	"messages": {
+	| 		"required": "Error message for all required fields.",
+	| 		"email": "Show this message on email format error."
+	| 	}
+	| });
+
+!=partial("includes/keep-reading")
+
+- script("code", '$("#example_form").form().on("submit", function () { alert("This was triggered by Form component."); });')

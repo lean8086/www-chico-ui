@@ -1,0 +1,107 @@
+h1 Menu
+p.updated
+	| Documentation updated on 
+	data December 14th
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#description") 1 Description
+		dt
+			a(href="#demo") 2 Demo
+		dt
+			a(href="#snippet") 3 Code snippet
+		dt
+			a(href="#instance") 4 Instance component
+		dt
+			a(href="#select-event") "select" event
+		dt
+			a(href="#get-and-set-content") 6 Get and set content
+		dt
+			a(href="#changing-size") 7 Changing size
+
+h3#description Description
+p
+	| The Menu widget is a member of the 
+	a(href="/api/#{latest.version}/symbols/ch.Controllers.html") Controllers
+	|  family. The navigation component works by folding the information in categories. It lets you organize large lists of links. The user select one of the folds so making focus in a part of the large list.
+
+h3#demo Demo
+.box
+	ul.demo_menu
+		li
+			span Ninja 1
+			ul
+				li
+					a(href="#") Ninja 1.1
+				li
+					a(href="#") Ninja 1.2
+		li
+			span Ninja 2
+			ul
+				li
+					a(href="#") Ninja 2.1
+				li
+					a(href="#") Ninja 2.2
+		li
+			span Ninja 3
+			ul
+				li
+					a(href="#") Ninja 3.1
+				li
+					a(href="#") Ninja 3.2
+		li
+			a(href="#") Ninja 4
+
+h3#snippet Code snippet
+pre
+	| <ul id="example">
+	| 	<li>
+	| 		<span>Ninja 1</span>
+	| 		<ul>
+	| 			<li><a href="#">Ninja 1.1</a></li>
+	| 			<li><a href="#">Ninja 1.2</a></li>
+	| 		</ul>
+	| 	</li>
+	| 	<li>
+	| 		<span>Ninja 2</span>
+	| 		<ul>
+	| 			<li><a href="#">Ninja 2.1</a></li>
+	| 			<li><a href="#">Ninja 2.2</a></li>
+	| 		</ul>
+	| 	</li>
+	| 	<li>
+	| 		<span>Ninja 3</span>
+	| 		<ul>
+	| 			<li><a href="#">Ninja 3.1</a></li>
+	| 			<li><a href="#">Ninja 3.2</a></li>
+	| 		</ul>
+	| 	</li>
+	| 	<li>
+	| 		<a href="#">Ninja 4</a>
+	| 	</li>
+	| </ul>
+
+h3#instance Instance component
+p
+	| This is the way to create a new Menu:
+pre
+	| var foo = $("#example").menu();
+p 
+	| The folds are by default closed. But you can use the 
+	code selected
+	|  property to open a specific children. This is the way to initialize the component with a selected item:
+pre
+	| var foo = $("#example").menu({"seleted": "2"});
+
+h3#select-event "select" event
+p 
+	| When a fold is being selected, the 
+	code select
+	|  event is dispatched. You can set a callback function.
+
+!=partial("includes/keep-reading")
+
+- script("code", '$(".demo_menu").menu();')

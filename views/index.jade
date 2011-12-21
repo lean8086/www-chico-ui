@@ -1,202 +1,198 @@
-.ch-g1.overview.section
-	.ch-g1-3
-
-			h1 Get things done, quickly
-			p.container
+.old-home.ch-g1
+	.ch-g2-5
+		.leftcolumn
+			h3 Get things done, quickly
+			p
 				| Chico is a 
-				strong free 
-				| and 
-				strong open source 
-				| collection of 
-				em easy-to-use 
-				| web toys for developers and designers.
-				| Built on top of 
-				a(href='http://www.jquery.com',rel='nofollow') jQuery
-				| , this toolbox brings a couple of known visual patterns
-				| for the web and takes advantages of the new HTML5 and CSS3 features. We want to 
-				a(href='http://github.com/mercadolibre/chico',rel='nofollow') share this tool 
+				strong free
+				|  and 
+				strong open source
+				|  collection of 
+				em easy-to-use
+				|  web toys for developers and designers.
+				|  Built on top of 
+				a(href="http://www.jquery.com", rel="nofollow") jQuery
+				| , this toolbox brings a couple of known visual patterns for the web and takes advantages of the new HTML5 and CSS3 features.
+				|  We want to 
+				a(href="http://github.com/mercadolibre/chico", rel="nofollow", target="_blank") share this tool 
 				| with the world to help making the web more beautiful.
-			form.container(action='/docs')
-				input.btn.primary.button(type='submit', value='Getting Started')
-	.ch-g1-3
+			form(action="/get-started")
+				input.ch-btn.ch-primary(type="submit", value="Getting Started")
+	
+	.ch-g3-10
 		.ninja
-			img(src='src/assets/ninja.jpg',widht='278',height='368')
-	.ch-g1-3
-		div.download-container.center
-			h2 
+			img(src="src/assets/ninja.jpg", width="278", height="368")
+	
+	.ch-g3-10
+		.rightcolumn
+			h4
 				| Get latest version 						
-			form(action='#{latest.download.href}')
+			form#full-package(action="#{latest.download.href}")
 				fieldset
 					ul
 						li
-							input.btn.secondary.skin.button(type='submit', value='Download #{latest.version} full package')
+							input.ch-btn.ch-secondary.ch-skin(type="submit", value="Download v#{latest.version} full package")
 					p
 						| Looking for
-						a(href='/download') older versions
+						a(href="/download") older versions
 						| ?
-
-			form(action='/download')
-				fieldset						
+			form#custom-package(action="/download")
+				fieldset
 					ul
 						li
-							input.btn.primary.button(type='submit', value='Build custom package')
-
+							input.ch-btn.ch-primary(type="submit", value="Build custom package")
 					p
-						| Select all the components you need from latest release
-						| and download your custom package ready to use.
+						| Select all the components you need from latest release and download your custom package ready to use.
 			hr
-			a(href='http://github.com/mercadolibre/chico', rel='nofollow') Get all the source code form Github
+			a(href="http://github.com/mercadolibre/chico", rel="nofollow", target="_blank") Get all the source code form Github
 			hr
-hr.clearfix
-div.container.home
-	ul.clearfix
 
-							
-							
-		li.ch-g1-6
-			h3 Developers
-			ul.centercolumn
+ul.old-links.container.ch-g1.clearfix
+	li.ch-g1-6
+		.leftcolumn
+			h4 Developers
+			ul
+				li
+					a(href="/api") API documentation
+				li
+					a(href="http://github.com/mercadolibre/chico", rel="nofollow", target="_blank") Code on Github
+				li
+					a(href="#{common.issuetracker}", target="_blank") Issue tracker
+				li
+					a(href="http://blog.chico-ui.com.ar/tagged/Release_Notes") Release Notes
+	li.ch-g1-6
+		.centercolumn
+			h4 Chico Mesh
+			ul
+				li
+					a(href="/mesh") Overview
 				li 
-					a(href='/api/#{latest.version}/index.html') API documentation
-				li 
-					a(href='http://github.com/mercadolibre/chico', rel='nofollow') Code on Github
-				li 
-					a(href='#{common.issuetracker}') Issue tracker
-				li 
-					a(href='http://blog.chico-ui.com.ar/tagged/Release_Notes') Release Notes
-					
-
-								
-		li.ch-g1-6
-			h3 Chico Mesh
-			ul.leftcolumn
-				li 
-					a(href='/mesh') Overview
-				li 
-					a(href='/mesh/demos/fluid-mesh.html', rel='nofollow') Fluid Grids
-				li 
-					a(href='/docs/how-to/mesh-your-layout-in-5-min') Mesh your layout
-		
-		li.ch-g1-6
-			h3 How-to guides
-			ul.centercolumn
-				- each item, i in howtos
-					- if (i<4)
+					a(href="/mesh#showroom", rel="nofollow") Showroom
+				li
+					a(href="/guides/mesh-your-layout-in-5-min") Mesh your layout
+	li.ch-g1-6
+		.centercolumn
+			h4 Learning guides
+			ul
+				- each item, i in guides
+					- if (i < 3)
 						li
-							a(href='#{item.href}') #{item.label}							
-						
-		li.ch-g3-6
-			.ui-components-demo.rightcolumn
+							a(href="#{item.href}") #{item.label}
+	li.ch-g3-6
+		.rightcolumn
+			.ui-components-demo
 				ul.ui-components-demo-list
 					li.ui-components-demo-list-item
-						a(href='/docs/demos/calendar') 
+						a(href="/widgets/calendar")
 							span.rounded
-								img(src='src/assets/icons/calendar-icon-64x64.jpg',alt='Calendar')
+								img(src="src/assets/icons/calendar-icon-64x64.jpg", alt="Calendar")
 							span Calendar
 					li.ui-components-demo-list-item
-						a(href='/docs/demos/carousel') 
+						a(href="/widgets/carousel") 
 							span.rounded
-								img(src='src/assets/icons/carousel-icon-64x64.jpg',alt='Carousel')
+								img(src="src/assets/icons/carousel-icon-64x64.jpg", alt="Carousel")
 							span Carousel
 					li.ui-components-demo-list-item
-						a(href='/docs/demos/css-library') 
+						a(href="/widgets/css-library") 
 							span.rounded
-								img(src='src/assets/icons/csslibrary-icon-64x64.jpg',alt='CSS Library')
+								img(src="src/assets/icons/csslibrary-icon-64x64.jpg", alt="CSS Library")
 							span CSS Library
 					li.ui-components-demo-list-item
-						a(href='/docs/demos/dropdown') 
+						a(href="/widgets/dropdown") 
 							span.rounded
-								img(src='src/assets/icons/dropdown-icon-64x64.jpg',alt='Dropdown')
+								img(src="src/assets/icons/dropdown-icon-64x64.jpg", alt="Dropdown")
 							span Dropdown
 					li.ui-components-demo-list-item
-						a(href='/docs/demos/expando') 
+						a(href="/widgets/expando") 
 							span.rounded
-								img(src='src/assets/icons/expando-icon-64x64.jpg',alt='Expando')
+								img(src="src/assets/icons/expando-icon-64x64.jpg", alt="Expando")
 							span Expando
 					li.ui-components-demo-list-item
-						a(href='/docs/demos/form') 
+						a(href="/widgets/form") 
 							span.rounded
-								img(src='src/assets/icons/form-icon-64x64.jpg',alt='Form')
-							span Form 
+								img(src="src/assets/icons/form-icon-64x64.jpg", alt="Form")
+							span Form
 					li.ui-components-demo-list-item
-						a(href='/docs/demos/layer') 
+						a(href="/widgets/layer") 
 							span.rounded
-								img(src='src/assets/icons/layer-icon-64x64.jpg',alt='Layer')
+								img(src="src/assets/icons/layer-icon-64x64.jpg", alt="Layer")
 							span Layer
 					li.ui-components-demo-list-item
-						a(href='/docs/demos/menu') 
+						a(href="/widgets/menu") 
 							span.rounded
-								img(src='src/assets/icons/menu-icon-64x64.jpg',alt='Menu')
+								img(src="src/assets/icons/menu-icon-64x64.jpg", alt="Menu")
 							span Menu
 					li.ui-components-demo-list-item
-						a(href='/docs/demos/modal') 
+						a(href="/widgets/modal") 
 							span.rounded
-								img(src='src/assets/icons/modal-icon-64x64.jpg',alt='Modal')
+								img(src="src/assets/icons/modal-icon-64x64.jpg", alt="Modal")
 							span Modal
 					li.ui-components-demo-list-item
-						a(href='/docs/demos/positioner') 
+						a(href="/widgets/positioner") 
 							span.rounded
-								img(src='src/assets/icons/positioner-icon-64x64.jpg',alt='Positioner')
+								img(src="src/assets/icons/positioner-icon-64x64.jpg", alt="Positioner")
 							span Positioner 
 					li.ui-components-demo-list-item
-						a(href='/docs/demos/tabNavigator') 
+						a(href="/widgets/tabNavigator") 
 							span.rounded
-								img(src='src/assets/icons/tabNavigator-icon-64x64.jpg',alt='TabNavigator')
+								img(src="src/assets/icons/tabNavigator-icon-64x64.jpg", alt="TabNavigator")
 							span TabNavigator
 					li.ui-components-demo-list-item
-						a(href='/docs/demos/tooltip') 
+						a(href="/widgets/tooltip") 
 							span.rounded
-								img(src='src/assets/icons/tooltip-icon-64x64.jpg',alt='Tooltip')
+								img(src="src/assets/icons/tooltip-icon-64x64.jpg", alt="Tooltip")
 							span Tooltip
 					li.ui-components-demo-list-item
-						a(href='/docs/demos/watcher') 
+						a(href="/widgets/watcher") 
 							span.rounded
-								img(src='src/assets/icons/watcher-icon-64x64.jpg',alt='Watcher')
+								img(src="src/assets/icons/watcher-icon-64x64.jpg", alt="Watcher")
 							span Watcher
 					li.ui-components-demo-list-item
-						a(href='/docs/demos/zoom')
+						a(href="/widgets/zoom")
 							span.rounded
-								img(src='src/assets/icons/zoom-icon-64x64.png',alt='Zoom')
+								img(src="src/assets/icons/zoom-icon-64x64.png", alt="Zoom")
 							span Zoom
-	
-hr.clearfix
-div.container.home
-	ul
-		li.ch-g1-3
-			a(href='http://www.w3.org/html/logo/', rel='nofollow')
-				img(alt='HTML5', src='http://www.w3.org/html/logo/badge/html5-badge-h-solo.png')
-			h3 We love the open web
+
+ul.old-features.container.clearfix
+	li.ch-g1-3
+		.leftcolumn
+			a(href="http://www.w3.org/html/logo/", rel="nofollow")
+				img(alt="HTML5", src="http://www.w3.org/html/logo/badge/html5-badge-h-solo.png")
+			h5
+				strong We love the open web
 			p
-				| We want to collaborate to make the web more beautiful, with HTML, CSS,
-				| JavaScript.
-		li.ch-g1-3
-			img(src='src/assets/web-browsers.jpg')
-			h3 Cross browser
-			p Still supporting old browsers: IE6+, FF3+, Chrome, Safari, Opera.
+				| We want to collaborate to make the web more beautiful, with HTML, CSS, JavaScript.
+	li.ch-g1-3
+		.centercolumn
+			img(src="src/assets/web-browsers.jpg", alt="Cross browser")
+			h5
+				strong Cross browser
+			p Still supporting old browsers: IE7+, FF4+, Chrome, Safari, Opera.
 			/if lt IE 7 
 				p You are using a really really old browser! Please, try to upgrade the thing and help engineers to push the web forward, much further than you think!
-		li.ch-g1-3
-			a(href='http://opensource.org/', rel='nofollow')
-				img(alt='Open Source Initiative', src='src/assets/opensource.png')
-			h3 Open source
+	li.ch-g1-3
+		.rightcolumn
+			a(href="http://opensource.org/", rel="nofollow")
+				img(alt="Open Source Initiative", src="src/assets/opensource.png")
+			h5
+				strong Open source
 			p 
-				| Released under              
-				a(href='https://raw.github.com/mercadolibre/chico/bc982b922d041057c9dde9566536ebfb517d1a70/LICENSE.txt', title='It means you can use it and modify it as you like.', rel='nofollow') MIT License!
+				| Released under
+				a(href="https://raw.github.com/mercadolibre/chico/bc982b922d041057c9dde9566536ebfb517d1a70/LICENSE.txt", title="It means you can use it and modify it as you like.", rel="nofollow", target="_blank") MIT License!
 				| We are sharing our work like other cool projects like 
-				a(href='http://jquery.com/', rel='nofollow') jQuery
+				a(href="http://jquery.com/", rel="nofollow", target="_blank") jQuery
 				|  and 
-				a(href='http://nodejs.org/', rel='nofollow') nodeJS
+				a(href="http://nodejs.org/", rel="nofollow", target="_blank") NodeJS
 				|  among others.
 
 .clearfix
 
-//!=partial('widgets/activity')
+//!=partial("widgets/activity")
 
 - script("code", '$(".ui-components-demo").carousel({pagination:true}).page(2);')
-- script("code", '$(".snippet").expando();')
 
 script
 	setTimeout(function(){var a=document.createElement("script");
-	var b=document.getElementsByTagName('script')[0];
+	var b=document.getElementsByTagName("script")[0];
 	a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0010/0161.js?"+Math.floor(new Date().getTime()/3600000);
 	a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);

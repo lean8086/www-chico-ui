@@ -1,120 +1,96 @@
+h1
+	| Custom Download
+	small(style="color:#ccc;") (beta)
 
-link(rel='stylesheet', href='/src/css/download.css')
+article.ch-g4-5
+	.leftcolumn
+		p.updated
+			| Current version: v#{latest.version}
 
-h2 Download
-.ch-g1-4
-	ul#versions.ch-menu
-		- each item in versions
-			li 
-				span #{item.version}
-				ul
-					- each file in item.files
-						li
-							a(href='#{file.href}') #{file.label}
-
-.ch-g3-4
-	form#custom(action='/download', method='POST').box
-		h3 Build custom package 
-			span (beta)
-		p
-			| Current version 
-			span.version
-				#{latest.version}
-		.ch-g1-3
-			.rightcolumn
-				fieldset
+		form#custom.box(action="/download", method="POST")
+			.ch-g1-3
+				.leftcolumn
+					fieldset
 						legend Abstracts
 						.options
 							ul#abstracts.disabled
-						.clearfix
-						hr(width='50%',align="left")
-						legend Utils
+					fieldset
+						legend Utilities
 						.options
 							ul#utils
-		.ch-g1-3
-			.centercolumn
-				fieldset
-					legend Components
+			.ch-g1-3
+				fieldset.centercolumn
+					legend Widgets
 					.options.toggle
 						ul#components
-		.ch-g1-3
-			.leftcolumn
-				fieldset					
-					legend Dependencies
-					.options.toggle
-						ul
-							li
-								label
-									input(type='checkbox', value='true', name='jquery', checked='checked')
-									span
-									|	jQuery 
-									small (min)
-							li
-								label
-									input(type='checkbox', value='true', name='belated', checked='checked')
-									span
-									|	DD_belatedPNG
-									small (png fix)
-							//li
-							//	label
-							//		input(type='checkbox', value='true', name='embed', checked='checked')
-							//		span
-							//		|	Embed sprites
-					
-					hr(width='50%',align="left")
-					
-					legend Extras
-					.options
-						ul
-							li
-								label
-									input(type='checkbox', value='true', name='mesh', checked='checked')
-									span
-									|	Include 
-									a(href='/docs/how-to/mesh-your-layout-in-5-min') Mesh
-
-					hr(width='50%',align="left") 
-					legend Environment
-					.options
-						ul
-							li
-								label
-									input(type='checkbox', value='p', name='env', checked='checked')
-									span
-										|	Production
+			.ch-g1-3
+				.rightcolumn
+					fieldset
+						legend Dependencies
+						.options.toggle
+							ul.ch-form-options
+								li.ch-form-row
+									input#jquery(type="checkbox", value="true", name="jquery", checked)
+									label(for="jquery")
+										| jQuery
+										small (min)
+								//li.ch-form-row
+								//	input#embed(type="checkbox", value="true", name="embed", checked)
+								//	label(for="embed") Embed assets
+					fieldset
+						legend Extras
+						.options
+							ul.ch-form-options
+								li.ch-form-row
+									input#mesh(type="checkbox", value="true", name="mesh", checked)
+									label(for="mesh")
+										| Include 
+										a(href="/mesh") Chico Mesh
+					fieldset
+						legend Environment
+						.options
+							ul.ch-form-options
+								li.ch-form-row
+									input#produ(type="checkbox", value="p", name="env", checked)
+									label(for="produ")
+										| Production 
 										small (minified)
-							li
-								label
-									input(type='checkbox', value='d', name='env', checked='checked')
-									span
-										|	Development
+								li.ch-form-row
+									input#desa(type="checkbox", value="d", name="env", checked)
+									label(for="desa")
+										| Development 
 										small (with comments)
+					fieldset
+						legend Select a Flavor
+						.options
+							ul.ch-form-options
+								li.ch-form-row
+									input#ml_theme(type="radio", value="ml", name="flavor", checked)
+									label(for="ml_theme")
+										| MercadoLibre
+								li.ch-form-row
+									input#mp_theme(type="radio", value="mp", name="flavor", disabled)
+									label(for="mp_theme").disabled
+										| MercadoPago 
+										small (soon)
+								li.ch-form-row
+									input#ms_theme(type="radio", value="ms", name="flavor", disabled)
+									label(for="ms_theme").disabled
+										| MercadoShops 
+										small (soon)
+					input.ch-btn.ch-main(type="submit", value="Download")
 
-					hr(width='50%',align="left")
-
-					legend Select a Flavor
-					.options
+nav.ch-g1-5
+	.rightcolumn
+		h4 Older versions
+		ul#versions.ch-menu
+			- each item, i in versions
+				- if (i < 17)
+					li 
+						span #{item.version}
 						ul
-							li
-								label(for='ml_theme')
-									input#ml_theme(type='radio', value='ml', name='flavor', checked='checked')
-									span
-									|	MercadoLibre
-							li
-								label(for='mp_theme').disabled
-									input#mp_theme(type='radio', value='mp', name='flavor', disabled='disabled')
-									span
-									|	MercadoPago 
-									small (soon)
-							li
-								label(for='ms_theme').disabled
-									input#ms_theme(type='radio', value='ms', name='flavor', disabled='disabled')
-									span
-									|	MercadoShops 
-									small (soon)
+							- each file in item.files
+								li
+									a(href="#{file.href}") #{file.label}
 
-					hr(width='50%',align="left")
-					input.btn.primary(type='submit', value='Download')
-		.clearfix
-
-		- script("get", "/src/js/custom-download.js")
+- script("get", "/src/js/custom-download.js")

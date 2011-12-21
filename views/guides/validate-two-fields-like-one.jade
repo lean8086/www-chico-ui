@@ -1,0 +1,135 @@
+h1 How to validate two fields like one
+p.updated
+	| Documentation updated on 
+	data December 14th
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#when-to-use-it") 1 When to use it?
+		dt
+			a(href="#behind-the-magic") 2 Behind the magic
+		dt
+			a(href="#step-by-step") 3 Step by step
+		dt
+			a(href="#final-code") 4 Final code
+
+h3#when-to-use-it When to use it?
+p
+	| Use this tutorial when you needs to validate telephone, price or any multiple input.
+p
+	| Feel free to modify the code of this tutorial for more than two fields validations!
+
+h3#behind-the-magic Behind the magic
+p
+	| To perform this tutorial we need to use a 
+	strong Custom validation
+	|  component. Then, you have to add a custom generated 
+	a(href="/widgets/watcher") Watcher
+	|  to the second field, because it will validate the value of first field, and will trigger the 
+	a(href="/api/#{latest.version}/symbols/ch.Helper.html") Helper
+	|  (error message).
+
+h3#step-by-step Step by step
+p
+	| On this example we’ll see a telephone number validation, separated on phone code and phone number fields. Both fields values, should be validated as required and number.
+p
+	| The code snippet that we use is as follow:
+pre
+	| ...
+	| <p class="ch-form-row ch-form-required">
+	| 	<label for="street">Telephone: <em>*</em></label> 
+	| 	<input type="text" size="4" id="example-phone-code" required="required">
+	| 	<input type="text" size="4" id="example-phone-number" required="required">
+	| </p>
+	| ...
+p
+	|First, we have to create the custom validation function. This function is to notify the Watcher if our validation is successful or not, and it always receives the field value. In this case we'll receive the value from second field.
+pre
+	| var phone_validation = function (value2) { };
+p
+	| Then, inside our custom function we grab the other field, the first one.
+pre
+	| var field1 = $("#example-phone-code");
+p
+	| By taking the first field, we have to save it's value.
+pre
+	| var value1 = field1.val();
+p
+	| To ensure we have both values, we check that variables aren't undefined, and we check that both fields are numbers. Here you can use any conditional or regular expression.
+p
+	| When condition is 
+	em true
+	| , we remove error class of first field and return 
+	em true
+	|  for notify to Custom Watcher that it's all ok. Second field error is triggered by it's Watcher.
+pre
+	| if (value1 && value2) {
+	| 
+	| 	// Any conditional or regexp
+	| 	if (!isNaN(value1) && !isNaN(value2)) {
+	| 
+	| 		// Remove error class of first field
+	| 		field.removeClass("error");
+	| 
+	| 		// Validation is ok! Return true
+	| 		return true;
+	| 	}
+	| }
+p
+	| If condition is false means that an error exists, therefore we add the "error" class to the first field and return false for Watcher validation over second field.
+pre
+	| field.addClass("error");
+	| return false;
+p
+	| Finally, add custom validation to second field to achieve a right-side positioned Helper, specifying an error message.
+pre
+	| var crazy = $("#example-phone-number").custom(phone_validation, "Enter a valid phone number.");
+p
+	| For Required validation of this fields, we can concatenate Watchers like this:
+pre
+	| var crazy = $("#example-phone-number").custom( ... ).and().required("This is a required field");
+
+h3#final-code Final code
+pre
+	| // Creates a custom function that receives the second field value
+	| var example_phone_validation = function (value2) {
+	| 
+	| 	// Gets the first field
+	| 	var field1 = $("#example-phone-code");
+	| 
+	| 	// Saves the first field value
+	| 	var value1 = field1.val();
+	| 
+	| 	// If both values are defined
+	| 	if (value1 && value2) {
+	| 
+	| 		// Checks if both are numbers (Any conditional or regexp)
+	| 		if (!isNaN(value1) && !isNaN(value2)) {
+	| 
+	| 			// Removes error class of first field
+	| 			field.removeClass("error");
+	| 
+	| 			// Validation is ok! Returns true
+	| 			return true;
+	| 		}
+	| 	}
+	| 
+	| 	// Returns false for second field error
+	| 	return false;
+	| 
+	| };
+	| 
+	| // Creates custom + required validation over second field
+	| var crazy = $("#example-phone-number")
+	| 		.custom(phone_validation, "Enter a valid phone number.")
+	| 		.and()
+	| 		.required("This is a required field")
+	| 		// Here validation is false. Add error class to first field
+	| 		on("error", function () {
+	| 			$("#example-phone-code").addClass("error");
+	| 		});
+
+!=partial("includes/keep-reading")

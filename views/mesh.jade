@@ -1,64 +1,190 @@
-.ch-g1.section
-	.ch-g2-3	
-		.leftcolumn
-			h1 Chico Mesh
-			p.container.about
-				| Mesh is Chico UI's solution for fast and simple layouts. 
-				| It offers fluid grids along with a gallery of ready to use basic templates.
-			
-			hr
-			h2 Fluid Layouts
-		
-			ul.layouts
-				li
-					img(src='src/assets/layouts/fluid-2columns-leftsidebar.png', width="200", height="150", alt="Fluid, 2 Columns, left sidebar")
-					p 
-						a(href="/mesh/demos/fluid-2columns-leftsidebar.html", target="blank") Demo
-						|  |
-						a(href="/mesh/download/fluid-2columns-leftsidebar.zip") Download
-				li
-					img(src='src/assets/layouts/fluid-2columns-rightsidebar.png', width="200", height="150", alt="Fluid, 2 Columns, right sidebar")
-					p 
-						a(href="/mesh/demos/fluid-2columns-rightsidebar.html", target="blank") Demo
-						|  |
-						a(href="/mesh/download/fluid-2columns-rightsidebar.zip") Download
-				li
-					img(src='src/assets/layouts/fluid-3columns.png', width="200", height="150", alt="Fluid, 3 Columns")
-					p 
-						a(href="/mesh/demos/fluid-3columns.html", target="blank") Demo
-						|  |
-						a(href="/mesh/download/fluid-3columns.zip") Download
-			.clearfix	
-			hr	
-			h2 Elastic Layouts	
-		
-			ul.layouts
-				li
-					img(src='src/assets/layouts/elastic-2columns-leftsidebar.png', width="200", height="150", alt="Elastic, 2 Columns, left sidebar")
-					p 
-						a(href="/mesh/demos/elastic-2columns-leftsidebar.html", target="blank") Demo
-						|  |
-						a(href="/mesh/download/elastic-2columns-leftsidebar.zip") Download
-				li
-					img(src='src/assets/layouts/elastic-2columns-rightsidebar.png', width="200", height="150", alt="Elastic, 2 Columns, right sidebar")
-					p 
-						a(href="/mesh/demos/elastic-2columns-rightsidebar.html", target="blank") Demo
-						|  |
-						a(href="/mesh/download/elastic-2columns-rightsidebar.zip") Download
-				li
-					img(src='src/assets/layouts/elastic-3columns.png', width="200", height="150", alt="Elastic, 3 Columns")
-					p 
-						a(href="/mesh/demos/elastic-3columns.html", target="blank") Demo
-						|  |
-						a(href="/mesh/download/elastic-3columns.zip") Download
-	
-	.ch-g1-3
-		.did-you-know.rightcolumn
-			h2 Did you know...
-			p 
-				|... you can build your own fluid layouts with our grid system? Find out 
-				a(href="/docs/how-to/mesh-your-layout-in-5-min") how to mesh your layout in 5 minutes
-				|.
-		
-			
+h1 Chico Mesh
+p
+	| Mesh is Chico UI's solution for fast and simple layouts. It offers fluid grids along with a gallery of ready to use basic templates.
+
+h3#fluid Fluid Layouts
+ul
+	li.ch-g1-3
+		a(href="/mesh/demos/fluid-2columns-leftsidebar.html", target="blank")
+			img(src="src/assets/layouts/fluid-2columns-leftsidebar.png", width="200", height="150", alt="Fluid, 2 Columns, left sidebar")
+		p.more
+			a(href="/mesh/demos/fluid-2columns-leftsidebar.html", target="blank") Demo
+			|  | 
+			a(href="/mesh/download/fluid-2columns-leftsidebar.zip") Download
+	li.ch-g1-3
+		a(href="/mesh/demos/fluid-2columns-rightsidebar.html", target="blank")
+			img(src="src/assets/layouts/fluid-2columns-rightsidebar.png", width="200", height="150", alt="Fluid, 2 Columns, right sidebar")
+		p.more
+			a(href="/mesh/demos/fluid-2columns-rightsidebar.html", target="blank") Demo
+			|  |
+			a(href="/mesh/download/fluid-2columns-rightsidebar.zip") Download
+	li.ch-g1-3
+		a(href="/mesh/demos/fluid-3columns.html", target="blank")
+			img(src="src/assets/layouts/fluid-3columns.png", width="200", height="150", alt="Fluid, 3 Columns")
+		p.more
+			a(href="/mesh/demos/fluid-3columns.html", target="blank") Demo
+			|  |
+			a(href="/mesh/download/fluid-3columns.zip") Download
 .clearfix
+
+h3#elastic Elastic Layouts	
+ul
+	li.ch-g1-3
+		a(href="/mesh/demos/elastic-2columns-leftsidebar.html", target="blank")
+			img(src="src/assets/layouts/elastic-2columns-leftsidebar.png", width="200", height="150", alt="Elastic, 2 Columns, left sidebar")
+		p.more
+			a(href="/mesh/demos/elastic-2columns-leftsidebar.html", target="blank") Demo
+			|  |
+			a(href="/mesh/download/elastic-2columns-leftsidebar.zip") Download
+	li.ch-g1-3
+		a(href="/mesh/demos/elastic-2columns-rightsidebar.html", target="blank")
+			img(src="src/assets/layouts/elastic-2columns-rightsidebar.png", width="200", height="150", alt="Elastic, 2 Columns, right sidebar")
+		p.more
+			a(href="/mesh/demos/elastic-2columns-rightsidebar.html", target="blank") Demo
+			|  |
+			a(href="/mesh/download/elastic-2columns-rightsidebar.zip") Download
+	li.ch-g1-3
+		a(href="/mesh/demos/elastic-3columns.html", target="blank")
+			img(src="src/assets/layouts/elastic-3columns.png", width="200", height="150", alt="Elastic, 3 Columns")
+		p.more
+			a(href="/mesh/demos/elastic-3columns.html", target="blank") Demo
+			|  |
+			a(href="/mesh/download/elastic-3columns.zip") Download
+.clearfix
+
+h3#showroom Grids showroom
+
+.ch-g1
+	.box.header 1/1
+
+.ch-g1-2
+	.box.leftcolumn 1/2
+.ch-g1-2
+	.box.rightcolumn 1/2
+
+.ch-g1-3
+	.box.leftcolumn 1/3
+.ch-g1-3r
+	.box.centercolumn 1/3
+.ch-g1-3
+	.box.rightcolumn 1/3
+
+.ch-g1-4
+	.box.leftcolumn 1/4
+.ch-g1-4
+	.box.centercolumn 1/4
+.ch-g1-4
+	.box.centercolumn 1/4
+.ch-g1-4
+	.box.rightcolumn 1/4
+
+.ch-g1-5
+	.box.leftcolumn 1/5
+.ch-g1-5
+	.box.centercolumn 1/5
+.ch-g1-5
+	.box.centercolumn 1/5
+.ch-g1-5
+	.box.centercolumn 1/5
+.ch-g1-5
+	.box.rightcolumn 1/5
+
+.ch-g1-6
+	.box.leftcolumn 1/6
+.ch-g1-6
+	.box.centercolumn 1/6
+.ch-g1-6
+	.box.centercolumn 1/6
+.ch-g1-6
+	.box.centercolumn 1/6
+.ch-g1-6
+	.box.centercolumn 1/6
+.ch-g1-6
+	.box.rightcolumn 1/6
+
+.ch-g1-8
+	.box.leftcolumn 1/8
+.ch-g1-8
+	.box.centercolumn 1/8
+.ch-g1-8
+	.box.centercolumn 1/8
+.ch-g1-8
+	.box.centercolumn 1/8
+.ch-g1-8
+	.box.centercolumn 1/8
+.ch-g1-8
+	.box.centercolumn 1/8
+.ch-g1-8
+	.box.centercolumn 1/8
+.ch-g1-8
+	.box.rightcolumn 1/8
+
+.ch-g1-10
+	.box.leftcolumn 1/10
+.ch-g1-10
+	.box.centercolumn 1/10
+.ch-g1-10
+	.box.centercolumn 1/10
+.ch-g1-10
+	.box.centercolumn 1/10
+.ch-g1-10
+	.box.centercolumn 1/10
+.ch-g1-10
+	.box.centercolumn 1/10
+.ch-g1-10
+	.box.centercolumn 1/10
+.ch-g1-10
+	.box.centercolumn 1/10
+.ch-g1-10
+	.box.centercolumn 1/10
+.ch-g1-10
+	.box.rightcolumn 1/10
+
+.ch-g4-10
+	.box.leftcolumn 4/10
+.ch-g3-10
+	.box.centercolumn 3/10
+.ch-g2-10
+	.box.centercolumn 2/10
+.ch-g1-10
+	.box.rightcolumn 1/10
+
+.ch-g3-8
+	.box.leftcolumn 3/8
+.ch-g2-8
+	.box.centercolumn 2/8
+.ch-g3-8
+	.box.rightcolumn 3/8
+
+.ch-g1-3
+	.box.leftcolumn 1/3
+.ch-g2-3
+	.box.rightcolumn 2/3
+
+.ch-g1-4
+	.box.leftcolumn 1/4
+.ch-g3-4
+	.box.rightcolumn 3/4
+
+.ch-g1-5
+	.box.leftcolumn 1/5
+.ch-g4-5
+	.box.rightcolumn 4/5
+
+.ch-g1-6
+	.box.leftcolumn 1/6
+.ch-g5-6
+	.box.rightcolumn 5/6
+
+.ch-g1-8
+	.box.leftcolumn 1/8
+.ch-g7-8
+	.box.rightcolumn 7/8
+
+.ch-g1-10
+	.box.leftcolumn 1/10
+.ch-g9-10
+	.box.rightcolumn 9/10
+
+.ch-g1
+	.box.footer 1/1
