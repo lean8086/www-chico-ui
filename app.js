@@ -433,9 +433,14 @@ app.get('/discuss', function(req, res){
  * Docs.
  */
 
-app.get('/get-started', function(req, res){
-	res.render('guides/get-started', title("Get started with Chico UI"));
-});
+/*app.get('/get-started', function(req, res){
+	var opt = title("Get started with Chico UI");
+
+	opt.breadcrumb = [
+		["Get Started", ""]
+	];
+	res.render('guides/get-started', opt);
+});*/
 
 
 app.get('/suggest/:q', function(req, res){
@@ -498,7 +503,7 @@ app.get('/about', function(req, res, next){
 app.get('/mesh', function(req, res, next){
 	
 	var opt = title("Chico Mesh");
-		
+
 	opt.breadcrumb = [
 		["Chico Mesh", ""]
 	];

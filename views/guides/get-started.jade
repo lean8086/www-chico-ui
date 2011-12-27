@@ -46,7 +46,7 @@ h3#widgets Check out UI Widgets demos
 p
 	| To see what is capable of, check demos and examples like
 	- each item, i in widgets
-		- if (i < 10)
+		- if (i < 10 && item.label !== "Home")
 			a(href="#{item.href}") #{item.label}
 			| , 
 	| and 
@@ -59,7 +59,7 @@ h3#guides Learning guides
 p
 	| Our tutorials explains how to take specific tasks like
 	- each item, i in guides
-		- if (i < 5)
+		- if (i < 5 && item.label !== "Home")
 			a(href="#{item.href}") #{item.label}
 			| , 
 	| and 

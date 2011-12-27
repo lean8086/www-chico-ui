@@ -120,7 +120,7 @@ header {
 
 /* Logo */
 header h1 a {
-	display:block;
+	display: inline-block;
 	font-size:42px;
 	height:38px;
 	line-height:38px;
@@ -129,6 +129,13 @@ header h1 a {
 	/*text-indent:-999px;
 	overflow:hidden;
 	border:1px dashed #999;*/
+}
+
+
+header h1 .version {
+	font-size: 14px;
+	line-height: 1;
+	margin-left: 10px;
 }
 
 #homepage header h1 a {
