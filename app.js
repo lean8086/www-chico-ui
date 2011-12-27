@@ -208,7 +208,6 @@ app.configure('development', function(){
 * rutes
 */
 
-
 app.get('/data/:file', function (req, res) {
 	
 	var contentType = {
@@ -224,6 +223,17 @@ app.get('/data/:file', function (req, res) {
    	res.header("Content-Type", contentType[file.substr(-2)]);
     res.send(data);
 
+});
+
+
+/**
+* Static-demo
+*/
+
+app.get("/static-demo/:file", function (req, res) {
+	var data = fs.readFileSync(__dirname + "/public/static-demo/" + req.params.file);
+   	res.header("Content-Type", "text/html");
+    res.send(data);
 });
 
 
