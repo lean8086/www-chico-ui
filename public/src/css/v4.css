@@ -119,7 +119,10 @@ header {
 }
 
 /* Logo */
-header h1 a {
+header .logo {
+	margin-top: 10px;	
+}
+header .logo a {
 	display: inline-block;
 	font-size:42px;
 	height:38px;
@@ -132,13 +135,13 @@ header h1 a {
 }
 
 
-header h1 .version {
+header .logo .version {
 	font-size: 14px;
 	line-height: 1;
 	margin-left: 10px;
 }
 
-#homepage header h1 a {
+#homepage header .logo a {
 	width:200px;
 	height:50px;
 	font-size:48px;
