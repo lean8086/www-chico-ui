@@ -62,6 +62,7 @@ meta.conf = JSON.parse(fs.readFileSync(__dirname + "/services/builder/builder.co
 meta.versions = (function(){
 	var versions = [],
 		temp = [],
+		latest = [],
 		// read versions folder
 		folders = fs.readdirSync( __dirname + "/public/versions/");
 	if (folders) {
@@ -69,11 +70,20 @@ meta.versions = (function(){
 		folders.forEach(function(folder) {
 			// Like the assets and latest folder
 			if (folder !== "assets" && folder !== "latest") {
-				versions.push(folder);
+				if (folder.split(".")[1] < 10) {
+					versions.push(folder);
+				} else {
+					latest.push(folder);
+				}
 			}
 		});
+		
+		latest.forEach(function (e) {
+			versions.push(e);
+		});
+
 		// reorder versions
-		versions.sort();
+		//versions.sort();
 		versions.reverse();
 		// get files from each version
 		versions.forEach(function(folder) {

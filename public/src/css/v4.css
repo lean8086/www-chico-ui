@@ -12,6 +12,10 @@ html, body, .layout {
 	width:1000px;
 }
 
+a:visited {
+	color: #0637B3;
+}
+
 .more/*,
 nav.api li:first-child*/ {
 	background:transparent url('/src/assets/see.png') 0 4px no-repeat;
