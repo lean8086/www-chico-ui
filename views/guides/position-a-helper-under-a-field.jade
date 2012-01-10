@@ -1,0 +1,49 @@
+h1 How to position a Helper under a field
+p.updated
+	| Documentation updated on 
+	data January 10th
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#demo") 1 Demo
+		dt
+			a(href="#create") 2 Create your validation
+		dt
+			a(href="#position") 3 Position it
+
+h3#demo Demo
+.box
+	form.demo_form
+		.ch-form-row.ch-form-required
+			label(for="demo_email")
+				| E-mail:
+			input.demo_email#demo_email(type="email", required)
+	
+			input.ch-btn.ch-secondary.ch-skin(type="submit", value="Submit form")
+
+h3#create Create your validation
+p Save your validation in a variable so you can manipulate it later:
+pre
+	| var email = $("#email").required("Complete this field").and().email("Enter a valid address");
+
+
+h3#watcher Position it
+p Use the 
+	a(href="/widgets/positioner") Positioner
+	|  component to change its position:
+pre
+	| email.helper.position({
+	|      "points": "lt lb", 
+	|      "offset": "0 10"
+	| });
+
+
+
+!=partial("includes/keep-reading")
+
+- script("code", 'var form = $(".demo_form").form();')
+- script("code", 'var validation = $(".demo_email").required("Complete this field").validate();')
+- script("code", 'validation.helper.position({"points": "lt lb","offset": "0 10"})')
