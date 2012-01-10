@@ -65,7 +65,7 @@ html.no-js(lang="en")
 					h4 UI Widgets
 					ul
 						- each item, i in widgets
-							- if (i < 3)
+							- if (i < 3 && item.label !== ".DS_Store")
 								li
 									a(href="#{item.href}")= item.label
 						li
@@ -85,7 +85,7 @@ html.no-js(lang="en")
 					h4 Learning guides
 					ul
 						- each item, i in guides
-							- if (i < 3)
+							- if (i < 3 && item.label !== ".DS_Store")
 								li
 									a(href="#{item.href}")= item.label
 						li
@@ -94,7 +94,7 @@ html.no-js(lang="en")
 		footer
 			nav.ch-g2-3
 				ul
-					li ©2011 MercadoLibre.com
+					li= "©" + (new Date().getFullYear()) + " MercadoLibre.com"
 					li
 						a(href="/about") About us
 					li

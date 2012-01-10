@@ -75,18 +75,13 @@ ul.old-links.container.ch-g1.clearfix
 			h4 Learning guides
 			ul
 				- each item, i in guides
-					- if (i < 3)
+					- if (i < 3 && item.label !== ".DS_Store")
 						li
 							a(href="#{item.href}") #{item.label}
 	li.ch-g3-6
 		.rightcolumn
 			.ui-components-demo
 				ul.ui-components-demo-list
-					li.ui-components-demo-list-item
-						a(href="/widgets/calendar")
-							span.rounded
-								img(src="src/assets/icons/calendar-icon-64x64.jpg", alt="Calendar")
-							span Calendar
 					li.ui-components-demo-list-item
 						a(href="/widgets/carousel") 
 							span.rounded
@@ -97,6 +92,11 @@ ul.old-links.container.ch-g1.clearfix
 							span.rounded
 								img(src="src/assets/icons/csslibrary-icon-64x64.jpg", alt="CSS Library")
 							span CSS Library
+					li.ui-components-demo-list-item
+						a(href="/widgets/datePicker")
+							span.rounded
+								img(src="src/assets/icons/calendar-icon-64x64.jpg", alt="Date Picker")
+							span Date Picker
 					li.ui-components-demo-list-item
 						a(href="/widgets/dropdown") 
 							span.rounded

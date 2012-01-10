@@ -1,0 +1,61 @@
+h1 Date Picker
+p.updated
+	| Documentation updated on 
+	data January 10th
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#description") 1 Description
+		dt
+			a(href="#demo") 2 Demo
+		dt
+			a(href="#snippet") 3 Code snippet
+		dt
+			a(href="#instance") 4 Instance component
+		dt
+			a(href="#show-n-hide") 5 Show and hide
+
+h3#description Description
+p
+	| The Date Picker component is a member of 
+	a(href="/api/#{latest.version}/symbols/ch.Controls.html") Controls
+	|  familiy.
+
+h3#demo Demo
+form.box
+	.ch-form-row
+		label(for="example") Date:
+		input.demo-datepicker(type="date", id="example")
+
+h3#snippet Code snippet
+pre
+	| <form ... >
+	| 	<p class="ch-form-row">
+	| 		<label for="example">Date:</label>
+	| 		<input type="date" id="example" />
+	| 	</p>
+	| </form>
+
+h3#instance Instance component
+p
+	| This is the way to create a new Date Picker:
+pre
+	| var foo = $("#example").datePicker("today");
+
+h3#show-n-hide Show and hide
+p
+	| The Date Picker widget exposes some public methods called 
+	code show
+	|  and 
+	code hide
+	| , both allow you to manage the Date Picker behavior programmatically. Something like this:
+pre
+	| myDatePicker.show(); // Shows the Date Picker
+	| myDatePicker.hide(); // Hides the Date Picker
+
+!=partial("includes/keep-reading")
+
+- script("code", '$(".demo-datepicker").datePicker();')

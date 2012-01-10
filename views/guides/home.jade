@@ -4,6 +4,6 @@ p
 
 ul.ch-list.home-list
 	- each w in guides
-		- if (w.label !== "Home")
+		- if (w.label !== "Home" && w.label !== ".DS_Store")
 			li
 				a(href="#{w.href}")= w.label
