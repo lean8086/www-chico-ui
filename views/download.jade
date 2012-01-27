@@ -28,13 +28,10 @@ article.ch-g4-5
 						.options.toggle
 							ul.ch-form-options
 								li.ch-form-row
-									input#jquery(type="checkbox", value="true", name="jquery", checked)
+									input#jquery(type="checkbox", value="true", name="jquery", checked, disabled)
 									label(for="jquery")
 										| jQuery
 										small (min)
-								//li.ch-form-row
-								//	input#embed(type="checkbox", value="true", name="embed", checked)
-								//	label(for="embed") Embed assets
 					fieldset
 						legend Extras
 						.options
@@ -70,11 +67,6 @@ article.ch-g4-5
 									input#mp_theme(type="radio", value="mp", name="flavor", disabled)
 									label(for="mp_theme").disabled
 										| MercadoPago 
-										small (soon)
-								li.ch-form-row
-									input#ms_theme(type="radio", value="ms", name="flavor", disabled)
-									label(for="ms_theme").disabled
-										| MercadoShops 
 										small (soon)
 					input.ch-btn.ch-main(type="submit", value="Download")
 
