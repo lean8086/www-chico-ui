@@ -11,6 +11,15 @@ html, body, .layout {
 	width: 1000px;
 }
 
+/*
+*	Font family reset
+*/
+
+// Demo calendar + date picker
+.ch-calendar {
+	font-family: Arial;
+}
+
 a:visited {
 	color: #0637B3;
 }
@@ -154,8 +163,8 @@ header nav li:last-child {
 	/* Blue sky background: -webkit-linear-gradient(top, #2B81C0 0%, #BEDCEF 100%); */
 	/* Light blue background: -webkit-linear-gradient(top, #7487B6 0%, #B1D6E7 100%); */
 	background: #292A2F url('/src/assets/vertical_cloth.png') 0 0 repeat;
-	-webkit-box-shadow: 0 10px 20px #000 inset;
-	box-shadow: 0 10px 20px #000 inset;
+	-webkit-box-shadow: 0 5px 25px #000 inset;
+	box-shadow: 0 5px 25px #000 inset;
 	left: 0;
 	position: absolute;
 }
@@ -184,7 +193,6 @@ header nav li:last-child {
 #home-description h2,
 #home-description p {
 	margin-left: 10px;
-	margin-bottom: 20px;
 	width: 50%;
 	color: #fff;
 }
@@ -192,19 +200,21 @@ header nav li:last-child {
 #home-description h2 {
 	font-size: 64px;
 	line-height: 72px;
-	margin-top: 55px;
+	margin-top: 50px;
+	margin-bottom: 22px;
 }
 
 #home-description p {
 	font-size: 16px;
 	line-height: 26px;
 	padding: 0 3px;
+	margin-bottom: 24px;
 }
 
 #home-description input {
-	margin-left:12px;
-	-webkit-box-shadow:1px 2px 3px rgba(0, 0, 0, 0.25);
-	box-shadow:1px 2px 3px rgba(0, 0, 0, 0.25);
+	margin-left: 12px;
+	-webkit-box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.25);
+	box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.25);
 }
 
 /*
@@ -282,6 +292,10 @@ header nav li:last-child {
 	text-align: center;
 	width: 100px;
 	-webkit-transition:height 0.2s, font-weight 0.2s;
+	-moz-transition:height 0.2s, font-weight 0.2s;
+	-ms-transition:height 0.2s, font-weight 0.2s;
+	-o-transition:height 0.2s, font-weight 0.2s;
+	transition:height 0.2s, font-weight 0.2s;
 }
 
 #products .ch-carousel-content a:hover span {
@@ -304,6 +318,10 @@ header nav li:last-child {
 
 #products .ch-carousel-content img {
 	opacity: 0.55;
+}
+
+#products .ch-carousel-pages {
+	bottom:15px;
 }
 
 #products .ch-carousel-pages li {
@@ -616,7 +634,6 @@ h4 small {
 .about dd {
 	margin-bottom: 20px;
 }
-
 
 /*
 *	Blog

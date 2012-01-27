@@ -56,8 +56,8 @@ h4#headings Headings
 table.datagrid
 	thead
 		tr
-			th Example
-			th Code snippet
+			th(width="40%") Example
+			th(width="60%") Code snippet
 	tbody
 		tr
 			td#heading-widget
@@ -80,8 +80,8 @@ h4#paragraphs Paragraphs
 table.datagrid
 	thead
 		tr
-			th Example
-			th Code snippet
+			th(width="40%") Example
+			th(width="60%") Code snippet
 	tbody
 		tr
 			td
@@ -101,8 +101,8 @@ h4#unstyled Unstyled
 table.datagrid
 	thead
 		tr
-			th Example
-			th Code snippet
+			th(width="40%") Example
+			th(width="60%") Code snippet
 	tbody
 		tr
 			td
@@ -122,8 +122,8 @@ h4#unordered Unordered
 table.datagrid
 	thead
 		tr
-			th Example
-			th Code snippet
+			th(width="40%") Example
+			th(width="60%") Code snippet
 	tbody
 		tr
 			td
@@ -143,8 +143,8 @@ h4#oreded Ordered
 table.datagrid
 	thead
 		tr
-			th Example
-			th Code snippet
+			th(width="40%") Example
+			th(width="60%") Code snippet
 	tbody
 		tr
 			td
@@ -165,8 +165,8 @@ h4#box Box
 table.datagrid
 	thead
 		tr
-			th Example
-			th Code snippet
+			th(width="40%") Example
+			th(width="60%") Code snippet
 	tbody
 		tr
 			td
@@ -179,8 +179,8 @@ h4#cont Container
 table.datagrid
 	thead
 		tr
-			th Example
-			th Code snippet
+			th(width="40%") Example
+			th(width="60%") Code snippet
 	tbody
 		tr
 			td
@@ -367,13 +367,13 @@ table.datagrid
 			td
 				pre
 					| <ul class="pagination">
-					|  	<li><a type="prev" href="/2.html">Previous</a></li>
-					| 	<li><a href="/1.html">1</a></li>
-					| 	<li><a href="/2.html">2</a></li>
-					| 	<li class="current"><a href="/3.html">3</a></li>
-					| 	<li><a href="/4.html">4</a></li>
-					| 	<li><a href="/5.html">5</a></li>
-					| 	<li><a type="next" href="/4.html">Next</a></li>
+					|   <li><a type="prev" href="/2.html">Previous</a></li>
+					|   <li><a href="/1.html">1</a></li>
+					|   <li><a href="/2.html">2</a></li>
+					|   <li class="current"><a href="/3.html">3</a></li>
+					|   <li><a href="/4.html">4</a></li>
+					|   <li><a href="/5.html">5</a></li>
+					|   <li><a type="next" href="/4.html">Next</a></li>
 					| </ul>	
 
 h3#tables Tables
@@ -415,6 +415,24 @@ h3#tables Tables
 						p.price
 							| $120
 							sup 00
+				tr
+					td
+						input(type="checkbox")
+					td
+						| A004XXL
+					td
+						p.price
+							| $130
+							sup 00
+				tr
+					td
+						input(type="checkbox")
+					td
+						| A005XXL
+					td
+						p.price
+							| $140
+							sup 00
 .ch-g3-5
 	pre
 		|<table class="datagrid">
@@ -443,6 +461,7 @@ h3#tables Tables
 		|            <td>A003XXL</td>
 		|            <td><p>$100<sup>00<sup></p></td>
 		|        </tr>
+		|        ...
 		|    </tbody>
 		|</table>		
 .clearfix
