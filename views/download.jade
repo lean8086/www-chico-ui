@@ -1,11 +1,9 @@
 h1
-	| Custom Download
+	| Download
 	small(style="color:#ccc;") (beta)
 
 article.ch-g4-5
 	.leftcolumn
-		p.updated
-			| Current version: v#{latest.version}
 
 		form#custom.box(action="/download", method="POST")
 			.ch-g1-3
@@ -30,13 +28,10 @@ article.ch-g4-5
 						.options.toggle
 							ul.ch-form-options
 								li.ch-form-row
-									input#jquery(type="checkbox", value="true", name="jquery", checked)
+									input#jquery(type="checkbox", value="true", name="jquery", checked, disabled)
 									label(for="jquery")
 										| jQuery
 										small (min)
-								//li.ch-form-row
-								//	input#embed(type="checkbox", value="true", name="embed", checked)
-								//	label(for="embed") Embed assets
 					fieldset
 						legend Extras
 						.options
@@ -73,11 +68,6 @@ article.ch-g4-5
 									label(for="mp_theme").disabled
 										| MercadoPago 
 										small (soon)
-								li.ch-form-row
-									input#ms_theme(type="radio", value="ms", name="flavor", disabled)
-									label(for="ms_theme").disabled
-										| MercadoShops 
-										small (soon)
 					input.ch-btn.ch-main(type="submit", value="Download")
 
 nav.ch-g1-5
@@ -90,7 +80,8 @@ nav.ch-g1-5
 						span #{item.version}
 						ul
 							- each file in item.files
-								li
-									a(href="#{file.href}") #{file.label}
+								- if (file.label !== ".DS_Store")
+									li
+										a(href="#{file.href}") #{file.label}
 
 - script("get", "/src/js/custom-download.js")

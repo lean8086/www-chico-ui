@@ -1,0 +1,28 @@
+nav.ch-g1-5
+	.rightcolumn
+		h4 UI Widgets
+		ul
+			- each item, i in widgets
+				- if (i < 3 && item.label !== ".DS_Store")
+					li
+						a(href="#{item.href}")= item.label
+			li
+				a.more(href="/widgets") See all Widgets
+
+	.rightcolumn
+		h4 Chico Mesh
+		ul
+			li
+				a(href="/mesh") Overview
+			li
+				a(href="/guides/mesh-your-layout-in-5-min") How to mesh my layout
+
+	.rightcolumn
+		h4 Learning guides
+		ul
+			- each item, i in guides
+				- if (i < 3 && item.label !== ".DS_Store")
+					li
+						a(href="#{item.href}")= item.label
+			li
+				a.more(href="/guides") Browse all guides

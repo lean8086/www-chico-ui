@@ -124,49 +124,34 @@ CustomBuild.prototype.compress = function(package) {
 	// fix index routes    
     var filename = "chico"+package.filename.split("chico")[1];
     var indexFile = fs.readFileSync((package.input.split("/src")[0]) + "/index.html");
-		indexFile = indexFile.toString().replace("http://chico.com:8080/latest/css", "src/" + self.flavor + "/css/"+ filename);
-		indexFile = indexFile.toString().replace("http://chico.com:8080/latest/js", "src/js/" + filename.replace(".css",".js"));
-		// avoid a jquery crash
-		if (!self.depends.jquery) {
-			indexFile = indexFile.toString().replace("./libs/js/jquery.js","http://code.jquery.com/jquery.min.js");
-		}
-		
+		indexFile = indexFile.toString().replace("http://chico.com:8080/latest/css", "css/"+ filename);
+		indexFile = indexFile.toString().replace("http://chico.com:8080/latest/js?debug=true", "js/" + filename.replace(".css",".js"));
+		indexFile = indexFile.toString().replace("libs/js/jquery-debug.js", "js/jquery.js");
 		
 		fs.writeFileSync(self.folder + "index.html", indexFile);
 	
-        // routes
-    var path = package.input.replace( "css/" , "assets/" ); //"../chico/src/assets/",
-        zipName = package.name + "-" + package.version + ".zip",
+	// routes
+    var path = package.input,
+    	zipName = package.name + "-" + package.version + ".zip",
 
         // commands
-        createFolders = "mkdir " + self.folder + "src && "
-					  + "mkdir " + self.folder + "src/js && "
-					  + "mkdir " + self.folder + "src/" + self.flavor + " && "
-					  + "mkdir " + self.folder + "src/" + self.flavor + "/assets && "
-					  + "mkdir " + self.folder + "src/" + self.flavor + "/css",
+		createFolders = "mkdir " + self.folder + "js && "
+					  + "mkdir " + self.folder + "assets && "
+					  + "mkdir " + self.folder + "css",
         copyLicense = "cp " + (package.input.split("src/")[0]) + "LICENSE.txt " + self.folder,
         copyReadme = "cp " + (package.input.split("src/")[0]) + "README.md " + self.folder + "README.txt",
-        copyImages = (package.type === "css") ? "cp " + path + self.flavor + "/assets/* " + self.folder + "src/" + self.flavor + "/assets/" : "ls",
-		movingJS = "mv " + self.folder + "*.js " + self.folder + "src/js/",
-		movingCSS = "mv " + self.folder + "*.css " + self.folder + "src/" + self.flavor + "/css/",
-        //createZip = "cd " + self.folder + " && tar -cvf " + zipName + " * && rm -rf *.js *.css *.html *.txt src",
-        createZip = "cd " + self.folder + " && zip " + zipName + " -r * && rm -rf *.js *.css *.html *.txt src",
+        copyImages = (package.type === "css") ? "cp " + path + self.flavor + "/assets/* " + self.folder + "/assets/" : "ls",
+		movingJS = "mv " + self.folder + "*.js " + self.folder + "js/",
+		movingCSS = "mv " + self.folder + "*.css " + self.folder + "css/",
+        createZip = "cd " + self.folder + " && zip " + zipName + " -r * && rm -rf *.js *.css *.html *.txt src";
 
         // package url
         url = self.folder.split("./public").join("") + zipName;
 
 	// Dependencies
-	// Create lib folder
-	var depends = "mkdir " + self.folder + "libs && "
-						+ "mkdir " + self.folder + "libs/js";
 	// Add jquery
-	if (self.depends.jquery) {
-		depends += " && cp " + (package.input.split("src/")[0]) + "libs/js/jquery.js " + self.folder + "libs/js/";
-	}
-	// Add belated
-	if (self.depends.belated) {
-		depends += " && cp " + (package.input.split("src/")[0]) + "libs/js/dd_belatedpng.js " + self.folder + "libs/js/";
-	}
+	var depends = "cp " + (package.input.split("src/")[0]) + "libs/js/jquery.js " + self.folder + "/";
+
 	// If there a dependency defined, exec the command
 	var copyDepends = (self.depends.jquery||self.depends.belated) ? depends : "ls" ;
 	

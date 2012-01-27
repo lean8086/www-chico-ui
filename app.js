@@ -37,17 +37,27 @@ var friendlyMap = {
 };
 
 var createNavigationMapFrom = function(folder){
-	var temp =[],
-        folders = fs.readdirSync( __dirname + "/views/" + folder),
-	filename;
-        folders.forEach(function(file){
-                filename = file.split(".jade").join("");
+	
+	var temp = [],
+	
+		folders = fs.readdirSync(__dirname + "/views/" + folder),
+		
+		filename;
+	
+	folders.forEach(function (file) {
+		
+		filename = file.split(".jade").join("");
+		
+		if (filename === "home") { return; }
+		
 		temp.push({
-                        label: labelit(filename),
-                        href: "/" + folder + "/" + filename
-                });
-        });
-        return temp;
+			"label": labelit(filename),
+			"href": "/" + folder + "/" + filename,
+			"name": filename
+		});
+	});
+	
+	return temp;
 }
 
 meta.guides = createNavigationMapFrom("guides");
@@ -331,7 +341,6 @@ app.post('/download', function( req, res ){
 				flavor = req.body.flavor,
 				add_mesh = req.body.mesh,
 				add_jquery = req.body.jquery,
-				add_belated = req.body.belated,
 				embed = req.body.embed;
 				env = req.body.env;
 
@@ -342,33 +351,33 @@ app.post('/download', function( req, res ){
 
 		// JavaScripts Pack
 		var js = function() {
-				return {
-						"name": "chico",
-						"components": abstracts + "," + utils + "," + components,
-						"type": "js"
-				}
+			return {
+					"name": "chico",
+					"components": abstracts + "," + utils + "," + components,
+					"type": "js"
+			}
 		};
 
 		// Stylesheets Pack
 		var css = function() {
-				return {
-						"name": "chico",
-						"components": components,
-						"embed": ( embed ) ? true : false,
-						"type": "css",
-						"flavor": flavor
-				}
+			return {
+					"name": "chico",
+					"components": components,
+					"embed": ( embed ) ? true : false,
+					"type": "css",
+					"flavor": flavor
+			}
 		};
 		
 		// Mesh Pack
 		var mesh = function() {
-				return {
-						"name": "mesh",
-						"components": "mesh",
-						"embed": ( embed ) ? true : false,
-						"type": "css",
-						"flavor": flavor
-				}
+			return {
+					"name": "mesh",
+					"components": "mesh",
+					"embed": ( embed ) ? true : false,
+					"type": "css",
+					"flavor": flavor
+			}
 		};
 
 		// Pack the thing
@@ -390,7 +399,7 @@ app.post('/download', function( req, res ){
 				p_css.min = true;
 			packages.push(p_css);
 		}
-		
+
 		// for Dev
 		if ( env.toString().indexOf("d") > -1 ) {
 			// Mesh	
@@ -406,28 +415,18 @@ app.post('/download', function( req, res ){
 			packages.push( d_css );
 		}
 
-/*		console.log({
-			packages: packages, 
-			flavor: flavor,
-			depends: {
-				jquery: add_jquery,
-				belated: add_belated
-			}
-		});*/
-		
 		var custom = new CustomBuild({
-			packages: packages, 
+			packages: packages,
 			flavor: flavor,
 			depends: {
-				jquery: add_jquery,
-				belated: add_belated
+				jquery: add_jquery
 			}
 		});
 
-		custom.on("done", function(url) {
+		custom.on("done", function (url) {
 			res.redirect(url);
 		});
-		
+
 		custom.process();
 
 });

@@ -1,0 +1,8 @@
+nav.breadcrumb
+	a(href="/") Home
+	- each bread in breadcrumb
+		|  → 
+		- if (bread[1] !== "")
+			a(href="#{bread[1]}")= bread[0]
+		- else
+			#{bread[0]}
