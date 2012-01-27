@@ -465,9 +465,11 @@ app.get('/discuss', function(req, res){
 
 app.get('/suggest/:q', function(req, res){
 	var q = req.params.q;
+		q.toLowerCase();
 	var result = [];
 		for(var a=(country.length-1);a;a--){
-			var exist = country[a].search(q);
+			var word = country[a].toLowerCase();
+			var exist = word.search(q);
 			if(!exist){
 				result.push("\""+country[a]+"\"");
 			}
