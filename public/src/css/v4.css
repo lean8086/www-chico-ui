@@ -611,7 +611,8 @@ h4 small {
 	overflow: hidden;
 }
 
-#custom .centercolumn {
+#custom .centercolumn,
+#custom .rightcolumn {
 	position: relative;
 }
 
