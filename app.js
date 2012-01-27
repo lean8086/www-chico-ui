@@ -37,17 +37,27 @@ var friendlyMap = {
 };
 
 var createNavigationMapFrom = function(folder){
-	var temp =[],
-        folders = fs.readdirSync( __dirname + "/views/" + folder),
-	filename;
-        folders.forEach(function(file){
-                filename = file.split(".jade").join("");
+	
+	var temp = [],
+	
+		folders = fs.readdirSync(__dirname + "/views/" + folder),
+		
+		filename;
+	
+	folders.forEach(function (file) {
+		
+		filename = file.split(".jade").join("");
+		
+		if (filename === "home") { return; }
+		
 		temp.push({
-                        label: labelit(filename),
-                        href: "/" + folder + "/" + filename
-                });
-        });
-        return temp;
+			"label": labelit(filename),
+			"href": "/" + folder + "/" + filename,
+			"name": filename
+		});
+	});
+	
+	return temp;
 }
 
 meta.guides = createNavigationMapFrom("guides");
