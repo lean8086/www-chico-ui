@@ -37,11 +37,15 @@
 				<li><a href="/api">API Docs</a></li>
 				<li><a href="/guides">Learning guides</a></li>
 				<li><a href="/download">Download</a></li>
+				<li>
+					<form action="/search">
+						<label for="q">Search:</label>
+						<input type="search" name="q" placeholder="Search this site" />
+						<noscript>
+							<input class="ch-btn ch-secondary ch-skin" id="search" type="submit" value="Go" />
+						</noscript>
+					</form>
+				</li>
 			</ul>
-			<!--form method="GET" action="/search">
-				<label for="query">Search:</label>
-				<input type="text" role="search" placeholder="Search this site" id="query">
-				<noscript><input id="search" type="submit" value="Go" class="ch-btn ch-secondary ch-skin"></noscript>
-			</form-->
 		</nav>
 	</header>
