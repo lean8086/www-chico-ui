@@ -138,18 +138,19 @@ header nav li:last-child {
 }
 
 /* TODO: fix transition */
-#query {
+input[name=q] {
 	border-radius: 20px;
-	padding-left: 10px;
 	-webkit-transition: width 0.25s;
 	-moz-transition: width 0.25s;
 	-ms-transition: width 0.25s;
 	-o-transition: width 0.25s;
 	transition: width 0.25s;
+	width:125px;
+	padding-left:5px;
 }
 
-#query:focus {
-	width: 20%
+input[name=q]:focus {
+	width: 200px;
 }
 
 
