@@ -88,6 +88,9 @@ meta.versions = (function(){
 			}
 		});
 		
+		versions.sort();
+		latest.sort();
+		
 		latest.forEach(function (e) {
 			versions.push(e);
 		});
