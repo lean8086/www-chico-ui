@@ -340,7 +340,7 @@ app.post('/download', function( req, res ){
 								 req.body.util,
 				flavor = req.body.flavor,
 				add_mesh = req.body.mesh,
-				add_jquery = req.body.jquery,
+				add_jquery = true,//req.body.jquery,
 				embed = req.body.embed;
 				env = req.body.env;
 
