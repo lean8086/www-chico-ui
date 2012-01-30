@@ -1,0 +1,18 @@
+nav.ch-g2-3
+	ul
+		li
+			a(href="/blog") Blog
+		li
+			a(href="/widgets") UI Widgets
+		li
+			a(href="/api") API Docs
+		li
+			a(href="/guides") Learning guides
+		li
+			a(href="/download") Download
+		li
+			form(action="/search")
+				label(for="q") Search:
+				input(type="search", name="q", placeholder="Search this site")
+				noscript
+					input.ch-btn.ch-secondary.ch-skin#search(type="submit", value="Go")

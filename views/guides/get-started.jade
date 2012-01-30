@@ -87,12 +87,8 @@ p
 	|  you want.
 p
 	| The package comes with all the source code and assets you need to run Chico UI on your web page.
-p
-	| The package structure look like this:
-pre
-	| /src/ml/assets
-	| /src/ml/css
-	| /src/js
+form(action="/download")
+	input.ch-btn.ch-primary(type="submit", value="Download v#{latest.version}")
 
 h3#who-is-using Who is using Chico UI?
 p

@@ -47,6 +47,7 @@ var Packer = function(o) {
     self.type = o.type;
     self.flavor = o.flavor;
     self.min = o.min;
+    console.log("-----------------------------------------");
     self.embed = o.embed;
     self.avoid = o.avoid;
 	self.data = "";

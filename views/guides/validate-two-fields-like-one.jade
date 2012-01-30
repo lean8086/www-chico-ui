@@ -1,7 +1,7 @@
 h1 How to validate two fields like one
 p.updated
 	| Documentation updated on 
-	data December 14th
+	data January 26th
 	| .
 
 .contents
@@ -10,17 +10,32 @@ p.updated
 		dt
 			a(href="#when-to-use-it") 1 When to use it?
 		dt
-			a(href="#behind-the-magic") 2 Behind the magic
+			a(href="#demo") 2 Demo
 		dt
-			a(href="#step-by-step") 3 Step by step
+			a(href="#behind-the-magic") 3 Behind the magic
 		dt
-			a(href="#final-code") 4 Final code
+			a(href="#step-by-step") 4 Step by step
+		dt
+			a(href="#final-code") 5 Final code
 
 h3#when-to-use-it When to use it?
 p
 	| Use this tutorial when you needs to validate telephone, price or any multiple input.
 p
 	| Feel free to modify the code of this tutorial for more than two fields validations!
+
+h3#demo Demo
+form.box(action="")
+	p.ch-form-row.ch-form-required
+		label(for="example-phone-code")
+			| Telephone: 
+			em *
+		| 
+		input#example-phone-code(type="text", size="3", required, placeholder="555")
+		| 
+		input#example-phone-number(type="text", size="4", required, placeholder="1234")
+	p.actions
+		input.ch-btn.ch-secondary(type="submit", value="Submit")
 
 h3#behind-the-magic Behind the magic
 p
@@ -40,9 +55,9 @@ p
 pre
 	| ...
 	| <p class="ch-form-row ch-form-required">
-	| 	<label for="street">Telephone: <em>*</em></label> 
-	| 	<input type="text" size="4" id="example-phone-code" required="required">
-	| 	<input type="text" size="4" id="example-phone-number" required="required">
+	| 	<label for="example-phone-code">Telephone: <em>*</em></label> 
+	| 	<input type="text" size="3" id="example-phone-code" required="required" placeholder="555">
+	| 	<input type="text" size="4" id="example-phone-number" required="required" placeholder="1234">
 	| </p>
 	| ...
 p
@@ -95,7 +110,7 @@ pre
 h3#final-code Final code
 pre
 	| // Creates a custom function that receives the second field value
-	| var example_phone_validation = function (value2) {
+	| var phone_validation = function (value2) {
 	| 
 	| 	// Gets the first field
 	| 	var field1 = $("#example-phone-code");
@@ -128,8 +143,10 @@ pre
 	| 		.and()
 	| 		.required("This is a required field")
 	| 		// Here validation is false. Add error class to first field
-	| 		on("error", function () {
+	| 		.on("error", function () {
 	| 			$("#example-phone-code").addClass("error");
 	| 		});
 
 !=partial("includes/keep-reading")
+
+- script("code", '$("#example-phone-number").custom(function (value2) { var field1 = $("#example-phone-code"); var value1 = field1.val(); if (value1 && value2) { if (!isNaN(value1) && !isNaN(value2)) { field.removeClass("error"); return true; } } return false; }, "Enter a valid phone number.").and().required("This is a required field").on("error", function () { $("#example-phone-code").addClass("error"); }).validate()');

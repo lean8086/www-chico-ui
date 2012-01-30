@@ -1,7 +1,7 @@
 	<footer>
 		<nav class="ch-g2-3">
 			<ul>
-				<li>©2011 MercadoLibre.com</li>
+				<li>©<span id="copyright"></span>MercadoLibre.com</li>
 				<li><a href="/about">About us</a></li>
 				<li><a href="/discuss">Discuss</a></li>
 			</ul>
@@ -16,9 +16,10 @@
 	<script src="/versions/latest/chico.js"></script>
 	<script src="/src/js/scripts.js"></script>
 	<script>
-		$(".logo .version").text(ch.version);
-
 		$(function () {
+			$(".logo .version").text("v" + ch.version);
+			$("#copyright").text((new Date().getFullYear()) + " ");
+			
 			$(".examples").expando();
 			$("#members-tabs").tabNavigator();
 		});
