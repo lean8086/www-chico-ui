@@ -10,9 +10,9 @@ nav.ch-g2-3
 			a(href="/guides") Learning guides
 		li
 			a(href="/download") Download
-
-	/*form(method="GET", action="/search")
-		label(for="query") Search:
-		input(type="text", role="search", placeholder="Search this site", id="query")
-		noscript
-			input.ch-btn.ch-secondary.ch-skin(id="search", type="submit", value="Go")
+		li
+			form(action="/search")
+				label(for="q") Search:
+				input(type="search", name="q", placeholder="Search this site")
+				noscript
+					input.ch-btn.ch-secondary.ch-skin#search(type="submit", value="Go")

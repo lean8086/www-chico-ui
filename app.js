@@ -519,6 +519,23 @@ app.get('/about', function(req, res, next){
 });
 
 /**
+ * About.
+ */
+app.get('/search', function(req, res, next){
+	
+	var opt = title("Chico UI - Search results");
+	
+	opt.layout = "layout";
+		
+	opt.breadcrumb = [
+		["Search results", ""]
+	];
+	
+	res.render('search', opt);
+});
+
+
+/**
  * Mesh.
  */
 app.get('/mesh', function(req, res, next){

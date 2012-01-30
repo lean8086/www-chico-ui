@@ -37,7 +37,7 @@
 			layout = 1000,
 		
 		// Point X where stripe inits
-			fromX = ((canvas.width - layout) / 2) + layout - 250,
+			fromX = ((canvas.width - layout) / 2) + layout - 275,
 		
 		// Point Y where stripe inits
 			fromY = canvas.height,
