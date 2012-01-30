@@ -40,7 +40,7 @@ var createNavigationMapFrom = function(folder){
 	
 	var temp = [],
 	
-		folders = fs.readdirSync(__dirname + "/views/" + folder),
+		folders = fs.readdirSync(__dirname + "/views/" + folder).sort(),
 		
 		filename;
 	
