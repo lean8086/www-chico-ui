@@ -12,6 +12,9 @@
 	// Set canvas size
 	canvas.height = 390;
 	
+	// Set canvas as hidden
+	canvas.className = "ch-hide";
+	
 	// Add canvas to DOM
 	document.getElementById("home-description").appendChild(canvas);
 
