@@ -1,7 +1,9 @@
-h1 Watcher
+h1
+	| Validation
+	small(style="color:#ccc;") (a.k.a. Watcher)
 p.updated
 	| Documentation updated on 
-	data December 14th
+	data February 7th
 	| .
 
 .contents
@@ -19,14 +21,12 @@ p.updated
 			a(href="#interfaces") 5 Interfaces
 		dt
 			a(href="#more-validations-by-field") 6 More validations by field
-		dt
-			a(href="#position") 7 Position
 
 h3#description Description
 p
-	| The Watcher is a validation engine for the web forms. Each one send a feedback message to the end user. This message, called 
-	a(href="/api/#{latest.version}/symbols/ch.Helper.html") Helper
-	| , must indicate the error.
+	| The Validation 
+	em (before v0.10.2, called Watcher)
+	|  is an engine for web forms. Each one sends a feedback message to the end user.
 
 h3#demo Demo
 form.box.demo_form
@@ -51,20 +51,20 @@ pre
 
 h3#circular-reference Circular reference
 p 
-	| Each instance of Watcher must have a reference with a Form component instance. If any explicit instance wasn't created, the Watcher component will create a Form component.
+	| Each instance of Validation must have a reference with a Form component instance. If any explicit instance wasn't created, the Validation component will create a Form component.
 p 
-	| The Form and Watchers make a circular reference between themselves. The Form knows the Watcher and the Watcher knows the Form. 
+	| The Form and Validation make a circular reference between themselves. The Form knows the Validation and the Validation knows the Form. 
 p 
-	| This is the way to create a new Watcher:
+	| This is the way to create a new Validation:
 pre 
-	| var foo = $("#example").watcher(CONFIGURATION_OBJECT);
+	| var foo = $("#example").validation(CONFIGURATION_OBJECT);
 p
-	| When you instance a Watcher it returns a control object. It gives you information about the instance and some methods to manipulate the Watcher.
+	| When you instance a Validation it returns a control object. It gives you information about the instance and some methods to manipulate the Validation.
 
 h3#interfaces Interfaces
 p
 	| Instead of use the 
-	code ch.watcher
+	code ch.validation
 	|  method you can use the interfaces. Each one of this has their own configuration object.
 
 h4#the-custom-interface The custom() interface
@@ -185,21 +185,22 @@ p
 pre
 	| var myValidations = $("#example").min(13).and().max(20);
 
-h3#position Position
-p
-	| You can use the 
-	a(href="/widgets/positioner") Positioner
-	|  component to be able to change the Helper position in reference to the field you're validating:
-pre
-	| myValidations.helper.position({
-	| 	"points": "lt rt", // Sets a new relation points
-	| 	"offset": "10 10", // Sets a new offset
-	| 	"context": "#new-element" // Sets as context a new element in DOM
-	| });
-p
-	| Learn 
-	a(href="/guides/position-something-on-screen") how to position something on screen
-	| .
+//
+	h3#position Position
+	p
+		| You can use the 
+		a(href="/widgets/positioner") Positioner
+		|  component to be able to change the Helper position in reference to the field you're validating:
+	pre
+		| myValidations.helper.position({
+		| 	"points": "lt rt", // Sets a new relation points
+		| 	"offset": "10 10", // Sets a new offset
+		| 	"context": "#new-element" // Sets as context a new element in DOM
+		| });
+	p
+		| Learn 
+		a(href="/guides/position-something-on-screen") how to position something on screen
+		| .
 
 !=partial("includes/keep-reading")
 

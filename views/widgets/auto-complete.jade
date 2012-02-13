@@ -1,0 +1,165 @@
+h1 AutoComplete
+p.updated
+	| Documentation updated on 
+	data February 7th
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#description") 1 Description
+		dt
+			a(href="#demo") 2 Demo
+		dt
+			a(href="#snippet") 3 Code snippet
+		dt
+			a(href="#instance") 4 Instance component
+		dt
+			a(href="#configuration") 5 Configuration
+		dt
+			a(href="#basics") 6 Basics
+		dd
+			dl
+				dt
+					a(href="#pushing") 6.1 Pushing data
+				dt
+					a(href="#response") 6.2 Response format
+		dt
+			a(href="#events") 7 Events
+		dt
+			a(href="#behavior") 8 Behavior
+		dd
+			dl
+				dt
+					a(href="#get-suggests") 8.1 Getting suggestions
+				dt
+					a(href="#close") 8.2 Close the listing
+				dt
+					a(href="#highlight") 8.3 Highlight mouse and arrows
+
+h3#description Description
+p
+	| The AutoComplete widget is a member of the 
+	a(href="/api/#{latest.version}/symbols/ch.Controls.html") Controls
+	|  family. It works for input control. 
+	//It can suggest a list of options like a select control in a form, or 
+	| It can work as suggester while the user types in a input.
+
+h3#demo Demo
+.box
+	form#example_form.ch-form(action="#", method="GET")
+		.ch-form-row
+			label(for="autocomplete") Your country:
+			input.autoComplete_Example#autocomplete(type="text", name="autocomplete", placeholder="Search your country i.e. Argentina")
+
+h3#snippet Code snippet
+pre
+	| <form id="example_form" action="#" method="GET" class="ch-form">
+	| 	<div class="ch-form-row">
+	| 		<label for="autocomplete">Your country:</label>
+	| 		<input id="autocomplete"
+	|                        type="text"
+	|                        name="autocomplete"
+	|                        placeholder="Search your country i.e. Argentina"
+	|                        class="autoComplete_Example ch-autoComplete"
+	| 		/>
+	| 	</div>
+	| </form>
+
+h3#instance Instance component
+p
+	| This is the way to create an AutoComplete as a suggestive:
+pre
+	| var foo = $("#example").autoComplete({"url": "/suggest/"});
+
+
+!=partial("includes/configuration")
+
+
+h3#basics Basics
+
+h4#pushing Pushing data
+p
+	| The component executes the callback that returns to you the server service.
+p
+	| In the callback function you have to execute the 
+	code suggest
+	|  method.
+p
+	| Then, you have to give the data returned from the server to the function as parameter:
+pre
+	| var autoComplete = function (SERVER_DATA) {
+	| 	foo.suggest(SERVER_DATA);
+	| };
+
+//
+	h3#list-of-options Like a list of options
+	p
+		| And this is the way to create the AutoComplete as a list of options:
+	pre
+		| var foo = $("#example").autoComplete();
+	p
+		| Giving an array as parameter: 
+		code foo.suggest(["Option 1", "Option 2", "Option 3"]);
+	p
+		| Read more about 
+		a(href="/api/#{latest.version}/symbols/ch.AutoComplete.html") AutoComplete
+		| .
+
+h4#response Response format
+p
+	| The data sent from server-side must be a simple array, containing the suggestions to be showed into widget results, for example:
+pre
+	| ["Aruba", "Armenia", "Argentina"]
+
+
+!=partial("includes/events")
+
+
+h3#behavior Behavior
+
+h4#get-suggests Getting suggestions
+ol.ch-list
+	li
+		| Write a word. The component will suggest you a list of options.
+	li
+		| Focus the input with some text. The component will suggest you if it matches with any value.
+	li
+		| Click an item after the component gives you suggestions. Its value will set to the input's value.
+	li
+		| Select an item with the 
+		code key up
+		|  arrow or the 
+		code key down
+		|  arrow, then press the 
+		code enter
+		|  key. Its value will set to the input's value.
+
+h4#close Close the listing
+ol.ch-list
+	li
+		| Once the items are shown, click on the document. The list will closed and the component be off.
+	li
+		| Press 
+		code esc
+		|  to shutting off the component.
+
+h4#highlight Highlight mouse and arrows
+ol.ch-list
+	li
+		| Use the 
+		code key up
+		|  arrow or the 
+		code key down
+		|  arrow to select any item, then you move the mouse over the list. The new highlighted item will deselect the previous highlighted item.
+	li
+		| Once the items are shown, move the mouse over the list to highlight any item. Then, stop the mouse movement and you use the 
+		code key up
+		|  arrow. The previous item must be highlighted.
+
+
+!=partial("includes/keep-reading")
+
+- script("code", 'var ac = $(".autoComplete_Example").autoComplete({"url":"/suggest/"});')
+- script("code", 'var autoComplete = function(data){ ac.suggest(data); };')

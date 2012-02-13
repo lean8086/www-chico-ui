@@ -2,16 +2,25 @@
 	.ch-g1-2
 		.leftcolumn
 			h2 Keep on reading
-			p
-				| Read more on our 
-				a(href="/api") technical documentation
-				| . There you'll find the most complete info of all components.
+			- if (label)
+				p
+					| Read more in 
+					a(href="/api/#{latest.version}/symbols/ch.#{label}.html") #{label} API documentation
+					| . There you'll find the most complete info of the component.
+			- else
+				p
+					| Read more on our 
+					a(href="/api") API documentation
+					| . There you'll find the most complete info of all components.
 	.ch-g1-2
 		.rightcolumn
 			h2 Problems?
 			p
 				| You can easily report issues like bugs through our 
-				a(href="#{common.issuetracker}") issue tracker
+				- if (label)
+					a(href="https://github.com/mercadolibre/chico/issues/new?title=#{label}:%20", target="_blank") issue tracker
+				- else
+					a(href="https://github.com/mercadolibre/chico/issues/new", target="_blank") issue tracker
 				| , or simply write a tweet to 
-				a(href="http://twitter.com/chicoui") @chicoui
+				a(href="http://twitter.com/chicoui", target="_blank") @chicoui
 				| .

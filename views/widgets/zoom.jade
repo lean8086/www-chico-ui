@@ -1,7 +1,7 @@
 h1 Zoom
 p.updated
 	| Documentation updated on 
-	data December 14th
+	data February 7th
 	| .
 
 .contents
@@ -16,7 +16,15 @@ p.updated
 		dt
 			a(href="#instance") 4 Instance component
 		dt
-			a(href="#changing-size") 5 Changing size
+			a(href="#configuration") 5 Configuration
+		dt
+			a(href="#basics") 6 Basics
+		dd
+			dl
+				dt
+					a(href="#changing-size") 6.1 Changing size
+		dt
+			a(href="#events") 7 Events
 
 h3#description Description
 p
@@ -53,7 +61,13 @@ p
 	a(href="/api/#{latest.version}/symbols/ch.Floats.html") Floats
 	|  children, the Zoom has a few uses cases you can use to modifiy and manipulate its size.
 
-h3#changing-size Changing size
+
+!=partial("includes/configuration")
+
+
+h3#basics Basics
+
+h4#changing-size Changing size
 p
 	| To change the width property to the Zoom container
 	| there is a method called 
@@ -89,10 +103,9 @@ p
 	|  example:
 pre
 	| foo.height(300); // Set its height
-p
-	| Read more about 
-	a(href="/api/#{latest.version}/symbols/ch.Floats.html#.size") Sizing
-	| .
+
+
+!=partial("includes/events")
 
 !=partial("includes/keep-reading")
 

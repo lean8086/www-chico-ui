@@ -1,7 +1,7 @@
 h1 Form
 p.updated
 	| Documentation updated on 
-	data December 14th
+	data February 7th
 	| .
 
 .contents
@@ -18,7 +18,9 @@ p.updated
 		dt
 			a(href="#instance") 3 Instance component
 		dt
-			a(href="#markup") 4 Markup
+			a(href="#configuration") 4 Configuration
+		dt
+			a(href="#markup") 5 Markup
 		dt
 			a(href="#classnames") 6 Classnames
 		dt
@@ -38,7 +40,7 @@ p.updated
 				dt
 					a(href="#radios-n-checks") 7.6 Radio buttons and Checkboxes
 		dt
-			a(href="#callbacks") 8 Callbacks
+			a(href="#events") 8 Events
 		dt
 			a(href="#error-messages") 9 Error messages
 					
@@ -48,7 +50,7 @@ p
 	| The Form component is a member of 
 	a(href="/api/#{latest.version}/symbols/ch.Controllers.html") Controllers
 	|  family that manages instances of 
-	a(href="/api/#{latest.version}/symbols/ch.Watcher.html") Watchers
+	a(href="/api/#{latest.version}/symbols/ch.Validation.html") Validation
 	|  and provides public methods to administrate error messages and Form callbacks.
 
 h3#demo Demo
@@ -85,6 +87,10 @@ p
 	| A form contains input elements like text fields, checkboxes, radio-buttons, submit buttons and more (select lists, textareas, fieldsets, legends, and label elements).
 
 a.more(href="/static-demo/form.html", target="_blank") See a complete demo
+
+
+!=partial("includes/configuration")
+
 
 h3#classnames Classnames
 
@@ -690,31 +696,17 @@ p
 	a(href='/api/#{latest.version}/symbols/ch.Form.html') Form
 	| .
 
-h3#callbacks Callbacks
-p
-	| The Form has some uses cases. You can use this component to trigger callbacks on determinated events.
-pre
-	| var myForm = $("#example_form").form();
-	| 
-	| myFrom.on("submit", function () {
-	| 	alert("This was triggered by Form component.");
-	| });
-p
-	| Read more about
-	a(href="/guides/use-callback-functions") Callbacks
-	| .
-p
-	| You can find all Form callbacks on its 
-	a(href="/api/#{latest.version}/symbols/ch.Form.html") API documentation
-	| .
+
+!=partial("includes/events")
+
 
 h3#error-messages Error messages
 p
 	| To set default messages for 
-	a(href="/api/#{latest.version}/symbols/ch.Watcher.html") Watchers
+	a(href="/api/#{latest.version}/symbols/ch.Validation.html") Validation
 	|  children, you can specify messages on configuration object.
 p
-	| These messages will be replaced if a Watcher is invoked with a message.
+	| These messages will be replaced if a Validation is invoked with a message.
 pre
 	| var myForm = $("#example_form").form({
 	| 	"messages": {

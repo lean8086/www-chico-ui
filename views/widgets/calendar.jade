@@ -1,7 +1,7 @@
 h1 Calendar
 p.updated
 	| Documentation updated on 
-	data January 26th
+	data February 7th
 	| .
 
 .contents
@@ -16,40 +16,48 @@ p.updated
 		dt
 			a(href="#instance") 4 Instance component
 		dt
-			a(href="#select") 5 Select
+			a(href="#configuration") 5 Configuration
+		dt
+			a(href="#selection") 6 Selection
 		dd
 			dl
 				dt
-					a(href="#simple") 5.1 Simple selection
+					a(href="#simple") 6.1 Simple selection
 				dt
-					a(href="#ranges") 5.2 Ranges selection
+					a(href="#ranges") 6.2 Ranges selection
+		dt
+			a(href="#events") 7 Events
 
 h3#description Description
 p
 	| The Calendar widget is a component that allows to show a date or range of dates.
 p
-	| The widget behaviour is 
+	| The widget behavior is 
 	em read-only
 	| . To get a component that allows to select dates, see the 
 	a(href="/widgets/date-picker") Date Picker
 	| .
 
 h3#demo Demo
-.example
+#example
 
 h3#snippet Code snippet
 p
-	| A container when component will be created.
+	| A container where component will be created.
 pre
-	| <div class="example"></div>
+	| <div id="example"></div>
 
 h3#instance Instance component
 p
 	| This is the way to create a new Calendar:
 pre
-	| var foo = $(".example").calendar();
+	| var foo = $("#example").calendar();
 
-h3#select Select
+
+!=partial("includes/configuration")
+
+
+h3#selection Selection
 p
 	| When the Calendar widget is being created, you can use the 
 	code selected
@@ -60,19 +68,19 @@ p
 	|  that allows you to show an specific date on component, after instantiation.
 
 h4#simple Simple selection
-.example2
+#example2
 p
 	| By using a string you can specify a single date. Using 
 	code selected
 	|  parameter:
 pre
-	| $(".example").calendar({
+	| $("#example").calendar({
 	| 	"selected": "2012/01/26"
 	| });
 p
 	| Using an unique parameter:
 pre
-	| $(".example").calendar("2012/01/26");
+	| $("#example").calendar("2012/01/26");
 p
 	| Using 
 	code select
@@ -86,7 +94,7 @@ p
 	|  string as parameter.
 
 h4#ranges Ranges selection
-.example3
+#example3
 p
 	| By using an array you can specify multiple dates and range of dates.
 p
@@ -96,7 +104,7 @@ p
 	code selected
 	|  configuration parameter, or as unique parameter too:
 pre
-	| $(".example").calendar({
+	| $("#example").calendar({
 	| 	"selected": [
 	| 		["2012/01/11", "2012/01/13"], // Range of dates
 	| 		["2012/02/11", "2012/02/13"], // Range of dates
@@ -108,8 +116,10 @@ p
 	code "today"
 	|  string as any parameter.
 
+!=partial("includes/events")
+
 !=partial("includes/keep-reading")
 
-- script("code", '$(".example").calendar();')
-- script("code", '$(".example2").calendar("2012/01/26");')
-- script("code", '$(".example3").calendar({selected:[["2012/01/11", "2012/01/13"],["2012/02/11", "2012/02/13"],"2012/02/24"]});')
+- script("code", '$("#example").calendar();')
+- script("code", '$("#example2").calendar("2012/01/26");')
+- script("code", 'var curr = "2012/" + (new Date().getMonth() + 1) + "/"; $("#example3").calendar({"selected":[[curr + "10", curr + "13"],[curr + "24", curr + "25"]]});')

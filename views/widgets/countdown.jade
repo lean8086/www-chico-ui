@@ -1,7 +1,7 @@
 h1 Countdown
 p.updated
 	| Documentation updated on 
-	data January 10th
+	data February 7th
 	| .
 
 .contents
@@ -16,7 +16,11 @@ p.updated
 		dt
 			a(href="#instance") 4 Instance component
 		dt
-			a(href="#custom-text") 4 Custom text
+			a(href="#configuration") 5 Configuration
+		dt
+			a(href="#custom-text") 6 Custom text
+		dt
+			a(href="#events") 7 Events
 
 h3#description Description
 p
@@ -43,18 +47,25 @@ h3#instance Instance component
 p
 	| This is the way to create a new Countdown, specifying amount of character to limit the user text input:
 pre
-	| var foo = $("#example").countdown(100);
+	| var foo = $("#example").countdown(140);
+
+
+!=partial("includes/configuration")
+
 
 h3#custom-text Custom text
 p
 	| You can specify your custom text for plural and singular mode, where the variable that represents the number to be replaced should be a hash:
 pre
 	| var foo = $("#example").countdown({
-	| 	"max": 100,
+	| 	"max": 140,
 	| 	"plural": "# characters left.",
 	| 	"singular": "# character left."
 	| });
 
+
+!=partial("includes/events")
+
 !=partial("includes/keep-reading")
 
-- script("code", '$(".demo-countdown").countdown(100);')
+- script("code", '$(".demo-countdown").countdown(140);')

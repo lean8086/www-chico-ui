@@ -1,7 +1,7 @@
 h1 Blink
 p.updated
 	| Documentation updated on 
-	data December 14th
+	data February 7th
 	| .
 
 .contents
@@ -15,6 +15,10 @@ p.updated
 			a(href="#snippet") 3 Code snippet
 		dt
 			a(href="#instance") 4 Instance component
+		dt
+			a(href="#configuration") 5 Configuration
+		dt
+			a(href="#events") 6 Events
 
 h3#description Description
 p
@@ -28,7 +32,7 @@ p
 
 h3#demo Demo
 .box
-	p.example This is a text that you can blink.
+	p#example This is a text that you can blink.
 	p
 		button.ch-btn.ch-secondary.ch-skin#doHighlight Blink the paragraph
 
@@ -38,14 +42,18 @@ p
 	code HTMLElement
 	| , for example:
 pre.code
-	| <p class="example">The element you want to blink.</p>
+	| <p id="example">The element you want to blink.</p>
 
 h3#instance Instance component
 p
 	| This is the way to create a Blink:
 pre
-	| $(".example").blink();
+	| var foo = $("#example").blink();
+
+!=partial("includes/configuration")
+
+!=partial("includes/events")
 
 !=partial("includes/keep-reading")
 
-- script("code", '$("#doHighlight").bind("mousedown", function () { $(".example").blink(); });')
+- script("code", '$("#doHighlight").bind("mousedown", function () { $("#example").blink(); });')

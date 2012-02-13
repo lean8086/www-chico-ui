@@ -1,7 +1,7 @@
 h1 TabNavigator
 p.updated
 	| Documentation updated on 
-	data December 14th
+	data February 7th
 	| .
 
 .contents
@@ -16,11 +16,17 @@ p.updated
 		dt
 			a(href="#instance") 4 Instance component
 		dt
-			a(href="#loading-async-content") 5 Loading asynchronous content
+			a(href="#configuration") 5 Configuration
 		dt
-			a(href="#select-and-getselect") 6 select and getSelect
+			a(href="#basics") 6 Basics
+		dd
+			dl
+				dt
+					a(href="#loading-async-content") 6.1 Loading asynchronous content
+				dt
+					a(href="#select-and-getselect") 6.2 select and getSelect
 		dt
-			a(href="#callbacks") 7 Callbacks
+			a(href="#events") 7 Events
 
 h3#description Description
 p
@@ -84,7 +90,12 @@ pre
 	| var foo = $("#example").tabNavigator();
 
 
-h3#loading-async-content Loading asynchronous content
+!=partial("includes/configuration")
+
+
+h3#basics Basics
+
+h4#loading-async-content Loading asynchronous content
 p
 	| The component can load async content. To work, the link in 
 	strong tablist
@@ -104,7 +115,7 @@ p
 	code contentError
 	| .
 
-h3#select-and-getselect select and getSelect
+h4#select-and-getselect select and getSelect
 p
 	| The 
 	code select
@@ -114,11 +125,8 @@ p
 	code 1
 	| .
 
-h3#callbacks Callbacks
-p 
-	| When a tab is selected, a event is dispatched. This is the 
-	code select
-	|  event.
+
+!=partial("includes/events")
 
 !=partial("includes/keep-reading")
 

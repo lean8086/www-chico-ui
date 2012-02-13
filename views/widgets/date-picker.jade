@@ -1,7 +1,7 @@
-h1 Date Picker
+h1 DatePicker
 p.updated
 	| Documentation updated on 
-	data January 10th
+	data February 7th
 	| .
 
 .contents
@@ -16,7 +16,16 @@ p.updated
 		dt
 			a(href="#instance") 4 Instance component
 		dt
-			a(href="#show-n-hide") 5 Show and hide
+			a(href="#configuration") 5 Configuration
+		dt
+			a(href="#basics") 6 Basics
+		dd
+			dl
+				dt
+					a(href="#show-n-hide") 6.1 Show and hide
+		dt
+			a(href="#events") 7 Events
+		
 
 h3#description Description
 p
@@ -51,7 +60,13 @@ p
 pre
 	| var foo = $("#example").datePicker("today");
 
-h3#show-n-hide Show and hide
+
+!=partial("includes/configuration")
+
+
+h3#basics Basics
+
+h4#show-n-hide Show and hide
 p
 	| The Date Picker widget exposes some public methods called 
 	code show
@@ -61,6 +76,9 @@ p
 pre
 	| myDatePicker.show(); // Shows the Date Picker
 	| myDatePicker.hide(); // Hides the Date Picker
+
+
+!=partial("includes/events")
 
 !=partial("includes/keep-reading")
 

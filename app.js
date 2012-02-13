@@ -26,9 +26,17 @@ var title = function(title){
 	return _meta;
 }
 
-var labelit = function(label){
-	var label = label.split("-").join(" ");
-	return (label + '').charAt(0).toUpperCase() + label.substr(1)
+var labelit = function(label, camel){
+	
+	var words = label.split("-");
+	
+	words.forEach(function (e, i) {
+		if (camel && i === 0) { return; }
+		
+		words[i] = e.charAt(0).toUpperCase() + e.substr(1)
+	});
+	
+	return words.join("");
 }
 
 var friendlyMap = {
@@ -48,7 +56,7 @@ var createNavigationMapFrom = function(folder){
 		
 		filename = file.split(".jade").join("");
 		
-		if (filename === "home") { return; }
+		if (filename === "home" || filename === ".DS_Store") { return; }
 		
 		temp.push({
 			"label": labelit(filename),
@@ -589,6 +597,9 @@ app.get('/:branch/:label?', function(req, res){
 			[friendlyMap[branch], "/" + branch],
 			[labelit(label), ""] 
 		];
+		
+		opt.label = labelit(label);
+		opt.instanceLabel = labelit(label, true);
 		
 		/*opt.breadcrumb = {
 			labelit(branch): "/" + branch,

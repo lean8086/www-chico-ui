@@ -1,7 +1,7 @@
 h1 Dropdown
 p.updated
 	| Documentation updated on 
-	data December 14th
+	data February 7th
 	| .
 
 .contents
@@ -16,9 +16,17 @@ p.updated
 		dt
 			a(href="#instance") 4 Instance component
 		dt
-			a(href="#show-n-hide") 5 Show and hide
+			a(href="#configuration") 5 Configuration
 		dt
-			a(href="#positioning") 6 Positioning
+			a(href="#basics") 6 Basics
+		dd
+			dl
+				dt
+					a(href="#show-n-hide") 6.1 Show and hide
+				dt
+					a(href="#positioning") 6.2 Positioning
+		dt
+			a(href="#events") 7 Events
 
 h3#description Description
 p
@@ -59,7 +67,13 @@ p
 	a(href="/api/#{latest.version}/symbols/ch.Navs.html") Navs
 	|  children, the Dropdown has a few uses cases you can use to modifiy and manipulate its content, its size and positioning.
 
-h3#show-n-hide Show and hide
+
+!=partial("includes/configuration")
+
+
+h3#configuration Configuration
+
+h4#show-n-hide Show and hide
 p
 	| All 
 	a(href="/api/#{latest.version}/symbols/ch.Navs.html") Navs
@@ -76,7 +90,7 @@ p
 	a(href="/api/#{latest.version}/symbols/ch.Navs.html") Navs
 	| .
 
-h3#positioning Positioning
+h4#positioning Positioning
 p
 	| Chico has a great utility to position things on screen, is called 
 	a(href="/api/#{latest.version}/symbols/ch.Positioner.html") Positioner
@@ -113,6 +127,9 @@ p
 	| Read more about 
 	a(href="/api/#{latest.version}/symbols/ch.Positioner.html") Positioner
 	| .
+
+
+!=partial("includes/events")
 
 !=partial("includes/keep-reading")
 

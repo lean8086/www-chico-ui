@@ -1,7 +1,7 @@
 h1 Tooltip
 p.updated
 	| Documentation updated on 
-	data December 14th
+	data February 7th
 	| .
 
 .contents
@@ -16,11 +16,19 @@ p.updated
 		dt
 			a(href="#instance") 4 Instance component
 		dt
-			a(href="#show-n-hide") 5 Show and hide
+			a(href="#configuration") 5 Configuration
 		dt
-			a(href="#get-and-set-content") 6 Get and set content
+			a(href="#basics") 6 Basics
+		dd
+			dl
+				dt
+					a(href="#show-n-hide") 6.1 Show and hide
+				dt
+					a(href="#get-and-set-content") 6.2 Get and set content
+				dt
+					a(href="#positioning") 6.3 Positioning
 		dt
-			a(href="#positioning") 7 Positioning
+			a(href="#events") 7 Events
 
 h3#description Description
 p
@@ -32,11 +40,11 @@ h3#demo Demo
 p
 	| Hold the mouse over the image for a few seconds:
 p.actions
-	img.ninjas(src="/src/assets/ninjas.jpg", title="How many ninjas you need to create an awesome library?")
+	img.ninjas(src="/src/assets/ninja.png", title="How many ninjas you need to create an awesome library?", alt="ninja", width="150")
 
 h3#snippet Code snippet
 	pre
-		| <img id="example" src="/src/assets/ninjas.jpg" title="How many ninjas you need..." />
+		| <img id="example" src="/src/assets/ninja.png" title="How many ninjas you need..." alt="Ninja" />
 
 h3#instance Instance component
 p
@@ -48,7 +56,12 @@ p
 	a(href="/api/#{latest.version}/symbols/ch.Floats.html") Floats
 	|  children, the Tooltip has a few uses cases you can use to modifiy and manipulate its content, its size and positioning.
 
-h3#show-n-hide Show and hide
+
+!=partial("includes/configuration")
+
+h3#basics Basics
+
+h4#show-n-hide Show and hide
 p
 	| All 
 	a(href="/api/#{latest.version}/symbols/ch.Floats.html") Floats
@@ -65,7 +78,7 @@ p
 	a(href="/api/#{latest.version}/symbols/ch.Floats.html") Floats
 	| .
 
-h3#get-and-set-content Get and set content
+h4#get-and-set-content Get and set content
 p
 	| All 
 	a(href="/api/#{latest.version}/symbols/ch.Floats.html") Floats
@@ -89,7 +102,7 @@ p
 	a(href="/api/#{latest.version}/symbols/ch.Object.html#.content") Content
 	| .
 
-h3#positioning Positioning
+h4#positioning Positioning
 p
 	| Chico has an great utility to position things on screen, is called 
 	a(href="/api/#{latest.version}/symbols/ch.Positioner.html") Positioner
@@ -125,6 +138,9 @@ p
 	| Read more about 
 	a(href="/api/#{latest.version}/symbols/ch.Positioner.html") Positioner
 	| .
+
+
+!=partial("includes/events")
 
 !=partial("includes/keep-reading")
 

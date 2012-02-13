@@ -1,7 +1,7 @@
 h1 Expando
 p.updated
 	| Documentation updated on 
-	data December 14th
+	data February 7th
 	| .
 
 .contents
@@ -16,11 +16,17 @@ p.updated
 		dt
 			a(href="#instance") 4 Instance component
 		dt
-			a(href="#collapsed-by-default") 5 Collapsed by default
+			a(href="#configuration") 5 Configuration
 		dt
-			a(href="#show-n-hide") 6 Show and Hide
+			a(href="#basics") 6 Basics
+		dd
+			dl
+				dt
+					a(href="#collapsed-by-default") 6.1 Collapsed by default
+				dt
+					a(href="#show-n-hide") 6.2 Show and Hide
 		dt
-			a(href="#callbacks") 7 Callbacks
+			a(href="#events") 7 Events
 
 h3#description Description
 p
@@ -50,7 +56,11 @@ p
 pre
 	| var foo = $("#example").expando();
 
-h3#collapsed-by-default Collapsed by default
+!=partial("includes/configuration")
+
+h3#basics Basics
+
+h4#collapsed-by-default Collapsed by default
 p 
 	| The default view is collapsed. But, it can change the 
 	code open
@@ -60,7 +70,8 @@ p
 pre
 	| var foo = $("#example").expando({"open": true});
 
-h3#show-n-hide Show and Hide
+
+h4#show-n-hide Show and Hide
 p
 	| All Navs expose some public methods called 
 	code show
@@ -71,13 +82,8 @@ pre
 	| foo.show(); // Shows the content of Expando
 	| foo.hide(); // Hides the content
 
-h3#callbacks Callbacks
-p
-	| The component has two callbacks. Each one of those will be executed when the 
-	code show
-	|  or 
-	code hide
-	|  event are triggered.
+
+!=partial("includes/events")
 
 !=partial("includes/keep-reading")
 

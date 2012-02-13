@@ -1,7 +1,7 @@
 h1 Modal
 p.updated
 	| Documentation updated on 
-	data December 14th
+	data February 7th
 	| .
 
 .contents
@@ -16,11 +16,19 @@ p.updated
 		dt
 			a(href="#instance") 4 Instance component
 		dt
-			a(href="#show-n-hide") 5 Show and hide
+			a(href="#configuration") 5 Configuration
 		dt
-			a(href="#get-and-set-content") 6 Get and set content
+			a(href="#basics") 6 Basics
+		dd
+			dl
+				dt
+					a(href="#show-n-hide") 6.1 Show and hide
+				dt
+					a(href="#get-and-set-content") 6.2 Get and set content
+				dt
+					a(href="#changing-size") 6.3 Changing size
 		dt
-			a(href="#changing-size") 7 Changing size
+			a(href="#events") 7 Events
 
 h3#description Description
 p
@@ -30,9 +38,9 @@ p
 
 h3#demo Demo
 p
-	| Click over the ninjas image to see a demo:
+	| Click over the ninja image to see a demo:
 p.actions
-	img.ninjas(src="/src/assets/ninjas.jpg", style="cursor:pointer;")
+	img.ninja(src="/src/assets/ninja.png", style="cursor:pointer;", alt="Ninja", width="150")
 
 h3#snippet Code snippet
 p 
@@ -40,7 +48,7 @@ p
 	code HTMLElement
 	| , for example:
 pre
-	| <img id="example" src="/src/assets/ninjas.jpg" alt="Ninjas" />
+	| <img id="example" src="/src/assets/ninja.jpg" alt="ninja" />
 
 h3#instance Instance component
 p 
@@ -52,7 +60,13 @@ p
 	a(href="/api/#{latest.version}/symbols/ch.Floats.html") Floats
 	|  children, the Modal has a few uses cases you can use to modifiy and manipulate its content and its size.
 
-h3#show-n-hide Show and hide
+
+!=partial("includes/configuration")
+
+
+h3#basics Basics
+
+h4#show-n-hide Show and hide
 p
 	| All 
 	a(href="/api/#{latest.version}/symbols/ch.Floats.html") Floats
@@ -69,7 +83,7 @@ p
 	a(href="/api/#{latest.version}/symbols/ch.Floats.html") Floats
 	| .
 
-h3#get-and-set-content Get and set content
+h4#get-and-set-content Get and set content
 p
 	| All 
 	a(href="/api/#{latest.version}/symbols/ch.Floats.html") Floats
@@ -93,7 +107,7 @@ p
 	a(href="/api/#{latest.version}/symbols/ch.Object.html#.content") Content
 	| .
 
-h3#changing-size Changing size
+h4#changing-size Changing size
 p
 	| For change the width property to the Modal's container there is a method called 
 	code width
@@ -133,6 +147,9 @@ p
 	a(href="/api/#{latest.version}/symbols/ch.Floats.html#.size") Sizing
 	| .
 
+
+!=partial("includes/events")
+
 !=partial("includes/keep-reading")
 
-- script("code", '$(".ninjas").modal("<h2>Here is a question for you!</h2><p>How many ninjas you need to create a awesome library?.</p>");');
+- script("code", '$(".ninja").modal("<h2>Here is a question for you!</h2><p>How many ninjas you need to create a awesome library?</p>");');

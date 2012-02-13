@@ -1,7 +1,7 @@
 h1 Menu
 p.updated
 	| Documentation updated on 
-	data December 14th
+	data February 7th
 	| .
 
 .contents
@@ -16,7 +16,19 @@ p.updated
 		dt
 			a(href="#instance") 4 Instance component
 		dt
-			a(href="#select-event") 5 "select" event
+			a(href="#configuration") 5 Configuration
+		dt
+			a(href="#basics") 6 Basics
+		dd
+			dl
+				dt
+					a(href="#open-by-default") 6.1 Open by default
+		dt
+			a(href="#events") 6 Events
+		dd
+			dl
+				dt
+					a(href="#select-event") 6.1 The "select" event
 
 h3#description Description
 p
@@ -85,14 +97,26 @@ p
 	| This is the way to create a new Menu:
 pre
 	| var foo = $("#example").menu();
-p 
+
+
+!=partial("includes/configuration")
+
+
+h3#basics Basics
+
+h4#open-by-default Open by default
+p
 	| The folds are by default closed. But you can use the 
 	code selected
 	|  property to open a specific children. This is the way to initialize the component with a selected item:
 pre
 	| var foo = $("#example").menu({"seleted": "2"});
 
-h3#select-event "select" event
+
+!=partial("includes/events")
+
+
+h4#select-event The "select" event
 p 
 	| When a fold is being selected, the 
 	code select

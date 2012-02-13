@@ -1,7 +1,7 @@
 h1 Layer
 p.updated
 	| Documentation updated on 
-	data December 14th
+	data February 7th
 	| .
 
 .contents
@@ -16,13 +16,21 @@ p.updated
 		dt
 			a(href="#instance") 4 Instance component
 		dt
-			a(href="#show-n-hide") 5 Show and hide
+			a(href="#configuration") 5 Configuration
 		dt
-			a(href="#get-and-set-content") 6 Get and set content
+			a(href="#basics") 6 Basics
+		dd
+			dl
+				dt
+					a(href="#show-n-hide") 6.1 Show and hide
+				dt
+					a(href="#get-and-set-content") 6.2 Get and set content
+				dt
+					a(href="#changing-size") 6.3 Changing size
+				dt
+					a(href="#positioning") 6.4 Positioning
 		dt
-			a(href="#changing-size") 7 Changing size
-		dt
-			a(href="#positioning") 8 Positioning
+			a(href="#events") 7 Events
 
 h3#description Description
 p
@@ -32,13 +40,13 @@ p
 
 h3#demo Demo
 p
-	| Hold the mouse over the ninjas for a few miliseconds:
+	| Hold cursor over the ninja for a few miliseconds:
 p.actions
-	img.ninjas(src="/src/assets/ninjas.jpg", alt="Ninjas")
+	img.ninja(src="/src/assets/ninja.png", alt="Ninja", width="200")
 
 h3#snippet Code snippet
 pre
-	| <span id="example">Move cursor over me!!</span>
+	| <p id="example">Move cursor over me!!</p>
 p
 	| As any 
 	a(href="/api/#{latest.version}/symbols/ch.Floats.html") Floats
@@ -50,7 +58,13 @@ p
 pre
 	| var foo = $("#example").layer("<p>Rich content.</p>");
 
-h3#show-n-hide Show and hide
+
+!=partial("includes/configuration")
+
+
+h3#basics Basics
+
+h4#show-n-hide Show and hide
 p
 	| All 
 	a(href="/api/#{latest.version}/symbols/ch.Floats.html") Floats
@@ -67,7 +81,7 @@ p
 	a(href="/api/#{latest.version}/symbols/ch.Floats.html") Floats
 	| .
 
-h3#get-and-set-content Get and set content
+h4#get-and-set-content Get and set content
 p
 	| All 
 	a(href="/api/#{latest.version}/symbols/ch.Floats.html") Floats
@@ -91,7 +105,7 @@ p
 	a(href="/api/#{latest.version}/symbols/ch.Object.html#.content") Content
 	| .
 	
-h3#changing-size Changing size
+h4#changing-size Changing size
 p
 	| For change the width property to the Layer container there is a method called 
 	code width
@@ -131,7 +145,7 @@ p
 	a(href="/api/#{latest.version}/symbols/ch.Floats.html#.size") Sizing
 	| .
 
-h3#positioning Positioning
+h4#positioning Positioning
 p
 	| Chico has an great utility to position things on screen, is called 
 	a(href="/api/#{latest.version}/symbols/ch.Positioner.html") Positioner
@@ -171,6 +185,9 @@ p
 	a(href="/api/#{latest.version}/symbols/ch.Positioner.html") Positioner
 	| .
 
+!=partial("includes/events")
+
+
 !=partial("includes/keep-reading")
 
-- script("code", '$(".ninjas").layer("<h1>Here is a question for you!</h1><p>How many ninjas you need to create a awesome library?</p>").position({offset:"100 0"});');
+- script("code", '$(".ninja").layer("<h1>Here is a question for you!</h1><p>How many ninjas you need to create a awesome library?</p>");');
