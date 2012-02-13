@@ -5,6 +5,8 @@ section#home-description
 		
 		form(action="/guides/get-started")
 			input.ch-btn.ch-main(type="submit", value="Get started now!")
+		
+		img#ninja-img.ch-hide(src="/src/assets/ninja.png", alt="Ninja", width="496", height="360")
 
 section#products
 	article.ch-g1-2
@@ -87,3 +89,4 @@ section#additional
 - script("code", '$("input[name=download]").val("Download v" + ch.version);')
 - script("code", '$(".ch-carousel").carousel({"arrows": false, "pagination": true, "width": 465}).page(2);')
 - script("get", '/src/js/canvas.min.js')
+- script("code", 'var $img = $("#ninja-img"); $img.onImagesLoads(function () { $img.fadeIn("fast"); $("canvas").fadeIn(1000); });')
