@@ -473,8 +473,9 @@ app.get('/discuss', function(req, res){
 });*/
 
 
-app.get('/suggest/:q', function(req, res){
-	var q = req.params.q;
+app.get('/suggest', function(req, res){
+	var q = req.query.q;
+	var callback = req.query.callback;
 		q.toLowerCase();
 	var result = [];
 		for(var a=(country.length-1);a;a--){
@@ -484,7 +485,7 @@ app.get('/suggest/:q', function(req, res){
 				result.push("\""+country[a]+"\"");
 			}
 		}
-		var r = "autoComplete(["+result+"])";
+		var r = callback+"(["+result+"])";
 		res.header('Content-Type', "text/javascript");
 		res.send(r);
 });
