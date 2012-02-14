@@ -58,6 +58,10 @@ section.main h1 {
 	margin-left: -2px;
 }
 
+section.main h1 small {
+	color:#ccc;
+}
+
 section.main h3 {
 	font-size: 22px;
 	margin: 35px 0 10px;
