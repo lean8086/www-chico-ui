@@ -3,7 +3,7 @@ nav.ch-g1-5
 		h4 UI Widgets
 		ul
 			- each item, i in widgets
-				- if (i < 3 && item.label !== ".DS_Store")
+				- if (i < 5 && item.label !== ".DS_Store")
 					li
 						a(href="#{item.href}")= item.label
 			li
@@ -15,13 +15,13 @@ nav.ch-g1-5
 			li
 				a(href="/mesh") Overview
 			li
-				a(href="/guides/mesh-your-layout-in-5-min") How to mesh my layout
+				a(href="/guides/mesh-your-layout-in-5-min") Mesh your layout in 5 min
 
 	.rightcolumn
 		h4 Learning guides
 		ul
 			- each item, i in guides
-				- if (i < 3 && item.label !== ".DS_Store")
+				- if (i < 4 && item.label !== ".DS_Store" && item.label !== "Get started")
 					li
 						a(href="#{item.href}")= item.label
 			li

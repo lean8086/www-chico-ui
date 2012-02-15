@@ -1,4 +1,4 @@
-h1 How to install Chico UI
+h1 How to install chico
 p.updated
 	| Documentation updated on 
 	data December 13rd
@@ -55,7 +55,7 @@ h3#sources Which are the sources?
 p
 	| You only got to add the CSS, JavaScript and assets of Chico UI, and that's all!
 form.container(action="/download")
-	input.ch-btn.ch-primary#download(type="submit", value="Download")
+	input.ch-btn.ch-primary#download(type="submit", value="Download v#{latest.version}")
 p
 	| Make sure to add the stylesheet call into the 
 	code &lt;head&gt;
@@ -105,7 +105,3 @@ pre
 	| 	</script> 
 	| </body>
 	| </html>
-
-!=partial("includes/keep-reading")
-
-- script("code", '$("#download").val("Download v" + ch.version);')

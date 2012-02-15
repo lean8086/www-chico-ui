@@ -1,4 +1,4 @@
-h1 How to validate two fields like one
+h1 Validate two fields like one
 p.updated
 	| Documentation updated on 
 	data January 26th
@@ -147,6 +147,6 @@ pre
 	| 			$("#example-phone-code").addClass("error");
 	| 		});
 
-!=partial("includes/keep-reading")
+
 
 - script("code", '$("#example-phone-number").custom(function (value2) { var field1 = $("#example-phone-code"); var value1 = field1.val(); if (value1 && value2) { if (!isNaN(value1) && !isNaN(value2)) { field.removeClass("error"); return true; } } return false; }, "Enter a valid phone number.").and().required("This is a required field").on("error", function () { $("#example-phone-code").addClass("error"); }).validate()');

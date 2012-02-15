@@ -26,17 +26,64 @@ var title = function(title){
 	return _meta;
 }
 
-var labelit = function(label, camel){
+// * Widgets
+// auto-complete -> AutoComplete
+// auto-complete -> Auto Complete
+// auto-complete -> autoComplete
+// * Guides
+// change-modal-content -> Change modal content
+var labeler = function (label) {
+	
+	var words = label.split("-"),
+		
+		self = {},
+		
+		ucfirst = (function () {
+			
+			var w = [];
+			
+			words.forEach(function (e, i) {
+				if (i === 0) {
+					w[0] = e.charAt(0).toUpperCase() + e.substr(1);
+				} else {
+					w.push(e);
+				}
+			});
+			
+			return w;
+		}());
+	
+	self.ucfirst = ucfirst.join(" "); // Change modal content
+	
+	words.forEach(function (e, i) {
+		if (i === 0) { return; }
+		
+		words[i] = ucfirst[i] = e.charAt(0).toUpperCase() + e.substr(1);
+	});
+	
+	self.camel = words.join(""); // autoComplete
+
+	self.capitalized = ucfirst.join(" "); // Auto Complete
+	self.both = ucfirst.join(""); // AutoComplete
+
+	return self;
+};
+
+var labelit = function(label, camel, friendly){
 	
 	var words = label.split("-");
 	
-	words.forEach(function (e, i) {
-		if (camel && i === 0) { return; }
-		
-		words[i] = e.charAt(0).toUpperCase() + e.substr(1)
-	});
+	if (camel) {
+		words.forEach(function (e, i) {
+			if (i === 0) { return; }
+			
+			words[i] = e.charAt(0).toUpperCase() + e.substr(1)
+		});
+	} else {
+		words[0] = words[0].charAt(0).toUpperCase() + words[0].substr(1);
+	}
 	
-	return words.join("");
+	return words.join(friendly ? " " : "");
 }
 
 var friendlyMap = {
@@ -51,15 +98,17 @@ var createNavigationMapFrom = function(folder){
 		folders = fs.readdirSync(__dirname + "/views/" + folder).sort(),
 		
 		filename;
-	
+
 	folders.forEach(function (file) {
 		
 		filename = file.split(".jade").join("");
 		
 		if (filename === "home" || filename === ".DS_Store") { return; }
 		
+		var lbl = labeler(filename);
+		
 		temp.push({
-			"label": labelit(filename),
+			"label": (folder === "guides") ? lbl.ucfirst : lbl.capitalized,//labelit(filename, false, true),
 			"href": "/" + folder + "/" + filename,
 			"name": filename
 		});
@@ -588,24 +637,26 @@ app.get('/:branch/:label?', function(req, res){
 	var branch = req.params.branch,
 		label = req.params.label;
 			
-	if(branch!=undefined && label!=undefined){
-		var redefBranch = (branch=='guides')?'guides':branch;
-		url = '/'+branch+'/'+label;
+	if (branch != undefined && label != undefined) {
 		
-		var opt = title("Chico UI | " + labelit(branch) + " | " + labelit(label));
+		var areGuides = branch === "guides",
+		
+			redefBranch = areGuides ? "guides" : branch,
+		
+			url = "/" + branch + "/" + label,
+			
+			lbl = labeler(label),
+		
+			opt = title("Chico UI | " + friendlyMap[branch] + " | " + (areGuides ? lbl.ucfirst : lbl.capitalized));
 		
 		opt.breadcrumb = [
 			[friendlyMap[branch], "/" + branch],
-			[labelit(label), ""] 
+			[(areGuides ? lbl.ucfirst : lbl.capitalized), ""] 
 		];
 		
-		opt.label = labelit(label);
-		opt.instanceLabel = labelit(label, true);
+		opt.label = lbl.both;
+		opt.instanceLabel = lbl.camel;
 		
-		/*opt.breadcrumb = {
-			labelit(branch): "/" + branch,
-			labelit(label): ""
-		};*/
 	
 		items = meta[redefBranch];
 		for(var i in items){
@@ -619,7 +670,7 @@ app.get('/:branch/:label?', function(req, res){
 		
 	} else if(label==undefined){
 		
-		var opt = title("Chico UI | " + labelit(branch));
+		var opt = title("Chico UI | " + friendlyMap[branch]);
 		
 		opt.breadcrumb = [
 			[friendlyMap[branch], ""]
