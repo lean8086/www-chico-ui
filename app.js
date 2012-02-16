@@ -580,6 +580,23 @@ app.get('/about', function(req, res, next){
 });
 
 /**
+ * License.
+ */
+app.get('/license', function(req, res, next){
+	
+	var opt = title("Chico UI License");
+	
+	opt.layout = "1col";
+		
+	opt.breadcrumb = [
+		["License", ""]
+	];
+	
+	res.render("license", opt);
+});
+
+
+/**
  * About.
  */
 app.get('/search', function(req, res, next){
