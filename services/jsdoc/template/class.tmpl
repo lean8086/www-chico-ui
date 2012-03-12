@@ -38,7 +38,7 @@
 <section class="main">
 	<nav class="breadcrumb"><a href="/">Home</a> → <a href="/api">API Docs</a> → {+data.alias+}</nav>
 	<article class="ch-g4-5">
-		<div class="leftcolumn">
+		<div class="ch-leftcolumn">
 
 <!-- ============================== class title ============================ -->
 
@@ -105,7 +105,7 @@
 <!-- ============================== properties summary ===================== -->
 			<if test="data.properties.length">
 				<if test="ownProperties.length">
-				<table class="summaryTable datagrid" cellspacing="0" summary="A summary of the fields documented in the class {+data.alias+}.">
+				<table class="summaryTable ch-datagrid" cellspacing="0" summary="A summary of the fields documented in the class {+data.alias+}.">
 					<!--caption>Field Summary</caption-->
 					<thead>
 						<tr>							
@@ -173,7 +173,7 @@
 			<if test="data.methods.length">
 				{! var ownMethods = data.methods.filter(function($){return $.memberOf == data.alias  && !$.isNamespace}).sort(makeSortby("name")); !}
 				<if test="ownMethods.length">
-				<table class="summaryTable datagrid" cellspacing="0" summary="A summary of the methods documented in the class {+data.alias+}.">
+				<table class="summaryTable ch-datagrid" cellspacing="0" summary="A summary of the methods documented in the class {+data.alias+}.">
 					<!--caption>Method Summary</caption-->
 					<thead>
 						<tr>
@@ -238,7 +238,7 @@
 <!-- ============================== events summary ======================== -->
 			<if test="data.events.length">
 				<if test="ownEvents.length">
-				<table class="summaryTable datagrid" cellspacing="0" summary="A summary of the events documented in the class {+data.alias+}.">
+				<table class="summaryTable ch-datagrid" cellspacing="0" summary="A summary of the events documented in the class {+data.alias+}.">
 					<!--caption>Event Summary</caption-->
 					<thead>
 						<tr>
@@ -603,7 +603,7 @@
 <!-- ============================== classes index ============================ -->
 </article>
 <nav class="ch-g1-5 api">
-	<div class="rightcolumn">
+	<div class="ch-rightcolumn">
 		{+publish.classesIndex+}
 	</div>
 </nav>

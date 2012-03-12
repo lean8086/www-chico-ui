@@ -60,7 +60,7 @@ form.ch-form.box#example_form(action="./form", method="GET")
 		label(for="text") Input text:
 		input#text(name="text", type="text")
 	p.ch-form-actions
-		input.ch-btn.ch-secondary(type="submit", value="Submit")
+		input.ch-btn.ch-btn-small(type="submit", value="Submit")
 
 h4#snippet Code snippet of demo
 pre
@@ -70,7 +70,7 @@ pre
 	| 		<input id="text" name="text" type="text">
 	| 	</p>
 	| 	<p class="ch-form-actions">
-	| 		<input id="submit" class="ch-btn ch-secondary" name="send" type="submit">
+	| 		<input id="submit" class="ch-btn ch-btn-small" name="send" type="submit">
 	| 	</p>
 	| </form>
 
@@ -94,7 +94,7 @@ a.more(href="/static-demo/form.html", target="_blank") See a complete demo
 
 h3#classnames Classnames
 
-table.datagrid.tableForm
+table.ch-datagrid.tableForm
 	thead
 		tr
 			th(width="30%") Class
@@ -203,7 +203,7 @@ table.datagrid.tableForm
 h3#snippets Code snippets
 h4#alphanumeric Alphanumeric fields
 
-table.datagrid.tableForm
+table.ch-datagrid.tableForm
 	thead
 		th(width="40%") Input
 		th(width="60%") Snippet
@@ -272,7 +272,7 @@ table.datagrid.tableForm
 					|</form>
 
 h4#select Select
-table.datagrid.tableForm
+table.ch-datagrid.tableForm
 	thead
 		th(width="40%") Input
 		th(width="60%") Snippet
@@ -416,7 +416,7 @@ table.datagrid.tableForm
 					|</form>
 
 h4#textarea Textarea
-table.datagrid.tableForm
+table.ch-datagrid.tableForm
 	thead
 		th(width="40%") Input
 		th(width="60%") Snippet
@@ -486,63 +486,63 @@ table.datagrid.tableForm
 
 
 h4#buttons Buttons
-table.datagrid.tableForm
+table.ch-datagrid.tableForm
 	thead
 		th(width="40%") Button
 		th(width="60%") Snippet
 	tbody
 		tr
 			td	
-				input(type='submit', value='Main Button').ch-btn.ch-main
+				input(type='submit', value='Big Button').ch-btn.ch-btn-big
 			td
 				pre
-					|<input class="ch-btn ch-main" type="submit" value="Main Button">
+					|<input class="ch-btn ch-btn-big" type="submit" value="Big Button">
 		tr
 			td	
-				input(type='submit', value='Primary Button').ch-btn.ch-primary
+				input(type='submit', value='Normal Button').ch-btn
 			td
 				pre
-					|<input class="ch-btn ch-primary" type="submit" value="Primary Button">
+					|<input class="ch-btn" type="submit" value="Normal Button">
 		tr
 			td
-				input(type='submit', value='Secondary Button').ch-btn.ch-secondary
+				input(type='submit', value='Small Button').ch-btn.ch-btn-small
 			td
 				pre
-					|<input class="ch-btn ch-secondary" type="submit" value="Secondary Button">
+					|<input class="ch-btn ch-btn-small" type="submit" value="Small Button">
 		tr
 			td
-				input(type='submit', value='Secondary Skin Button').ch-btn.ch-secondary.ch-skin
+				input(type='submit', value='Skin Button').ch-btn-skin.ch-btn-small
 			td
 				pre
-					|<input class="ch-btn ch-ch-secondary ch-skin" type="submit" value="Secondary Skin Button">
+					|<input class="ch-btn-skin ch-btn-small" type="submit" value="Skin Button">
 		tr
 			td
-				input(type='submit', value='Main Button Disabled', disabled='disabled').ch-btn.ch-main
+				input(type='submit', value='Big Button Disabled', disabled='disabled').ch-btn.ch-btn-big.ch-btn-disabled
 			td
 				pre
-					|<input class="ch-btn ch-main" disabled type="submit" value="Main Disable Button">
+					|<input class="ch-btn ch-btn-big ch-btn-disabled" disabled type="submit" value="Big Disable Button">
 		tr
 			td
-				input(type='submit', value='Primary Button Disabled', disabled='disabled').ch-btn.ch-primary
+				input(type='submit', value='Normal Button Disabled', disabled='disabled').ch-btn.ch-btn-disabled
 			td
 				pre
-					|<input class="ch-btn ch-primary" disabled type="submit" value="Primary Disable Button">
+					|<input class="ch-btn ch-btn-disabled" disabled type="submit" value="Normal Button Disable">
 		tr
 			td
-				input(type='submit', value='Secondary Button Disabled', disabled='disabled').ch-btn.ch-secondary	
+				input(type='submit', value='Small Button Disabled', disabled='disabled').ch-btn.ch-btn-small.ch-btn-disabled
 			td
 				pre
-					|<input class="ch-btn ch-secondary" disabled type="submit" value="Secondary Disable Button">
+					|<input class="ch-btn ch-btn-small ch-btn-disabled" disabled type="submit" value="Small Disable Button">
 		tr
 			td	
-				input(type='submit', value='Secondary Skin Button Disabled', disabled='disabled').ch-btn.ch-secondary.ch-skin
+				input(type='submit', value='Skin Button Disabled', disabled='disabled').ch-btn-skin.ch-btn-small.ch-btn-disabled
 			td
 				pre
-					|<input class="ch-btn ch-secondary ch-skin" disabled type="submit" value="Secondary Skin Disable Button">
+					|<input class="ch-btn-skin ch-btn-small ch-btn-disabled" disabled type="submit" value="Skin Disable Button">
 
 
 h4#legend Legend
-table.datagrid.tableForm
+table.ch-datagrid.tableForm
 	thead
 		th(width="40%") Legend
 		th(width="60%") Snippet
@@ -561,7 +561,7 @@ table.datagrid.tableForm
 					|</form>
 
 h4#radios-n-checks Radio buttons and Checkboxes
-table.datagrid.tableForm
+table.ch-datagrid.tableForm
 	thead
 		th(width="40%") Checkboxes and radios
 		th(width="60%") Snippet

@@ -5,11 +5,11 @@ p.updated
 	| Current version: v#{latest.version}
 
 article.ch-g4-5
-	.leftcolumn
+	.ch-leftcolumn
 
 		form#custom.box(action="/download", method="POST")
 			.ch-g1-3
-				.leftcolumn
+				.ch-leftcolumn
 					fieldset
 						legend Abstracts
 						.options
@@ -19,12 +19,12 @@ article.ch-g4-5
 						.options
 							ul#utils
 			.ch-g1-3
-				fieldset.centercolumn
+				fieldset.ch-centercolumn
 					legend Widgets
 					.options.toggle
 						ul#components
 			.ch-g1-3
-				.rightcolumn
+				.ch-rightcolumn
 					fieldset
 						legend Dependencies
 						.options.toggle
@@ -70,10 +70,10 @@ article.ch-g4-5
 									label(for="mp_theme").disabled
 										| MercadoPago 
 										small (soon)
-					input.ch-btn.ch-main(type="submit", value="Download")
+					input.ch-btn.ch-btn-big(type="submit", value="Download")
 
 nav.ch-g1-5
-	.rightcolumn
+	.ch-rightcolumn
 		h4 Older versions
 		ul#versions.ch-menu
 			- each item, i in versions

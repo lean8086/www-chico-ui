@@ -1,20 +1,20 @@
 /* Elastic Layout: 2 columns, left fixed sidebar */
 
-.fixed-sidebar {
+.ch-fixed-sidebar {
 	float: left;
 	width:290px; /* defines fixed column width */
 }	
 
-.left.elastic-content {
+.ch-left.ch-elastic-content {
 	float:left;
 	width:100%;
 }
 
-.left.elastic-content .inner { /* inner element must have this class */
+.ch-left.ch-elastic-content .ch-inner { /* inner element must have this class */
 	margin:0px 300px 0px 0px; 
 } 
 
-.right.fixed-sidebar {
+.ch-right.ch-fixed-sidebar {
 	margin-left:-290px !important; /* same as width */
 }
 
@@ -31,27 +31,27 @@ body {
     font: 13px/20px Arial,Helvetica,"Nimbus Sans L",sans-serif;
 }
 
-.box {
+.ch-box {
 	border: 1px solid #ccc;
 	padding: 10px;
 }
 
-.fixed-sidebar .box, .elastic-content .box { 
+.ch-fixed-sidebar .ch-box, .ch-elastic-content .ch-box { 
 	height: 400px;
 }
 
-.fixed-sidebar .box {
+.ch-fixed-sidebar .ch-box {
 	background-color: #ccc;
 }
 
-.header {
+.ch-header {
 	height: 50px;
 	padding: 20px 10px;
 	background: #eee;
 	margin: 10px auto;
 }
 
-.footer {
+.ch-footer {
 	clear:both;
 	text-align: center;
 	margin: 10px auto;

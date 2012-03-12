@@ -6,7 +6,7 @@ html, body {
 }
 
 /* Layout behavior */
-html, body, .layout {
+html, body, .ch-layout {
 	margin: 0 auto;
 	width: 1000px;
 }
@@ -76,7 +76,7 @@ section.main h5 {
 	font-size: 14px;
 }
 
-section.main nav .rightcolumn h4 {
+section.main nav .ch-rightcolumn h4 {
 	margin-bottom: 10px;
 }
 
@@ -455,7 +455,7 @@ section.main {
 	margin-top: 20px;
 }
 
-section.main .ch-g4-5 > .leftcolumn {
+section.main .ch-g4-5 > .ch-leftcolumn {
 	margin-right: 50px;
 }
 
@@ -499,11 +499,11 @@ code {
 	padding: 2px;
 }
 
-nav .rightcolumn {
+nav .ch-rightcolumn {
 	margin-bottom: 0 0 40px 20px;
 }
 
-nav .rightcolumn ul {
+nav .ch-rightcolumn ul {
 	margin: 5px 0 30px;
 }
 
@@ -532,7 +532,7 @@ nav .rightcolumn ul {
     padding: 0 10px;
 }
 
-.datagrid .context {
+.ch-datagrid .context {
 	width: 50px;
 	height: 50px;
 	margin: 20px;
@@ -540,7 +540,7 @@ nav .rightcolumn ul {
 	font-size: 10px;
 }
 
-.datagrid .target {
+.ch-datagrid .target {
 	height: 15px;
 	line-height: 15px;
 	width: 25px;
@@ -613,7 +613,7 @@ section.main h4.ch-form-subtitle { font-size: 13px; }
 *	API Docs
 */
 
-#members-tabs .datagrid {
+#members-tabs .ch-datagrid {
 	margin-bottom: 15px;
 	width: 97%;
 }
@@ -639,8 +639,8 @@ h4 small {
 	overflow: hidden;
 }
 
-#custom .centercolumn,
-#custom .rightcolumn {
+#custom .ch-centercolumn,
+#custom .ch-rightcolumn {
 	position: relative;
 }
 

@@ -1,6 +1,6 @@
 .old-home.ch-g1
 	.ch-g2-5
-		.leftcolumn
+		.ch-leftcolumn
 			h3 Get things done, quickly
 			p
 				| Chico is a 
@@ -17,21 +17,21 @@
 				a(href="http://github.com/mercadolibre/chico", rel="nofollow", target="_blank") share this tool 
 				| with the world to help making the web more beautiful.
 			form(action="/guides/get-started")
-				input.ch-btn.ch-primary(type="submit", value="Getting Started")
+				input.ch-btn.ch-btn-big(type="submit", value="Getting Started")
 	
 	.ch-g3-10
 		.ninja
 			img(src="src/assets/ninja.jpg", width="278", height="368")
 	
 	.ch-g3-10
-		.rightcolumn
+		.ch-rightcolumn
 			h4
 				| Get latest version 						
 			form#full-package(action="#{latest.download.href}")
 				fieldset
 					ul
 						li
-							input.ch-btn.ch-secondary.ch-skin(type="submit", value="Download v#{latest.version} full package")
+							input.ch-btn-skin.ch-btn-small(type="submit", value="Download v#{latest.version} full package")
 					p
 						| Looking for
 						a(href="/download") older versions
@@ -49,7 +49,7 @@
 
 ul.old-links.container.ch-g1.clearfix
 	li.ch-g1-6
-		.leftcolumn
+		.ch-leftcolumn
 			h4 Developers
 			ul
 				li
@@ -61,7 +61,7 @@ ul.old-links.container.ch-g1.clearfix
 				li
 					a(href="http://blog.chico-ui.com.ar/tagged/Release_Notes") Release Notes
 	li.ch-g1-6
-		.centercolumn
+		.ch-centercolumn
 			h4 Chico Mesh
 			ul
 				li
@@ -71,7 +71,7 @@ ul.old-links.container.ch-g1.clearfix
 				li
 					a(href="/guides/mesh-your-layout-in-5-min") Mesh your layout
 	li.ch-g1-6
-		.centercolumn
+		.ch-centercolumn
 			h4 Learning guides
 			ul
 				- each item, i in guides
@@ -79,7 +79,7 @@ ul.old-links.container.ch-g1.clearfix
 						li
 							a(href="#{item.href}") #{item.label}
 	li.ch-g3-6
-		.rightcolumn
+		.ch-rightcolumn
 			.ui-components-demo
 				ul.ui-components-demo-list
 					li.ui-components-demo-list-item
@@ -155,7 +155,7 @@ ul.old-links.container.ch-g1.clearfix
 
 ul.old-features.container.clearfix
 	li.ch-g1-3
-		.leftcolumn
+		.ch-leftcolumn
 			a(href="http://www.w3.org/html/logo/", rel="nofollow")
 				img(alt="HTML5", src="http://www.w3.org/html/logo/badge/html5-badge-h-solo.png")
 			h5
@@ -163,7 +163,7 @@ ul.old-features.container.clearfix
 			p
 				| We want to collaborate to make the web more beautiful, with HTML, CSS, JavaScript.
 	li.ch-g1-3
-		.centercolumn
+		.ch-centercolumn
 			img(src="src/assets/web-browsers.jpg", alt="Cross browser")
 			h5
 				strong Cross browser
@@ -171,7 +171,7 @@ ul.old-features.container.clearfix
 			/if lt IE 7 
 				p You are using a really really old browser! Please, try to upgrade the thing and help engineers to push the web forward, much further than you think!
 	li.ch-g1-3
-		.rightcolumn
+		.ch-rightcolumn
 			a(href="http://opensource.org/", rel="nofollow")
 				img(alt="Open Source Initiative", src="src/assets/opensource.png")
 			h5

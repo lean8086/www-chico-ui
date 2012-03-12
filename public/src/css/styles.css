@@ -436,27 +436,27 @@ ul.layouts li p {
 
 /* Demo forms */
 
-.ch-g3-4 .datagrid .code {
+.ch-g3-4 .ch-datagrid .code {
 	max-width: 530px
 }
 
-.ch-g3-4 .datagrid .ch-form-row label {
+.ch-g3-4 .ch-datagrid .ch-form-row label {
 	width:60px;
 }
 
-.ch-g3-4 .datagrid .ch-form-options .ch-form-row label {
+.ch-g3-4 .ch-datagrid .ch-form-options .ch-form-row label {
 	width:auto;
 }
 
-.ch-g3-4 .datagrid .ch-form-actions {
+.ch-g3-4 .ch-datagrid .ch-form-actions {
 	margin-left:72px; 
 }
 
-.ch-g3-4 .datagrid textarea {
+.ch-g3-4 .ch-datagrid textarea {
 	width: 225px
 }
 
-#demoForm th.desc {
+#demoForm th.ch-datagrid-desc {
 	width: 40%;
 }
 

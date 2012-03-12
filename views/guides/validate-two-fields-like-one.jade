@@ -25,7 +25,7 @@ p
 	| Feel free to modify the code of this tutorial for more than two fields validations!
 
 h3#demo Demo
-form.box(action="")
+form.ch-box(action="")
 	p.ch-form-row.ch-form-required
 		label(for="example-phone-code")
 			| Telephone: 
@@ -34,8 +34,8 @@ form.box(action="")
 		input#example-phone-code(type="text", size="3", required, placeholder="555")
 		| 
 		input#example-phone-number(type="text", size="4", required, placeholder="1234")
-	p.actions
-		input.ch-btn.ch-secondary(type="submit", value="Submit")
+	p.ch-form-actions
+		input.ch-btn.ch-btn-small(type="submit", value="Submit")
 
 h3#behind-the-magic Behind the magic
 p
