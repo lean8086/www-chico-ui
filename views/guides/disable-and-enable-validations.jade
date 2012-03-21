@@ -13,6 +13,8 @@ p.updated
 			a(href="#disable-a-validation") 2 Disable a Validation
 		dt
 			a(href="#enable-a-validation") 3 Enable a Validation
+		dt
+			a(href="#toggle-a-validation") 4 Toggle a Validation
 
 h3#create-your-validations Create your validations
 p
@@ -43,3 +45,12 @@ p
 	|  method.
 pre
 	| requiredVal.enable();
+
+h3#toggle-a-validation Toggle a Validation
+p
+	| If you want to enabled or disabled a validation, you must use the 
+	code toggleEnable
+	|  method.
+pre
+	| requiredVal.toggleEnable(); // Now, it's disabled
+	| requiredVal.toggleEnable(); // It's enabled again.

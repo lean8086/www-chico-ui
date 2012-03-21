@@ -35,7 +35,7 @@ p Use the
 	a(href="/widgets/positioner") Positioner
 	|  component to change its position:
 pre
-	| email.helper.position({
+	| email.position({
 	|      "points": "lt lb", 
 	|      "offset": "0 10"
 	| });
@@ -44,4 +44,4 @@ pre
 
 - script("code", 'var form = $(".demo_form").form();')
 - script("code", 'var validation = $(".demo_email").required("Complete this field").validate();')
-- script("code", 'validation.helper.position({"points": "lt lb","offset": "0 10"})')
+- script("code", 'validation.position({"points": "lt lb","offset": "0 10"})')

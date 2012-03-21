@@ -113,7 +113,7 @@ pre
 	| var phone_validation = function (value2) {
 	| 
 	| 	// Gets the first field
-	| 	var field1 = $("#example-phone-code");
+	| 	var field = $("#example-phone-code");
 	| 
 	| 	// Saves the first field value
 	| 	var value1 = field1.val();
@@ -149,4 +149,4 @@ pre
 
 
 
-- script("code", '$("#example-phone-number").custom(function (value2) { var field1 = $("#example-phone-code"); var value1 = field1.val(); if (value1 && value2) { if (!isNaN(value1) && !isNaN(value2)) { field.removeClass("error"); return true; } } return false; }, "Enter a valid phone number.").and().required("This is a required field").on("error", function () { $("#example-phone-code").addClass("error"); }).validate()');
+- script("code", '$("#example-phone-number").custom(function (value2) { var field1 = $("#example-phone-code"); var value1 = field1.val(); if (value1 && value2) { if (!isNaN(value1) && !isNaN(value2)) { field1.removeClass("error"); return true; } } return false; }, "Enter a valid phone number.").and().required("This is a required field").on("error", function () { $("#example-phone-code").addClass("error"); }).validate()');
