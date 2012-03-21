@@ -67,11 +67,11 @@ pre
 p
 	| Then, inside our custom function we grab the other field, the first one.
 pre
-	| var field1 = $("#example-phone-code");
+	| var field = $("#example-phone-code");
 p
 	| By taking the first field, we have to save it's value.
 pre
-	| var value1 = field1.val();
+	| var value1 = field.val();
 p
 	| To ensure we have both values, we check that variables aren't undefined, and we check that both fields are numbers. Here you can use any conditional or regular expression.
 p
@@ -116,7 +116,7 @@ pre
 	| 	var field = $("#example-phone-code");
 	| 
 	| 	// Saves the first field value
-	| 	var value1 = field1.val();
+	| 	var value1 = field.val();
 	| 
 	| 	// If both values are defined
 	| 	if (value1 && value2) {
