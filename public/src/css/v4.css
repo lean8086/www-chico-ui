@@ -1,9 +1,6 @@
 /*
 *	General Styles
 */
-html, body {
-	font-family: "Lucida Grande", "Helvetica Neue", Arial, sans-serif;
-}
 
 /* Layout behavior */
 html, body, .ch-layout {
