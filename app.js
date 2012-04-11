@@ -5,11 +5,11 @@
 
 var express = require('express'),
 		events = require('events'),
-		sys = require('sys'),
+		sys = require('util'),
 		fs = require('fs'),
 		meta = require('./models/meta').meta,
-		country = require('./models/country').country;
-		CustomBuild = require('./services/builder/custom_build').CustomBuild,
+		country = require('./models/country').country,
+		Packer = require("../chico/libs/packer/packer").Packer,
 		undefined,
 		port = process.argv[2] || 8080;
 
@@ -346,148 +346,40 @@ app.get('/beta/:file', function(req, res, next){
 });
 
 
-app.get('/beta-inside', function(req, res, next){
-	var data = fs.readFileSync(__dirname + "/beta/inner.html");
-
-	res.header('Content-Type', "text/html");
-	res.send(data);
-});
-
-app.get('/beta-inside/:file', function(req, res, next){
-	var contentType = {
-		"png": "image/png",
-		"css": "text/css",
-		"js": "text/javascript",
-	}
-	var file = req.params.file,
-        data = fs.readFileSync(__dirname + "/beta/"+file);
-
-   	res.header('Content-Type', contentType[file.substr(-3)]);
-    res.send(data);
-
-});
-
-
-
 /**
- * Download
- */
+* Download
+*/
 
-// get 
-app.get('/download', function(req, res) {
+// Get 
+app.get("/download", function (req, res) {
+
 	var opt = title("Download Chico UI");
-	
+
 	opt.layout = "1col";
-		
+
 	opt.breadcrumb = [
 		["Download", ""]
 	];
-	
-	res.render('download', opt);
+
+	res.render("download", opt);
+
 });
-// post
 
-app.post('/download', function( req, res ){
+// Post
+app.post("/download", function (req, res) {
+	
+	// Construct joiner
+	var packer = new Packer();
 
-		var components = ( typeof req.body.class === "object" ) ? // If collection 
-								  req.body.class.join(",") : 
-								  req.body.class,
-				abstracts = ( typeof req.body.abstract === "object" ) ? // If collection 
-									 req.body.abstract.join(",") : 
-									 req.body.abstract,
-				utils = ( typeof req.body.util === "object" ) ? // If collection 
-								 req.body.util.join(",") : 
-								 req.body.util,
-				flavor = req.body.flavor,
-				add_mesh = req.body.mesh,
-				add_jquery = true,//req.body.jquery,
-				embed = req.body.embed;
-				env = req.body.env;
-
-		if ( !abstracts || !utils || !components ) {
-				res.send(); // Avoid process without components
-				return;
-		}
-
-		// JavaScripts Pack
-		var js = function() {
-			return {
-					"name": "chico",
-					"components": abstracts + "," + utils + "," + components,
-					"type": "js"
-			}
-		};
-
-		// Stylesheets Pack
-		var css = function() {
-			return {
-					"name": "chico",
-					"components": components,
-					"embed": ( embed ) ? true : false,
-					"type": "css",
-					"flavor": flavor
-			}
-		};
-		
-		// Mesh Pack
-		var mesh = function() {
-			return {
-					"name": "mesh",
-					"components": "mesh",
-					"embed": ( embed ) ? true : false,
-					"type": "css",
-					"flavor": flavor
-			}
-		};
-
-		// Pack the thing
-		var packages = [];
-		// for Production
-		if ( env.toString().indexOf("p") > -1 ) {
-			// Mesh
-			if (add_mesh) {
-				var p_mesh = mesh();
-					p_mesh.min = true;
-				packages.push(p_mesh);
-			}
-			// JS
-			var p_js = js();
-				p_js.min = true;
-			packages.push(p_js);
-			// CSS
-			var p_css = css();
-				p_css.min = true;
-			packages.push(p_css);
-		}
-
-		// for Dev
-		if ( env.toString().indexOf("d") > -1 ) {
-			// Mesh	
-			if (add_mesh) {
-				var d_mesh = mesh();
-				packages.push(d_mesh);
-			}
-			// JS
-			var d_js = js();
-			packages.push( d_js );
-			// CSS
-			var d_css = css();
-			packages.push( d_css );
-		}
-
-		var custom = new CustomBuild({
-			packages: packages,
-			flavor: flavor,
-			depends: {
-				jquery: add_jquery
-			}
-		});
-
-		custom.on("done", function (url) {
-			res.redirect(url);
-		});
-
-		custom.process();
+	// Listener that prints content of code
+	packer.on("done", function (url) {
+		res.redirect(url);
+	});
+	
+	req.body.input = "../chico/src";
+	
+	// Initialize joiner with only one package
+	packer.run(req.body);
 
 });
 
@@ -713,11 +605,11 @@ app.get('/:branch/:label?', function(req, res){
 
 
 /**
- * app start
- */
+* app start
+*/
 app.listen(port);
 
 /**
- * log
- */
+* log
+*/
 console.log("Express server listening on port %d", app.address().port);

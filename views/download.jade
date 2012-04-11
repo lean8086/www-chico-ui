@@ -1,83 +1,79 @@
-h1
-	| Download
-	small (beta)
-p.updated
-	| Current version: v#{latest.version}
+article.ch-g3-4
+	.leftcolumn
+		h1
+			| Download
+		p.updated
+			| Current version: v#{latest.version}
 
-article.ch-g4-5
-	.ch-leftcolumn
+		form.ch-form#download(action="/download", method="POST")
+			fieldset
+				legend 1. Select your widgets
+				#widgets.ch-form-options
+					
+					- // TODO: Migrate to PARTIALS
+					
+					- // List of each widget
+					- var w = [];
+					- // It's return a widget with DOM template
+					- var render = function (label) { return "<li class=\"ch-form-row\"><input type=\"checkbox\" id=\"w_" + label + "\" value=\"" + label + "\" name=\"widgets\" checked /><label for=\"w_" + label + "\">" + label + "</label></li>"; };
+					- // Add Widgets to "w" array
+					- each widget in widgets
+						- if (widget.label !== "Css Library")
+							- w.push(render(widget.label));
+					- var result = [], tpl = "<ul class=\"ch-g1-3\">";
+					- var cols = 3, len = w.length, itemsPerColumn = Math.ceil(len / cols);
+					- // Splice widgets lists per column
+					- for (var i = 0; i < cols; i += 1)
+						- result.push(w.splice(0, itemsPerColumn).join(""));
+					- // Join widgets
+					- result = tpl + result.join("</ul>" + tpl) + "</ul>";
+					!= result
+				input(type="hidden", name="totalWidgets", value="#{len}")
+			fieldset
+				legend 2. Select the compression level
+				ul.ch-form-options#compression
+					li.ch-form-row
+						input#prod(type="checkbox", value="prod", name="compression", checked)
+						label(for="prod") Production (Minified)
+					li.ch-form-row
+						input#dev(type="checkbox", value="dev", name="compression", checked)
+						label(for="dev") Development (Uncompressed)
+			fieldset
+				legend 3. Include some extras
+				ul.ch-form-options#extras
+					li.ch-form-row.ch-g1-3
+						input#mesh(type="checkbox", value="mesh", name="extras", checked)
+						label#meshLayer(for="mesh")
+							| Chico Mesh
+							.ch-ico.ch-help
+					li.ch-form-row.ch-g1-3
+						input#api(type="checkbox", value="api", name="extras", disabled)
+						label(for="api")
+							| Documentation
+							small (soon)
+			fieldset
+				legend 4. Get the package
+				input.ch-btn.ch-primary(type="submit", value="Download", style="margin-left:20px")
 
-		form#custom.box(action="/download", method="POST")
-			.ch-g1-3
-				.ch-leftcolumn
-					fieldset
-						legend Abstracts
-						.options
-							ul#abstracts.disabled
-					fieldset
-						legend Utilities
-						.options
-							ul#utils
-			.ch-g1-3
-				fieldset.ch-centercolumn
-					legend Widgets
-					.options.toggle
-						ul#components
-			.ch-g1-3
-				.ch-rightcolumn
-					fieldset
-						legend Dependencies
-						.options.toggle
-							ul.ch-form-options
-								li.ch-form-row
-									input#jquery(type="checkbox", value="true", name="jquery", checked, disabled)
-									label(for="jquery")
-										| jQuery
-										small (min)
-					fieldset
-						legend Extras
-						.options
-							ul.ch-form-options
-								li.ch-form-row
-									input#mesh(type="checkbox", value="true", name="mesh", checked)
-									label(for="mesh")
-										| Include 
-										a(href="/mesh") Chico Mesh
-					fieldset
-						legend Environment
-						.options
-							ul.ch-form-options
-								li.ch-form-row
-									input#produ(type="checkbox", value="p", name="env", checked)
-									label(for="produ")
-										| Production 
-										small (minified)
-								li.ch-form-row
-									input#desa(type="checkbox", value="d", name="env", checked)
-									label(for="desa")
-										| Development 
-										small (with comments)
-					fieldset
-						legend Select a Flavor
-						.options
-							ul.ch-form-options
-								li.ch-form-row
-									input#ml_theme(type="radio", value="ml", name="flavor", checked)
-									label(for="ml_theme")
-										| MercadoLibre
-								li.ch-form-row
-									input#mp_theme(type="radio", value="mp", name="flavor", disabled)
-									label(for="mp_theme").disabled
-										| MercadoPago 
-										small (soon)
-					input.ch-btn.ch-btn-big(type="submit", value="Download")
+nav.ch-g1-4
+	.rightcolumn
+		h4 Visual Studio
+		p
+			| To get the 
+			a(href="http://nuget.org/packages/Chico-UI", target="_blank") Nuget package
+			|  for VS, run this code in the
+			a(href="http://docs.nuget.org/docs/start-here/using-the-package-manager-console", target="_blank") PM Console
+			| :
+		pre.terminal PM> Install-Package Chico-UI
+		p.updated
+			| Thanks to Emmanuel Larrieux 
+			a(href="https://twitter.com/#!/avataruy", target="_blank") @avataruy
+			| .
 
-nav.ch-g1-5
-	.ch-rightcolumn
 		h4 Older versions
 		ul#versions.ch-menu
 			- each item, i in versions
-				- if (i < 17)
+				- if (i > 0 && i < 9)
 					li 
 						span #{item.version}
 						ul
@@ -86,4 +82,6 @@ nav.ch-g1-5
 									li
 										a(href="#{file.href}") #{file.label}
 
-- script("get", "/src/js/custom-download.js")
+- script("code", '$("#versions").accordion({"selected":1});')
+- script("code", '$("#widgets,#compression").required("Choose at least one.");')
+- script("code", '$("#meshLayer").layer({"points":"lt rt","offset":"10 -10","width":"300px","content":"<p>Solution for fast and simple layouts. <a href=\'/mesh\' target=\'_blank\'>See more</a>.</p>"});')

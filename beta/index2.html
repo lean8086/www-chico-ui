@@ -1,184 +1,352 @@
-<!doctype html>
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7 ie6" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8 ie7" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js lt-ie9 ie8" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
-<head>
-	<script></script>
-	<meta charset="utf-8">
-	<title>Chico UI - MercadoLibre's Open Source Web Tools</title>
-	
-	<link rel="shortcut icon" href="/src/assets/favicon.ico" type="image/vnd.microsoft.icon">
-	
-	<meta property="og:title" content="Chico UI" />
-	<meta property="og:type" content="product" />
-	<meta property="og:url" content="http://www.chico-ui.com.ar" />
-	<meta property="og:image" content="http://chico-ui.com.ar/src/assets/ninja.jpg" />
-	<meta property="og:site_name" content="Chico UI, MercadoLibre&#039;s Open Source Web Tools." />
-	<meta property="fb:admins" content="100001929271879" />
-	
-	<link rel="stylesheet" href="/versions/latest/chico.css">
-	<link rel="stylesheet" href="/versions/latest/mesh.css">
-	<link rel="stylesheet" href="/beta/site.css">
-</head>
-<body>
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+    <head>
+        <script></script>
+        <meta charset="utf-8" />
+        <title>Chico UI</title>
+        
+        <link rel="shortcut icon" href="http://chico-ui.com.ar/src/assets/ninja.ico" type="image/vnd.microsoft.icon" />
+        <link rel="author" href="http://chico-ui.com.ar/humans.txt" type="text/plain" />
+        <link rel="alternate" type="application/rss+xml" href="{RSS}" />
+        
+        <meta property="og:title" content="Chico UI" />
+        <meta property="og:type" content="product" />
+        <meta property="og:url" content="http://chico-ui.com.ar" />
+        <meta property="og:image" content="http://chico-ui.com.ar/src/assets/ninja.png" />
+        <meta property="og:site_name" content="Chico UI, MercadoLibre&#039;s Open Source Web Tools." />
+        <meta property="fb:admins" content="100001929271879" />
+        
+        <link rel="stylesheet" href="http://chico-ui.com.ar/versions/latest/chico.css" />
+        <link rel="stylesheet" href="http://chico-ui.com.ar/versions/latest/mesh.css" />
+        <link rel="stylesheet" href="/beta/testeo.css" />
 
-	<div id="homepage">
-		<header class="layout">
-			<h1 class="ch-g1-3"><a href="#213">Chico UI</a></h1>
-			<nav class="ch-g2-3">
-				<ul>
-					<li><a href="#213">Blog</a></li>
-					<li><a href="#213">UI Widgets</a></li>
-					<li><a href="#213">API Docs</a></li>
-					<li><a href="#213">Download</a></li>
-				</ul>
-				<form method="GET" action="/search">
-					<label for="query">Search:</label>
-					<input type="text" role="search" placeholder="Search this site" id="query">
-					<noscript><input id="search" type="submit" value="Go" class="ch-btn ch-secondary ch-skin"></noscript>
-				</form>
-			</nav>
-		</header>
+        <style>
+            section.main.chico-blog {
+                overflow:hidden;
+                margin-top:125px;
+            }
+            
+            section.main.chico-blog h2 {
+                font-size:32px;
+                line-height:1.2em;
+            }
+            
+            .post {
+                border-bottom:1px dashed #ddd;
+                margin-bottom:25px;
+                padding-bottom:25px;
+            }
+            
+            ul.tags li {
+                display:inline;
+                padding: 0 5px 0 8px;
+                border-right: 1px solid #ccc;
+            }
+            
+            ul.tags li:last-child {
+                border-right:none;
+            }
+            
+            nav.entries {
+                margin:25px 0;
+            }
+            
+            nav.entries form {
+                display:inline-block;
+            }
+            
+            #tumblr_controls {
+                display:none;
+            }
+        </style>
+    </head>
+    <body>
+    
+    <header>
+    	<div class="layout">
+			<a class="logo" href="/">Chico UI</a>
 		
-		<section id="description" class="layout">
-			<div>
-				<h2>Get things done, quickly</h2>
+			<menu>
+        		<li><a href="http://chico-ui.com.ar/">Blog</a></li><li><a href="http://chico-ui.com.ar/widgets">UI Widgets</a></li><li><a href="http://chico-ui.com.ar/api">API Docs</a></li><li class="nav-selected"><a href="http://chico-ui.com.ar/guides">Learning guides</a></li><li><a href="http://chico-ui.com.ar/download">Download</a></li><li><form action="/search"><label for="q">Search:</label><input type="search" name="q" id="q" placeholder="Search this site"/><noscript><input id="search" type="submit" value="Go" class="ch-btn ch-secondary ch-skin"/></noscript></form></li>
+	        </menu>
+		</div>
+    </header>
+
+    <section id="home-description">
+        <div class="layout">
+    		<h2>Get things done, quickly.</h2>
+    		
+    		<form action="http://chico-ui.com.ar/guides/get-started">
+    			<input class="ch-btn ch-main" type="submit" value="Get started now!">
+    		</form>
+            
+            <img id="ninja-img" class="ch-hide" src="http://chico-ui.com.ar/src/assets/ninja.png" alt="Ninja" width="496" height="360" />
+    	</div>
+    </section>
+    
+    <section class="main chico-blog">
+    
+        <article class="ch-g3-4">
+    	    <div class="leftcolumn">
+                <ul>
+                    
+                            <li class="post text">
+                                
+                                    <h2><a href="{Permalink}">{Title}</a></h2>
+                                
+                                <p class="updated">
+                                	{block:Date} 
+        	                     		Posted on <a href="{Permalink}">{ShortMonth} {DayOfMonth}{DayOfMonthSuffix}, {Year}</a>  
+                            		{/block:Date}
+                            		| <a class="dsq-comment-count" href="{Permalink}#disqus_thread">Comments</a>
+                             	</p>
+                                
+                                {Body}
+                            
+                               	{block:HasTags}
+                                    <ul class="tags updated">
+                                        Filed under:
+                                        {block:Tags}
+                                            <li>
+                                                <a href="{TagURL}">{Tag}</a>
+                                            </li>
+                                        {/block:Tags}
+                                    </ul>
+                            	{/block:HasTags}
+                            </li>
+                        {/block:Text}
+        
+                        {block:Photo}
+                            <li class="post photo">
+                                {block:Caption}
+                                    <h2 class="caption">{Caption}</h2>
+                                {/block:Caption}
+                             <p class="updated">
+                                	{block:Date} 
+        	                     		Posted on <a href="{Permalink}">{ShortMonth} {DayOfMonth}{DayOfMonthSuffix}, {Year}</a>
+                            		{/block:Date}
+                            		| <a class="dsq-comment-count" href="{Permalink}#disqus_thread">Comments</a>
+                             	</p>
+                                <img src="{PhotoURL-500}" alt="{PhotoAlt}"/>
+        
+                            
+                            {block:HasTags}
+        	                    <ul class="tags updated">
+        	                    	Filed under: 
+        	                        {block:Tags}
+        	                        	<li>
+        	                                <a href="{TagURL}">{Tag}</a>
+        	                            </li>
+        	                        {/block:Tags}
+        	                    </ul>
+                        	{/block:HasTags}
+                        	</li>
+                        {/block:Photo}
+                        
+                        {block:Photoset}
+                            <li class="post photoset">
+                                <p class="updated">
+                                	{block:Date} 
+        	                     		Posted on <a href="{Permalink}">{ShortMonth} {DayOfMonth}{DayOfMonthSuffix}, {Year}</a>
+                            		{/block:Date}
+                            		| <a class="dsq-comment-count" href="{Permalink}#disqus_thread">Comments</a>
+                             	</p>
+        
+                                {Photoset-500}
+        
+                                {block:Caption}
+                                    <div class="caption">{Caption}</div>
+                                {/block:Caption}
+        
+                            {block:HasTags}
+        	                    <ul class="tags updated">
+        	                    	Filed under: 
+        	                        {block:Tags}
+        	                        	<li>
+        	                                <a href="{TagURL}">{Tag}</a>
+        	                            </li>
+        	                        {/block:Tags}
+        	                    </ul>
+                        	{/block:HasTags}
+                            </li>
+                        {/block:Photoset}
+        
+                        {block:Quote}
+                            <li class="post quote">
+                                "{Quote}"
+        
+                                {block:Source}
+                                    <div class="source">{Source}</div>
+                                {/block:Source}
+                            </li>
+                        {/block:Quote}
+        
+                        {block:Link}
+                            <li class="post link">
+                                <a href="{URL}" class="link" {Target}>{Name}</a>
+        
+                                {block:Description}
+                                    <div class="description">{Description}</div>
+                                {/block:Description}
+                            </li>
+                        {/block:Link}
+        
+                        {block:Chat}
+                            <li class="post chat">
+                                {block:Title}
+                                    <h2><a href="{Permalink}">{Title}</a></h2>
+                                {/block:Title}
+        
+                                <ul class="chat">
+                                    {block:Lines}
+                                        <li class="{Alt} user_{UserNumber}">
+                                            {block:Label}
+                                                <span class="label">{Label}</span>
+                                            {/block:Label}
+        
+                                            {Line}
+                                        </li>
+                                    {/block:Lines}
+                                </ul>
+                            </li>
+                        {/block:Chat}
+        
+                        {block:Video}
+                            <li class="post video">
+                                {Video-500}
+        
+                                {block:Caption}
+                                    <div class="caption">{Caption}</div>
+                                {/block:Caption}
+                            </li>
+                        {/block:Video}
+        
+                        {block:Audio}
+                            <li class="post audio">
+                                {AudioPlayerBlack}
+        
+                                {block:Caption}
+                                    <div class="caption">{Caption}</div>
+                                {/block:Caption}
+                            </li>
+                        {/block:Audio}
+                    {/block:Posts}
+                </ul>
+                
+                {block:Permalink}
+                    <div id="disqus_thread"></div>
+                    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=chicoui">comments powered by Disqus.</a></noscript>
+                    <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+                {/block:Permalink}
+                
+            </div>
+        </article>
+    
+		<nav class="ch-g1-4">
+			<div class="rightcolumn">
+				<h4>What is Chico UI?</h4>
 				<p>Chico UI is a free and open source collection of easy-to-use web tools for developers and designers.</p>
-				
-				<form action="/get-started">
-					<p><input type="submit" name="get-started" value="Get started" class="ch-btn ch-main" /> or <input type="submit" name="download" value="Download" class="ch-btn ch-main ch-skin" /></p>
+                
+                <h4>Get the library</h4>
+				<form action="http://chico-ui.com.ar/download">
+					<p><input type="submit" class="ch-btn ch-secondary" value="Download"> or <a href="http://github.com/mercadolibre/chico">fork on GitHub</a>.</p>
 				</form>
-			</div>
-		</section>
-	</div>
-	
-	<section id="products">
-		<article class="ch-g1-2">
-			<h3>UI Widgets</h3>
-			<p>Built on top of jQuery, these tools brings known interaction patterns for your website taking advantage of HTML5 and CSS3 features.</p>
-			<div class="ch-carousel">
+				
+				<h4>More about Chico UI</h4>
 				<ul>
-					<li>
-						<article id="ui-css-widgets"><a href="#213">CSS Widgets</a></article>
-						<article id="ui-menu"><a href="#213">Menu</a></article>
-						<article id="ui-calendar"><a href="#213">Calendar</a></article>
-						<article id="ui-autocomplete"><a href="#213">AutoComplete</a></article>
-					</li>
-					<li>
-						<article id="ui-modal"><a href="#213">Modal</a></article>
-						<article id="ui-expando"><a href="#213">Expando</a></article>
-						<article id="ui-layer"><a href="#213">Layer</a></article>
-						<article id="ui-tooltip"><a href="#213">Tooltip</a></article>
-					</li>
-					<li>
-						<article id="ui-positioner"><a href="#213">Positioner</a></article>
-						<article id="ui-carousel"><a href="#213">Carousel</a></article>
-						<article id="ui-dropdown"><a href="#213">Dropdown</a></article>
-						<article id="ui-blink"><a href="#213">Blink</a></article>
-					</li>
-					<li>
-						<article id="ui-from"><a href="#213">Form</a></article>
-						<article id="ui-watcher"><a href="#213">Watcher</a></article>
-						<article id="ui-zoom"><a href="#213">Zoom</a></article>
-						<article id="ui-tabnavigator"><a href="#213">TabNavigator</a></article>
-					</li>
+					<li><a href="/tagged/Release_Notes">Release Notes</a></li>
+					<li><a href="http://chico-ui.com.ar/guides/how-to-install-chico">How to install Chico UI</a></li>
+					<li><a href="http://chico-ui.com.ar/api">API documentation</a></li>
+					<li><a href="https://github.com/mercadolibre/chico">Fork us on Github</a></li>
+					<li><a href="https://github.com/mercadolibre/chico/issues/new">Report a bug</a></li>
 				</ul>
+				
+				<h4>Contact Us</h4>
+				<ul>
+					<li><a href="http://twitter.com/chicoui">Follow us on Twitter</a></li>
+					<li><a href="http://chico-ui.com.ar/discuss">Discuss</a></li>
+				</ul>
+               	
+                <h4>This blog</h4>
+                <ul>
+                    <li><a href="/archive">Archive</a></li>
+                </ul>
 			</div>
-			<a href="#213" class="more">See all Widgets</a>
-		</article>
+		</nav>
+    </section>
 		
-		<article class="ch-g1-2">
-			<h3>Chico Mesh</h3>
-			<p>Mesh is Chico UI's solution for fast and simple layouts. It offers fluid grids along with a gallery of ready to use basic templates.</p>
-			<figure>
-				<a href="#213">
-					<img src="/beta/mesh2.png" alt="Chico Mesh" width="490" height="100" />
-				</a>
-			</figure>
-			<a href="#213" class="more">Check it out!</a>
-		</article>
-	</section>
-	
-	<section id="additional">
-		<nav class="ch-g1-4">
-			<h4>Developers</h4>
-			<ul>
-				<li><a href="#213">API Documentation</a></li>
-				<li><a href="#213">Code on GitHub</a></li>
-				<li><a href="#213">Issue tracker</a></li>
-				<li><a href="#213">Releases Notes</a></li>
-				<li><a href="#213">Older versions</a></li>
-				<li><a href="#213">License</a></li>
-			</ul>
-		</nav>
-		<nav class="ch-g1-4">
-			<h4>Learning guides</h4>
-			<ul>
-				<li><a href="#213">Using callback functions</a></li>
-				<li><a href="#213">How to install Chico UI</a></li>
-				<li><a href="#213">Validate two fields like one</a></li>
-				<li><a href="#213">How to report a bug</a></li>
-				<li><a href="#213">Disable and enable Validations</a></li>
-				<li><a href="#213" class="more">Browse all guides</a></li>
-			</ul>
-		</nav>
-		<article class="ch-g1-4">
-			<h4>Browser support</h4>
-			<figure>
-				<img src="/beta/browsers.png" width="200" alt="Browsers" />
-			</figure>
-			<ul class="ch-list">
-				<li>Google Chrome</li>
-				<li>Safari</li>
-				<li>Firefox 4+</li>
-				<li>Internet Explorer 7+</li>
-				<li>Opera</li>
-			</ul>
-		</article>
-		<article class="ch-g1-4">
-			<h4>Open initiative</h4>
-			<figure>
-				<img src="/beta/opensource.png" width="50" alt="Open Source Initiative" />
-			</figure>
-			<p>Chico UI is released under <a href="https://raw.github.com/mercadolibre/chico/bc982b922d041057c9dde9566536ebfb517d1a70/LICENSE.txt" target="_blank">MIT License</a> and implements open technologies such as:</p>
-			<ul class="ch-list">
-				<li>HTML5</li>
-				<li>CSS3</li>
-				<li>JavaScript</li>
-				<li>NodeJS</li>
-			</ul>
-		</article>
-	</section>
-	
-	<footer>
-		<nav class="ch-g2-3">
-			<ul>
-				<li>©2011 MercadoLibre.com</li>
-				<li><a href="#213">About us</a></li>
-				<li><a href="#213">Jobs</a></li>
-				<li><a href="#213">Discuss</a></li>
-			</ul>
-		</nav>
-		<aside class="ch-g1-3">
-			<!--img alt="Like buttons" src="/beta/likes.png"-->
-		</aside>
-	</footer>
-	
-	<script src="/src/js/jquery.js"></script>
-	<script src="/versions/latest/chico.js"></script>
-	
-	<script>
-		
-		$("input[name=download]").val("Download v" + ch.version);
+    <nav class="ch-g1 entries">
+        {block:NextPage}
+            <form action="{NextPage}" method="POST">
+                <input type="submit" class="ch-btn ch-secondary ch-skin" value="&laquo; Previous entries" />
+            </form>
+        {/block:NextPage}
+        {block:PreviousPage}
+            <form action="{PreviousPage}" method="POST">
+                <input type="submit" class="ch-btn ch-secondary ch-skin" value="Next entries &raquo;" />
+            </form>
+        {/block:PreviousPage}
+    </nav>
 
-		$(".ch-carousel").carousel({
-			"arrows": false,
-			"pagination": true,
-			"width": 465
-		}).page(2);
-		
-	</script>
+    <footer>
+        <nav class="ch-g2-3">
+    		<ul>
+    			<li>©<span id="copyright"></span>MercadoLibre.com</li>
+    			<li><a href="http://chico-ui.com.ar/about">About us</a></li>
+    			<li><a href="http://chico-ui.com.ar/discuss">Discuss</a></li>
+            </ul>
+        </nav>
+    	<aside class="ch-g1-3">
+    		<div id="___plusone_0" style="height: 20px; width: 90px; display: inline-block; text-indent: 0pt; margin: 0pt; padding: 0pt; background: none repeat scroll 0% 0% transparent; border-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline;"><iframe width="100%" scrolling="no" frameborder="0" title="+1" vspace="0" tabindex="-1" style="position: static; left: 0pt; top: 0pt; width: 65px; margin: 0px; border-style: none; height: 20px; visibility: visible;" src="https://plusone.google.com/_/+1/fastbutton?url=http%3A%2F%2Fchico-ui.com.ar%2F&amp;size=medium&amp;count=true&amp;annotation=&amp;hl=en-US&amp;jsh=m%3B%2F_%2Fapps-static%2F_%2Fjs%2Fwidget%2F__features__%2Frt%3Dj%2Fver%3Damgm7Ud-ETk.en.%2Fsv%3D1%2Fam%3D!itqi7GDL5S6I4GqN1g%2Fd%3D1%2F#id=I1_1324997235974&amp;parent=http%3A%2F%2Fchico-ui.com.ar&amp;rpctoken=869530611&amp;_methods=onPlusOne%2C_ready%2C_close%2C_open%2C_resizeMe" name="I1_1324997235974" marginwidth="0" marginheight="0" id="I1_1324997235974" hspace="0" allowtransparency="true"></iframe></div>
+    		<a class="twitter-share-button" href="http://twitter.com/share" data-via="chicoui" data-text="Chico UI, MercadoLibre's Open Source Web Tools." data-url="http://chico-ui.com.ar">Tweet</a>
+        </aside>
+    </footer>
+    
+    <script src="http://chico-ui.com.ar/src/js/jquery.js"></script>
+    <script src="http://chico-ui.com.ar/versions/latest/chico.js"></script>
+    <script src="http://chico-ui.com.ar/src/js/scripts.js"></script>
+    
+    <script>
+        var $img = $("#ninja-img");
+            
+            $img.onImagesLoads(function () {
+                $img.fadeIn("fast");
+            });
+        
+        $("#copyright").text((new Date().getFullYear()) + " ");
+        
+        var zoom = $("#zoom-demo").zoom();
+        
+        var disqus_url = "{Permalink}";
+        var disqus_title ="{block:PostTitle}{PostTitle}{/block:PostTitle}";
+        var disqus_shortname = 'chicoui';
 
-</body>
+        (function () {
+            var s = document.createElement('script');
+                s.async = true;
+                s.src = 'http://chicoui.disqus.com/count.js';
+                
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    
+    {block:Permalink}
+    <script>
+        /**
+        * var disqus_identifier;
+        * Optional but recommended
+        * Define a unique identifier for this thread.
+        * (e.g. post id or slug)
+        */
+        (function () {
+            var dsq = document.createElement('script');
+                dsq.async = true;
+                dsq.src = 'http://chicoui.disqus.com/embed.js';
+            
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+    {/block:Permalink}
+    
+    </body>
 </html>

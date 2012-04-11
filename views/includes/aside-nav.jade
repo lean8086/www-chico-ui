@@ -2,26 +2,30 @@ nav.ch-g1-5
 	.ch-rightcolumn
 		h4 UI Widgets
 		ul
-			- each item, i in widgets
-				- if (i < 5 && item.label !== ".DS_Store")
+			- var total = 5;
+			- each item in widgets
+				- if (total > 0 && item.label !== ".DS_Store")
+					- total -= 1;
 					li
 						a(href="#{item.href}")= item.label
 			li
-				a.more(href="/widgets") See all Widgets
+				a.more(href="/widgets") See all widgets
 
 	.ch-rightcolumn
 		h4 Chico Mesh
 		ul
 			li
-				a(href="/mesh") Overview
+				a(href="/mesh") Overview and Showroom
 			li
 				a(href="/guides/mesh-your-layout-in-5-min") Mesh your layout in 5 min
 
 	.ch-rightcolumn
 		h4 Learning guides
 		ul
-			- each item, i in guides
-				- if (i < 4 && item.label !== ".DS_Store" && item.label !== "Get started")
+			- var total = 5;
+			- each item in guides
+				- if (total > 0 && item.label !== ".DS_Store" && item.label !== "Get started" && item.label !== "Mesh your layout in 5 min")
+					- total -= 1;
 					li
 						a(href="#{item.href}")= item.label
 			li
