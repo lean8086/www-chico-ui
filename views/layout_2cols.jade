@@ -1,0 +1,44 @@
+!!! 5
+html.no-js(lang="en")
+	head
+		!=partial("includes/head")
+	body
+		header
+			.logo.ch-g1-3
+				a(href="/") Chico UI
+				span.version= "v" + version
+
+			!=partial("includes/main-nav")
+
+		section.main
+			article.ch-g4-5
+				.ch-leftcolumn
+					!= body
+
+			nav.ch-g1-5
+				.ch-rightcolumn
+					h4 UI Widgets
+					ul
+						- for (var i = 0; i < 5; i +=1)
+							li
+								a(href="#{widgets[i].href}")= widgets[i].friendly
+						li
+							a.more(href="/widgets") See all widgets
+					h4 Chico Mesh
+					ul
+						li
+							a(href="/mesh") Overview and Showroom
+						li
+							a(href="/guides/how-to-use-the-grids") How to use the grids
+					h4 Learning guides
+					ul
+						- var total_guides = 5;
+						- each g in guides
+							- if (total_guides > 0 && g.name !== "get-started" && g.name !== "using-the-grids")
+								- total_guides -= 1;
+								li
+									a(href="#{g.href}")= g.friendly
+						li
+							a.more(href="/guides") Browse all guides
+
+		!=partial("includes/footer")

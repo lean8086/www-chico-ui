@@ -16,32 +16,30 @@ p.updated
 		dt
 			a(href="#instance") 4 Instance component
 		dt
-			a(href="#configuration") 5 Configuration
-		dt
-			a(href="#basics") 6 Basics
+			a(href="#basics") 5 Basics
 		dd
 			dl
 				dt
-					a(href="#pushing") 6.1 Pushing data
+					a(href="#pushing") 5.1 Pushing data
 				dt
-					a(href="#response") 6.2 Response format
+					a(href="#response") 5.2 Response format
 		dt
-			a(href="#events") 7 Events
+			a(href="#events") 6 Events
 		dt
-			a(href="#behavior") 8 Behavior
+			a(href="#behavior") 7 Behavior
 		dd
 			dl
 				dt
-					a(href="#get-suggests") 8.1 Getting suggestions
+					a(href="#get-suggests") 7.1 Getting suggestions
 				dt
-					a(href="#close") 8.2 Close the listing
+					a(href="#close") 7.2 Close the listing
 				dt
-					a(href="#highlight") 8.3 Highlight mouse and arrows
+					a(href="#highlight") 7.3 Highlight mouse and arrows
 
 h3#description Description
 p
 	| The AutoComplete widget is a member of the 
-	a(href="/api/#{latest.version}/symbols/ch.Controls.html") Controls
+	a(href="/api/#{version}/symbols/ch.Controls.html") Controls
 	|  family. It works for input control. 
 	//It can suggest a list of options like a select control in a form, or 
 	| It can work as suggester while the user types in a input.
@@ -71,10 +69,10 @@ h3#instance Instance component
 p
 	| This is the way to create an AutoComplete as a suggestive:
 pre
-	| var foo = $("#example").autoComplete({"url": "/suggest?q=","jsonpCallback":"autoComplete"});
-
-
-!=partial("includes/configuration")
+	| var foo = $("#example").autoComplete({
+	| 	"url": "/suggest?q=",
+	| 	"jsonpCallback": "autoComplete"
+	| });
 
 
 h3#basics Basics
@@ -104,7 +102,7 @@ pre
 		code foo.suggest(["Option 1", "Option 2", "Option 3"]);
 	p
 		| Read more about 
-		a(href="/api/#{latest.version}/symbols/ch.AutoComplete.html") AutoComplete
+		a(href="/api/#{version}/symbols/ch.AutoComplete.html") AutoComplete
 		| .
 
 h4#response Response format
@@ -128,12 +126,12 @@ ol.ch-list
 	li
 		| Click an item after the component gives you suggestions. Its value will set to the input's value.
 	li
-		| Select an item with the 
-		code key up
-		|  arrow or the 
-		code key down
-		|  arrow, then press the 
-		code enter
+		| Select an item with the key 
+		code Up arrow
+		|  or the key 
+		code Down arrow
+		|  , then press the 
+		code Enter
 		|  key. Its value will set to the input's value.
 
 h4#close Close the listing
@@ -142,21 +140,21 @@ ol.ch-list
 		| Once the items are shown, click on the document. The list will closed and the component be off.
 	li
 		| Press 
-		code esc
+		code Esc
 		|  to shutting off the component.
 
 h4#highlight Highlight mouse and arrows
 ol.ch-list
 	li
-		| Use the 
-		code key up
-		|  arrow or the 
-		code key down
-		|  arrow to select any item, then you move the mouse over the list. The new highlighted item will deselect the previous highlighted item.
+		| Use the key 
+		code Up arrow
+		|  or the key
+		code Down arrow
+		|  to select any item, then you move the mouse over the list. The new highlighted item will deselect the previous highlighted item.
 	li
-		| Once the items are shown, move the mouse over the list to highlight any item. Then, stop the mouse movement and you use the 
-		code key up
-		|  arrow. The previous item must be highlighted.
+		| Once the items are shown, move the mouse over the list to highlight any item. Then, stop the mouse movement and you use the key 
+		code Up arrow
+		|  . The previous item must be highlighted.
 
 
 !=partial("includes/keep-reading")

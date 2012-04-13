@@ -8,15 +8,6 @@ html, body, .ch-layout {
 	width: 1000px;
 }
 
-/*
-*	Font family reset
-*/
-
-// Demo calendar + date picker
-.ch-calendar {
-	font-family: Arial;
-}
-
 a:visited {
 	color: #0637B3;
 }
@@ -52,7 +43,6 @@ a:visited {
 section.main h1 {
 	font-size: 36px;
 	margin-bottom: 15px;
-	margin-left: -2px;
 }
 
 section.main h1 small {
@@ -237,7 +227,7 @@ input[name=q]:focus {
 
 #products {
 	border-bottom: 1px dashed #ddd;
-	margin-top: 390px;
+	margin-top: 360px;
 	overflow: hidden;
 	padding: 25px 0;
 }
@@ -428,21 +418,21 @@ footer aside {
 
 
 footer div {
-	width: 68px!important;
+	width: 85px!important;
 	position: absolute;
 	top: 0;
 	right: 185px;
 }
 
 footer .twitter-share-button {
-	width: 87px!important;
+	width: 95px!important;
 	position: absolute;
 	top: 0;
 	right: 90px;
 }
 
 footer .fb-frame {
-	width: 79px;
+	width: 85px;
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -455,7 +445,8 @@ footer .fb-frame {
 */
 
 section.main {
-	margin-top: 20px;
+	margin-top: 30px;
+	overflow: hidden;
 }
 
 section.main .ch-g4-5 > .ch-leftcolumn {
@@ -641,6 +632,12 @@ h4 small {
 	margin: 25px 0;
 	overflow: hidden;
 }
+
+.license p {
+	margin-top:25px;
+}
+
+
 
 /*
 #custom .ch-centercolumn,

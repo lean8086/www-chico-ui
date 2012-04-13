@@ -3,7 +3,7 @@ article.ch-g3-4
 		h1
 			| Download
 		p.updated
-			| Current version: v#{latest.version}
+			| Current version: v#{version}
 
 		form.ch-form#download(action="/download", method="POST")
 			fieldset
@@ -18,8 +18,8 @@ article.ch-g3-4
 					- var render = function (label) { return "<li class=\"ch-form-row\"><input type=\"checkbox\" id=\"w_" + label + "\" value=\"" + label + "\" name=\"widgets\" checked /><label for=\"w_" + label + "\">" + label + "</label></li>"; };
 					- // Add Widgets to "w" array
 					- each widget in widgets
-						- if (widget.label !== "Css Library")
-							- w.push(render(widget.label));
+						- if (widget.friendly !== "css-library")
+							- w.push(render(widget.friendly));
 					- var result = [], tpl = "<ul class=\"ch-g1-3\">";
 					- var cols = 3, len = w.length, itemsPerColumn = Math.ceil(len / cols);
 					- // Splice widgets lists per column
@@ -72,15 +72,15 @@ nav.ch-g1-4
 
 		h4 Older versions
 		ul#versions.ch-menu
-			- each item, i in versions
+			- each v, i in versions
 				- if (i > 0 && i < 9)
 					li 
-						span #{item.version}
+						span #{v.version}
 						ul
-							- each file in item.files
-								- if (file.label !== ".DS_Store")
-									li
-										a(href="#{file.href}") #{file.label}
+							- each file in v.files
+								li
+									a(href="#{file.href}") #{file.name}
+		a.more(href="/archive") See all versions
 
 - script("code", '$("#versions").accordion({"selected":1});')
 - script("code", '$("#widgets,#compression").required("Choose at least one.");')
