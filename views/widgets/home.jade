@@ -1,9 +1,0 @@
-h1 UI Widgets
-p
-	| Built on top of jQuery, these tools brings known interaction patterns for your website taking advantage of HTML5 and CSS3 features.
-
-ul.ch-list.home-list
-	- each w in widgets
-		- if (w.label !== "Home" && w.label !== ".DS_Store")
-			li
-				a(href="#{w.href}")= w.label
