@@ -11,53 +11,52 @@
 <span class='line'>  4</span> * @class Required
 <span class='line'>  5</span> * @interface
 <span class='line'>  6</span> * @augments ch.Controls
-<span class='line'>  7</span> * @requires ch.Validation
-<span class='line'>  8</span> * @memberOf ch
-<span class='line'>  9</span> * @param {Object} [conf] Object with configuration properties.
-<span class='line'> 10</span> * @param {String} [conf.message] Validation message.
-<span class='line'> 11</span> * @param {String} [conf.points] Sets the points where validation-bubble will be positioned.
-<span class='line'> 12</span> * @param {String} [conf.offset] Sets the offset in pixels that validation-bubble will be displaced from original position determined by points. It's specified by configuration or zero by default: "0 0".
-<span class='line'> 13</span> * @param {String} [conf.context] It's a reference to position the validation-bubble
-<span class='line'> 14</span> * @returns itself
-<span class='line'> 15</span> * @see ch.Validation
-<span class='line'> 16</span> * @see ch.Custom
-<span class='line'> 17</span> * @see ch.Number
-<span class='line'> 18</span> * @see ch.String
-<span class='line'> 19</span> * @see ch.Validator
-<span class='line'> 20</span> * @see ch.Condition
-<span class='line'> 21</span> * @example
-<span class='line'> 22</span> * // Simple validation
-<span class='line'> 23</span> * $("input").required("This field is required");
-<span class='line'> 24</span> */</span><span class="WHIT">
-<span class='line'> 25</span> </span><span class="NAME">ch.extend</span><span class="PUNC">(</span><span class="STRN">"validation"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="STRN">"required"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 26</span> 
-<span class='line'> 27</span> </span><span class="WHIT">	</span><span class="NAME">conf.condition</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 28</span> </span><span class="WHIT">		</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"required"</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 29</span> </span><span class="WHIT">		</span><span class="NAME">expr</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 30</span> 
-<span class='line'> 31</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">$e</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 32</span> 
-<span class='line'> 33</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tag</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">$e.hasClass</span><span class="PUNC">(</span><span class="STRN">"options"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="TOKN"> </span><span class="NAME">$e.hasClass</span><span class="PUNC">(</span><span class="STRN">"ch-form-options"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"OPTIONS"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">e.tagName</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 34</span> </span><span class="WHIT">			</span><span class="KEYW">switch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tag</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 35</span> </span><span class="WHIT">				</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'OPTIONS'</span><span class="PUNC">:</span><span class="WHIT">
-<span class='line'> 36</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$e.find</span><span class="PUNC">(</span><span class="STRN">'input:checked'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 37</span> </span><span class="WHIT">				</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 38</span> 
-<span class='line'> 39</span> </span><span class="WHIT">				</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'SELECT'</span><span class="PUNC">:</span><span class="WHIT">
-<span class='line'> 40</span> </span><span class="WHIT">					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">val</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$e.val</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 41</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">val</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">"-1"</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="TOKN"> </span><span class="NAME">val</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 42</span> </span><span class="WHIT">				</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 43</span> 
-<span class='line'> 44</span> </span><span class="WHIT">				</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'INPUT'</span><span class="PUNC">:</span><span class="WHIT">
-<span class='line'> 45</span> </span><span class="WHIT">				</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'TEXTAREA'</span><span class="PUNC">:</span><span class="WHIT">
-<span class='line'> 46</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$.trim</span><span class="PUNC">(</span><span class="NAME">$e.val</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 47</span> </span><span class="WHIT">				</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 48</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 49</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 50</span> </span><span class="WHIT">		</span><span class="NAME">message</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.msg</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">conf.message</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 51</span> </span><span class="WHIT">		</span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.value</span><span class="WHIT">
-<span class='line'> 52</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 53</span> 
-<span class='line'> 54</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 55</span> 
-<span class='line'> 56</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>
+<span class='line'>  7</span> * @memberOf ch
+<span class='line'>  8</span> * @param {Object} [conf] Object with configuration properties.
+<span class='line'>  9</span> * @param {String} [conf.message] Validation message.
+<span class='line'> 10</span> * @param {String} [conf.points] Sets the points where validation-bubble will be positioned.
+<span class='line'> 11</span> * @param {String} [conf.offset] Sets the offset in pixels that validation-bubble will be displaced from original position determined by points. It's specified by configuration or zero by default: "0 0".
+<span class='line'> 12</span> * @param {String} [conf.context] It's a reference to position the validation-bubble
+<span class='line'> 13</span> * @returns itself
+<span class='line'> 14</span> * @see ch.Validation
+<span class='line'> 15</span> * @see ch.Custom
+<span class='line'> 16</span> * @see ch.Number
+<span class='line'> 17</span> * @see ch.String
+<span class='line'> 18</span> * @see ch.Validator
+<span class='line'> 19</span> * @see ch.Condition
+<span class='line'> 20</span> * @example
+<span class='line'> 21</span> * // Simple validation
+<span class='line'> 22</span> * $("input").required("This field is required");
+<span class='line'> 23</span> */</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="NAME">ch.extend</span><span class="PUNC">(</span><span class="STRN">"validation"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="STRN">"required"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 25</span> 
+<span class='line'> 26</span> </span><span class="WHIT">	</span><span class="NAME">conf.condition</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">		</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"required"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">		</span><span class="NAME">expr</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 29</span> 
+<span class='line'> 30</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">$e</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 31</span> 
+<span class='line'> 32</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tag</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">$e.hasClass</span><span class="PUNC">(</span><span class="STRN">"options"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="TOKN"> </span><span class="NAME">$e.hasClass</span><span class="PUNC">(</span><span class="STRN">"ch-form-options"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"OPTIONS"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">e.tagName</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">			</span><span class="KEYW">switch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tag</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">				</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'OPTIONS'</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$e.find</span><span class="PUNC">(</span><span class="STRN">'input:checked'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">				</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span> 
+<span class='line'> 38</span> </span><span class="WHIT">				</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'SELECT'</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">val</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$e.val</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">val</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">"-1"</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="TOKN"> </span><span class="NAME">val</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">				</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> 
+<span class='line'> 43</span> </span><span class="WHIT">				</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'INPUT'</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">				</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">'TEXTAREA'</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$.trim</span><span class="PUNC">(</span><span class="NAME">$e.val</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">				</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">		</span><span class="NAME">message</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.msg</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">conf.message</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">		</span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.value</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> 
+<span class='line'> 53</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span> 
+<span class='line'> 55</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>
