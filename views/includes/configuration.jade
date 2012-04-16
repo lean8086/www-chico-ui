@@ -4,11 +4,11 @@ p
 	a(href="http://json.org/", target="_blank") JSON
 	| . Here is an example:
 pre
-	|var foo = $("#example").#{label}({
+	|var foo = $("#example").#{camelCase}({
 	| 	"bar": foobar,
 	| 	"baz": quux
 	| });
 p
 	| You can see the complete list of parameters in 
-	a(href="/api/#{version}/symbols/ch.#{label}.html#detail") #{label} API documentation
+	a(href="/api/#{version}/symbols/ch.#{camelCase}.html#detail") #{friendly} API documentation
 	| .
