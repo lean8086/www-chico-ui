@@ -135,7 +135,7 @@ header nav li:last-child {
 }
 
 /* TODO: fix transition */
-input[name=q] {
+#q {
 	border-radius: 20px;
 	-webkit-transition: width 0.25s;
 	-moz-transition: width 0.25s;
@@ -146,8 +146,16 @@ input[name=q] {
 	padding-left:5px;
 }
 
-input[name=q]:focus {
+#q:focus {
 	width: 200px;
+}
+
+a.menu-selected,
+a.menu-selected:hover,
+a.menu-selected:focus,
+a.menu-selected:visited {
+	font-weight: bold;
+	text-decoration: underline;
 }
 
 
