@@ -1,7 +1,7 @@
 h1 Tab Navigator
 p.updated
 	| Documentation updated on 
-	data February 7th
+	data April 16th
 	| .
 
 .contents
@@ -22,9 +22,11 @@ p.updated
 		dd
 			dl
 				dt
-					a(href="#loading-async-content") 6.1 Loading asynchronous content
+					a(href="#change-the-hash-name") 6.1 Change the hash name
 				dt
-					a(href="#select-and-getselect") 6.2 select and getSelect
+					a(href="#loading-async-content") 6.2 Loading asynchronous content
+				dt
+					a(href="#select-and-getselected") 6.3 select and getSelected
 		dt
 			a(href="#events") 7 Events
 
@@ -95,6 +97,16 @@ pre
 
 h3#basics Basics
 
+h4#change-the-hash-name Change the hash name
+p
+	| Feel free to change the hash name of each tab. For example, instead of this:
+pre
+	| <li><a href="#tab1">Tab 1</a></li>
+p
+	| ...you can write:
+pre
+	| <li><a href="#whatever">Use what you want</a></li>
+
 h4#loading-async-content Loading asynchronous content
 p
 	| The component can load async content. To work, the link in 
@@ -115,12 +127,12 @@ p
 	code contentError
 	| .
 
-h4#select-and-getselect select and getSelect
+h4#select-and-getselected select and getSelected
 p
 	| The 
 	code select
 	|  method allow you to show a tab. The 
-	code getSelect
+	code getSelected
 	|  method allow you to know which tab is selected. It returns an integer that represents the tab order starting at 
 	code 1
 	| .
