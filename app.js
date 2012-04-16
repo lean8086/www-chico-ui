@@ -184,6 +184,11 @@ app.get("/api", function (req, res) {
 	res.redirect("/api/" + meta.version + "/symbols/ch.html");
 });
 
+app.get("/archive", function (req, res) {
+	meta.layout = "layout_2cols";
+	res.render("archive", meta);
+});
+
 app.get("/404", function (req, res) {
 	meta.layout = "layout_2cols";
 	meta.title = "Chico UI | Error";

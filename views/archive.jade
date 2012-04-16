@@ -5,9 +5,8 @@ p.updated
 	data April 13rd
 	| .
 
-.ch-g1-3
+.ch-g1-2
 	h3 Chico UI
-	p.updated Total: #{versions.length} versions filed.
 	- each v in versions
 		h4= v.version
 		ul.ch-list
@@ -15,9 +14,8 @@ p.updated
 			li
 				a(href="#{file.href}", target="_blank")= file.name
 
-.ch-g1-3
+.ch-g1-2
 	h3 Chico Mesh
-	p.updated Total: 1 version filed.
 	h4 0.1
 	ul.ch-list
 		li
