@@ -125,7 +125,7 @@ meta.versions = (function () {
 	// Classify each version
 	folders.forEach(function (v) {
 		
-		if (v === "latest" || v === "assets") { return; }
+		if (v === "latest" || v === "assets" || v === ".DS_Store") { return; }
 		
 		// Object containing data of each version
 		var o = {
