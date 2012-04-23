@@ -1,0 +1,153 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="WHIT">
+<span class='line'>  2</span> </span><span class="COMM">/**
+<span class='line'>  3</span> * Validate numbers.
+<span class='line'>  4</span> * @name Number
+<span class='line'>  5</span> * @class Number
+<span class='line'>  6</span> * @interface
+<span class='line'>  7</span> * @augments ch.Controls
+<span class='line'>  8</span> * @memberOf ch
+<span class='line'>  9</span> * @param {Object} [conf] Object with configuration properties.
+<span class='line'> 10</span> * @param {String} [conf.message] Validation message.
+<span class='line'> 11</span> * @param {String} [conf.points] Sets the points where validation-bubble will be positioned.
+<span class='line'> 12</span> * @param {String} [conf.offset] Sets the offset in pixels that validation-bubble will be displaced from original position determined by points. It's specified by configuration or zero by default: "0 0".
+<span class='line'> 13</span> * @param {String} [conf.context] It's a reference to position the validation-bubble
+<span class='line'> 14</span> * @returns itself
+<span class='line'> 15</span> * @see ch.Validation
+<span class='line'> 16</span> * @see ch.Required
+<span class='line'> 17</span> * @see ch.Custom
+<span class='line'> 18</span> * @see ch.String
+<span class='line'> 19</span> * @see ch.Validator
+<span class='line'> 20</span> * @see ch.Condition
+<span class='line'> 21</span> * @example
+<span class='line'> 22</span> * // Create a number validation
+<span class='line'> 23</span> * $("input").number("This field must be a number.");
+<span class='line'> 24</span> */</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="NAME">ch.extend</span><span class="PUNC">(</span><span class="STRN">"validation"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="STRN">"number"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="WHIT">	
+<span class='line'> 27</span> 	</span><span class="COMM">// Define the conditions of this interface</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">	</span><span class="NAME">conf.condition</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 29</span> </span><span class="WHIT">		</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">		</span><span class="NAME">patt</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/^(-?[0-9\s]+)$/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">		</span><span class="NAME">message</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.msg</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">conf.message</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 33</span> 
+<span class='line'> 34</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 35</span> 
+<span class='line'> 36</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 37</span> 
+<span class='line'> 38</span> </span><span class="COMM">/**
+<span class='line'> 39</span> * Validate a number with a minimun value.
+<span class='line'> 40</span> * @name Min
+<span class='line'> 41</span> * @class Min
+<span class='line'> 42</span> * @interface
+<span class='line'> 43</span> * @augments ch.Controls
+<span class='line'> 44</span> * @requires ch.Validation
+<span class='line'> 45</span> * @memberOf ch
+<span class='line'> 46</span> * @param {Object} [conf] Object with configuration properties.
+<span class='line'> 47</span> * @param {String} [conf.message] Validation message.
+<span class='line'> 48</span> * @param {String} [conf.points] Sets the points where validation-bubble will be positioned.
+<span class='line'> 49</span> * @param {String} [conf.offset] Sets the offset in pixels that validation-bubble will be displaced from original position determined by points. It's specified by configuration or zero by default: "0 0".
+<span class='line'> 50</span> * @param {String} [conf.context] It's a reference to position the validation-bubble
+<span class='line'> 51</span> * @param {Number} value Minimun number value.
+<span class='line'> 52</span> * @returns itself
+<span class='line'> 53</span> * @see ch.Validation
+<span class='line'> 54</span> * @see ch.Required
+<span class='line'> 55</span> * @see ch.Custom
+<span class='line'> 56</span> * @see ch.String
+<span class='line'> 57</span> * @see ch.Validator
+<span class='line'> 58</span> * @see ch.Condition
+<span class='line'> 59</span> * @example
+<span class='line'> 60</span> * $("input").min(10, "Write a number bigger than 10");
+<span class='line'> 61</span> */</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="NAME">ch.extend</span><span class="PUNC">(</span><span class="STRN">"validation"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="STRN">"min"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 63</span> 
+<span class='line'> 64</span> </span><span class="WHIT">	</span><span class="NAME">conf.condition</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">		</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"min"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">		</span><span class="NAME">expr</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">,</span><span class="NAME">b</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">a</span><span class="WHIT"> </span><span class="PUNC">>=</span><span class="WHIT"> </span><span class="NAME">b</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">		</span><span class="NAME">message</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.msg</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">conf.message</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">		</span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.value</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> 
+<span class='line'> 71</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 72</span> 
+<span class='line'> 73</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 74</span> 
+<span class='line'> 75</span> 
+<span class='line'> 76</span> </span><span class="COMM">/**
+<span class='line'> 77</span> * Validate a number with a maximun value.
+<span class='line'> 78</span> * @name Max
+<span class='line'> 79</span> * @class Max
+<span class='line'> 80</span> * @interface
+<span class='line'> 81</span> * @augments ch.Controls
+<span class='line'> 82</span> * @requires ch.Validation
+<span class='line'> 83</span> * @memberOf ch
+<span class='line'> 84</span> * @param {Object} [conf] Object with configuration properties.
+<span class='line'> 85</span> * @param {String} [conf.message] Validation message.
+<span class='line'> 86</span> * @param {String} [conf.points] Sets the points where validation-bubble will be positioned.
+<span class='line'> 87</span> * @param {String} [conf.offset] Sets the offset in pixels that validation-bubble will be displaced from original position determined by points. It's specified by configuration or zero by default: "0 0".
+<span class='line'> 88</span> * @param {String} [conf.context] It's a reference to position the validation-bubble
+<span class='line'> 89</span> * @param {Number} value Minimun number value.
+<span class='line'> 90</span> * @returns itself
+<span class='line'> 91</span> * @see ch.Validation
+<span class='line'> 92</span> * @see ch.Required
+<span class='line'> 93</span> * @see ch.Custom
+<span class='line'> 94</span> * @see ch.String
+<span class='line'> 95</span> * @see ch.Validator
+<span class='line'> 96</span> * @see ch.Condition
+<span class='line'> 97</span> * @example
+<span class='line'> 98</span> * $("input").max(10, "Write a number smaller than 10");
+<span class='line'> 99</span> */</span><span class="WHIT">
+<span class='line'>100</span> </span><span class="NAME">ch.extend</span><span class="PUNC">(</span><span class="STRN">"validation"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="STRN">"max"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>101</span> 
+<span class='line'>102</span> </span><span class="WHIT">	</span><span class="NAME">conf.condition</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">		</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"max"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">		</span><span class="NAME">expr</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">a</span><span class="PUNC">,</span><span class="NAME">b</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">a</span><span class="WHIT"> </span><span class="PUNC">&lt;=</span><span class="WHIT"> </span><span class="NAME">b</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">		</span><span class="NAME">message</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.msg</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">conf.message</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">		</span><span class="NAME">value</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.value</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span> 
+<span class='line'>109</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>110</span> 
+<span class='line'>111</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>112</span> 
+<span class='line'>113</span> </span><span class="COMM">/**
+<span class='line'>114</span> * Validate a number with a price format.
+<span class='line'>115</span> * @name Price
+<span class='line'>116</span> * @class Price
+<span class='line'>117</span> * @interface
+<span class='line'>118</span> * @augments ch.Controls* @augments ch.Controls
+<span class='line'>119</span> * @requires ch.Validation
+<span class='line'>120</span> * @memberOf ch
+<span class='line'>121</span> * @param {Object} [conf] Object with configuration properties.
+<span class='line'>122</span> * @param {String} [conf.message] Validation message.
+<span class='line'>123</span> * @param {String} [conf.points] Sets the points where validation-bubble will be positioned.
+<span class='line'>124</span> * @param {String} [conf.offset] Sets the offset in pixels that validation-bubble will be displaced from original position determined by points. It's specified by configuration or zero by default: "0 0".
+<span class='line'>125</span> * @param {String} [conf.context] It's a reference to position the validation-bubble
+<span class='line'>126</span> * @returns itself
+<span class='line'>127</span> * @see ch.Validation
+<span class='line'>128</span> * @see ch.Required
+<span class='line'>129</span> * @see ch.Custom
+<span class='line'>130</span> * @see ch.String
+<span class='line'>131</span> * @see ch.Validator
+<span class='line'>132</span> * @see ch.Condition
+<span class='line'>133</span> * @example
+<span class='line'>134</span> * $("input").price("Write valid price.");
+<span class='line'>135</span> */</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="NAME">ch.extend</span><span class="PUNC">(</span><span class="STRN">"validation"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">as</span><span class="PUNC">(</span><span class="STRN">"price"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>137</span> 
+<span class='line'>138</span> </span><span class="WHIT">	</span><span class="NAME">conf.condition</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">		</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"price"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">		</span><span class="NAME">patt</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="REGX">/^(\d+)[.,]?(\d?\d?)$/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">		</span><span class="NAME">message</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.msg</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">conf.message</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>143</span> 
+<span class='line'>144</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span> 
+<span class='line'>146</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>
