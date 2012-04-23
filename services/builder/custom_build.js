@@ -124,9 +124,9 @@ CustomBuild.prototype.compress = function(package) {
 	// fix index routes    
     var filename = "chico"+package.filename.split("chico")[1];
     var indexFile = fs.readFileSync((package.input.split("/src")[0]) + "/index.html");
-		indexFile = indexFile.toString().replace("http://chico.com:8080/latest/css", "css/"+ filename);
-		indexFile = indexFile.toString().replace("http://chico.com:8080/latest/js?debug=true", "js/" + filename.replace(".css",".js"));
-		indexFile = indexFile.toString().replace("libs/js/jquery-debug.js", "js/jquery.js");
+		indexFile = indexFile.toString().replace("http://localhost:3000/css", "css/"+ filename);
+		indexFile = indexFile.toString().replace("http://localhost:3000/js", "js/" + filename.replace(".css",".js"));
+		indexFile = indexFile.toString().replace("vendor/jquery-debug.js", "js/jquery.js");
 		
 		fs.writeFileSync(self.folder + "index.html", indexFile);
 	
@@ -140,7 +140,7 @@ CustomBuild.prototype.compress = function(package) {
 					  + "mkdir " + self.folder + "css",
         copyLicense = "cp " + (package.input.split("src/")[0]) + "LICENSE.txt " + self.folder,
         copyReadme = "cp " + (package.input.split("src/")[0]) + "README.md " + self.folder + "README.txt",
-        copyImages = (package.type === "css") ? "cp " + path + self.flavor + "/assets/* " + self.folder + "/assets/" : "ls",
+        copyImages = (package.type === "css") ? "cp " + path + "/assets/* " + self.folder + "/assets/" : "ls",
 		movingJS = "mv " + self.folder + "*.js " + self.folder + "js/",
 		movingCSS = "mv " + self.folder + "*.css " + self.folder + "css/",
         createZip = "cd " + self.folder + " && zip " + zipName + " -r * && rm -rf *.js *.css *.html *.txt src";
@@ -150,7 +150,7 @@ CustomBuild.prototype.compress = function(package) {
 
 	// Dependencies
 	// Add jquery
-	var depends = "cp " + (package.input.split("src/")[0]) + "libs/js/jquery.js " + self.folder + "/";
+	var depends = "cp " + (package.input.split("src/")[0]) + "vendor/jquery.js " + self.folder + "/";
 
 	// If there a dependency defined, exec the command
 	var copyDepends = (self.depends.jquery||self.depends.belated) ? depends : "ls" ;
