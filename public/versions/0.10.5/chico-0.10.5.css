@@ -1,14 +1,9 @@
-/*!
- * Chico UI v0.10.5
- * http://chico-ui.com.ar/
- *
- * Copyright (c) 2012, MercadoLibre.com
- * Released under the MIT license.
- * http://chico-ui.com.ar/license
- *
- * Team: Hernan Mammana, Leandro Linares, Guillermo Paz.
- */
-
+/*
+* Chico UI 0.10.5 MIT Licence
+* @autor <chico@mercadolibre.com>
+* @link http://www.chico-ui.com.ar
+* @team Hernan Mammana, Leandro Linares, Guillermo Paz, Natalia Devalle
+*/
 /*
 * Reset
 * @based: Eric Meyer
@@ -84,17 +79,14 @@ body {
 }
 
 body,
-input{
+input[type="button"],
+input[type="submit"],
+input[type="reset"]{
 	font-family:Arial, Helvetica, "Nimbus Sans L", sans-serif;
 	font-size:13px;
 	line-height:20px;
 }
-/*
-input{
-	font-size:18px;
-	line-height:22px;
-}
-*/
+
 .lt-ie7 body,
 /* Dreprecate */
 .ie6 body {
@@ -1179,9 +1171,40 @@ input.ch-btn-tiny::-moz-focus-inner{
 	-webkit-user-select: none;
 	user-select: none;
 }
+.ch-autoComplete .ch-autoComplete-cone {
+	display:none !important;
+}
+
+.ch-autoComplete-content {
+	background-color:#ffffff;
+	border:1px solid #CCCCCC;
+	border-top:none;
+}
 
 
-.ch-calendar {
+.ch-autoComplete-content li,
+.ch-autoComplete-selected {
+	margin: 0;
+	padding: 3px 5px;
+	color:#666666;
+	cursor:pointer;
+}
+
+.ch-autoComplete-selected {
+	background-color: #fefbd6;
+}
+
+/* IE */
+.ch-autoComplete-loading {
+	background: url('../assets/loading_small.gif') no-repeat right center;
+	background-size: 15px;
+	
+}
+
+.lt-ie8 .ch-autoComplete {
+	display: inline;
+	zoom: 1;
+}.ch-calendar {
 	position:relative;
 	display:inline-block;
 }
@@ -1303,9 +1326,7 @@ input.ch-btn-tiny::-moz-focus-inner{
 
 .ie7 .ch-calendar-month {
 	border: 1px solid #dfdfdf;
-}
-
-.ch-carousel,
+}.ch-carousel,
 .ch-carousel-mask {
 	overflow:hidden;
 	position:relative;
@@ -1442,44 +1463,7 @@ input.ch-btn-tiny::-moz-focus-inner{
 
 .no-js .ch-carousel li {
 	float:left;
-}
-
-.ch-autoComplete .ch-autoComplete-cone {
-	display:none !important;
-}
-
-.ch-autoComplete-content {
-	background-color:#ffffff;
-	border:1px solid #CCCCCC;
-	border-top:none;
-}
-
-
-.ch-autoComplete-content li,
-.ch-autoComplete-selected {
-	margin: 0;
-	padding: 3px 5px;
-	color:#666666;
-	cursor:pointer;
-}
-
-.ch-autoComplete-selected {
-	background-color: #fefbd6;
-}
-
-/* IE */
-.ch-autoComplete-loading {
-	background: url('../assets/loading_small.gif') no-repeat right center;
-	background-size: 15px;
-	
-}
-
-.lt-ie8 .ch-autoComplete {
-	display: inline;
-	zoom: 1;
-}
-
-/* Date Picker */
+}/* Date Picker */
 .ch-datePicker {
 	background-image:none;
 	position:absolute;
@@ -1622,9 +1606,7 @@ input.ch-btn-tiny::-moz-focus-inner{
 .lt-ie9 .ch-datePicker-cone:before {
 	width: auto;
 	height: auto;
-}
-
-/* Wrapper */
+}/* Wrapper */
 .ch-dropdown,
 .ch-dropdown-skin {
 	display:inline-block;
@@ -1880,8 +1862,27 @@ input.ch-btn-tiny::-moz-focus-inner{
 	line-height: 1em;
 	padding-top: 0;
 	padding-bottom: 0;
+}.ch-editInPlace {
+	display:inline;
+	position:relative;
+	z-index:1;
 }
 
+.ch-editInPlace-trigger {
+	cursor:pointer;
+	border:1px dotted #333;
+}
+
+.ch-editInPlace-content {
+	background-color:#fff;
+	position:absolute;
+	top:-5px;
+	left:-4px;
+}
+
+.ch-editInPlace-trigger.ch-editInPlace-on {
+	border-color:'#fff';
+}
 /* Trigger */
 .ch-expando-trigger{
 	color:#0637B3;
@@ -1949,8 +1950,6 @@ input.ch-btn-tiny::-moz-focus-inner{
 .ie7 .ch-expando-trigger{
 	font-size:13px;
 }
-
-
 /* Required specification */
 form p.required {
 	color:#999;
@@ -2524,8 +2523,6 @@ form .ico{display:inline-block;}
 								margin-right:10px;
 							}
 
-
-
 .ch-layer {
 	min-width:280px;
 	background-image:none;
@@ -2602,9 +2599,7 @@ form .ico{display:inline-block;}
 .ie6 .ch-layer .ch-layer-cone {
 	font-size:0;
 	line-height:0;
-}
-
-/* Menu */
+}/* Menu */
 .ch-menu {
 	max-width:300px;
 }
@@ -2681,9 +2676,73 @@ form .ico{display:inline-block;}
 /* IE */
 .ie7 .ch-menu .ch-expando {
 	line-height:0;
+}/*!
+ * Chico Mesh v0.1
+ * http://chico-ui.com.ar/mesh
+ *
+ * Copyright (c) 2012, MercadoLibre.com
+ * Released under the MIT license.
+ * http://chico-ui.com.ar/license
+ *
+ * Team: Hernan Mammana, Leandro Linares, Guillermo Paz, Natalia Devalle.
+ */
+
+/* About classnames: 1-2 = 1/2 = 50% */
+.ch-g1,
+.ch-g9-10,
+.ch-g7-8,
+.ch-g5-6,
+.ch-g4-5, .ch-g8-10,
+.ch-g3-4, .ch-g6-8,
+.ch-g7-10,
+.ch-g2-3, .ch-g4-6,
+.ch-g5-8,
+.ch-g3-5, .ch-g6-10,
+.ch-g1-2, .ch-g2-4, .ch-g3-6, .ch-g4-8, .ch-g5-10,
+.ch-g2-5, .ch-g4-10,
+.ch-g3-8,
+.ch-g1-3r,
+.ch-g1-3, .ch-g2-6,
+.ch-g3-10,
+.ch-g1-4, .ch-g2-8,
+.ch-g1-5, .ch-g2-10,
+.ch-g1-6r,
+.ch-g1-6,
+.ch-g1-8,
+.ch-g1-10 {
+	float: left;
+	vertical-align: top;
 }
 
-.ch-dimmer {
+.ch-g1 { width: 100%; }
+.ch-g9-10 { width: 90%; }
+.ch-g7-8 { width: 87.5%; }
+.ch-g5-6 { width: 83.3%; }
+.ch-g4-5, .ch-g8-10 { width: 80%; }
+.ch-g3-4, .ch-g6-8 { width: 75%; }
+.ch-g7-10 { width: 70%; }
+.ch-g2-3, .ch-g4-6 { width: 66.67%; }
+.ch-g5-8 { width: 62.5%; }
+.ch-g3-5, .ch-g6-10 { width: 60%; }
+.ch-g1-2, .ch-g2-4, .ch-g3-6, .ch-g4-8, .ch-g5-10 { width: 50%; }
+.ch-g2-5, .ch-g4-10 { width: 40%; }
+.ch-g3-8 { width: 37.5%; }
+/* Rounding - If you want 3 equal columns, one of them has to be ch-g1-3r to reach 100% */
+.ch-g1-3r { width: 33.34%; }
+.ch-g1-3, .ch-g2-6 { width: 33.33%; }
+.ch-g3-10 { width: 30%; }
+.ch-g1-4, .ch-g2-8 { width: 25%; }
+.ch-g1-5, .ch-g2-10 { width: 20%; }
+/* Rounding - If you want 6 equal columns, one of them has to be ch-g1-6r to reach 100% */
+.ch-g1-6r { width: 16.7%; }
+.ch-g1-6 { width: 16.66%; }
+.ch-g1-8 { width: 12.5%; }
+.ch-g1-10 { width: 10%; }
+
+/* Gutters: You can use these on your inner elements */
+.ch-rightcolumn, .rightcolumn { margin-left: 10px; }
+.ch-leftcolumn, .leftcolumn { margin-right: 10px; }
+.ch-centercolumn, .centercolumn { margin-left: 10px; margin-right: 10px; }.ch-dimmer {
 	background-color:rgba(0,0,0,.5);
 	width:100%;
 	height:100%;
@@ -2735,9 +2794,7 @@ form .ico{display:inline-block;}
 .ie8 .ch-dimmer {
 	background-color:#000;
 	filter: alpha(opacity=50) !important;
-}
-
-/* TabNavigator container */
+}/* TabNavigator container */
 .ch-tabNavigator {
 	margin:10px 0;
 }
@@ -2893,9 +2950,7 @@ form .ico{display:inline-block;}
 	border-top:none;
 	margin-top:0;
 	padding-top:0;
-}
-
-.ch-tooltip {
+}.ch-tooltip {
 	font-size:11px;
 	background-color:#faf5c8;
 	border:1px solid #a0a082;
@@ -2962,9 +3017,7 @@ form .ico{display:inline-block;}
 .ie6 .ch-tooltip .ch-cone {
 	font-size:0;
 	line-height:0;
-}
-
-.ch-validation {
+}.ch-validation {
 	color: #600;
 	font-size: 12px;
 	display: inline-block;
@@ -3035,9 +3088,7 @@ form .ico{display:inline-block;}
 .ie6 .ch-validation,
 .ie7 .ch-validation {
 	z-index:1;
-}
-
-/* Anchor */
+}/* Anchor */
 .ch-zoom-trigger {
 	position:relative;
 	overflow:hidden;
