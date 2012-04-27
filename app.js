@@ -24,24 +24,26 @@ app.configure(function () {
 * Simply functions that are invoked per request (once), passed both the request and response objects.
 * These can be used for request-specific details within a view, such telling the layout which scripts to include.
 */
+
 app.dynamicHelpers({
 	"script": function (req, type, source) {
+		
 		req._get = [];
 		req._code = [];
-
+	
 		var script = function (type, source) {
-			if (typeof type  === "undefined") { return; }
 
+			if (typeof type  === "undefined") { return; }
 			if (typeof source === "undefined") { return req["_" + type];}
 			
 			req["_" + type].push(source);
 		};
 
-		script(type, source);
-
 		return script;
 	}
+
 });
+
 
 /*
 *  Helpers
@@ -248,7 +250,6 @@ app.get("/", function (req, res) {
 	
 	meta.layout = "layout_1col";
 	meta.selected = "";
-	
 	res.render("index", meta);
 });
 
