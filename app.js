@@ -210,6 +210,7 @@ app.post("/download", function (req, res) {
 
 	// Listener that prints content of code
 	packer.on("done", function (url) {
+		console.log(url);
 		res.redirect(url);
 	});
 	
