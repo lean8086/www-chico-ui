@@ -1,7 +1,7 @@
 h1 Dropdown
 p.updated
 	| Documentation updated on 
-	data February 7th
+	data April 16th
 	| .
 
 .contents
@@ -31,12 +31,13 @@ p.updated
 h3#description Description
 p
 	| The Dropdown widget is a member of 
-	a(href="/api/#{latest.version}/symbols/ch.Navs.html") Navs
+	a(href="/api/#{version}/symbols/ch.Navs.html") Navs
 	|  familiy. It gives rich information about an UI element on the screen.
 
 h3#demo Demo
-.ch-box
-	.myDropdown
+.ch-g1-2
+	h4 Default Dropdown
+	.example
 		p Ninja weapons
 		ul
 			li 
@@ -45,6 +46,18 @@ h3#demo Demo
 				a(href="#") Nunchaku
 			li
 				a(href="#") Chain
+.ch-g1-2
+	h4 Dropdown with skin
+	.example.ch-dropdown-skin
+		p Ninja weapons
+		ul
+			li 
+				a(href="#") Katana
+			li
+				a(href="#") Nunchaku
+			li
+				a(href="#") Chain
+.clearfix
 
 h3#snippet Code snippet
 pre
@@ -57,6 +70,16 @@ pre
 	| 		<li><a href="http://www.mercadoclics.com">MercadoClics</a></li>
 	| 	</ul>
 	| </div>
+p
+	| To create a 
+	strong Dropdown with skin
+	| , you must use the 
+	code ch-dropdown-skin
+	|  class name in the wrapper element:
+pre
+	| <div id="example" class="ch-dropdown-skin">
+	| 	...
+	| </div>
 
 h3#instance Instance component
 p This is the way to create a new Dropdown:
@@ -64,7 +87,7 @@ pre
 	| var foo = $("#example").dropdown();
 p
 	| As any 
-	a(href="/api/#{latest.version}/symbols/ch.Navs.html") Navs
+	a(href="/api/#{version}/symbols/ch.Navs.html") Navs
 	|  children, the Dropdown has a few uses cases you can use to modifiy and manipulate its content, its size and positioning.
 
 
@@ -76,7 +99,7 @@ h3#configuration Configuration
 h4#show-n-hide Show and hide
 p
 	| All 
-	a(href="/api/#{latest.version}/symbols/ch.Navs.html") Navs
+	a(href="/api/#{version}/symbols/ch.Navs.html") Navs
 	|  exposes some public methods called 
 	code show
 	|  and 
@@ -87,20 +110,20 @@ pre
 	| foo.hide();
 p
 	| Read more about 
-	a(href="/api/#{latest.version}/symbols/ch.Navs.html") Navs
+	a(href="/api/#{version}/symbols/ch.Navs.html") Navs
 	| .
 
 h4#positioning Positioning
 p
 	| Chico has a great utility to position things on screen, is called 
-	a(href="/api/#{latest.version}/symbols/ch.Positioner.html") Positioner
+	a(href="/api/#{version}/symbols/ch.Positioner.html") Positioner
 	| . All 
-	a(href="/api/#{latest.version}/symbols/ch.Navs.html") Navs
+	a(href="/api/#{version}/symbols/ch.Navs.html") Navs
 	|  has a 
 	code position
 	|  method related to the Positioner, you can use it to redefine the Dropdown positioning. See an example:			
 pre
-	| myDropdown.position({
+	| foo.position({
 	| 	"offset": "0 10",
 	| 	"points": "lt lb"
 	| });
@@ -125,7 +148,7 @@ p
 		| context by its left-top point.
 p
 	| Read more about 
-	a(href="/api/#{latest.version}/symbols/ch.Positioner.html") Positioner
+	a(href="/api/#{version}/symbols/ch.Positioner.html") Positioner
 	| .
 
 
@@ -133,4 +156,4 @@ p
 
 !=partial("includes/keep-reading")
 
-- script("code", '$(".myDropdown").dropdown()')
+- script("code", '$(".example").dropdown()')

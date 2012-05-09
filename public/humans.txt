@@ -30,6 +30,5 @@
 	Twitter: @natos
 
 /* SITE */
-	Last update:2011/08/29
 	Language:English
 	Doctype:HTML5

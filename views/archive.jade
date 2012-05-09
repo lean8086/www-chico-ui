@@ -1,0 +1,24 @@
+h1
+	| Archive
+p.updated
+	| Data updated on 
+	data April 13rd
+	| .
+
+.ch-g1-2
+	h3 Chico UI
+	- each v in versions
+		h4= v.version
+		ul.ch-list
+		- each file in v.files
+			li
+				a(href="#{file.href}", target="_blank")= file.name
+
+.ch-g1-2
+	h3 Chico Mesh
+	h4 0.1
+	ul.ch-list
+		li
+			a(href="/versions/latest/chico-mesh.css", target="_blank") chico-mesh.css
+		li
+			a(href="/versions/latest/chico-mesh-min.css", target="_blank") chico-mesh-min.css

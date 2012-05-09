@@ -1,0 +1,17 @@
+!!! 5
+html.no-js(lang="en")
+	head
+		include includes/head
+	body
+		header
+			h1.logo.ch-g1-3
+				a(href="/") Chico UI
+				span.version= "v" + version
+
+			include includes/main-nav
+
+		section.main
+			article
+				!= body
+
+		include includes/footer

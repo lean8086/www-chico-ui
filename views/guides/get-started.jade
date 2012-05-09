@@ -45,10 +45,9 @@ p
 h3#widgets Check out UI Widgets demos
 p
 	| To see what is capable of, check demos and examples like
-	- each item, i in widgets
-		- if (i < 10 && item.label !== "Home")
-			a(href="#{item.href}") #{item.label}
-			| , 
+	- for (var w = 0; w < 10; w += 1)
+		a(href="#{widgets[w].href}") #{widgets[w].friendly}
+		| , 
 	| and 
 	a(href="/widgets") even more
 	| .
@@ -58,10 +57,9 @@ p
 h3#guides Learning guides
 p
 	| Our tutorials explains how to take specific tasks like
-	- each item, i in guides
-		- if (i < 5 && item.label !== "Home")
-			a(href="#{item.href}") #{item.label}
-			| , 
+	- for (var g = 0; g < 10; g += 1)
+		a(href="#{guides[g].href}") #{guides[g].friendly}
+		| , 
 	| and 
 	a(href="/guides") even more
 	| .
@@ -88,7 +86,7 @@ p
 p
 	| The package comes with all the source code and assets you need to run Chico UI on your web page.
 form(action="/download")
-	input.ch-btn(type="submit", value="Download v#{latest.version}")
+	input.ch-btn(type="submit", value="Download v#{version}")
 
 h3#who-is-using Who is using Chico UI?
 p

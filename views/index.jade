@@ -6,7 +6,7 @@ section#home-description
 		form(action="/guides/get-started")
 			input.ch-btn.ch-btn-big(type="submit", value="Get started now!")
 		
-		img#ninja-img.ch-hide(src="/src/assets/ninja.png", alt="Ninja", width="496", height="360")
+		img#ninja-img.ch-hide(src="/src/assets/ninja.png", alt="Ninja image", width="496", height="360")
 
 section#products
 	article.ch-g1-2
@@ -22,8 +22,8 @@ section#products
 							- if (wIndex >= from && wIndex <= to)
 								article
 									a(href="#{w.href}")
-										img(src="/src/assets/icons/#{w.name}-100x100.png", width="100", height="100", alt="#{w.label}")
-										span= w.label
+										img(src="/src/assets/icons/#{w.name}-100x100.png", width="100", height="100", alt="#{w.friendly}")
+										span= w.friendly
 					- printed += 1;
 		a.more(href="/widgets") See all Widgets
 	
@@ -40,26 +40,26 @@ section#additional
 		h4 Developers
 		ul
 			li
-				a(href="/api") API Documentation
+				a(href="http://github.com/mercadolibre/chico") Code on GitHub
 			li
-				a(href="http://github.com/mercadolibre/chico", target="_blank") Code on GitHub
-			li
-				a(href="https://github.com/mercadolibre/chico/issues", target="_blank") Issue tracker
+				a(href="https://github.com/mercadolibre/chico/issues") Issue tracker
 			li
 				a(href="http://blog.chico-ui.com.ar/tagged/Release_Notes") Releases Notes
 			li
-				a(href="/download") Older versions
+				a(href="/archive") Versions archive
 			li
 				a(href="/license") License
+			li
+				a(href="http://nuget.org/packages/Chico-UI") Visual Studio package
 	nav.ch-g1-4
 		h4 Learning guides
 		ul
-			- var totalGuides = 0;
+			- var total_guides = 5;
 			- each g in guides
-				- if (totalGuides < 5 && g.label !== ".DS_Store" && g.label !== "Home" && g.label !== "Get started")
-					- totalGuides += 1;
+				- if (total_guides > 0 && g.name !== "get-started")
+					- total_guides -= 1;
 					li
-						a(href="#{g.href}") #{g.label}
+						a(href="#{g.href}")= g.friendly
 			li
 				a.more(href="/guides") Browse all guides
 	article.ch-g1-4
@@ -76,10 +76,7 @@ section#additional
 		h4 Open initiative
 		figure
 			img(src="/src/assets/opensource.png", width="56", alt="Open Source Initiative")
-		p
-			| Chico UI is released under 
-			a(href="/license") MIT License
-			|  and implements open technologies such as:
+		p Chico UI is released under MIT License and implements open technologies such as:
 		ul.ch-list
 			li HTML5
 			li CSS3

@@ -8,15 +8,6 @@ html, body, .ch-layout {
 	width: 1000px;
 }
 
-/*
-*	Font family reset
-*/
-
-// Demo calendar + date picker
-.ch-calendar {
-	font-family: Arial;
-}
-
 a:visited {
 	color: #0637B3;
 }
@@ -52,7 +43,6 @@ a:visited {
 section.main h1 {
 	font-size: 36px;
 	margin-bottom: 15px;
-	margin-left: -2px;
 }
 
 section.main h1 small {
@@ -80,6 +70,12 @@ section.main nav .ch-rightcolumn h4 {
 section.main p {
 	color: #444;
 	margin-bottom: 0.4em;
+}
+
+section.main nav .rightcolumn li {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 
@@ -139,7 +135,7 @@ header nav li:last-child {
 }
 
 /* TODO: fix transition */
-input[name=q] {
+#q {
 	border-radius: 20px;
 	-webkit-transition: width 0.25s;
 	-moz-transition: width 0.25s;
@@ -150,8 +146,16 @@ input[name=q] {
 	padding-left:5px;
 }
 
-input[name=q]:focus {
+#q:focus {
 	width: 200px;
+}
+
+a.menu-selected,
+a.menu-selected:hover,
+a.menu-selected:focus,
+a.menu-selected:visited {
+	font-weight: bold;
+	text-decoration: underline;
 }
 
 
@@ -231,7 +235,7 @@ input[name=q]:focus {
 
 #products {
 	border-bottom: 1px dashed #ddd;
-	margin-top: 390px;
+	margin-top: 360px;
 	overflow: hidden;
 	padding: 25px 0;
 }
@@ -422,21 +426,21 @@ footer aside {
 
 
 footer div {
-	width: 65px!important;
+	width: 85px!important;
 	position: absolute;
 	top: 0;
 	right: 185px;
 }
 
 footer .twitter-share-button {
-	width: 85px!important;
+	width: 95px!important;
 	position: absolute;
 	top: 0;
 	right: 90px;
 }
 
 footer .fb-frame {
-	width: 80px;
+	width: 85px;
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -449,7 +453,8 @@ footer .fb-frame {
 */
 
 section.main {
-	margin-top: 20px;
+	margin-top: 30px;
+	overflow: hidden;
 }
 
 section.main .ch-g4-5 > .ch-leftcolumn {
@@ -629,13 +634,39 @@ h4 small {
 }*/
 
 /*
-*	Custom download
+*	Download
 */
-#custom {
+#download {
 	margin: 25px 0;
 	overflow: hidden;
 }
 
+#download .ch-form-options{
+	margin-left: 0;
+}
+
+.full-version h2,
+.custom-version h2,
+.older-version h2{
+	margin-bottom: 20px;
+}
+
+section.main p.download-full{
+	margin:0 0 40px 0;
+}
+
+.license p {
+	margin-top:25px;
+}
+
+#versions{
+	max-width:none;
+	margin-right:20px;
+}
+
+
+
+/*
 #custom .ch-centercolumn,
 #custom .ch-rightcolumn {
 	position: relative;
@@ -647,7 +678,7 @@ h4 small {
 	cursor: pointer;
 	font-size: 10px;
 }
-
+*/
 
 /*
 *	About

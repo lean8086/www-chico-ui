@@ -1,0 +1,8 @@
+h1 Learning guides
+p
+	| Get all necessary knowledge about how to use Chico UI to build awesome things for your website.
+
+ul.ch-list.home-list
+	- each g in guides
+		li
+			a(href="#{g.href}")= g.friendly

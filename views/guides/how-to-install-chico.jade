@@ -1,14 +1,14 @@
 h1 How to install chico
 p.updated
 	| Documentation updated on 
-	data December 13rd
+	data April 13rd
 	| .
 
 .contents
 	h5 Contents
 	dl
 		dt
-			a(href="#dependencies") 1 What dependencies need?
+			a(href="#dependencies") 1 Dependencies
 		dt
 			a(href="#sniffing") 2 Browser sniffing
 		dt
@@ -19,11 +19,9 @@ p.updated
 			a(href="#overview") 5 Overview
 
 
-h3#dependencies What dependencies need?
+h3#dependencies Dependencies
 p
-	| To install the library you need some dependencies and the sources files.
-p
-	| Something important is that Chico UI depends on 
+	| To install the library you need get some dependencies and the sources files. For example, Chico UI depends on 
 	a(href="http://jquery.com") jQuery
 	|  to work.
 p
@@ -43,19 +41,25 @@ pre
 h3#jquery jQuery JavaScript Library
 p
 	| Most of our framework’s functionality is built on 
-	a(href="http://jquery.com") JQuery
-	| , that's why we need to pre-load this toolbox.
+	a(href="http://jquery.com") jQuery
+	| . That's why we need to pre-load this toolbox.
+p
+	| You can get jQuery from many places like Google CDN:
 pre
 	| <script src="https://ajax.googleapis.com/ajax/libs/jquery/x.x.x/jquery.min.js"></script>
+p
+	| Or jQuery CDN:
+pre
+	| <script src="http://code.jquery.com/jquery-x.x.x.min.js"></script>
 p.ch-message.ch-information
-	| We recommend put &lt;script&gt; calls at bottom of HTML page, before &lt;/body&gt; tag close.
+	| We recommend put all the &lt;script&gt; calls at bottom of HTML page, before &lt;/body&gt; tag close.
 
 
 h3#sources Which are the sources?
 p
-	| You only got to add the CSS, JavaScript and assets of Chico UI, and that's all!
+	| You only have to add the CSS, JavaScript and assets of Chico UI, and that's all!
 form.container(action="/download")
-	input.ch-btn.ch-primary#download(type="submit", value="Download v#{latest.version}")
+	input.ch-btn.ch-primary#download(type="submit", value="Download v#{version}")
 p
 	| Make sure to add the stylesheet call into the 
 	code &lt;head&gt;

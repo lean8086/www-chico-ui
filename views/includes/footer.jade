@@ -12,14 +12,14 @@ footer
 		<g:plusone size="medium" href="http://chico-ui.com.ar"></g:plusone>
 		a.twitter-share-button(href="http://twitter.com/share", data-via="chicoui", data-text="Chico UI, MercadoLibre's Open Source Web Tools.", data-url="http://chico-ui.com.ar") Tweet
 
-script(src="/src/js/jquery.js")
+script(src="/versions/latest/jquery.js")
 script(src="/versions/latest/chico.js")
-script(src="/src/js/scripts.js")
+script(src="/src/js/scripts.js", defer="defer")
 
 - var scriptGet = script("get")
 - if (scriptGet.length > 0)
-	- for (var i in scriptGet)
-		script(src='#{scriptGet[i]}')
+	- each i in scriptGet
+		script(src='#{i}')
 
 - var scriptCode = script("code")
 -if (scriptCode.length > 0)

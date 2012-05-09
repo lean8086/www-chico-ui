@@ -1,61 +1,81 @@
 h1 Chico Mesh
 p
-	| Mesh is Chico UI's solution for fast and simple layouts. It offers fluid grids along with a gallery of ready to use basic templates.
+	| Mesh provides a set of CSS columns that makes the laying out of a website easy and fast.
+p
+	| It isn't part of the CSS core, that's why you have to download the file and reference it on your HTML document:
+ul.ch-list
+	li
+		strong Production
+		|  (Minified): 
+		a(href="/versions/latest/chico-mesh-min.css", target="_blank") chico-mesh-min.css
+	li
+		strong Development 
+		|  (Uncompressed): 
+		a(href="/versions/latest/chico-mesh.css", target="_blank") chico-mesh.css
+p
+	| See the 
+	a(href="/guides/how-to-use-the-grids") how to use the grids
+	|  tutorial to get more details.
 
-h3#fluid Fluid Layouts
-ul
+h3#fluid Fluid layouts
+ul.grid_templates
 	li.ch-g1-3
-		a(href="/mesh/demos/fluid-2columns-leftsidebar.html", target="blank")
-			img(src="src/assets/layouts/fluid-2columns-leftsidebar.png", width="200", height="150", alt="Fluid, 2 Columns, left sidebar")
-		p.more
-			a(href="/mesh/demos/fluid-2columns-leftsidebar.html", target="blank") Demo
-			|  | 
-			a(href="/mesh/download/fluid-2columns-leftsidebar.zip") Download
+		.ch-container
+			a(href="/mesh/demos/fluid-2columns-leftsidebar.html", target="blank")
+				img(src="src/assets/layouts/fluid-2columns-leftsidebar.png", width="200", height="150", alt="Fluid, 2 Columns, left sidebar")
+			p.more
+				a(href="/mesh/demos/fluid-2columns-leftsidebar.html", target="blank") See a demo
+				|  | 
+				a(href="/mesh/download/fluid-2columns-leftsidebar.zip") Download template
 	li.ch-g1-3
-		a(href="/mesh/demos/fluid-2columns-rightsidebar.html", target="blank")
-			img(src="src/assets/layouts/fluid-2columns-rightsidebar.png", width="200", height="150", alt="Fluid, 2 Columns, right sidebar")
-		p.more
-			a(href="/mesh/demos/fluid-2columns-rightsidebar.html", target="blank") Demo
-			|  |
-			a(href="/mesh/download/fluid-2columns-rightsidebar.zip") Download
+		.ch-container
+			a(href="/mesh/demos/fluid-2columns-rightsidebar.html", target="blank")
+				img(src="src/assets/layouts/fluid-2columns-rightsidebar.png", width="200", height="150", alt="Fluid, 2 Columns, right sidebar")
+			p.more
+				a(href="/mesh/demos/fluid-2columns-rightsidebar.html", target="blank") See a demo
+				|  |
+				a(href="/mesh/download/fluid-2columns-rightsidebar.zip") Download template
 	li.ch-g1-3
-		a(href="/mesh/demos/fluid-3columns.html", target="blank")
-			img(src="src/assets/layouts/fluid-3columns.png", width="200", height="150", alt="Fluid, 3 Columns")
-		p.more
-			a(href="/mesh/demos/fluid-3columns.html", target="blank") Demo
-			|  |
-			a(href="/mesh/download/fluid-3columns.zip") Download
-.clearfix
+		.ch-container
+			a(href="/mesh/demos/fluid-3columns.html", target="blank")
+				img(src="src/assets/layouts/fluid-3columns.png", width="200", height="150", alt="Fluid, 3 Columns")
+			p.more
+				a(href="/mesh/demos/fluid-3columns.html", target="blank") See a demo
+				|  |
+				a(href="/mesh/download/fluid-3columns.zip") Download template
 
-h3#elastic Elastic Layouts	
-ul
+h3#elastic Elastic layouts
+ul.grid_templates
 	li.ch-g1-3
-		a(href="/mesh/demos/elastic-2columns-leftsidebar.html", target="blank")
-			img(src="src/assets/layouts/elastic-2columns-leftsidebar.png", width="200", height="150", alt="Elastic, 2 Columns, left sidebar")
-		p.more
-			a(href="/mesh/demos/elastic-2columns-leftsidebar.html", target="blank") Demo
-			|  |
-			a(href="/mesh/download/elastic-2columns-leftsidebar.zip") Download
+		.ch-container
+			a(href="/mesh/demos/elastic-2columns-leftsidebar.html", target="blank")
+				img(src="src/assets/layouts/elastic-2columns-leftsidebar.png", width="200", height="150", alt="Elastic, 2 Columns, left sidebar")
+			p.more
+				a(href="/mesh/demos/elastic-2columns-leftsidebar.html", target="blank") See a demo
+				|  |
+				a(href="/mesh/download/elastic-2columns-leftsidebar.zip") Download template
 	li.ch-g1-3
-		a(href="/mesh/demos/elastic-2columns-rightsidebar.html", target="blank")
-			img(src="src/assets/layouts/elastic-2columns-rightsidebar.png", width="200", height="150", alt="Elastic, 2 Columns, right sidebar")
-		p.more
-			a(href="/mesh/demos/elastic-2columns-rightsidebar.html", target="blank") Demo
-			|  |
-			a(href="/mesh/download/elastic-2columns-rightsidebar.zip") Download
+		.ch-container
+			a(href="/mesh/demos/elastic-2columns-rightsidebar.html", target="blank")
+				img(src="src/assets/layouts/elastic-2columns-rightsidebar.png", width="200", height="150", alt="Elastic, 2 Columns, right sidebar")
+			p.more
+				a(href="/mesh/demos/elastic-2columns-rightsidebar.html", target="blank") See a demo
+				|  |
+				a(href="/mesh/download/elastic-2columns-rightsidebar.zip") Download template
 	li.ch-g1-3
-		a(href="/mesh/demos/elastic-3columns.html", target="blank")
-			img(src="src/assets/layouts/elastic-3columns.png", width="200", height="150", alt="Elastic, 3 Columns")
-		p.more
-			a(href="/mesh/demos/elastic-3columns.html", target="blank") Demo
-			|  |
-			a(href="/mesh/download/elastic-3columns.zip") Download
+		.ch-container
+			a(href="/mesh/demos/elastic-3columns.html", target="blank")
+				img(src="src/assets/layouts/elastic-3columns.png", width="200", height="150", alt="Elastic, 3 Columns")
+			p.more
+				a(href="/mesh/demos/elastic-3columns.html", target="blank") See a demo
+				|  |
+				a(href="/mesh/download/elastic-3columns.zip") Download template
 .clearfix
 
 h3#showroom Grids showroom
 
 .ch-g1
-	.ch-box.header 1/1
+	.ch-box 1/1
 
 .ch-g1-2
 	.ch-box.ch-leftcolumn 1/2
@@ -99,7 +119,7 @@ h3#showroom Grids showroom
 	.ch-box.ch-centercolumn 1/6
 .ch-g1-6
 	.ch-box.ch-centercolumn 1/6
-.ch-g1-6
+.ch-g1-6r
 	.ch-box.ch-rightcolumn 1/6
 
 .ch-g1-8
@@ -187,4 +207,4 @@ h3#showroom Grids showroom
 	.ch-box.ch-rightcolumn 9/10
 
 .ch-g1
-	.ch-box.footer 1/1
+	.ch-box 1/1
