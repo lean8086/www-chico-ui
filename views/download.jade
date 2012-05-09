@@ -1,13 +1,20 @@
-article.ch-g3-4
-	.leftcolumn
-		h1
-			| Download
-		p.updated
-			| Current version: v#{version}
+section.ch-g1
+	h1
+		| Download Center
+	p.updated
+		| Current version: v#{version}
 
+	article.full-version
+		h3 Get the full version
+
+		p.download-full 
+			a.ch-btn(href="/") Full version
+
+	article.custom-version
+		h3 Get a custom version
 		form.ch-form#download(action="/download", method="POST")
-			fieldset
-				legend 1. Select your widgets
+			fieldset.ch-g2-5
+				legend 1. Select the widgets
 				#widgets.ch-form-options
 					
 					- // TODO: Migrate to PARTIALS
@@ -20,8 +27,8 @@ article.ch-g3-4
 					- each widget in widgets
 						- if (widget.friendly !== "css-library")
 							- w.push(render(widget.friendly));
-					- var result = [], tpl = "<ul class=\"ch-g1-3\">";
-					- var cols = 3, len = w.length, itemsPerColumn = Math.ceil(len / cols);
+					- var result = [], tpl = "<ul class=\"ch-g1-2\">";
+					- var cols = 2, len = w.length, itemsPerColumn = Math.ceil(len / cols);
 					- // Splice widgets lists per column
 					- for (var i = 0; i < cols; i += 1)
 						- result.push(w.splice(0, itemsPerColumn).join(""));
@@ -29,35 +36,46 @@ article.ch-g3-4
 					- result = tpl + result.join("</ul>" + tpl) + "</ul>";
 					!= result
 				input(type="hidden", name="totalWidgets", value="#{len}")
-			fieldset
-				legend 2. Select the compression level
+			fieldset.ch-g1-5
+				legend 2. Select compression
 				ul.ch-form-options#compression
 					li.ch-form-row
 						input#prod(type="checkbox", value="prod", name="compression", checked)
-						label(for="prod") Production (Minified)
+						label(for="prod") Minified
 					li.ch-form-row
 						input#dev(type="checkbox", value="dev", name="compression", checked)
-						label(for="dev") Development (Uncompressed)
-			fieldset
-				legend 3. Include some extras
+						label(for="dev") Uncompressed
+			fieldset.ch-g1-5
+				legend 3. Select extras
 				ul.ch-form-options#extras
-					li.ch-form-row.ch-g1-3
+					li.ch-form-row
 						input#mesh(type="checkbox", value="mesh", name="extras", checked)
 						label#meshLayer(for="mesh")
 							| Chico Mesh
 							.ch-ico.ch-help
-					li.ch-form-row.ch-g1-3
+					li.ch-form-row
 						input#api(type="checkbox", value="api", name="extras", disabled)
 						label(for="api")
 							| Documentation
 							small (soon)
-			fieldset
-				legend 4. Get the package
-				input.ch-btn.ch-primary(type="submit", value="Download", style="margin-left:20px")
-
-nav.ch-g1-4
-	.rightcolumn
-		h4 Visual Studio
+			fieldset.ch-g1-5
+				legend 4. Download
+				input.ch-btn(type="submit", value="Custom version", style="margin-left:20px")
+	
+	article.ch-g1-2.older-version
+		h3 Get older version
+		ul#versions.ch-menu
+			- each v, i in versions
+				- if (i < 5)
+					li 
+						span #{v.version}
+						ul
+							- each file in v.files
+								li
+									a(href="#{file.href}") #{file.name}
+		a.more(href="/archive") See all versions
+	article.ch-g1-2
+		h3 Get for Visual Studio
 		p
 			| To get the 
 			a(href="http://nuget.org/packages/Chico-UI", target="_blank") Nuget package
@@ -70,18 +88,7 @@ nav.ch-g1-4
 			a(href="https://twitter.com/#!/avataruy", target="_blank") @avataruy
 			| .
 
-		h4 Older versions
-		ul#versions.ch-menu
-			- each v, i in versions
-				- if (i > 0 && i < 9)
-					li 
-						span #{v.version}
-						ul
-							- each file in v.files
-								li
-									a(href="#{file.href}") #{file.name}
-		a.more(href="/archive") See all versions
 
-- script("code", '$("#versions").accordion({"selected":1});')
+- script("code", '$("#versions").accordion();')
 - script("code", '$("#widgets,#compression").required("Choose at least one.");')
 - script("code", '$("#meshLayer").layer({"points":"lt rt","offset":"10 -10","width":"300px","content":"<p>Solution for fast and simple layouts. <a href=\'/mesh\' target=\'_blank\'>See more</a>.</p>"});')
