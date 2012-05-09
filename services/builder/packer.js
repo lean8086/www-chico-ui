@@ -84,7 +84,7 @@ Packer.prototype.process = function() {
 
     // Get files for the defined package
 	// Define the location
-	var uri = self.input + (self.type === "css" ? self.flavor + "/" : "") + self.type;
+	var uri = self.input + self.type;
 
 	if (!self.components){
 		// Save the files from the location
