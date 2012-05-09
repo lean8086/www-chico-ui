@@ -4,14 +4,7 @@ section.ch-g1
 	p.updated
 		| Current version: v#{version}
 
-	article.full-version
-		h3 Get the full version
-
-		p.download-full 
-			a.ch-btn(href="/") Full version
-
 	article.custom-version
-		h3 Get a custom version
 		form.ch-form#download(action="/download", method="POST")
 			fieldset.ch-g2-5
 				legend 1. Select the widgets
@@ -59,8 +52,8 @@ section.ch-g1
 							| Documentation
 							small (soon)
 			fieldset.ch-g1-5
-				legend 4. Download
-				input.ch-btn(type="submit", value="Custom version", style="margin-left:20px")
+				legend 4. Get the version
+				input.ch-btn(type="submit", value="Download", style="margin-left:20px")
 	
 	article.ch-g1-2.older-version
 		h3 Get older version
