@@ -14,7 +14,7 @@ section.ch-g1
 		h3 Get a custom version
 		form.ch-form#download(action="/download", method="POST")
 			fieldset.ch-g2-5
-				legend 1. Select the widgets
+				legend 1. Select your widgets
 				#widgets.ch-form-options
 					
 					- // TODO: Migrate to PARTIALS
@@ -46,7 +46,7 @@ section.ch-g1
 						input#dev(type="checkbox", value="dev", name="compression", checked)
 						label(for="dev") Uncompressed
 			fieldset.ch-g1-5
-				legend 3. Select extras
+				legend 3. Include extras
 				ul.ch-form-options#extras
 					li.ch-form-row
 						input#mesh(type="checkbox", value="mesh", name="extras", checked)
@@ -62,31 +62,33 @@ section.ch-g1
 				legend 4. Download
 				input.ch-btn(type="submit", value="Custom version", style="margin-left:20px")
 	
-	article.ch-g1-2.older-version
-		h3 Get older version
-		ul#versions.ch-menu
-			- each v, i in versions
-				- if (i < 5)
-					li 
-						span #{v.version}
-						ul
-							- each file in v.files
-								li
-									a(href="#{file.href}") #{file.name}
-		a.more(href="/archive") See all versions
 	article.ch-g1-2
-		h3 Get for Visual Studio
-		p
-			| To get the 
-			a(href="http://nuget.org/packages/Chico-UI", target="_blank") Nuget package
-			|  for VS, run this code in the
-			a(href="http://docs.nuget.org/docs/start-here/using-the-package-manager-console", target="_blank") PM Console
-			| :
-		pre.terminal PM> Install-Package Chico-UI
-		p.updated
-			| Thanks to Emmanuel Larrieux 
-			a(href="https://twitter.com/#!/avataruy", target="_blank") @avataruy
-			| .
+		.ch-leftcolumn
+			h3 Get older version
+			ul#versions.ch-menu
+				- each v, i in versions
+					- if (i < 5)
+						li 
+							span #{v.version}
+							ul
+								- each file in v.files
+									li
+										a(href="#{file.href}") #{file.name}
+			a.more(href="/archive") See all versions
+	article.ch-g1-2
+		.ch-rightcolumn
+			h3 Get for Visual Studio
+			p
+				| To get the 
+				a(href="http://nuget.org/packages/Chico-UI", target="_blank") Nuget package
+				|  for VS, run this code in the 
+				a(href="http://docs.nuget.org/docs/start-here/using-the-package-manager-console", target="_blank") PM Console
+				| :
+			pre.terminal PM> Install-Package Chico-UI
+			p.updated
+				| Thanks to Emmanuel Larrieux 
+				a(href="https://twitter.com/#!/avataruy", target="_blank") @avataruy
+				| .
 
 
 - script("code", '$("#versions").accordion();')
