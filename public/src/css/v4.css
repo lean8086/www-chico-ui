@@ -641,8 +641,27 @@ h4 small {
 	overflow: hidden;
 }
 
+#download .ch-form-options{
+	margin-left: 0;
+}
+
+.full-version h2,
+.custom-version h2,
+.older-version h2{
+	margin-bottom: 20px;
+}
+
+section.main p.download-full{
+	margin:0 0 40px 0;
+}
+
 .license p {
 	margin-top:25px;
+}
+
+#versions{
+	max-width:none;
+	margin-right:20px;
 }
 
 
