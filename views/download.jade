@@ -52,12 +52,12 @@ section.ch-g1
 							| Documentation
 							small (soon)
 			fieldset.ch-g1-5
-				legend 4. Get the version
+				legend 4. Get the package
 				input.ch-btn(type="submit", value="Download", style="margin-left:20px")
 	
 	article.ch-g1-2
 		.ch-leftcolumn
-			h3 Get older version
+			h3 Get older versions
 			ul#versions.ch-menu
 				- each v, i in versions
 					- if (i < 5)
@@ -74,7 +74,7 @@ section.ch-g1
 			p
 				| To get the 
 				a(href="http://nuget.org/packages/Chico-UI", target="_blank") Nuget package
-				|  for VS, run this code in the 
+				|  for Visual Studio, run this code in the 
 				a(href="http://docs.nuget.org/docs/start-here/using-the-package-manager-console", target="_blank") PM Console
 				| :
 			pre.terminal PM> Install-Package Chico-UI
