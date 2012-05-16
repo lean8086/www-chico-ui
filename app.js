@@ -251,6 +251,7 @@ app.get("/", function (req, res) {
 	
 	meta.layout = "layout_1col";
 	meta.selected = "";
+	meta.title = "Chico UI, MercadoLibre's open source web tools.";
 	res.render("index", meta);
 });
 
