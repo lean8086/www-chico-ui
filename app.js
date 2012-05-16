@@ -104,7 +104,7 @@ function createNavMap(type) {
 }
 
 /*
-*  Object that transports layout name, guides list, widgets list, title, etc.
+*  Object that tranSports layout name, guides list, widgets list, title, etc.
 */
 meta = {
 	"widgets": createNavMap("widgets"),
@@ -183,7 +183,8 @@ app.get("/blog", function (req, res) {
 });
 
 app.get("/api", function (req, res) {
-	res.redirect("/api/" + meta.version + "/symbols/ch.html");
+	//res.redirect("/api/" + meta.version + "/symbols/ch.html");
+	res.redirect("/api/" + meta.version + "/index.html");
 });
 
 app.get("/archive", function (req, res) {
