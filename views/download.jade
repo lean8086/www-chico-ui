@@ -44,7 +44,7 @@ section.ch-g1
 					li.ch-form-row
 						input#mesh(type="checkbox", value="mesh", name="extras", checked)
 						label#meshLayer(for="mesh")
-							| Chico Mesh
+							| Chico Mesh 
 							.ch-ico.ch-help
 					li.ch-form-row
 						input#api(type="checkbox", value="api", name="extras", disabled)
@@ -60,7 +60,7 @@ section.ch-g1
 			h3 Get older versions
 			ul#versions.ch-menu
 				- each v, i in versions
-					- if (i < 5)
+					- if (i > 0 && i <= 5)
 						li 
 							span #{v.version}
 							ul
@@ -86,4 +86,4 @@ section.ch-g1
 
 - script("code", '$("#versions").accordion();')
 - script("code", '$("#widgets,#compression").required("Choose at least one.");')
-- script("code", '$("#meshLayer").layer({"points":"lt rt","offset":"10 -10","width":"300px","content":"<p>Solution for fast and simple layouts. <a href=\'/mesh\' target=\'_blank\'>See more</a>.</p>"});')
+- script("code", '$("#meshLayer").layer({"points":"lt rt","offset":"10 -10","content":"<p>Solution for fast and simple layouts. <a href=\'/mesh\' target=\'_blank\'>See more</a>.</p>"});')
