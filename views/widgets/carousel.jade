@@ -25,6 +25,10 @@ p.updated
 					a(href="#working-with-pages") 6.1 Working with pages
 				dt
 					a(href="#pagination") 6.2 Pagination
+				dt
+					a(href="#items-in-a-page") 6.3 Defining the amount of items in a page
+				dt
+					a(href="#arrows-flow") 6.4 Changing the arrows flow
 		dt
 			a(href="#events") 7 Events
 		dt
@@ -47,23 +51,21 @@ h3#demo Demo
 	#example.ch-carousel
 		ul
 			li
-				img(src="/src/assets/ninja.png", width="150")
+				img(src="/src/assets/ninja.png")
 			li
-				img(src="/src/assets/ninja.png", width="150")
+				img(src="/src/assets/ninja.png")
 			li
-				img(src="/src/assets/ninja.png", width="150")
+				img(src="/src/assets/ninja.png")
 			li
-				img(src="/src/assets/ninja.png", width="150")
+				img(src="/src/assets/ninja.png")
 			li
-				img(src="/src/assets/ninja.png", width="150")
+				img(src="/src/assets/ninja.png")
 			li
-				img(src="/src/assets/ninja.png", width="150")
+				img(src="/src/assets/ninja.png")
 			li
-				img(src="/src/assets/ninja.png", width="150")
+				img(src="/src/assets/ninja.png")
 			li
-				img(src="/src/assets/ninja.png", width="150")
-			li
-				img(src="/src/assets/ninja.png", width="150")
+				img(src="/src/assets/ninja.png")
 
 h3#snippet Code snippet
 p
@@ -88,15 +90,13 @@ pre
 	| 		<li><img src="/src/assets/ninja.png"></li>
 	| 		<li><img src="/src/assets/ninja.png"></li>
 	| 		<li><img src="/src/assets/ninja.png"></li>
-	| 		<li><img src="/src/assets/ninja.png"></li>
 	| 	</ul>
 	| </div>
 
 h3#instance Instance component
 p
 	| This is the way to create a Carousel:
-pre 
-	| var foo = $("#example").carousel();
+pre var foo = $("#example").carousel();
 
 
 !=partial("includes/configuration")
@@ -127,6 +127,32 @@ p
 	| The component has a pagination feature, which is set hidden by default, but you can make it visible.
 pre
 	| var foo = $("#example").carousel({ "pagination": true });
+
+h4#items-in-a-page Defining the amount of items in a page
+p
+	| To specify a max amount of items showed in each page, you can use the 
+	code maxItems
+	| configuration parameter (since v0.10.6):
+pre
+	| var foo = $("#example").carousel({ "maxItems": 3 });
+
+h4#arrows-flow Changing the arrows flow
+p
+	| Since v0.10.6 you can configure the "next" and "previous" buttons to distribute into the Carousel's space. It can be:
+ul.ch-list
+	li
+		code outside
+		| (default): Buttons will be on mask sides.
+	li
+		code over
+		| : Buttons will be over the mask.
+	li
+		code none
+		| or 
+		code false
+		| : No arrows.
+pre
+	| var foo = $("#example").carousel({ "arrows": "outside" });
 
 
 !=partial("includes/events")

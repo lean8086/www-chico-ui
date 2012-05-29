@@ -555,9 +555,13 @@ nav .ch-rightcolumn ul {
 *	Carousel demo
 */
 
-#example .ch-carousel-content li {
+#example.ch-carousel li {
 	width: 150px;
 	height: 108px;
+}
+
+#example.ch-carousel li img {
+	max-width: 100%;
 }
 
 /*
