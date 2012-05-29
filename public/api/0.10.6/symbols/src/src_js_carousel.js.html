@@ -1,0 +1,1136 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span> * Carousel is a large list of elements. Some elements will be shown in a preset area, and others will be hidden waiting for the user interaction to show it.
+<span class='line'>  3</span> * @name Carousel
+<span class='line'>  4</span> * @class Carousel
+<span class='line'>  5</span> * @augments ch.Uiobject
+<span class='line'>  6</span> * @memberOf ch
+<span class='line'>  7</span> * @param {Object} [conf] Object with configuration properties.
+<span class='line'>  8</span> * @param {Number || String} [conf.width] Sets width property of the component's layout. By default, the width is elastic.
+<span class='line'>  9</span> * @param {Boolean} [conf.pagination] Shows a pagination. By default, the value is false.
+<span class='line'> 10</span> * @param {Boolean} [conf.arrows] Shows arrows icons over or outside the mask. By default, the value is "outside".
+<span class='line'> 11</span> * @param {Array} [conf.asyncData] Defines the content of each item that will be load asnchronously as array.
+<span class='line'> 12</span> * @param {Function} [conf.asyncRender] The function that receives asyncData content and must return a string with result of manipulate that content.
+<span class='line'> 13</span> * @param {Boolean} [conf.fx] Enable or disable UI effects. By default, the effects are enabled.
+<span class='line'> 14</span> * @param {Number} [conf.maxItems] (Since 0.10.6) Set the max amount of items to show in each page.
+<span class='line'> 15</span> * @param {Number} [conf.page] (Since 0.10.6) Initialize the Carousel in a specified page.
+<span class='line'> 16</span> * @returns itself
+<span class='line'> 17</span> * @exampleDescription Create a Carousel without configuration.
+<span class='line'> 18</span> * @example
+<span class='line'> 19</span> * var foo = $("#example").carousel();
+<span class='line'> 20</span> * @exampleDescription Create a Carousel with configuration parameters.
+<span class='line'> 21</span> * @example
+<span class='line'> 22</span> * var foo = $("#example").carousel({
+<span class='line'> 23</span> *     "width": 500,
+<span class='line'> 24</span> *     "pagination": true,
+<span class='line'> 25</span> *     "arrows": "over"
+<span class='line'> 26</span> * });
+<span class='line'> 27</span> * @exampleDescription Create a Carousel with items asynchronously loaded.
+<span class='line'> 28</span> * @example
+<span class='line'> 29</span> * var foo = $("#example").carousel({
+<span class='line'> 30</span> *     "asyncData": [
+<span class='line'> 31</span> *         {"src": "a.png", "alt": "A"},
+<span class='line'> 32</span> *         {"src": "b.png", "alt": "B"},
+<span class='line'> 33</span> *         {"src": "c.png", "alt": "C"}
+<span class='line'> 34</span> *     ],
+<span class='line'> 35</span> *     "asyncRender": function (data) {
+<span class='line'> 36</span> *         return "&lt;img src=\"" + data.src + "\" alt=\"" + data.alt + "\" />";
+<span class='line'> 37</span> *     }
+<span class='line'> 38</span> * });
+<span class='line'> 39</span> */</span><span class="WHIT">
+<span class='line'> 40</span> 
+<span class='line'> 41</span> </span><span class="NAME">ch.carousel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 42</span> 
+<span class='line'> 43</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 44</span> 	* Reference to a internal component instance, saves all the information and configuration properties.
+<span class='line'> 45</span> 	* @protected
+<span class='line'> 46</span> 	* @name ch.Carousel#that
+<span class='line'> 47</span> 	* @type Object
+<span class='line'> 48</span> 	*/</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 50</span> 
+<span class='line'> 51</span> </span><span class="WHIT">	</span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.clon</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> 
+<span class='line'> 53</span> </span><span class="WHIT">	</span><span class="COMM">// Efects configuration: boolean</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">	</span><span class="NAME">conf.fx</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"fx"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">conf.fx</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">	</span><span class="COMM">// Arrows configuration: true, false or string: "outside" (default), "over" or "none"</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">	</span><span class="NAME">conf.arrows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"arrows"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">conf.arrows</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"outside"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">	</span><span class="COMM">// Pagination configuration</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">	</span><span class="NAME">conf.pagination</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"pagination"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">conf.pagination</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 59</span> 
+<span class='line'> 60</span> </span><span class="WHIT">	</span><span class="NAME">that.conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 61</span> 
+<span class='line'> 62</span> </span><span class="COMM">/**
+<span class='line'> 63</span> *  Inheritance
+<span class='line'> 64</span> */</span><span class="WHIT">
+<span class='line'> 65</span> 
+<span class='line'> 66</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.uiobject.call</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">	</span><span class="NAME">that.parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.clon</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span> 
+<span class='line'> 69</span> </span><span class="COMM">/**
+<span class='line'> 70</span> *  Private Members
+<span class='line'> 71</span> */</span><span class="WHIT">
+<span class='line'> 72</span> 
+<span class='line'> 73</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 74</span> 	* List of items that should be loaded asynchronously on page movement.
+<span class='line'> 75</span> 	* @private
+<span class='line'> 76</span> 	* @name ch.Carousel#queue
+<span class='line'> 77</span> 	* @type Array
+<span class='line'> 78</span> 	*/</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">queue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.asyncData</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 80</span> 
+<span class='line'> 81</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 82</span> 	* Element that moves across component (inside the mask).
+<span class='line'> 83</span> 	* @private
+<span class='line'> 84</span> 	* @name ch.Carousel#$list
+<span class='line'> 85</span> 	* @type jQuery Object
+<span class='line'> 86</span> 	*/</span><span class="WHIT">
+<span class='line'> 87</span> </span><span class="WHIT">		</span><span class="NAME">$list</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.$element.children</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addClass</span><span class="PUNC">(</span><span class="STRN">"ch-carousel-list"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"role"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"list"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">	
+<span class='line'> 89</span> 	</span><span class="COMM">/**
+<span class='line'> 90</span> 	* Collection of each child of the list.
+<span class='line'> 91</span> 	* @private
+<span class='line'> 92</span> 	* @name ch.Carousel#$items
+<span class='line'> 93</span> 	* @type jQuery Object
+<span class='line'> 94</span> 	*/</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">		</span><span class="NAME">$items</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$list.children</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"role"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"listitem"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 96</span> 
+<span class='line'> 97</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 98</span> 	* The width of each item, including paddings, margins and borders. Ideal for make calculations.
+<span class='line'> 99</span> 	* @private
+<span class='line'>100</span> 	* @name ch.Carousel#itemWidth
+<span class='line'>101</span> 	* @type Number
+<span class='line'>102</span> 	*/</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">		</span><span class="NAME">itemWidth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$items.width</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>104</span> 
+<span class='line'>105</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>106</span> 	* The width of each item, without paddings, margins or borders. Ideal for manipulate CSS width property.
+<span class='line'>107</span> 	* @private
+<span class='line'>108</span> 	* @name ch.Carousel#itemOuterWidth
+<span class='line'>109</span> 	* @type Number
+<span class='line'>110</span> 	*/</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">		</span><span class="NAME">itemOuterWidth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$items.outerWidth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>112</span> 
+<span class='line'>113</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>114</span> 	* Size added to each item to make it responsive.
+<span class='line'>115</span> 	* @private
+<span class='line'>116</span> 	* @name ch.Carousel#itemExtraWidth
+<span class='line'>117</span> 	* @type Number
+<span class='line'>118</span> 	*/</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">		</span><span class="NAME">itemExtraWidth</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>120</span> 
+<span class='line'>121</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>122</span> 	* The margin of all items. Updated in each redraw only if it's necessary.
+<span class='line'>123</span> 	* @private
+<span class='line'>124</span> 	* @name ch.Carousel#itemMargin
+<span class='line'>125</span> 	* @type Number
+<span class='line'>126</span> 	*/</span><span class="WHIT">
+<span class='line'>127</span> </span><span class="WHIT">		</span><span class="NAME">itemMargin</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>128</span> 
+<span class='line'>129</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>130</span> 	* Element that denies the list overflow.
+<span class='line'>131</span> 	* @private
+<span class='line'>132</span> 	* @name ch.Carousel#$mask
+<span class='line'>133</span> 	* @type jQuery Object
+<span class='line'>134</span> 	*/</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">		</span><span class="NAME">$mask</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"&lt;div class=\"ch-carousel-mask\" role=\"tabpanel\" style=\"height:"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">$items.outerHeight</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"px\">"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>136</span> 
+<span class='line'>137</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>138</span> 	* Amount of items in only one page. Updated in each redraw.
+<span class='line'>139</span> 	* @private
+<span class='line'>140</span> 	* @name ch.Carousel#itemsPerPage
+<span class='line'>141</span> 	* @type Number
+<span class='line'>142</span> 	*/</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">		</span><span class="NAME">itemsPerPage</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>144</span> 
+<span class='line'>145</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>146</span> 	* Distance needed to move ONLY ONE page. Data updated in each redraw.
+<span class='line'>147</span> 	* @private
+<span class='line'>148</span> 	* @name ch.Carousel#pageWidth
+<span class='line'>149</span> 	* @type Number
+<span class='line'>150</span> 	*/</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">		</span><span class="NAME">pageWidth</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>152</span> 
+<span class='line'>153</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>154</span> 	* Size of the mask. Updated in each redraw.
+<span class='line'>155</span> 	* @private
+<span class='line'>156</span> 	* @name ch.Carousel#maskWidth
+<span class='line'>157</span> 	* @type Number
+<span class='line'>158</span> 	*/</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">		</span><span class="NAME">maskWidth</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>160</span> 
+<span class='line'>161</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>162</span> 	* Total amount of pages. Data updated in each redraw.
+<span class='line'>163</span> 	* @private
+<span class='line'>164</span> 	* @name ch.Carousel#pages
+<span class='line'>165</span> 	* @type Number
+<span class='line'>166</span> 	*/</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">		</span><span class="NAME">pages</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>168</span> 
+<span class='line'>169</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>170</span> 	* Page currently showed.
+<span class='line'>171</span> 	* @private
+<span class='line'>172</span> 	* @name ch.Carousel#currentPage
+<span class='line'>173</span> 	* @type Number
+<span class='line'>174</span> 	*/</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">		</span><span class="NAME">currentPage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>176</span> 
+<span class='line'>177</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>178</span> 	* Interval used to animate the component autamatically.
+<span class='line'>179</span> 	* @private
+<span class='line'>180</span> 	* @name ch.Carousel#timer
+<span class='line'>181</span> 	* @type Object
+<span class='line'>182</span> 	*/</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">		</span><span class="NAME">timer</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>184</span> 
+<span class='line'>185</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>186</span> 	* Calculates and set the size of items and its margin to get an adaptive Carousel.
+<span class='line'>187</span> 	* @private
+<span class='line'>188</span> 	* @name ch.Carousel#updateResponsiveness
+<span class='line'>189</span> 	* @function
+<span class='line'>190</span> 	*/</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">		</span><span class="NAME">updateResponsiveness</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>192</span> 
+<span class='line'>193</span> </span><span class="WHIT">			</span><span class="COMM">// Grabs if there are MORE THAN ONE item in a page or just one</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">moreThanOne</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">itemsPerPage</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>195</span> 
+<span class='line'>196</span> </span><span class="WHIT">			</span><span class="COMM">// Total space to use as margin into mask</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">			</span><span class="COMM">// It's the difference between mask width and total width of all items</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">				</span><span class="NAME">freeSpace</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">maskWidth</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">itemOuterWidth</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">itemsPerPage</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>199</span> 
+<span class='line'>200</span> </span><span class="WHIT">			</span><span class="COMM">// Amount of spaces to distribute the free space</span><span class="WHIT">
+<span class='line'>201</span> </span><span class="WHIT">			</span><span class="COMM">// When there are 6 items on a page, there are 5 spaces between them</span><span class="WHIT">
+<span class='line'>202</span> </span><span class="WHIT">			</span><span class="COMM">// Except when there are only one page that NO exist spaces</span><span class="WHIT">
+<span class='line'>203</span> </span><span class="WHIT">				</span><span class="NAME">spaces</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">moreThanOne</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">itemsPerPage</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>204</span> 
+<span class='line'>205</span> </span><span class="WHIT">			</span><span class="COMM">// Free space for each space between items</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">			</span><span class="COMM">// Ceil to delete float numbers (not Floor, because next page is seen)</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">			</span><span class="COMM">// There is no margin when there are only one item in a page</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">				</span><span class="NAME">margin</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">moreThanOne</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">Math.ceil</span><span class="PUNC">(</span><span class="NAME">freeSpace</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">spaces</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>209</span> 
+<span class='line'>210</span> </span><span class="WHIT">			</span><span class="COMM">// Width to add to each item to get responsivity</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">			</span><span class="COMM">// When there are more than one item, get extra width for each one</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">			</span><span class="COMM">// When there are only one item, extraWidth must be just the freeSpace</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">				</span><span class="NAME">extraWidth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">moreThanOne</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">Math.ceil</span><span class="PUNC">(</span><span class="NAME">freeSpace</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">itemsPerPage</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">Math.ceil</span><span class="PUNC">(</span><span class="NAME">freeSpace</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>214</span> 
+<span class='line'>215</span> </span><span class="WHIT">			</span><span class="COMM">// Update ONLY IF margin changed from last redraw</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">itemExtraWidth</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">extraWidth</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>217</span> 
+<span class='line'>218</span> </span><span class="WHIT">			</span><span class="COMM">// Update global values</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">			</span><span class="NAME">itemMargin</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">margin</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">			</span><span class="NAME">itemExtraWidth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">extraWidth</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>221</span> 
+<span class='line'>222</span> </span><span class="WHIT">			</span><span class="COMM">// Update distance needed to move ONLY ONE page</span><span class="WHIT">
+<span class='line'>223</span> </span><span class="WHIT">			</span><span class="COMM">// The width of all items on a page, plus the width of all margins of items</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="WHIT">			</span><span class="NAME">pageWidth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">itemOuterWidth</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">extraWidth</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">margin</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">itemsPerPage</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>225</span> 
+<span class='line'>226</span> </span><span class="WHIT">			</span><span class="COMM">// Update list width</span><span class="WHIT">
+<span class='line'>227</span> </span><span class="WHIT">			</span><span class="COMM">// Consider one more page to get an error margin</span><span class="WHIT">
+<span class='line'>228</span> </span><span class="WHIT">			</span><span class="NAME">$list.css</span><span class="PUNC">(</span><span class="STRN">"width"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">pageWidth</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">pages</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>229</span> 
+<span class='line'>230</span> </span><span class="WHIT">			</span><span class="COMM">// Update element styles</span><span class="WHIT">
+<span class='line'>231</span> </span><span class="WHIT">			</span><span class="NAME">$items.css</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>232</span> </span><span class="WHIT">				</span><span class="STRN">"width"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">itemWidth</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">extraWidth</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="WHIT">				</span><span class="STRN">"margin-right"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">margin</span><span class="WHIT">
+<span class='line'>234</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>235</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>236</span> 
+<span class='line'>237</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>238</span> 	* Trigger all recalculations to get the functionality measures.
+<span class='line'>239</span> 	* @private
+<span class='line'>240</span> 	* @name ch.Carousel#draw
+<span class='line'>241</span> 	* @function
+<span class='line'>242</span> 	*/</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">		</span><span class="NAME">draw</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>244</span> 
+<span class='line'>245</span> </span><span class="WHIT">			</span><span class="COMM">// Avoid wrong calculations going to first page</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">			</span><span class="NAME">goToPage</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>247</span> 
+<span class='line'>248</span> </span><span class="WHIT">			</span><span class="COMM">// Trigger Draw event as deferred</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">			</span><span class="NAME">that.trigger</span><span class="PUNC">(</span><span class="STRN">"redraw"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>250</span> 
+<span class='line'>251</span> </span><span class="WHIT">			</span><span class="COMM">// Trigger Draw event as configuration</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">			</span><span class="NAME">that.callbacks</span><span class="PUNC">(</span><span class="STRN">"onRedraw"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>253</span> 
+<span class='line'>254</span> </span><span class="WHIT">			</span><span class="COMM">// Update the width of the mask</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="WHIT">			</span><span class="NAME">maskWidth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$mask.outerWidth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>256</span> 
+<span class='line'>257</span> </span><span class="WHIT">			</span><span class="COMM">// Update amount of items into a single page (from conf or auto calculations)</span><span class="WHIT">
+<span class='line'>258</span> </span><span class="WHIT">			</span><span class="NAME">itemsPerPage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>259</span> </span><span class="WHIT">				</span><span class="COMM">// The width of each item into the width of the mask</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">~</span><span class="PUNC">~</span><span class="PUNC">(</span><span class="NAME">maskWidth</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">itemOuterWidth</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>261</span> 
+<span class='line'>262</span> </span><span class="WHIT">				</span><span class="COMM">// Avoid zero items in a page</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>264</span> 
+<span class='line'>265</span> </span><span class="WHIT">				</span><span class="COMM">// Limit amount of items when user set a maxItems amount</span><span class="WHIT">
+<span class='line'>266</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"maxItems"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NAME">conf.maxItems</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>267</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">conf.maxItems</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>268</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>269</span> 
+<span class='line'>270</span> </span><span class="WHIT">				</span><span class="COMM">// Default calculation</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>272</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>273</span> 
+<span class='line'>274</span> </span><span class="WHIT">			</span><span class="COMM">// Update amount of total pages</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">			</span><span class="COMM">// The ratio between total amount of items and items in each page</span><span class="WHIT">
+<span class='line'>276</span> </span><span class="WHIT">			</span><span class="NAME">totalPages</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.ceil</span><span class="PUNC">(</span><span class="PUNC">(</span><span class="NAME">$items.length</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">queue.length</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">itemsPerPage</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>277</span> 
+<span class='line'>278</span> </span><span class="WHIT">			</span><span class="COMM">// Update only if pages amount changed from last redraw</span><span class="WHIT">
+<span class='line'>279</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">pages</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">totalPages</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>280</span> </span><span class="WHIT">				</span><span class="COMM">// Update value</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="WHIT">				</span><span class="NAME">pages</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">totalPages</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>282</span> </span><span class="WHIT">				</span><span class="COMM">// Set WAI-ARIA properties to each item</span><span class="WHIT">
+<span class='line'>283</span> </span><span class="WHIT">				</span><span class="NAME">updateARIA</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>284</span> </span><span class="WHIT">				</span><span class="COMM">// Update arrows (when pages === 1, there is no arrows)</span><span class="WHIT">
+<span class='line'>285</span> </span><span class="WHIT">				</span><span class="NAME">updateArrows</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>286</span> </span><span class="WHIT">				</span><span class="COMM">// Update pagination</span><span class="WHIT">
+<span class='line'>287</span> </span><span class="WHIT">				</span><span class="NAME">updatePagination</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>288</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>289</span> 
+<span class='line'>290</span> </span><span class="WHIT">			</span><span class="COMM">// Update the margin between items and its size</span><span class="WHIT">
+<span class='line'>291</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"width"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>292</span> </span><span class="WHIT">				</span><span class="NAME">updateResponsiveness</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>293</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>294</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>295</span> 
+<span class='line'>296</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>297</span> 	* Defines the sizing behavior of Carousel. It can be elastic and responsive or fixed.
+<span class='line'>298</span> 	* @private
+<span class='line'>299</span> 	* @name ch.Carousel#setWidth
+<span class='line'>300</span> 	* @function
+<span class='line'>301</span> 	*/</span><span class="WHIT">
+<span class='line'>302</span> </span><span class="WHIT">		</span><span class="NAME">setWidth</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>303</span> 
+<span class='line'>304</span> </span><span class="WHIT">			</span><span class="COMM">// Width by configuration</span><span class="WHIT">
+<span class='line'>305</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"width"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>306</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that.$element.css</span><span class="PUNC">(</span><span class="STRN">"width"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">conf.width</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>307</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>308</span> 
+<span class='line'>309</span> </span><span class="WHIT">			</span><span class="COMM">// Elastic width</span><span class="WHIT">
+<span class='line'>310</span> </span><span class="WHIT">			</span><span class="COMM">// Flag to know when resize happens</span><span class="WHIT">
+<span class='line'>311</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">resizing</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>312</span> 
+<span class='line'>313</span> </span><span class="WHIT">			</span><span class="COMM">// Change resize status on Window resize event</span><span class="WHIT">
+<span class='line'>314</span> </span><span class="WHIT">			</span><span class="NAME">ch.utils.window.on</span><span class="PUNC">(</span><span class="STRN">"resize"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">resizing</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>315</span> 
+<span class='line'>316</span> </span><span class="WHIT">			</span><span class="COMM">// Limit resize execution</span><span class="WHIT">
+<span class='line'>317</span> </span><span class="WHIT">			</span><span class="NAME">setInterval</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>318</span> 
+<span class='line'>319</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">resizing</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>320</span> 
+<span class='line'>321</span> </span><span class="WHIT">				</span><span class="NAME">resizing</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>322</span> </span><span class="WHIT">				</span><span class="NAME">draw</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>323</span> 
+<span class='line'>324</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">250</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>325</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>326</span> 
+<span class='line'>327</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>328</span> 	* Makes ready the component structure.
+<span class='line'>329</span> 	* @private
+<span class='line'>330</span> 	* @name ch.Carousel#createLayout
+<span class='line'>331</span> 	* @function
+<span class='line'>332</span> 	*/</span><span class="WHIT">
+<span class='line'>333</span> </span><span class="WHIT">		</span><span class="NAME">createLayout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>334</span> 
+<span class='line'>335</span> </span><span class="WHIT">			</span><span class="COMM">// Defines the sizing behavior of Carousel</span><span class="WHIT">
+<span class='line'>336</span> </span><span class="WHIT">			</span><span class="NAME">setWidth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>337</span> 
+<span class='line'>338</span> </span><span class="WHIT">			</span><span class="COMM">// Set initial width of the list, to make space to all items</span><span class="WHIT">
+<span class='line'>339</span> </span><span class="WHIT">			</span><span class="NAME">$list.css</span><span class="PUNC">(</span><span class="STRN">"width"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">itemOuterWidth</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">$items.length</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">queue.length</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>340</span> 
+<span class='line'>341</span> </span><span class="WHIT">			</span><span class="COMM">// Wrap the list with mask and change overflow to translate that feature to mask</span><span class="WHIT">
+<span class='line'>342</span> </span><span class="WHIT">			</span><span class="NAME">that.$element.wrapInner</span><span class="PUNC">(</span><span class="NAME">$mask</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">css</span><span class="PUNC">(</span><span class="STRN">"overflow"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"hidden"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>343</span> 
+<span class='line'>344</span> </span><span class="WHIT">			</span><span class="COMM">// TODO: Get a better reference to rendered mask</span><span class="WHIT">
+<span class='line'>345</span> </span><span class="WHIT">			</span><span class="NAME">$mask</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.$element.children</span><span class="PUNC">(</span><span class="STRN">".ch-carousel-mask"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>346</span> 
+<span class='line'>347</span> </span><span class="WHIT">			</span><span class="COMM">// If efects aren't needed, avoid transition on list</span><span class="WHIT">
+<span class='line'>348</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">conf.fx</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">$list.addClass</span><span class="PUNC">(</span><span class="STRN">"ch-carousel-nofx"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>349</span> 
+<span class='line'>350</span> </span><span class="WHIT">			</span><span class="COMM">// Position absolutelly the list when CSS transitions aren't supported</span><span class="WHIT">
+<span class='line'>351</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">ch.features.transition</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">$list.css</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"position"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"absolute"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"left"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"0"</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>352</span> 
+<span class='line'>353</span> </span><span class="WHIT">			</span><span class="COMM">// Allow to render the arrows over the mask or not</span><span class="WHIT">
+<span class='line'>354</span> </span><span class="WHIT">			</span><span class="NAME">arrowsFlow</span><span class="PUNC">(</span><span class="NAME">conf.arrows</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>355</span> 
+<span class='line'>356</span> </span><span class="WHIT">			</span><span class="COMM">// Trigger all recalculations to get the functionality measures</span><span class="WHIT">
+<span class='line'>357</span> </span><span class="WHIT">			</span><span class="NAME">draw</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>358</span> 
+<span class='line'>359</span> </span><span class="WHIT">			</span><span class="COMM">// Analizes if next page needs to load items from queue and execute addItems() method</span><span class="WHIT">
+<span class='line'>360</span> </span><span class="WHIT">			</span><span class="NAME">loadAsyncItems</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>361</span> 
+<span class='line'>362</span> </span><span class="WHIT">			</span><span class="COMM">// Set WAI-ARIA properties to each item depending on the page in which these are</span><span class="WHIT">
+<span class='line'>363</span> </span><span class="WHIT">			</span><span class="NAME">updateARIA</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>364</span> 
+<span class='line'>365</span> </span><span class="WHIT">			</span><span class="COMM">// If there are a parameter specifying a pagination, add it</span><span class="WHIT">
+<span class='line'>366</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf.pagination</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">addPagination</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>367</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>368</span> 
+<span class='line'>369</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>370</span> 	* DOM element of arrow that moves the Carousel to the previous page.
+<span class='line'>371</span> 	* @private
+<span class='line'>372</span> 	* @name ch.Carousel#$prevArrow
+<span class='line'>373</span> 	* @type jQuery Object
+<span class='line'>374</span> 	*/</span><span class="WHIT">
+<span class='line'>375</span> </span><span class="WHIT">		</span><span class="NAME">$prevArrow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"&lt;p class=\"ch-carousel-prev ch-carousel-disabled\" role=\"button\" aria-hidden=\"true\">&lt;span>Previous&lt;/span>&lt;/p>"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>376</span> 
+<span class='line'>377</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>378</span> 	* DOM element of arrow that moves the Carousel to the next page.
+<span class='line'>379</span> 	* @private
+<span class='line'>380</span> 	* @name ch.Carousel#$nextArrow
+<span class='line'>381</span> 	* @type jQuery Object
+<span class='line'>382</span> 	*/</span><span class="WHIT">
+<span class='line'>383</span> </span><span class="WHIT">		</span><span class="NAME">$nextArrow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"&lt;p class=\"ch-carousel-next\" role=\"button\" aria-hidden=\"false\">&lt;span>Next&lt;/span>&lt;/p>"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>384</span> 
+<span class='line'>385</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>386</span> 	* Flag to control when arrows were created before.
+<span class='line'>387</span> 	* @private
+<span class='line'>388</span> 	* @name ch.Carousel#arrowsCreated
+<span class='line'>389</span> 	* @type Boolean
+<span class='line'>390</span> 	*/</span><span class="WHIT">
+<span class='line'>391</span> </span><span class="WHIT">		</span><span class="NAME">arrowsCreated</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>392</span> 
+<span class='line'>393</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>394</span> 	* Add arrows to DOM, bind these event and change the flag "arrowsCreated".
+<span class='line'>395</span> 	* @private
+<span class='line'>396</span> 	* @name ch.Carousel#addArrows
+<span class='line'>397</span> 	* @function
+<span class='line'>398</span> 	*/</span><span class="WHIT">
+<span class='line'>399</span> </span><span class="WHIT">		</span><span class="NAME">addArrows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>400</span> 
+<span class='line'>401</span> </span><span class="WHIT">			</span><span class="COMM">// Check arrows existency</span><span class="WHIT">
+<span class='line'>402</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">arrowsCreated</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>403</span> 
+<span class='line'>404</span> </span><span class="WHIT">			</span><span class="COMM">// Add arrows to DOM and bind events</span><span class="WHIT">
+<span class='line'>405</span> </span><span class="WHIT">			</span><span class="COMM">// TODO: Bind only once when arrows are created</span><span class="WHIT">
+<span class='line'>406</span> </span><span class="WHIT">			</span><span class="NAME">$prevArrow.prependTo</span><span class="PUNC">(</span><span class="NAME">that.$element</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">on</span><span class="PUNC">(</span><span class="STRN">"click"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">that.prev</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>407</span> </span><span class="WHIT">			</span><span class="NAME">$nextArrow.appendTo</span><span class="PUNC">(</span><span class="NAME">that.$element</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">on</span><span class="PUNC">(</span><span class="STRN">"click"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">that.next</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>408</span> 
+<span class='line'>409</span> </span><span class="WHIT">			</span><span class="COMM">// Positions arrows vertically in middle of Carousel</span><span class="WHIT">
+<span class='line'>410</span> </span><span class="WHIT">			</span><span class="NAME">$prevArrow</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">style.top</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$nextArrow</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">style.top</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">that.$element.height</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">$prevArrow.height</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"px"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>411</span> 
+<span class='line'>412</span> </span><span class="WHIT">			</span><span class="COMM">// Avoid selection on the arrows</span><span class="WHIT">
+<span class='line'>413</span> </span><span class="WHIT">			</span><span class="NAME">ch.utils.avoidTextSelection</span><span class="PUNC">(</span><span class="NAME">$prevArrow</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">$nextArrow</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>414</span> 
+<span class='line'>415</span> </span><span class="WHIT">			</span><span class="COMM">// Check arrows as created</span><span class="WHIT">
+<span class='line'>416</span> </span><span class="WHIT">			</span><span class="NAME">arrowsCreated</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>417</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>418</span> 
+<span class='line'>419</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>420</span> 	* Delete arrows from DOM, unbind these event and change the flag "arrowsCreated".
+<span class='line'>421</span> 	* @private
+<span class='line'>422</span> 	* @name ch.Carousel#removeArrows
+<span class='line'>423</span> 	* @function
+<span class='line'>424</span> 	*/</span><span class="WHIT">
+<span class='line'>425</span> </span><span class="WHIT">		</span><span class="NAME">removeArrows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>426</span> 
+<span class='line'>427</span> </span><span class="WHIT">			</span><span class="COMM">// Check arrows existency</span><span class="WHIT">
+<span class='line'>428</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">arrowsCreated</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>429</span> 
+<span class='line'>430</span> </span><span class="WHIT">			</span><span class="COMM">// Delete arrows only from DOM and keep in variables and unbind events too</span><span class="WHIT">
+<span class='line'>431</span> </span><span class="WHIT">			</span><span class="COMM">// TODO: Bind only once when arrows are created</span><span class="WHIT">
+<span class='line'>432</span> </span><span class="WHIT">			</span><span class="NAME">$prevArrow.off</span><span class="PUNC">(</span><span class="STRN">"click"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">that.prev</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">detach</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>433</span> </span><span class="WHIT">			</span><span class="NAME">$nextArrow.off</span><span class="PUNC">(</span><span class="STRN">"click"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">that.next</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">detach</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>434</span> 
+<span class='line'>435</span> </span><span class="WHIT">			</span><span class="COMM">// Check arrows as deleted</span><span class="WHIT">
+<span class='line'>436</span> </span><span class="WHIT">			</span><span class="NAME">arrowsCreated</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>437</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>438</span> 
+<span class='line'>439</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>440</span> 	* Check for arrows behavior on first, last and middle pages, and update class name and ARIA values.
+<span class='line'>441</span> 	* @private
+<span class='line'>442</span> 	* @name ch.Carousel#updateArrows
+<span class='line'>443</span> 	* @function
+<span class='line'>444</span> 	*/</span><span class="WHIT">
+<span class='line'>445</span> </span><span class="WHIT">		</span><span class="NAME">updateArrows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>446</span> 
+<span class='line'>447</span> </span><span class="WHIT">			</span><span class="COMM">// Check arrows existency</span><span class="WHIT">
+<span class='line'>448</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">arrowsCreated</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>449</span> 
+<span class='line'>450</span> </span><span class="WHIT">			</span><span class="COMM">// Case 1: Disable both arrows if there are ony one page</span><span class="WHIT">
+<span class='line'>451</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">pages</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>452</span> </span><span class="WHIT">				</span><span class="NAME">$prevArrow.attr</span><span class="PUNC">(</span><span class="STRN">"aria-hidden"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"true"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addClass</span><span class="PUNC">(</span><span class="STRN">"ch-carousel-disabled"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>453</span> </span><span class="WHIT">				</span><span class="NAME">$nextArrow.attr</span><span class="PUNC">(</span><span class="STRN">"aria-hidden"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"true"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addClass</span><span class="PUNC">(</span><span class="STRN">"ch-carousel-disabled"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>454</span> </span><span class="WHIT">			</span><span class="COMM">// Case 2: "Previous" arrow hidden on first page</span><span class="WHIT">
+<span class='line'>455</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">currentPage</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>456</span> </span><span class="WHIT">				</span><span class="NAME">$prevArrow.attr</span><span class="PUNC">(</span><span class="STRN">"aria-hidden"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"true"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addClass</span><span class="PUNC">(</span><span class="STRN">"ch-carousel-disabled"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>457</span> </span><span class="WHIT">				</span><span class="NAME">$nextArrow.attr</span><span class="PUNC">(</span><span class="STRN">"aria-hidden"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"false"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">removeClass</span><span class="PUNC">(</span><span class="STRN">"ch-carousel-disabled"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>458</span> </span><span class="WHIT">			</span><span class="COMM">// Case 3: "Next" arrow hidden on last page</span><span class="WHIT">
+<span class='line'>459</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">currentPage</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">pages</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>460</span> </span><span class="WHIT">				</span><span class="NAME">$prevArrow.attr</span><span class="PUNC">(</span><span class="STRN">"aria-hidden"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"false"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">removeClass</span><span class="PUNC">(</span><span class="STRN">"ch-carousel-disabled"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>461</span> </span><span class="WHIT">				</span><span class="NAME">$nextArrow.attr</span><span class="PUNC">(</span><span class="STRN">"aria-hidden"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"true"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addClass</span><span class="PUNC">(</span><span class="STRN">"ch-carousel-disabled"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>462</span> </span><span class="WHIT">			</span><span class="COMM">// Case 4: Enable both arrows on Carousel's middle</span><span class="WHIT">
+<span class='line'>463</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>464</span> </span><span class="WHIT">				</span><span class="NAME">$prevArrow.attr</span><span class="PUNC">(</span><span class="STRN">"aria-hidden"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"false"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">removeClass</span><span class="PUNC">(</span><span class="STRN">"ch-carousel-disabled"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>465</span> </span><span class="WHIT">				</span><span class="NAME">$nextArrow.attr</span><span class="PUNC">(</span><span class="STRN">"aria-hidden"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"false"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">removeClass</span><span class="PUNC">(</span><span class="STRN">"ch-carousel-disabled"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>466</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>467</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>468</span> 
+<span class='line'>469</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>470</span> 	* Allows to render the arrows over the mask or not.
+<span class='line'>471</span> 	* @private
+<span class='line'>472</span> 	* @name ch.Carousel#arrowsFlow
+<span class='line'>473</span> 	* @function
+<span class='line'>474</span> 	* @param {String || Boolean} config Defines the arrows behavior. It can be "outside", "over", "none", true or false. By default it's "outside".
+<span class='line'>475</span> 	*/</span><span class="WHIT">
+<span class='line'>476</span> </span><span class="WHIT">		</span><span class="NAME">arrowsFlow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">config</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>477</span> 
+<span class='line'>478</span> </span><span class="WHIT">			</span><span class="COMM">// Getter</span><span class="WHIT">
+<span class='line'>479</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">config</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">conf.arrows</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>480</span> 
+<span class='line'>481</span> </span><span class="WHIT">			</span><span class="COMM">// Setter</span><span class="WHIT">
+<span class='line'>482</span> </span><span class="WHIT">			</span><span class="KEYW">switch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf.arrows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">config</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>483</span> </span><span class="WHIT">			</span><span class="COMM">// The arrows are on the sides of the mask</span><span class="WHIT">
+<span class='line'>484</span> </span><span class="WHIT">			</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"outside"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>485</span> </span><span class="WHIT">			</span><span class="KEYW">default</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>486</span> </span><span class="WHIT">				</span><span class="COMM">// Add the adaptive class to mask</span><span class="WHIT">
+<span class='line'>487</span> </span><span class="WHIT">				</span><span class="NAME">$mask.addClass</span><span class="PUNC">(</span><span class="STRN">"ch-carousel-adaptive"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>488</span> </span><span class="WHIT">				</span><span class="COMM">// Append arrows if previously were deleted</span><span class="WHIT">
+<span class='line'>489</span> </span><span class="WHIT">				</span><span class="NAME">addArrows</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>490</span> </span><span class="WHIT">				</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>491</span> 
+<span class='line'>492</span> </span><span class="WHIT">			</span><span class="COMM">// The arrows are over the mask</span><span class="WHIT">
+<span class='line'>493</span> </span><span class="WHIT">			</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"over"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>494</span> </span><span class="WHIT">			</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>495</span> </span><span class="WHIT">				</span><span class="COMM">// Remove the adaptive class to mask</span><span class="WHIT">
+<span class='line'>496</span> </span><span class="WHIT">				</span><span class="NAME">$mask.removeClass</span><span class="PUNC">(</span><span class="STRN">"ch-carousel-adaptive"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>497</span> </span><span class="WHIT">				</span><span class="COMM">// Append arrows if previously were deleted</span><span class="WHIT">
+<span class='line'>498</span> </span><span class="WHIT">				</span><span class="NAME">addArrows</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>499</span> </span><span class="WHIT">				</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>500</span> 
+<span class='line'>501</span> </span><span class="WHIT">			</span><span class="COMM">// No arrows</span><span class="WHIT">
+<span class='line'>502</span> </span><span class="WHIT">			</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"none"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>503</span> </span><span class="WHIT">			</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>504</span> </span><span class="WHIT">				</span><span class="COMM">// Remove the adaptive class to mask</span><span class="WHIT">
+<span class='line'>505</span> </span><span class="WHIT">				</span><span class="NAME">$mask.removeClass</span><span class="PUNC">(</span><span class="STRN">"ch-carousel-adaptive"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>506</span> </span><span class="WHIT">				</span><span class="COMM">// Detach arrows from DOM and continue to remove adaptive class</span><span class="WHIT">
+<span class='line'>507</span> </span><span class="WHIT">				</span><span class="NAME">removeArrows</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>508</span> </span><span class="WHIT">				</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>509</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>510</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>511</span> 
+<span class='line'>512</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>513</span> 	* HTML Element that contains all thumbnails for pagination.
+<span class='line'>514</span> 	* @private
+<span class='line'>515</span> 	* @name ch.Carousel#$pagination
+<span class='line'>516</span> 	* @jQuery Object
+<span class='line'>517</span> 	*/</span><span class="WHIT">	
+<span class='line'>518</span> 		</span><span class="NAME">$pagination</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"&lt;p class=\"ch-carousel-pages\" role=\"tablist\">"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">on</span><span class="PUNC">(</span><span class="STRN">"click"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>519</span> </span><span class="WHIT">			</span><span class="NAME">goToPage</span><span class="PUNC">(</span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">event.target</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"data-page"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>520</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>521</span> 
+<span class='line'>522</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>523</span> 	* Flag to control if pagination was created before.
+<span class='line'>524</span> 	* @private
+<span class='line'>525</span> 	* @name ch.Carousel#paginationCreated
+<span class='line'>526</span> 	* @type Boolean
+<span class='line'>527</span> 	*/</span><span class="WHIT">
+<span class='line'>528</span> </span><span class="WHIT">		</span><span class="NAME">paginationCreated</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>529</span> 
+<span class='line'>530</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>531</span> 	* Updates the selected page on pagination.
+<span class='line'>532</span> 	* @private
+<span class='line'>533</span> 	* @name ch.Carousel#switchPagination
+<span class='line'>534</span> 	* @function
+<span class='line'>535</span> 	* @param {Number} from Page previously selected. It will be unselected.
+<span class='line'>536</span> 	* @param {Number} to Page to be selected.
+<span class='line'>537</span> 	*/</span><span class="WHIT">
+<span class='line'>538</span> </span><span class="WHIT">		</span><span class="NAME">switchPagination</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">from</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">to</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>539</span> 
+<span class='line'>540</span> </span><span class="WHIT">			</span><span class="COMM">// Avoid to change something that not exists</span><span class="WHIT">
+<span class='line'>541</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">paginationCreated</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>542</span> 
+<span class='line'>543</span> </span><span class="WHIT">			</span><span class="COMM">// Get all thumbnails of pagination element</span><span class="WHIT">
+<span class='line'>544</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">children</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$pagination.children</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>545</span> 
+<span class='line'>546</span> </span><span class="WHIT">			</span><span class="COMM">// Unselect the thumbnail previously selected</span><span class="WHIT">
+<span class='line'>547</span> </span><span class="WHIT">			</span><span class="NAME">children.eq</span><span class="PUNC">(</span><span class="NAME">from</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"aria-selected"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"false"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">removeClass</span><span class="PUNC">(</span><span class="STRN">"ch-carousel-selected"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>548</span> 
+<span class='line'>549</span> </span><span class="WHIT">			</span><span class="COMM">// Select the new thumbnail</span><span class="WHIT">
+<span class='line'>550</span> </span><span class="WHIT">			</span><span class="NAME">children.eq</span><span class="PUNC">(</span><span class="NAME">to</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"aria-selected"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"true"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addClass</span><span class="PUNC">(</span><span class="STRN">"ch-carousel-selected"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>551</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>552</span> 
+<span class='line'>553</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>554</span> 	* Executed when total amount of pages change, this redraw the thumbnails.
+<span class='line'>555</span> 	* @private
+<span class='line'>556</span> 	* @name ch.Carousel#updatePagination
+<span class='line'>557</span> 	* @function
+<span class='line'>558</span> 	*/</span><span class="WHIT">
+<span class='line'>559</span> </span><span class="WHIT">		</span><span class="NAME">updatePagination</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>560</span> 
+<span class='line'>561</span> </span><span class="WHIT">			</span><span class="COMM">// Avoid to change something that not exists</span><span class="WHIT">
+<span class='line'>562</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">paginationCreated</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>563</span> 
+<span class='line'>564</span> </span><span class="WHIT">			</span><span class="COMM">// Delete thumbnails</span><span class="WHIT">
+<span class='line'>565</span> </span><span class="WHIT">			</span><span class="NAME">removePagination</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>566</span> 
+<span class='line'>567</span> </span><span class="WHIT">			</span><span class="COMM">// Generate thumbnails</span><span class="WHIT">
+<span class='line'>568</span> </span><span class="WHIT">			</span><span class="NAME">addPagination</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>569</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>570</span> 
+<span class='line'>571</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>572</span> 	* Create the pagination on DOM and change the flag "paginationCreated".
+<span class='line'>573</span> 	* @private
+<span class='line'>574</span> 	* @name ch.Carousel#addPagination
+<span class='line'>575</span> 	* @function
+<span class='line'>576</span> 	*/</span><span class="WHIT">
+<span class='line'>577</span> </span><span class="WHIT">		</span><span class="NAME">addPagination</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>578</span> 
+<span class='line'>579</span> </span><span class="WHIT">			</span><span class="COMM">// Collection of thumbnails strings</span><span class="WHIT">
+<span class='line'>580</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">thumbs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>581</span> 
+<span class='line'>582</span> </span><span class="WHIT">			</span><span class="COMM">// Generate a thumbnail for each page on Carousel</span><span class="WHIT">
+<span class='line'>583</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">j</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">pages</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">j</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>584</span> 
+<span class='line'>585</span> </span><span class="WHIT">				</span><span class="COMM">// Determine if this thumbnail is selected or not</span><span class="WHIT">
+<span class='line'>586</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">isCurrentPage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">currentPage</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>587</span> 
+<span class='line'>588</span> </span><span class="WHIT">				</span><span class="COMM">// Add string to collection</span><span class="WHIT">
+<span class='line'>589</span> </span><span class="WHIT">				</span><span class="NAME">thumbs.push</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>590</span> </span><span class="WHIT">					</span><span class="COMM">// Tag opening with ARIA role</span><span class="WHIT">
+<span class='line'>591</span> </span><span class="WHIT">					</span><span class="STRN">"&lt;span role=\"tab\""</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>592</span> </span><span class="WHIT">					</span><span class="COMM">// Selection depends on current page</span><span class="WHIT">
+<span class='line'>593</span> </span><span class="WHIT">					</span><span class="STRN">" aria-selected=\""</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">isCurrentPage</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"\""</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>594</span> </span><span class="WHIT">					</span><span class="COMM">// WAI-ARIA reference to page that this thumbnail controls</span><span class="WHIT">
+<span class='line'>595</span> </span><span class="WHIT">					</span><span class="STRN">" aria-controls=\"page"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"\""</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>596</span> </span><span class="WHIT">					</span><span class="COMM">// JS reference to page that this thumbnail controls</span><span class="WHIT">
+<span class='line'>597</span> </span><span class="WHIT">					</span><span class="STRN">" data-page=\""</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"\""</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>598</span> </span><span class="WHIT">					</span><span class="COMM">// Class name to indicate when this thumbnail is selected or not</span><span class="WHIT">
+<span class='line'>599</span> </span><span class="WHIT">					</span><span class="STRN">" class=\""</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">isCurrentPage</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"ch-carousel-selected"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"\""</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>600</span> </span><span class="WHIT">					</span><span class="COMM">// Friendly content and tag close</span><span class="WHIT">
+<span class='line'>601</span> </span><span class="WHIT">					</span><span class="STRN">">Page "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"&lt;/span>"</span><span class="WHIT">
+<span class='line'>602</span> </span><span class="WHIT">				</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>603</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>604</span> 
+<span class='line'>605</span> </span><span class="WHIT">			</span><span class="COMM">// Append thumbnails to pagination and append this to Carousel</span><span class="WHIT">
+<span class='line'>606</span> </span><span class="WHIT">			</span><span class="NAME">$pagination.html</span><span class="PUNC">(</span><span class="NAME">thumbs.join</span><span class="PUNC">(</span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">appendTo</span><span class="PUNC">(</span><span class="NAME">that.$element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>607</span> 
+<span class='line'>608</span> </span><span class="WHIT">			</span><span class="COMM">// Avoid selection on the pagination</span><span class="WHIT">
+<span class='line'>609</span> </span><span class="WHIT">			</span><span class="NAME">ch.utils.avoidTextSelection</span><span class="PUNC">(</span><span class="NAME">$pagination</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>610</span> 
+<span class='line'>611</span> </span><span class="WHIT">			</span><span class="COMM">// Check pagination as created</span><span class="WHIT">
+<span class='line'>612</span> </span><span class="WHIT">			</span><span class="NAME">paginationCreated</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>613</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>614</span> </span><span class="WHIT">	
+<span class='line'>615</span> 	</span><span class="COMM">/**
+<span class='line'>616</span> 	* Delete pagination from DOM and change the flag "paginationCreated".
+<span class='line'>617</span> 	* @private
+<span class='line'>618</span> 	* @name ch.Carousel#removePagination
+<span class='line'>619</span> 	* @function
+<span class='line'>620</span> 	*/</span><span class="WHIT">
+<span class='line'>621</span> </span><span class="WHIT">		</span><span class="NAME">removePagination</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>622</span> 
+<span class='line'>623</span> </span><span class="WHIT">			</span><span class="COMM">// Avoid to change something that not exists</span><span class="WHIT">
+<span class='line'>624</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">paginationCreated</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>625</span> 
+<span class='line'>626</span> </span><span class="WHIT">			</span><span class="COMM">// Delete thumbnails</span><span class="WHIT">
+<span class='line'>627</span> </span><span class="WHIT">			</span><span class="NAME">$pagination</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">innerHTML</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>628</span> 
+<span class='line'>629</span> </span><span class="WHIT">			</span><span class="COMM">// Check pagination as deleted</span><span class="WHIT">
+<span class='line'>630</span> </span><span class="WHIT">			</span><span class="NAME">paginationCreated</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>631</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>632</span> 
+<span class='line'>633</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>634</span> 	* Set WAI-ARIA properties to each item depending on the page in which these are.
+<span class='line'>635</span> 	* @private
+<span class='line'>636</span> 	* @name ch.Carousel#updateARIA
+<span class='line'>637</span> 	* @function
+<span class='line'>638</span> 	*/</span><span class="WHIT">
+<span class='line'>639</span> </span><span class="WHIT">		</span><span class="NAME">updateARIA</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>640</span> 
+<span class='line'>641</span> </span><span class="WHIT">			</span><span class="COMM">// Amount of items when ARIA is updated</span><span class="WHIT">
+<span class='line'>642</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">total</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$items.length</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">queue.length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>643</span> 
+<span class='line'>644</span> </span><span class="WHIT">			</span><span class="COMM">// Update ARIA properties on all items</span><span class="WHIT">
+<span class='line'>645</span> </span><span class="WHIT">			</span><span class="NAME">$items.each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">item</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>646</span> 
+<span class='line'>647</span> </span><span class="WHIT">				</span><span class="COMM">// Update page where this item is in</span><span class="WHIT">
+<span class='line'>648</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">page</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getPage</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>649</span> 
+<span class='line'>650</span> </span><span class="WHIT">				</span><span class="COMM">// Update ARIA attributes</span><span class="WHIT">
+<span class='line'>651</span> </span><span class="WHIT">				</span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">item</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>652</span> </span><span class="WHIT">					</span><span class="STRN">"aria-hidden"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">page</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">currentPage</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>653</span> </span><span class="WHIT">					</span><span class="STRN">"aria-setsize"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">total</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>654</span> </span><span class="WHIT">					</span><span class="STRN">"aria-posinset"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>655</span> </span><span class="WHIT">					</span><span class="STRN">"aria-label"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"page"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">page</span><span class="WHIT">
+<span class='line'>656</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>657</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>658</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>659</span> 
+<span class='line'>660</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>661</span> 	* Calculates the page corresponding to a specific item.
+<span class='line'>662</span> 	* @private
+<span class='line'>663</span> 	* @name ch.Carousel#getPage
+<span class='line'>664</span> 	* @function
+<span class='line'>665</span> 	* @param {Number} item Order of item from which calculate the page. Starts in 0.
+<span class='line'>666</span> 	*/</span><span class="WHIT">
+<span class='line'>667</span> </span><span class="WHIT">		</span><span class="NAME">getPage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">item</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>668</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">~</span><span class="PUNC">~</span><span class="PUNC">(</span><span class="NAME">item</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NAME">itemsPerPage</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>669</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>670</span> 
+<span class='line'>671</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>672</span> 	* Moves the list corresponding to specified displacement.
+<span class='line'>673</span> 	* @private
+<span class='line'>674</span> 	* @name ch.Carousel#translate
+<span class='line'>675</span> 	* @function
+<span class='line'>676</span> 	* @param {Number} displacement Distance to move the list.
+<span class='line'>677</span> 	*/</span><span class="WHIT">
+<span class='line'>678</span> </span><span class="WHIT">		</span><span class="NAME">translate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>679</span> 
+<span class='line'>680</span> </span><span class="WHIT">			</span><span class="COMM">// CSS property written as string to use on CSS movement</span><span class="WHIT">
+<span class='line'>681</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">transform</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"-"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">ch.utils.VENDOR_PREFIX</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"-transform"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>682</span> 
+<span class='line'>683</span> </span><span class="WHIT">			</span><span class="COMM">// Translate list using CSS translate transform</span><span class="WHIT">
+<span class='line'>684</span> </span><span class="WHIT">			</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">CSSMove</span><span class="PUNC">(</span><span class="NAME">displacement</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>685</span> </span><span class="WHIT">				</span><span class="NAME">$list.css</span><span class="PUNC">(</span><span class="NAME">transform</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"translateX("</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">displacement</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"px)"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>686</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>687</span> 
+<span class='line'>688</span> </span><span class="WHIT">			</span><span class="COMM">// Translate using jQuery animation</span><span class="WHIT">
+<span class='line'>689</span> </span><span class="WHIT">			</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">jQueryMove</span><span class="PUNC">(</span><span class="NAME">displacement</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>690</span> </span><span class="WHIT">				</span><span class="NAME">$list.animate</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="STRN">"left"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">displacement</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>691</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>692</span> 
+<span class='line'>693</span> </span><span class="WHIT">			</span><span class="COMM">// Translate without efects</span><span class="WHIT">
+<span class='line'>694</span> </span><span class="WHIT">			</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">directMove</span><span class="PUNC">(</span><span class="NAME">displacement</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>695</span> </span><span class="WHIT">				</span><span class="NAME">$list.css</span><span class="PUNC">(</span><span class="STRN">"left"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">displacement</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>696</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>697</span> 
+<span class='line'>698</span> </span><span class="WHIT">			</span><span class="COMM">// Use CSS transition with JS animate to move as fallback</span><span class="WHIT">
+<span class='line'>699</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ch.features.transition</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">CSSMove</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf.fx</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">jQueryMove</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">directMove</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>700</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>701</span> 
+<span class='line'>702</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>703</span> 	* Updates all necessary data to move to a specified page.
+<span class='line'>704</span> 	* @private
+<span class='line'>705</span> 	* @name ch.Carousel#goToPage
+<span class='line'>706</span> 	* @function
+<span class='line'>707</span> 	* @param {Number || String} page Reference of page to go. It can be specified as number or "first" or "last" string.
+<span class='line'>708</span> 	*/</span><span class="WHIT">
+<span class='line'>709</span> </span><span class="WHIT">		</span><span class="NAME">goToPage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">page</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>710</span> 
+<span class='line'>711</span> </span><span class="WHIT">			</span><span class="COMM">// Page getter</span><span class="WHIT">
+<span class='line'>712</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">page</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">currentPage</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>713</span> 
+<span class='line'>714</span> </span><span class="WHIT">			</span><span class="COMM">// Page setter</span><span class="WHIT">
+<span class='line'>715</span> </span><span class="WHIT">			</span><span class="COMM">// Change to number the text pages ("first" and "last")</span><span class="WHIT">
+<span class='line'>716</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">page</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"first"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">page</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>717</span> </span><span class="WHIT">			</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">page</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"last"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">page</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">pages</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>718</span> 
+<span class='line'>719</span> </span><span class="WHIT">			</span><span class="COMM">// Avoid strings from here</span><span class="WHIT">
+<span class='line'>720</span> </span><span class="WHIT">			</span><span class="NAME">page</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">page</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>721</span> 
+<span class='line'>722</span> </span><span class="WHIT">			</span><span class="COMM">// Avoid to select:</span><span class="WHIT">
+<span class='line'>723</span> </span><span class="WHIT">			</span><span class="COMM">// - The same page that is selected yet</span><span class="WHIT">
+<span class='line'>724</span> </span><span class="WHIT">			</span><span class="COMM">// - A page less than 1</span><span class="WHIT">
+<span class='line'>725</span> </span><span class="WHIT">			</span><span class="COMM">// - A page greater than total amount of pages</span><span class="WHIT">
+<span class='line'>726</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">page</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">currentPage</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">page</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">page</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NAME">pages</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>727</span> 
+<span class='line'>728</span> </span><span class="WHIT">			</span><span class="COMM">// Perform these tasks in the following order:</span><span class="WHIT">
+<span class='line'>729</span> </span><span class="WHIT">			</span><span class="COMM">// Task 1: Move the list!!!</span><span class="WHIT">
+<span class='line'>730</span> </span><span class="WHIT">			</span><span class="COMM">// Position from 0 (zero), to page to move (page number beginning in zero)</span><span class="WHIT">
+<span class='line'>731</span> </span><span class="WHIT">			</span><span class="NAME">translate</span><span class="PUNC">(</span><span class="PUNC">-</span><span class="NAME">pageWidth</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">page</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>732</span> 
+<span class='line'>733</span> </span><span class="WHIT">			</span><span class="COMM">// Task 2: Update selected thumbnail on pagination</span><span class="WHIT">
+<span class='line'>734</span> </span><span class="WHIT">			</span><span class="NAME">switchPagination</span><span class="PUNC">(</span><span class="NAME">currentPage</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">page</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>735</span> 
+<span class='line'>736</span> </span><span class="WHIT">			</span><span class="COMM">// Task 3: Update value of current page</span><span class="WHIT">
+<span class='line'>737</span> </span><span class="WHIT">			</span><span class="NAME">currentPage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">page</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>738</span> 
+<span class='line'>739</span> </span><span class="WHIT">			</span><span class="COMM">// Task 4: Check for arrows behavior on first, last and middle pages</span><span class="WHIT">
+<span class='line'>740</span> </span><span class="WHIT">			</span><span class="NAME">updateArrows</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>741</span> 
+<span class='line'>742</span> </span><span class="WHIT">			</span><span class="COMM">// Task 5: Get items from queue to the list, if it's necessary</span><span class="WHIT">
+<span class='line'>743</span> </span><span class="WHIT">			</span><span class="NAME">loadAsyncItems</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>744</span> 
+<span class='line'>745</span> </span><span class="WHIT">			</span><span class="COMM">// Task 6: Set WAI-ARIA properties to each item</span><span class="WHIT">
+<span class='line'>746</span> </span><span class="WHIT">			</span><span class="NAME">updateARIA</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>747</span> 
+<span class='line'>748</span> </span><span class="WHIT">			</span><span class="COMM">// Trigger Select event as configuration</span><span class="WHIT">
+<span class='line'>749</span> </span><span class="WHIT">			</span><span class="NAME">that.trigger</span><span class="PUNC">(</span><span class="STRN">"select"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>750</span> 
+<span class='line'>751</span> </span><span class="WHIT">			</span><span class="COMM">// Trigger Select event as deferred</span><span class="WHIT">
+<span class='line'>752</span> </span><span class="WHIT">			</span><span class="NAME">that.callbacks</span><span class="PUNC">(</span><span class="STRN">"onSelect"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>753</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>754</span> 
+<span class='line'>755</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>756</span> 	* Move items from queue to collection.
+<span class='line'>757</span> 	* @private
+<span class='line'>758</span> 	* @name ch.Carousel#addItems
+<span class='line'>759</span> 	* @function
+<span class='line'>760</span> 	* @param {Number} amount Amount of items that will be added.
+<span class='line'>761</span> 	*/</span><span class="WHIT">
+<span class='line'>762</span> </span><span class="WHIT">		</span><span class="NAME">addItems</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">amount</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>763</span> 
+<span class='line'>764</span> </span><span class="WHIT">			</span><span class="COMM">// Take the sample from queue</span><span class="WHIT">
+<span class='line'>765</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sample</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">queue.splice</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">amount</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>766</span> 
+<span class='line'>767</span> </span><span class="WHIT">			</span><span class="COMM">// Replace sample items with Carousel item template)</span><span class="WHIT">
+<span class='line'>768</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">amount</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>769</span> </span><span class="WHIT">				</span><span class="COMM">// Replace sample item</span><span class="WHIT">
+<span class='line'>770</span> </span><span class="WHIT">				</span><span class="NAME">sample</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="WHIT">
+<span class='line'>771</span> </span><span class="WHIT">					</span><span class="COMM">// Open tag with ARIA role</span><span class="WHIT">
+<span class='line'>772</span> </span><span class="WHIT">					</span><span class="STRN">"&lt;li role=\"listitem\""</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>773</span> </span><span class="WHIT">					</span><span class="COMM">// Add the same margin than all siblings items</span><span class="WHIT">
+<span class='line'>774</span> </span><span class="WHIT">					</span><span class="STRN">" style=\"width: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">itemWidth</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">itemExtraWidth</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"px; margin-right: "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">itemMargin</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"px\""</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>775</span> </span><span class="WHIT">					</span><span class="COMM">// Add content (executing a template, if user specify it) and close the tag</span><span class="WHIT">
+<span class='line'>776</span> </span><span class="WHIT">					</span><span class="STRN">">"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf.asyncRender</span><span class="PUNC">(</span><span class="NAME">sample</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">sample</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"&lt;/li>"</span><span class="WHIT">
+<span class='line'>777</span> </span><span class="WHIT">				</span><span class="COMM">// Get it as string</span><span class="WHIT">
+<span class='line'>778</span> </span><span class="WHIT">				</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">join</span><span class="PUNC">(</span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>779</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>780</span> 
+<span class='line'>781</span> </span><span class="WHIT">			</span><span class="COMM">// Add sample items to the list</span><span class="WHIT">
+<span class='line'>782</span> </span><span class="WHIT">			</span><span class="NAME">$list.append</span><span class="PUNC">(</span><span class="NAME">sample.join</span><span class="PUNC">(</span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>783</span> 
+<span class='line'>784</span> </span><span class="WHIT">			</span><span class="COMM">// Update items collection</span><span class="WHIT">
+<span class='line'>785</span> </span><span class="WHIT">			</span><span class="NAME">$items</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$list.children</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>786</span> 
+<span class='line'>787</span> </span><span class="WHIT">			</span><span class="COMM">// Trigger item addition event as deferred</span><span class="WHIT">
+<span class='line'>788</span> </span><span class="WHIT">			</span><span class="NAME">that.trigger</span><span class="PUNC">(</span><span class="STRN">"itemsAdded"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>789</span> 
+<span class='line'>790</span> </span><span class="WHIT">			</span><span class="COMM">// Trigger item addition event as configuration</span><span class="WHIT">
+<span class='line'>791</span> </span><span class="WHIT">			</span><span class="NAME">that.callbacks</span><span class="PUNC">(</span><span class="STRN">"onItemsAdded"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>792</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>793</span> 
+<span class='line'>794</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>795</span> 	* Analizes if next page needs to load items from queue and execute addItems() method.
+<span class='line'>796</span> 	* @private
+<span class='line'>797</span> 	* @name ch.Carousel#loadAsyncItems
+<span class='line'>798</span> 	* @function
+<span class='line'>799</span> 	*/</span><span class="WHIT">
+<span class='line'>800</span> </span><span class="WHIT">		</span><span class="NAME">loadAsyncItems</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>801</span> 
+<span class='line'>802</span> </span><span class="WHIT">			</span><span class="COMM">// Load only when there are items in queue</span><span class="WHIT">
+<span class='line'>803</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">queue.length</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>804</span> 
+<span class='line'>805</span> </span><span class="WHIT">			</span><span class="COMM">// Amount of items from the beginning to current page</span><span class="WHIT">
+<span class='line'>806</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">total</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">currentPage</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">itemsPerPage</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>807</span> 
+<span class='line'>808</span> </span><span class="WHIT">			</span><span class="COMM">// How many items needs to add to items rendered to complete to this page</span><span class="WHIT">
+<span class='line'>809</span> </span><span class="WHIT">				</span><span class="NAME">amount</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">total</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">$items.length</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>810</span> 
+<span class='line'>811</span> </span><span class="WHIT">			</span><span class="COMM">// Load only when there are items to add</span><span class="WHIT">
+<span class='line'>812</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">amount</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>813</span> 
+<span class='line'>814</span> </span><span class="WHIT">			</span><span class="COMM">// If next page needs less items than it support, then add that amount</span><span class="WHIT">
+<span class='line'>815</span> </span><span class="WHIT">			</span><span class="NAME">amount</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">queue.length</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">amount</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">queue.length</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">amount</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>816</span> 
+<span class='line'>817</span> </span><span class="WHIT">			</span><span class="COMM">// Add these</span><span class="WHIT">
+<span class='line'>818</span> </span><span class="WHIT">			</span><span class="NAME">addItems</span><span class="PUNC">(</span><span class="NAME">amount</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>819</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>820</span> 
+<span class='line'>821</span> </span><span class="COMM">/**
+<span class='line'>822</span> *  Protected Members
+<span class='line'>823</span> */</span><span class="WHIT">
+<span class='line'>824</span> 
+<span class='line'>825</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>826</span> 	* Moves to the previous page.
+<span class='line'>827</span> 	* @protected
+<span class='line'>828</span> 	* @function
+<span class='line'>829</span> 	*/</span><span class="WHIT">
+<span class='line'>830</span> </span><span class="WHIT">	</span><span class="NAME">that.prev</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>831</span> 
+<span class='line'>832</span> </span><span class="WHIT">		</span><span class="NAME">goToPage</span><span class="PUNC">(</span><span class="NAME">currentPage</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>833</span> 
+<span class='line'>834</span> </span><span class="WHIT">		</span><span class="NAME">that.callbacks</span><span class="PUNC">(</span><span class="STRN">"onPrev"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>835</span> </span><span class="WHIT">		</span><span class="NAME">that.trigger</span><span class="PUNC">(</span><span class="STRN">"prev"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>836</span> 
+<span class='line'>837</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>838</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>839</span> </span><span class="WHIT">	
+<span class='line'>840</span> 	</span><span class="COMM">/**
+<span class='line'>841</span> 	* Moves to the next page.
+<span class='line'>842</span> 	* @protected
+<span class='line'>843</span> 	* @function
+<span class='line'>844</span> 	*/</span><span class="WHIT">
+<span class='line'>845</span> </span><span class="WHIT">	</span><span class="NAME">that.next</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>846</span> 
+<span class='line'>847</span> </span><span class="WHIT">		</span><span class="NAME">goToPage</span><span class="PUNC">(</span><span class="NAME">currentPage</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>848</span> 
+<span class='line'>849</span> </span><span class="WHIT">		</span><span class="NAME">that.callbacks</span><span class="PUNC">(</span><span class="STRN">"onPrev"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>850</span> </span><span class="WHIT">		</span><span class="NAME">that.trigger</span><span class="PUNC">(</span><span class="STRN">"prev"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>851</span> 
+<span class='line'>852</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>853</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>854</span> 
+<span class='line'>855</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>856</span> 	* Animates the Carousel automatically. (Since 0.10.6)
+<span class='line'>857</span> 	* @protected
+<span class='line'>858</span> 	* @since 0.10.6
+<span class='line'>859</span> 	* @function
+<span class='line'>860</span> 	* @param {Number} t Delay of transition between pages, expressed in milliseconds.
+<span class='line'>861</span> 	*/</span><span class="WHIT">
+<span class='line'>862</span> </span><span class="WHIT">	</span><span class="NAME">that.play</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>863</span> 
+<span class='line'>864</span> </span><span class="WHIT">		</span><span class="COMM">// Set a default delay</span><span class="WHIT">
+<span class='line'>865</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">delay</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">3000</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>866</span> 
+<span class='line'>867</span> </span><span class="WHIT">		</span><span class="COMM">// Final function of play</span><span class="WHIT">
+<span class='line'>868</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">t</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>869</span> 
+<span class='line'>870</span> </span><span class="WHIT">			</span><span class="COMM">// User timing over the default</span><span class="WHIT">
+<span class='line'>871</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">t</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">delay</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">t</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>872</span> 
+<span class='line'>873</span> </span><span class="WHIT">			</span><span class="COMM">// Set the interval on private property</span><span class="WHIT">
+<span class='line'>874</span> </span><span class="WHIT">			</span><span class="NAME">timer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">setInterval</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>875</span> </span><span class="WHIT">				</span><span class="COMM">// Normal behavior: Move to next page</span><span class="WHIT">
+<span class='line'>876</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">currentPage</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">pages</span><span class="PUNC">)</span><span class="TOKN"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">that.next</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>877</span> </span><span class="WHIT">				</span><span class="COMM">// On last page: Move to first page</span><span class="WHIT">
+<span class='line'>878</span> </span><span class="WHIT">				</span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">goToPage</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>879</span> </span><span class="WHIT">			</span><span class="COMM">// Use the setted timing</span><span class="WHIT">
+<span class='line'>880</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">delay</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>881</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>882</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>883</span> 
+<span class='line'>884</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>885</span> 	* Pause the Carousel automatic playing. (Since 0.10.6)
+<span class='line'>886</span> 	* @protected
+<span class='line'>887</span> 	* @since 0.10.6
+<span class='line'>888</span> 	* @function
+<span class='line'>889</span> 	*/</span><span class="WHIT">
+<span class='line'>890</span> </span><span class="WHIT">	</span><span class="NAME">that.pause</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>891</span> </span><span class="WHIT">		</span><span class="NAME">clearInterval</span><span class="PUNC">(</span><span class="NAME">timer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>892</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>893</span> 
+<span class='line'>894</span> </span><span class="COMM">/**
+<span class='line'>895</span> *  Public Members
+<span class='line'>896</span> */</span><span class="WHIT">
+<span class='line'>897</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>898</span> 	* @borrows ch.Object#uid as ch.Carousel#uid
+<span class='line'>899</span> 	* @borrows ch.Object#element as ch.Carousel#element
+<span class='line'>900</span> 	* @borrows ch.Object#type as ch.Carousel#type
+<span class='line'>901</span> 	*/</span><span class="WHIT">
+<span class='line'>902</span> 
+<span class='line'>903</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>904</span> 	* Triggers when component moves to next page.
+<span class='line'>905</span> 	* @name ch.Carousel#next
+<span class='line'>906</span> 	* @event
+<span class='line'>907</span> 	* @public
+<span class='line'>908</span> 	* @exampleDescription Using a callback when Carousel moves to the next page.
+<span class='line'>909</span> 	* @example
+<span class='line'>910</span> 	* example.on("next", function () {
+<span class='line'>911</span> 	*	alert("Next!");
+<span class='line'>912</span> 	* });
+<span class='line'>913</span> 	*/</span><span class="WHIT">
+<span class='line'>914</span> 
+<span class='line'>915</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>916</span> 	* Triggers when component moves to previous page.
+<span class='line'>917</span> 	* @name ch.Carousel#prev
+<span class='line'>918</span> 	* @event
+<span class='line'>919</span> 	* @public
+<span class='line'>920</span> 	* @exampleDescription Using a callback when Carousel moves to the previous page.
+<span class='line'>921</span> 	* @example
+<span class='line'>922</span> 	* example.on("prev", function () {
+<span class='line'>923</span> 	*	alert("Previous!");
+<span class='line'>924</span> 	* });
+<span class='line'>925</span> 	*/</span><span class="WHIT">
+<span class='line'>926</span> 
+<span class='line'>927</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>928</span> 	* Since 0.7.9: Triggers when component moves to next or previous page.
+<span class='line'>929</span> 	* @name ch.Carousel#select
+<span class='line'>930</span> 	* @event
+<span class='line'>931</span> 	* @public
+<span class='line'>932</span> 	* @since 0.7.9
+<span class='line'>933</span> 	* @example
+<span class='line'>934</span> 	* @exampleDescription Using a callback when Carousel moves to another page.
+<span class='line'>935</span> 	* example.on("select", function () {
+<span class='line'>936</span> 	*	alert("An item was selected!");
+<span class='line'>937</span> 	* });
+<span class='line'>938</span> 	*/</span><span class="WHIT">
+<span class='line'>939</span> 
+<span class='line'>940</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>941</span> 	* Since 0.10.6: Triggers when component redraws.
+<span class='line'>942</span> 	* @name ch.Carousel#redraw
+<span class='line'>943</span> 	* @event
+<span class='line'>944</span> 	* @public
+<span class='line'>945</span> 	* @since 0.10.6
+<span class='line'>946</span> 	* @exampleDescription Using a callback when Carousel trigger a new redraw.
+<span class='line'>947</span> 	* @example
+<span class='line'>948</span> 	* example.on("redraw", function () {
+<span class='line'>949</span> 	*	alert("Carousel was redrawn!");
+<span class='line'>950</span> 	* });
+<span class='line'>951</span> 	*/</span><span class="WHIT">
+<span class='line'>952</span> 
+<span class='line'>953</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>954</span> 	* Triggers when component adds items asynchronously from queue.
+<span class='line'>955</span> 	* @name ch.Carousel#itemsAdded
+<span class='line'>956</span> 	* @event
+<span class='line'>957</span> 	* @public
+<span class='line'>958</span> 	* @exampleDescription Using a callback when Carousel add items asynchronously.
+<span class='line'>959</span> 	* @example
+<span class='line'>960</span> 	* example.on("itemsAdded", function () {
+<span class='line'>961</span> 	*	alert("Some asynchronous items was added.");
+<span class='line'>962</span> 	* });
+<span class='line'>963</span> 	*/</span><span class="WHIT">
+<span class='line'>964</span> 
+<span class='line'>965</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>966</span> 	* Same as "select". Gets the current page or moves to a defined page (Since 0.7.4).
+<span class='line'>967</span> 	* @public
+<span class='line'>968</span> 	* @function
+<span class='line'>969</span> 	* @name ch.Carousel#page
+<span class='line'>970</span> 	* @returns Chico UI Object
+<span class='line'>971</span> 	* @param {Number || String} page Reference of page to go. It can be specified as number or "first" or "last" string.
+<span class='line'>972</span> 	* @since 0.7.4
+<span class='line'>973</span> 	* @exampleDescription Go to second page.
+<span class='line'>974</span> 	* @example
+<span class='line'>975</span> 	* foo.page(2);
+<span class='line'>976</span> 	* @exampleDescription Get the current page.
+<span class='line'>977</span> 	* @example
+<span class='line'>978</span> 	* foo.page();
+<span class='line'>979</span> 	*/</span><span class="WHIT">
+<span class='line'>980</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>981</span> 	* Same as "page". Moves to a defined page (Since 0.7.5).
+<span class='line'>982</span> 	* @public
+<span class='line'>983</span> 	* @function
+<span class='line'>984</span> 	* @name ch.Carousel#select
+<span class='line'>985</span> 	* @returns Current page number or Chico UI Object
+<span class='line'>986</span> 	* @param {Number || String} page Reference of page to go. It can be specified as number or "first" or "last" string.
+<span class='line'>987</span> 	* @since 0.7.5
+<span class='line'>988</span> 	* @exampleDescription Go to second page.
+<span class='line'>989</span> 	* @example
+<span class='line'>990</span> 	* foo.select(2);
+<span class='line'>991</span> 	*/</span><span class="WHIT">
+<span class='line'>992</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">page</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">select</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">page</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>993</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">goToPage</span><span class="PUNC">(</span><span class="NAME">page</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>994</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>995</span> 
+<span class='line'>996</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>997</span> 	* Moves to the previous page.
+<span class='line'>998</span> 	* @public
+<span class='line'>999</span> 	* @function
+<span class='line'>1000</span> 	* @name ch.Carousel#prev
+<span class='line'>1001</span> 	* @returns Chico UI Object
+<span class='line'>1002</span> 	* @exampleDescription Go to previous page.
+<span class='line'>1003</span> 	* @example
+<span class='line'>1004</span> 	* foo.prev();
+<span class='line'>1005</span> 	*/</span><span class="WHIT">
+<span class='line'>1006</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">prev</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1007</span> </span><span class="WHIT">		</span><span class="NAME">that.prev</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1008</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1009</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1010</span> 
+<span class='line'>1011</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1012</span> 	* Moves to the next page.
+<span class='line'>1013</span> 	* @public
+<span class='line'>1014</span> 	* @function
+<span class='line'>1015</span> 	* @name ch.Carousel#next
+<span class='line'>1016</span> 	* @returns Chico UI Object
+<span class='line'>1017</span> 	* @exampleDescription Go to next page.
+<span class='line'>1018</span> 	* @example
+<span class='line'>1019</span> 	* foo.next();
+<span class='line'>1020</span> 	*/</span><span class="WHIT">
+<span class='line'>1021</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">next</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1022</span> </span><span class="WHIT">		</span><span class="NAME">that.next</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1023</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1024</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1025</span> 
+<span class='line'>1026</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1027</span> 	* Allow to manage or disable the "Next" and "Previous" buttons flow ("over" the mask, "outside" it or "none"). (Since 0.10.6).
+<span class='line'>1028</span> 	* @public
+<span class='line'>1029</span> 	* @function
+<span class='line'>1030</span> 	* @name ch.Carousel#arrows
+<span class='line'>1031</span> 	* @since 0.10.6
+<span class='line'>1032</span> 	* @returns Chico UI Object
+<span class='line'>1033</span> 	* @param {String || Boolean} config CSS transition properties. By default it's "outside".
+<span class='line'>1034</span> 	* @exampleDescription Put arrows outside the mask.
+<span class='line'>1035</span> 	* @example
+<span class='line'>1036</span> 	* foo.arrows("outside");
+<span class='line'>1037</span> 	* // or
+<span class='line'>1038</span> 	* foo.arrows(true);
+<span class='line'>1039</span> 	* @exampleDescription Put arrows over the mask.
+<span class='line'>1040</span> 	* @example
+<span class='line'>1041</span> 	* foo.arrows("over");
+<span class='line'>1042</span> 	* @exampleDescription Disable arrows.
+<span class='line'>1043</span> 	* @example
+<span class='line'>1044</span> 	* foo.arrows("none");
+<span class='line'>1045</span> 	* or
+<span class='line'>1046</span> 	* foo.arrows(false);
+<span class='line'>1047</span> 	*/</span><span class="WHIT">
+<span class='line'>1048</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">arrows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">config</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1049</span> </span><span class="WHIT">		</span><span class="NAME">arrowsFlow</span><span class="PUNC">(</span><span class="NAME">config</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1050</span> </span><span class="WHIT">		</span><span class="NAME">draw</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1051</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="TOKN"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1052</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1053</span> 
+<span class='line'>1054</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1055</span> 	* Trigger all recalculations to get the functionality measures.
+<span class='line'>1056</span> 	* @public
+<span class='line'>1057</span> 	* @function
+<span class='line'>1058</span> 	* @name ch.Carousel#redraw
+<span class='line'>1059</span> 	* @returns Chico UI Object
+<span class='line'>1060</span> 	* @exampleDescription Re-draw the Carousel.
+<span class='line'>1061</span> 	* @example
+<span class='line'>1062</span> 	* foo.redraw();
+<span class='line'>1063</span> 	*/</span><span class="WHIT">
+<span class='line'>1064</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">redraw</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1065</span> </span><span class="WHIT">		</span><span class="NAME">draw</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1066</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1067</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1068</span> 
+<span class='line'>1069</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1070</span> 	* Animates the Carousel automatically.
+<span class='line'>1071</span> 	* @public
+<span class='line'>1072</span> 	* @function
+<span class='line'>1073</span> 	* @name ch.Carousel#play
+<span class='line'>1074</span> 	* @param {Number} t Delay of transition between pages, expressed in milliseconds.
+<span class='line'>1075</span> 	* @returns Chico UI Object
+<span class='line'>1076</span> 	* @exampleDescription Start automatic animation.
+<span class='line'>1077</span> 	* @example
+<span class='line'>1078</span> 	* foo.play();
+<span class='line'>1079</span> 	* @exampleDescription Start automatic animation with a 5 seconds delay between pages.
+<span class='line'>1080</span> 	* @example
+<span class='line'>1081</span> 	* foo.play(5000);
+<span class='line'>1082</span> 	*/</span><span class="WHIT">
+<span class='line'>1083</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">play</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">t</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1084</span> </span><span class="WHIT">		</span><span class="NAME">that.play</span><span class="PUNC">(</span><span class="NAME">t</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1085</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1086</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1087</span> 
+<span class='line'>1088</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1089</span> 	* Pause the Carousel automatic playing.
+<span class='line'>1090</span> 	* @public
+<span class='line'>1091</span> 	* @function
+<span class='line'>1092</span> 	* @name ch.Carousel#pause
+<span class='line'>1093</span> 	* @returns Chico UI Object
+<span class='line'>1094</span> 	* @exampleDescription Pause automatic animation.
+<span class='line'>1095</span> 	* @example
+<span class='line'>1096</span> 	* foo.pause();
+<span class='line'>1097</span> 	*/</span><span class="WHIT">
+<span class='line'>1098</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">pause</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1099</span> </span><span class="WHIT">		</span><span class="NAME">that.pause</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1100</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1101</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1102</span> 
+<span class='line'>1103</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>1104</span> 	* Get the items amount of each page (Since 0.7.4).
+<span class='line'>1105</span> 	* @public
+<span class='line'>1106</span> 	* @since 0.7.4
+<span class='line'>1107</span> 	* @name ch.Carousel#itemsPerPage
+<span class='line'>1108</span> 	* @returns Number
+<span class='line'>1109</span> 	*/</span><span class="WHIT">
+<span class='line'>1110</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">itemsPerPage</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>1111</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">itemsPerPage</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1112</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1113</span> 
+<span class='line'>1114</span> </span><span class="COMM">/**
+<span class='line'>1115</span> *  Default event delegation
+<span class='line'>1116</span> */</span><span class="WHIT">
+<span class='line'>1117</span> </span><span class="WHIT">	</span><span class="COMM">// Get ready the component structure.</span><span class="WHIT">
+<span class='line'>1118</span> </span><span class="WHIT">	</span><span class="NAME">createLayout</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1119</span> 
+<span class='line'>1120</span> </span><span class="WHIT">	</span><span class="COMM">// Put Carousel on specified page or at the beginning</span><span class="WHIT">
+<span class='line'>1121</span> </span><span class="WHIT">	</span><span class="NAME">goToPage</span><span class="PUNC">(</span><span class="NAME">conf.page</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="TOKN"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1122</span> 
+<span class='line'>1123</span> </span><span class="WHIT">	</span><span class="COMM">// Shoot the ready event</span><span class="WHIT">
+<span class='line'>1124</span> </span><span class="WHIT">	</span><span class="NAME">setTimeout</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">that.trigger</span><span class="PUNC">(</span><span class="STRN">"ready"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">50</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1125</span> 
+<span class='line'>1126</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1127</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>1128</span> 
+<span class='line'>1129</span> </span><span class="NAME">ch.factory</span><span class="PUNC">(</span><span class="STRN">"carousel"</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>
