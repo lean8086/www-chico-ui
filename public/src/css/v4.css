@@ -240,29 +240,88 @@ a.menu-selected:visited {
 	padding: 25px 0;
 }
 
-#products article {
-	position: relative;
-}
-
-#products h3 {
+section.main #products h3 {
 	font-size: 22px;
-	margin-bottom: 10px;
-	margin-top: 125px;
-}
-
-#products .ch-carousel,
-#products figure {
-	left: 0;
-	position: absolute;
-	top: 0;
-}
-
-#products .ch-carousel {
-	height: 140px;
+	margin: 0 0 10px;
 }
 
 #products img {
 	border: 1px solid #ddd;
+}
+
+#products .ch-carousel li {
+	height: 102px;
+	width: 102px;
+	position: relative;
+}
+
+#products figure {
+	margin-bottom: 25px;
+}
+
+#products figure a,
+#products .ch-carousel a {
+	display: block;
+	height: 102px;
+}
+
+#products .ch-carousel a {
+	width: 102px;
+}
+
+#products .ch-carousel-list span {
+	background: rgba(0, 0, 0, .5);
+	bottom: 0;
+	color: #fff;
+	display: block;
+	font-weight: bold;
+	height: 26px;
+	left: 0;
+	line-height: 26px;
+	overflow: hidden;
+	position: absolute;
+	text-align: center;
+	-webkit-transition: height .2s;
+	-moz-transition: height .2s;
+	-ms-transition: height .2s;
+	-o-transition: height .2s;
+	transition: height .2s;
+	width: 102px;
+}
+
+#products .ch-carousel a:hover span {
+	height: 102px;
+}
+
+#products .ch-carousel a:hover span:after {
+	content: "»";
+	display: block;
+	font-size: 100px;
+	height: 102px;
+	left: 0;
+	line-height: 102px;
+	position: absolute;
+	text-align: center;
+	top: 0;
+	width: 102px;
+}
+
+#products .ch-carousel img {
+	opacity: .75;
+}
+
+#products .ch-carousel-pages {
+	height: 25px;
+}
+
+#products .ch-carousel-pages span {
+	margin-top: 15px;
+}
+
+
+
+/*#products .ch-carousel {
+	height: 140px;
 }
 
 #products .ch-carousel-content li {
@@ -270,7 +329,6 @@ a.menu-selected:visited {
 	width: 465px;
 }
 
-/* Each UI Widget */
 #products .ch-carousel-content article {
 	border: 1px solid #ddd;
 	display: inline-block;
@@ -280,7 +338,6 @@ a.menu-selected:visited {
 	width: 100px;
 }
 
-/* Each UI Widget Link */
 #products .ch-carousel-content a {
 	display: block;
 	height: 100px;
@@ -339,12 +396,9 @@ a.menu-selected:visited {
 #products .ch-carousel-pages li {
 	-webkit-box-shadow: 1px 1px #888 inset;
 	box-shadow: 1px 1px #888 inset;
-}
+}*/
 
-#products p {
-	width: 95%;
-	margin-bottom: 0;
-}
+
 
 
 /*

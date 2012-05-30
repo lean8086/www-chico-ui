@@ -10,79 +10,79 @@ section#home-description
 
 section#products
 	article.ch-g1-2
-		h3 UI Widgets
-		p Built on top of jQuery, these tools brings known interaction patterns for your website taking advantage of HTML5 and CSS3 features.
-		.ch-carousel
-			ul
-				- var printed = 0;
-				- for (var i = 0, j = Math.ceil(widgets.length / 4); i < j; i += 1)
-					li
-						- each w, wIndex in widgets
-							- var from = printed * 4, to = from + 3;
-							- if (wIndex >= from && wIndex <= to)
-								article
-									a(href="#{w.href}")
-										img(src="/src/assets/icons/#{w.name}-100x100.png", width="100", height="100", alt="#{w.friendly}")
-										span= w.friendly
-					- printed += 1;
-		a.more(href="/widgets") See all Widgets
+		.ch-leftcolumn
+			.ch-carousel
+				ul
+					- each w in widgets
+						li
+							a(href="#{w.href}")
+								img(src="/src/assets/icons/#{w.name}-100x100.png", alt="#{w.friendly}")
+								span= w.friendly
+			h3 UI Widgets
+			p Built on top of jQuery, these tools brings known interaction patterns for your website taking advantage of HTML5 and CSS3 features.
+			a.more(href="/widgets") See all Widgets
 	
 	article.ch-g1-2
-		h3 Chico Mesh
-		p Mesh is Chico UI's solution for fast and simple layouts. It offers fluid grids along with a gallery of ready to use basic templates.
-		figure
-			a(href="/mesh")
-				img(src="/src/assets/mesh.png", alt="Chico Mesh", width="490", height="100")
-		a.more(href="/mesh") Check it out!
+		.ch-rightcolumn
+			figure
+				a(href="/mesh")
+					img(src="/src/assets/mesh.png", alt="Chico Mesh", width="490", height="100")
+			h3 Chico Mesh
+			p Mesh is Chico UI's solution for fast and simple layouts. It offers fluid grids along with a gallery of ready to use basic templates.
+			a.more(href="/mesh") Check it out!
 
 section#additional
 	nav.ch-g1-4
-		h4 Developers
-		ul
-			li
-				a(href="http://github.com/mercadolibre/chico") Code on GitHub
-			li
-				a(href="https://github.com/mercadolibre/chico/issues") Issue tracker
-			li
-				a(href="http://blog.chico-ui.com.ar/tagged/Release_Notes") Releases Notes
-			li
-				a(href="/archive") Versions archive
-			li
-				a(href="/license") License
-			li
-				a(href="http://nuget.org/packages/Chico-UI") Visual Studio package
+		.ch-leftcolumn
+			h4 Developers
+			ul
+				li
+					a(href="http://github.com/mercadolibre/chico") Code on GitHub
+				li
+					a(href="https://github.com/mercadolibre/chico/issues") Issue tracker
+				li
+					a(href="http://blog.chico-ui.com.ar/tagged/Release_Notes") Releases Notes
+				li
+					a(href="/archive") Versions archive
+				li
+					a(href="/license") License
+				li
+					a(href="http://nuget.org/packages/Chico-UI") Visual Studio package
 	nav.ch-g1-4
-		h4 Learning guides
-		ul
-			- var total_guides = 5;
-			- each g in guides
-				- if (total_guides > 0 && g.name !== "get-started")
-					- total_guides -= 1;
-					li
-						a(href="#{g.href}")= g.friendly
-			li
-				a.more(href="/guides") Browse all guides
+		.ch-centercolumn
+			h4 Learning guides
+			ul
+				- var total_guides = 5;
+				- each g in guides
+					- if (total_guides > 0 && g.name !== "get-started")
+						- total_guides -= 1;
+						li
+							a(href="#{g.href}")= g.friendly
+				li
+					a.more(href="/guides") Browse all guides
 	article.ch-g1-4
-		h4 Browser support
-		figure
-			img(src="/src/assets/browsers.png", width="200", alt="Browsers")
-		ul.ch-list
-			li Google Chrome
-			li Safari
-			li Firefox 4+
-			li Internet Explorer 7+
-			li Opera
+		.ch-centercolumn
+			h4 Browser support
+			figure
+				img(src="/src/assets/browsers.png", width="200", alt="Browsers")
+			ul.ch-list
+				li Google Chrome
+				li Safari
+				li Firefox 4+
+				li Internet Explorer 7+
+				li Opera
 	article.ch-g1-4
-		h4 Open initiative
-		figure
-			img(src="/src/assets/opensource.png", width="56", alt="Open Source Initiative")
-		p Chico UI is released under MIT License and implements open technologies such as:
-		ul.ch-list
-			li HTML5
-			li CSS3
-			li JavaScript
-			li NodeJS
+		.ch-rightcolumn
+			h4 Open initiative
+			figure
+				img(src="/src/assets/opensource.png", width="56", alt="Open Source Initiative")
+			p Chico UI is released under MIT License and implements open technologies such as:
+			ul.ch-list
+				li HTML5
+				li CSS3
+				li JavaScript
+				li NodeJS
 
-- script("code", '$(".ch-carousel").carousel({"arrows": false, "pagination": true, "width": 465}).page(3);')
+- script("code", '$(".ch-carousel").carousel({"arrows": "none", "pagination": true, "maxItems": 4, "page": 3});')
 - script("get", '/src/js/canvas.min.js')
 - script("code", 'var $img = $("#ninja-img"); $img.onImagesLoads(function () { $img.fadeIn("fast"); $("canvas").fadeIn(1000); });')
