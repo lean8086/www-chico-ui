@@ -210,7 +210,6 @@ app.post("/download", function (req, res) {
 
 	// Listener that prints content of code
 	packer.on("done", function (url) {
-		console.log(url);
 		res.redirect(url);
 	});
 	
@@ -252,6 +251,7 @@ app.get("/", function (req, res) {
 	meta.layout = "layout_1col";
 	meta.selected = "";
 	meta.title = "Chico UI, MercadoLibre's open source web tools.";
+	
 	res.render("index", meta);
 });
 
@@ -271,6 +271,7 @@ app.get("/:section/:file", function (req, res) {
 	meta.layout = "layout_2cols";
 	meta.friendly = friendly(req.params.file, req.params.section);
 	meta.camelCase = camelCase(req.params.file);
+	meta.capital = ucfirst(meta.camelCase);
 	meta.title = "Chico UI | " + ucfirst(req.params.section) + " | " + meta.friendly;
 	meta.selected = req.params.section;
 	
