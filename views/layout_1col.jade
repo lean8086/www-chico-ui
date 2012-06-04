@@ -1,5 +1,15 @@
 !!! 5
+//if lt IE 7
+	html.no-js.lt-ie10.lt-ie9.lt-ie8.lt-ie7.ie6(lang="en")
+//if IE 7
+	html.no-js.lt-ie10.lt-ie9.lt-ie8.ie7(lang="en")
+//if IE 8
+	html.no-js.lt-ie10.lt-ie9.ie8(lang="en")
+//if IE 9
+	html.no-js.lt-ie10.ie9(lang="en")
+//[if gt IE 9] <!
 html.no-js(lang="en")
+	//<![endif]
 	head
 		include includes/head
 	body
