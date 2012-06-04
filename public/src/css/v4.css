@@ -594,21 +594,51 @@ section.main h4.ch-form-subtitle { font-size: 13px; }
 
 #members-tabs .ch-datagrid {
 	margin-bottom: 15px;
-	width: 97%;
+	width:auto;
+	border:none;
 }
 
-.parameters em {
-	color: #777;
-	font-style: normal;
+#members-tabs tr:hover,
+#members-tabs .selected {
+	background: lightblue;
+	cursor:pointer;
 }
+
+#members-tabs tr:hover {
+	background: skyblue;
+}
+
+section.main h4.ch-expando-trigger,
+section.main h5.ch-expando-trigger {
+	margin: 0;
+}
+
+.api-members {
+	margin-bottom: 50px;
+}
+
+.api-members .ch-expando-content {
+	padding: 10px;
+}
+
+.parameters em.string,
+.parameters em.object,
+.parameters em.number,
+.parameters em.boolean,
+.parameters em.optional{
+	background-color: #DDD;
+	border-radius: 3px;
+	color: #FEFEFE;
+	font-size: 11px;
+	padding: 0 5px;
+	vertical-align: top;
+	display: inline-block;
+}
+
 
 h4 small {
 	color: #aaa;
 }
-
-/*nav.api li:first-child {
-	margin-bottom: 15px;
-}*/
 
 /*
 *	Download

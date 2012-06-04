@@ -183,7 +183,7 @@ app.get("/blog", function (req, res) {
 });
 
 app.get("/api", function (req, res) {
-	res.redirect("/api/" + meta.version + "/symbols/ch.html");
+	res.redirect("/api/" + meta.version + "/index.html");
 });
 
 app.get("/archive", function (req, res) {
@@ -260,7 +260,7 @@ app.get("/:section", function (req, res) {
 	
 	meta.layout = "layout_1col";
 	meta.title = "Chico UI | " + ucfirst(req.params.section);
-	meta.selected = req.params.section;
+	meta.selected = req.params.section || null;
 	
 	res.render(req.params.section, meta);
 });
