@@ -1,0 +1,659 @@
+
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7 ie6" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie10 lt-ie9 lt-ie8 ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie10 lt-ie9 ie8" lang="en"> <![endif]-->
+<!--[if IE 9]>	<html class="no-js lt-ie10 ie9" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<script></script>
+	<meta charset="utf-8">
+	<title>Chico UI | API Documentation</title>
+	
+	<link rel="shortcut icon" href="/src/assets/ninja.ico" type="image/vnd.microsoft.icon">
+	
+	<meta name="generator" content="JsDoc Toolkit" />
+	<meta property="og:title" content="Chico UI" />
+	<meta property="og:type" content="product" />
+	<meta property="og:url" content="http://www.chico-ui.com.ar" />
+	<meta property="og:image" content="http://chico-ui.com.ar/src/assets/ninja.jpg" />
+	<meta property="og:site_name" content="Chico UI, MercadoLibre&#039;s Open Source Web Tools." />
+	<meta property="fb:admins" content="100001929271879" />
+	
+	<link rel="stylesheet" href="/versions/latest/chico.css">
+	<link rel="stylesheet" href="/versions/latest/chico-mesh-min.css">
+	<link rel="stylesheet" href="/src/css/v4.css">
+	
+	<script>
+		var _gaq=_gaq||[];_gaq.push(["_setAccount","UA-22230214-1"]);_gaq.push(["_setDomainName","chico-ui.com.ar"]);_gaq.push(["_trackPageview"]);(function(){var a=document.createElement("script");a.async=true;a.src=("https:"==document.location.protocol?"https://ssl":"http://www")+".google-analytics.com/ga.js";var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b)})()
+	</script>
+</head>
+
+<body>
+	<header>
+		<div class="ch-g1-3 logo">
+			<a href="/">Chico UI</a>
+			<span class="version"></span>
+		</div>
+		<nav class="ch-g2-3">
+			<ul>
+				<li><a href="/blog">Blog</a></li>
+				<li><a href="/widgets">UI Widgets</a></li>
+				<li><a href="/api" class="menu-selected">API Docs</a></li>
+				<li><a href="/guides">Learning guides</a></li>
+				<li><a href="/download">Download</a></li>
+				<li>
+					<form action="/search">
+						<label for="q">Search:</label>
+						<input type="search" name="q" id="q" placeholder="Search this site" />
+						<noscript>
+							<input class="ch-btn-skin ch-btn-small" id="search" type="submit" value="Go" />
+						</noscript>
+					</form>
+				</li>
+			</ul>
+		</nav>
+	</header>
+
+
+<!-- ============================== classes index ============================ -->
+		<div id="index" class="ch-g1-6">
+		  <div class="ch-leftcolumn">
+			<h4>Class index</h4>
+<ul>
+	<!--li><a href="files.html">Switch to file Index</a></li-->
+	
+	<li></li>
+	
+	<li><a href="symbols/ch.html">ch</a></li>
+	
+	<li><a href="symbols/ch.Accordion.html">ch.Accordion</a></li>
+	
+	<li><a href="symbols/ch.AutoComplete.html">ch.AutoComplete</a></li>
+	
+	<li><a href="symbols/ch.Blink.html">ch.Blink</a></li>
+	
+	<li><a href="symbols/ch.Cache.html">ch.Cache</a></li>
+	
+	<li><a href="symbols/ch.Calendar.html">ch.Calendar</a></li>
+	
+	<li><a href="symbols/ch.Carousel.html">ch.Carousel</a></li>
+	
+	<li><a href="symbols/ch.Condition.html">ch.Condition</a></li>
+	
+	<li><a href="symbols/ch.Controllers.html">ch.Controllers</a></li>
+	
+	<li><a href="symbols/ch.Controls.html">ch.Controls</a></li>
+	
+	<li><a href="symbols/ch.Countdown.html">ch.Countdown</a></li>
+	
+	<li><a href="symbols/ch.Custom.html">ch.Custom</a></li>
+	
+	<li><a href="symbols/ch.DatePicker.html">ch.DatePicker</a></li>
+	
+	<li><a href="symbols/ch.Dropdown.html">ch.Dropdown</a></li>
+	
+	<li><a href="symbols/ch.Email.html">ch.Email</a></li>
+	
+	<li><a href="symbols/ch.Eraser.html">ch.Eraser</a></li>
+	
+	<li><a href="symbols/ch.Events.html">ch.Events</a></li>
+	
+	<li><a href="symbols/ch.Expando.html">ch.Expando</a></li>
+	
+	<li><a href="symbols/ch.Extend.html">ch.Extend</a></li>
+	
+	<li><a href="symbols/ch.Factory.html">ch.Factory</a></li>
+	
+	<li><a href="symbols/ch.Floats.html">ch.Floats</a></li>
+	
+	<li><a href="symbols/ch.Form.html">ch.Form</a></li>
+	
+	<li><a href="symbols/ch.Get.html">ch.Get</a></li>
+	
+	<li><a href="symbols/ch.Keyboard.html">ch.Keyboard</a></li>
+	
+	<li><a href="symbols/ch.Layer.html">ch.Layer</a></li>
+	
+	<li><a href="symbols/ch.List.html">ch.List</a></li>
+	
+	<li><a href="symbols/ch.Max.html">ch.Max</a></li>
+	
+	<li><a href="symbols/ch.MaxLength.html">ch.MaxLength</a></li>
+	
+	<li><a href="symbols/ch.Menu.html">ch.Menu</a></li>
+	
+	<li><a href="symbols/ch.Min.html">ch.Min</a></li>
+	
+	<li><a href="symbols/ch.MinLength.html">ch.MinLength</a></li>
+	
+	<li><a href="symbols/ch.Modal.html">ch.Modal</a></li>
+	
+	<li><a href="symbols/ch.Navs.html">ch.Navs</a></li>
+	
+	<li><a href="symbols/ch.Number.html">ch.Number</a></li>
+	
+	<li><a href="symbols/ch.Object.html">ch.Object</a></li>
+	
+	<li><a href="symbols/ch.onImagesLoads.html">ch.onImagesLoads</a></li>
+	
+	<li><a href="symbols/ch.Positioner.html">ch.Positioner</a></li>
+	
+	<li><a href="symbols/ch.Preload.html">ch.Preload</a></li>
+	
+	<li><a href="symbols/ch.Price.html">ch.Price</a></li>
+	
+	<li><a href="symbols/ch.Required.html">ch.Required</a></li>
+	
+	<li><a href="symbols/ch.String.html">ch.String</a></li>
+	
+	<li><a href="symbols/ch.Support.html">ch.Support</a></li>
+	
+	<li><a href="symbols/ch.TabNavigator.html">ch.TabNavigator</a></li>
+	
+	<li><a href="symbols/ch.Tooltip.html">ch.Tooltip</a></li>
+	
+	<li><a href="symbols/ch.Transition.html">ch.Transition</a></li>
+	
+	<li><a href="symbols/ch.Uiobject.html">ch.Uiobject</a></li>
+	
+	<li><a href="symbols/ch.Url.html">ch.Url</a></li>
+	
+	<li><a href="symbols/ch.Utils.html">ch.Utils</a></li>
+	
+	<li><a href="symbols/ch.Validation.html">ch.Validation</a></li>
+	
+	<li><a href="symbols/ch.Validator.html">ch.Validator</a></li>
+	
+	<li><a href="symbols/ch.Viewport.html">ch.Viewport</a></li>
+	
+	<li><a href="symbols/ch.Zoom.html">ch.Zoom</a></li>
+	
+</ul>
+		  </div>
+		</div>
+		
+		<div id="content" class="ch-g3-4">
+			<h1 class="classTitle">File Index</h1>
+			
+			
+			<div>
+				<h2><a href="symbols/src/src_js_autoComplete.js.html">../../src/js/autoComplete.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_blink.js.html">../../src/js/blink.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_cache.js.html">../../src/js/cache.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_calendar.js.html">../../src/js/calendar.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_carousel.js.html">../../src/js/carousel.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_condition.js.html">../../src/js/condition.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_controllers.js.html">../../src/js/controllers.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_controls.js.html">../../src/js/controls.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_core.js.html">../../src/js/core.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_countdown.js.html">../../src/js/countdown.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_custom.js.html">../../src/js/custom.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_datePicker.js.html">../../src/js/datePicker.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_dropdown.js.html">../../src/js/dropdown.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_eraser.js.html">../../src/js/eraser.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_expando.js.html">../../src/js/expando.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_floats.js.html">../../src/js/floats.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_form.js.html">../../src/js/form.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_keyboard.js.html">../../src/js/keyboard.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_layer.js.html">../../src/js/layer.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_list.js.html">../../src/js/list.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_menu.js.html">../../src/js/menu.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_modal.js.html">../../src/js/modal.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_navs.js.html">../../src/js/navs.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_number.js.html">../../src/js/number.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_object.js.html">../../src/js/object.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_onImagesLoads.js.html">../../src/js/onImagesLoads.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_positioner.js.html">../../src/js/positioner.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_preload.js.html">../../src/js/preload.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_required.js.html">../../src/js/required.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_string.js.html">../../src/js/string.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_tabNavigator.js.html">../../src/js/tabNavigator.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_tooltip.js.html">../../src/js/tooltip.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_uiobject.js.html">../../src/js/uiobject.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_validation.js.html">../../src/js/validation.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_validator.js.html">../../src/js/validator.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_viewport.js.html">../../src/js/viewport.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			<div>
+				<h2><a href="symbols/src/src_js_zoom.js.html">../../src/js/zoom.js</a></h2>
+				
+				<dl>
+					
+					
+					
+					
+				</dl>
+			</div>
+			<hr />
+			
+			
+		</div>
+	<p class="footer">
+		Documentation generated by <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blankt">JsDoc Toolkit</a> 2.4.0 on Mon Jun 04 2012 15:58:58 GMT-0300 (GMT-03:00)
+	</p>
+	<footer>
+		<nav class="ch-g2-3">
+			<ul>
+				<li>©<span id="copyright"></span>MercadoLibre.com</li>
+				<li><a href="/about">About us</a></li>
+				<li><a href="/discuss">Discuss</a></li>
+			</ul>
+		</nav>
+		<aside class="ch-g1-3">
+			<a class="pin-it-button" href="http://pinterest.com/pin/create/button/?url=http%3A%2F%2Fchico-ui.com.ar&media=http%3A%2F%2Fchico-ui.com.ar%2Fsrc%2Fassets%2Fninja.png&description=Chico%20UI%2C%20MercadoLibre's%20Open%20Source%20Web%20Tools." count-layout="horizontal">Pin It</a>
+			<g:plusone size="medium" href="http://chico-ui.com.ar"></g:plusone>
+			<a class="twitter-share-button" href="http://twitter.com/share" data-via="chicoui" data-text="Chico UI, MercadoLibre's Open Source Web Tools." data-url="http://chico-ui.com.ar">Tweet</a>
+		</aside>
+	</footer>
+	
+	<script src="/versions/latest/jquery.js"></script>
+	<script src="/versions/latest/chico.js"></script>
+	<script src="/src/js/scripts.js"></script>
+	<script>
+		$(function () {
+			$(".logo .version").text("v" + ch.version);
+			$("#copyright").text((new Date().getFullYear()) + " ");
+			
+			$(".api-members").accordion();
+			$(".expando").expando();
+			//$("#members-tabs").tabNavigator();
+		});
+	</script>
+	
+</body>
+</html>
