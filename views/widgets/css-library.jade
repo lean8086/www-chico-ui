@@ -1,7 +1,7 @@
 h1 Css Library
 p.updated
 	| Documentation updated on 
-	data February 7th
+	data June 4th
 	| .
 
 .contents
@@ -32,9 +32,11 @@ p.updated
 		dd
 			dl
 				dt
-					a(href="#box") 4.1 Box
+					a(href="#container") 4.1 Container
 				dt
-					a(href="#cont") 4.2 Container
+					a(href="#lite-box") 4.2 Lite Box
+				dt
+					a(href="#box") 4.3 Box
 		dt
 			a(href="#buttons") 5 Buttons
 		dt
@@ -161,6 +163,32 @@ table.ch-datagrid
 					| </ol>
 
 h3#boxes Boxes
+h4#container Container
+table.ch-datagrid
+	thead
+		tr
+			th(width="40%") Example
+			th(width="60%") Code snippet
+	tbody
+		tr
+			td
+				.ch-box-container Container
+			td
+				pre
+					| <div class="ch-box-container">Container Box</div>
+h4#lite-box Lite Box
+table.ch-datagrid
+	thead
+		tr
+			th(width="40%") Example
+			th(width="60%") Code snippet
+	tbody
+		tr
+			td
+				.ch-box-lite Box
+			td
+				pre
+					| <div class="ch-box-lite">Lite Box</div>
 h4#box Box
 table.ch-datagrid
 	thead
@@ -174,20 +202,6 @@ table.ch-datagrid
 			td
 				pre
 					| <div class="ch-box">Box</div>
-
-h4#cont Container
-table.ch-datagrid
-	thead
-		tr
-			th(width="40%") Example
-			th(width="60%") Code snippet
-	tbody
-		tr
-			td
-				.ch-container Container
-			td
-				pre
-					| <div class="ch-container">Container</div>
 
 h3#buttons Buttons
 table.ch-datagrid
@@ -368,7 +382,7 @@ table.ch-datagrid
 					|   <li><a href="/1.html">1</a></li>
 					|   <li><a href="/2.html">2</a></li>
 					|   <li class="ch-pagination-current">
-					|       <a href="/3.html">3</a>
+					|	   <a href="/3.html">3</a>
 					|   </li>
 					|   <li><a href="/4.html">4</a></li>
 					|   <li><a type="next" href="/4.html">Next</a></li>
@@ -434,34 +448,34 @@ h3#tables Tables
 .ch-g3-5
 	pre
 		|<table class="ch-datagrid">
-		|    <thead>
-		|        <tr>
-		|            <th scope="col">
-		|                <input type="checkbox" />
-		|            </th>
-		|            <th scope="col">Code</th>
-		|            <th scope="col" class="ch-datagrid-selected">Price 
-		|                <span class="ch-datagrid-asc">(asc)<span>
-		|            </th>
-		|        <tr>
-		|    </thead>
-		|    <tbody>
-		|        <tr>
-		|            <td><input type="checkbox" /></td>
-		|            <td>A001XXL</td>
-		|            <td><p>$100<sup>00<sup></p></td>
-		|        </tr>
-		|        <tr class="ch-datagrid-selected">
-		|            <td><input type="checkbox" checked /></td>
-		|            <td>A002XXL</td>
-		|            <td><p>$110<sup>00<sup></p></td>
-		|        </tr>
-		|        <tr>
-		|            <td><input type="checkbox" /></td>
-		|            <td>A003XXL</td>
-		|            <td><p>$100<sup>00<sup></p></td>
-		|        </tr>
-		|        ...
-		|    </tbody>
+		|	<thead>
+		|		<tr>
+		|			<th scope="col">
+		|				<input type="checkbox" />
+		|			</th>
+		|			<th scope="col">Code</th>
+		|			<th scope="col" class="ch-datagrid-selected">Price 
+		|				<span class="ch-datagrid-asc">(asc)<span>
+		|			</th>
+		|		<tr>
+		|	</thead>
+		|	<tbody>
+		|		<tr>
+		|			<td><input type="checkbox" /></td>
+		|			<td>A001XXL</td>
+		|			<td><p>$100<sup>00<sup></p></td>
+		|		</tr>
+		|		<tr class="ch-datagrid-selected">
+		|			<td><input type="checkbox" checked /></td>
+		|			<td>A002XXL</td>
+		|			<td><p>$110<sup>00<sup></p></td>
+		|		</tr>
+		|		<tr>
+		|			<td><input type="checkbox" /></td>
+		|			<td>A003XXL</td>
+		|			<td><p>$100<sup>00<sup></p></td>
+		|		</tr>
+		|		...
+		|	</tbody>
 		|</table>		
 .clearfix
