@@ -23,489 +23,490 @@
 <span class='line'> 16</span> * var widget = $(".example").tabNavigator({
 <span class='line'> 17</span> *     "selected": 2
 <span class='line'> 18</span> * });
-<span class='line'> 19</span> */</span><span class="WHIT">
-<span class='line'> 20</span> 
-<span class='line'> 21</span> </span><span class="NAME">ch.tabNavigator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 22</span> 
-<span class='line'> 23</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'> 24</span> 	* Reference to a internal component instance, saves all the information and configuration properties.
-<span class='line'> 25</span> 	* @private
-<span class='line'> 26</span> 	* @name ch.TabNavigator#that
-<span class='line'> 27</span> 	* @type object
-<span class='line'> 28</span> 	*/</span><span class="WHIT">
-<span class='line'> 29</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 30</span> 
-<span class='line'> 31</span> </span><span class="WHIT">	</span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.clon</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 32</span> 
-<span class='line'> 33</span> </span><span class="WHIT">	</span><span class="NAME">that.conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 34</span> 
-<span class='line'> 35</span> </span><span class="COMM">/**
-<span class='line'> 36</span> *	Inheritance
-<span class='line'> 37</span> */</span><span class="WHIT">
-<span class='line'> 38</span> 
-<span class='line'> 39</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.controllers.call</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 40</span> </span><span class="WHIT">	</span><span class="NAME">that.parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.clon</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 41</span> 
-<span class='line'> 42</span> </span><span class="COMM">/**
-<span class='line'> 43</span> *	Private Members
-<span class='line'> 44</span> */</span><span class="WHIT">
-<span class='line'> 45</span> 
-<span class='line'> 46</span> </span><span class="WHIT">	</span><span class="COMM">// Add CSS class to the main element </span><span class="WHIT">
-<span class='line'> 47</span> </span><span class="WHIT">	</span><span class="NAME">that.$element.addClass</span><span class="PUNC">(</span><span class="STRN">"ch-tabNavigator"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 48</span> 
-<span class='line'> 49</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'> 50</span> 	* The actual location hash, is used to know if there's a specific tab selected.
-<span class='line'> 51</span> 	* @private
-<span class='line'> 52</span> 	* @name ch.TabNavigator#hash
-<span class='line'> 53</span> 	* @type string
-<span class='line'> 54</span> 	*/</span><span class="WHIT">
-<span class='line'> 55</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">hash</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">window.location.hash.replace</span><span class="PUNC">(</span><span class="STRN">"#!/"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 56</span> 
-<span class='line'> 57</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'> 58</span> 	* A boolean property to know if the some tag should be selected.
-<span class='line'> 59</span> 	* @private
-<span class='line'> 60</span> 	* @name ch.TabNavigator#hashed
-<span class='line'> 61</span> 	* @type boolean
-<span class='line'> 62</span> 	* @default false
-<span class='line'> 63</span> 	*/</span><span class="WHIT">
-<span class='line'> 64</span> </span><span class="WHIT">		</span><span class="NAME">hashed</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 65</span> 
-<span class='line'> 66</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'> 67</span> 	* Get wich tab is selected.
-<span class='line'> 68</span> 	* @private
-<span class='line'> 69</span> 	* @name ch.TabNavigator#selected
-<span class='line'> 70</span> 	* @type number
-<span class='line'> 71</span> 	*/</span><span class="WHIT">
-<span class='line'> 72</span> </span><span class="WHIT">		</span><span class="COMM">//selected = conf.selected - 1 || conf.value - 1 || 0,</span><span class="WHIT">
-<span class='line'> 73</span> </span><span class="WHIT">		</span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.selected</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">conf.value</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 74</span> 
-<span class='line'> 75</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'> 76</span> 	* Create controller's children.
-<span class='line'> 77</span> 	* @private
-<span class='line'> 78</span> 	* @name ch.TabNavigator#createTabs
-<span class='line'> 79</span> 	* @function
-<span class='line'> 80</span> 	*/</span><span class="WHIT">
-<span class='line'> 81</span> </span><span class="WHIT">		</span><span class="NAME">createTabs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 82</span> </span><span class="WHIT">	
-<span class='line'> 83</span> 			</span><span class="COMM">// Children</span><span class="WHIT">
-<span class='line'> 84</span> </span><span class="WHIT">			</span><span class="NAME">that.$triggers.find</span><span class="PUNC">(</span><span class="STRN">"a"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 85</span> </span><span class="WHIT">	
-<span class='line'> 86</span> 				</span><span class="COMM">// Tab context</span><span class="WHIT">
-<span class='line'> 87</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tab</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 88</span> </span><span class="WHIT">					</span><span class="NAME">tab.uid</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.uid</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"#"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 89</span> </span><span class="WHIT">					</span><span class="NAME">tab.type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"tab"</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 90</span> </span><span class="WHIT">					</span><span class="NAME">tab.element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 91</span> </span><span class="WHIT">					</span><span class="NAME">tab.$element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 92</span> </span><span class="WHIT">					</span><span class="NAME">tab.controller</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 93</span> </span><span class="WHIT">	
-<span class='line'> 94</span> 				</span><span class="COMM">// Tab configuration</span><span class="WHIT">
-<span class='line'> 95</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">config</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 96</span> </span><span class="WHIT">					</span><span class="NAME">config.open</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 97</span> </span><span class="WHIT">					</span><span class="NAME">config.onShow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 98</span> </span><span class="WHIT">				
-<span class='line'> 99</span> 				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">that.conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"cache"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">config.cache</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.conf.cache</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>100</span> </span><span class="WHIT">	
-<span class='line'>101</span> 				</span><span class="COMM">/**
-<span class='line'>102</span> 				* Fired when the content of one dynamic tab loads.
-<span class='line'>103</span> 				* @name ch.TabNavigator#onContentLoad
-<span class='line'>104</span> 				* @event
-<span class='line'>105</span> 				* @public
-<span class='line'>106</span> 				*/</span><span class="WHIT">
-<span class='line'>107</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">that.conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"onContentLoad"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">config.onContentLoad</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.conf.onContentLoad</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>108</span> </span><span class="WHIT">				
-<span class='line'>109</span> 				</span><span class="COMM">/**
-<span class='line'>110</span> 				* Fired when the content of one dynamic tab did not load.
-<span class='line'>111</span> 				* @name ch.TabNavigator#onContentError
-<span class='line'>112</span> 				* @event
-<span class='line'>113</span> 				* @public
-<span class='line'>114</span> 				*/</span><span class="WHIT">
-<span class='line'>115</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">that.conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"onContentError"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">config.onContentError</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.conf.onContentError</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>116</span> </span><span class="WHIT">	
-<span class='line'>117</span> 				</span><span class="COMM">// Create Tabs</span><span class="WHIT">
-<span class='line'>118</span> </span><span class="WHIT">				</span><span class="NAME">that.children.push</span><span class="PUNC">(</span><span class="NAME">ch.tab.call</span><span class="PUNC">(</span><span class="NAME">tab</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">config</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>119</span> </span><span class="WHIT">	
-<span class='line'>120</span> 				</span><span class="COMM">// Bind new click to have control</span><span class="WHIT">
-<span class='line'>121</span> </span><span class="WHIT">				</span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">on</span><span class="PUNC">(</span><span class="STRN">"click"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>122</span> </span><span class="WHIT">					</span><span class="NAME">that.prevent</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>123</span> </span><span class="WHIT">					</span><span class="NAME">select</span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>124</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>125</span> </span><span class="WHIT">	
-<span class='line'>126</span> 			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>127</span> </span><span class="WHIT">	
-<span class='line'>128</span> 			</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>129</span> </span><span class="WHIT">	
-<span class='line'>130</span> 		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>131</span> 
-<span class='line'>132</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>133</span> 	* Select a child to show its content.
-<span class='line'>134</span> 	* @name ch.TabNavigator#select
-<span class='line'>135</span> 	* @private
-<span class='line'>136</span> 	* @function
-<span class='line'>137</span> 	*/</span><span class="WHIT">
-<span class='line'>138</span> </span><span class="WHIT">		</span><span class="NAME">select</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tab</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>139</span> </span><span class="WHIT">			
-<span class='line'>140</span> 			</span><span class="COMM">// If select a tab that don't exist do nothing</span><span class="WHIT">
-<span class='line'>141</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">that.children</span><span class="PUNC">[</span><span class="NAME">tab</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>142</span> 
-<span class='line'>143</span> </span><span class="WHIT">			</span><span class="NAME">tab</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.children</span><span class="PUNC">[</span><span class="NAME">tab</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>144</span> 
-<span class='line'>145</span> </span><span class="WHIT">			</span><span class="COMM">// Don't click me if I'm open</span><span class="WHIT">
-<span class='line'>146</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tab</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">that.children</span><span class="PUNC">[</span><span class="NAME">selected</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>147</span> </span><span class="WHIT">	
-<span class='line'>148</span> 			</span><span class="COMM">// Hide my open bro</span><span class="WHIT">
-<span class='line'>149</span> </span><span class="WHIT">			</span><span class="NAME">$.each</span><span class="PUNC">(</span><span class="NAME">that.children</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>150</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tab</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">e.innerHide</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>151</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>152</span> </span><span class="WHIT">			
-<span class='line'>153</span> 			</span><span class="COMM">// shows the tab</span><span class="WHIT">
-<span class='line'>154</span> </span><span class="WHIT">			</span><span class="NAME">tab.innerShow</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>155</span> </span><span class="WHIT">	
-<span class='line'>156</span> 			</span><span class="COMM">//Change location hash</span><span class="WHIT">
-<span class='line'>157</span> </span><span class="WHIT">			</span><span class="NAME">window.location.hash</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"#!/"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">tab.$content.attr</span><span class="PUNC">(</span><span class="STRN">"id"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>158</span> </span><span class="WHIT">	
-<span class='line'>159</span> 			</span><span class="COMM">/**
-<span class='line'>160</span> 			* Fired when a tab is selected.
-<span class='line'>161</span> 			* @name ch.TabNavigator#onSelect
-<span class='line'>162</span> 			* @event
-<span class='line'>163</span> 			* @public
-<span class='line'>164</span> 			*/</span><span class="WHIT">
-<span class='line'>165</span> </span><span class="WHIT">			</span><span class="NAME">that.callbacks</span><span class="PUNC">(</span><span class="STRN">"onSelect"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>166</span> 
-<span class='line'>167</span> </span><span class="WHIT">			</span><span class="COMM">// new callback</span><span class="WHIT">
-<span class='line'>168</span> </span><span class="WHIT">			</span><span class="NAME">that.trigger</span><span class="PUNC">(</span><span class="STRN">"select"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>169</span> </span><span class="WHIT">	
-<span class='line'>170</span> 			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>171</span> </span><span class="WHIT">			
-<span class='line'>172</span> 		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>173</span> 
-<span class='line'>174</span> </span><span class="COMM">/**
-<span class='line'>175</span> *	Protected Members
-<span class='line'>176</span> */</span><span class="WHIT">
-<span class='line'>177</span> 
-<span class='line'>178</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>179</span> 	* The component's triggers container.
-<span class='line'>180</span> 	* @protected
-<span class='line'>181</span> 	* @name ch.TabNavigator#$triggers
-<span class='line'>182</span> 	* @type jQuery
-<span class='line'>183</span> 	*/</span><span class="WHIT">
-<span class='line'>184</span> </span><span class="WHIT">	</span><span class="NAME">that.$triggers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.$element.children</span><span class="PUNC">(</span><span class="STRN">":first"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addClass</span><span class="PUNC">(</span><span class="STRN">"ch-tabNavigator-triggers"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"role"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"tablist"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>185</span> 
-<span class='line'>186</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>187</span> 	* The component's content.
-<span class='line'>188</span> 	* @protected
-<span class='line'>189</span> 	* @name ch.TabNavigator#$content
-<span class='line'>190</span> 	* @type jQuery
-<span class='line'>191</span> 	*/</span><span class="WHIT">
-<span class='line'>192</span> </span><span class="WHIT">	</span><span class="NAME">that.$content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.$triggers.next</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addClass</span><span class="PUNC">(</span><span class="STRN">"ch-tabNavigator-content ch-box"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"role"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"presentation"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>193</span> 
-<span class='line'>194</span> </span><span class="COMM">/**
-<span class='line'>195</span> *	Public Members
-<span class='line'>196</span> */</span><span class="WHIT">
-<span class='line'>197</span> 
-<span class='line'>198</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>199</span> 	* @borrows ch.Object#uid as ch.TabNavigator#uid
-<span class='line'>200</span> 	*/</span><span class="WHIT">	
-<span class='line'>201</span> 	
-<span class='line'>202</span> 	</span><span class="COMM">/**
-<span class='line'>203</span> 	* @borrows ch.Object#element as ch.TabNavigator#element
-<span class='line'>204</span> 	*/</span><span class="WHIT">
-<span class='line'>205</span> 
-<span class='line'>206</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>207</span> 	* @borrows ch.Object#type as ch.TabNavigator#type
-<span class='line'>208</span> 	*/</span><span class="WHIT">
-<span class='line'>209</span> 
-<span class='line'>210</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>211</span> 	* Children instances associated to this controller.
-<span class='line'>212</span> 	* @public
-<span class='line'>213</span> 	* @name ch.TabNavigator#children
-<span class='line'>214</span> 	* @type collection
-<span class='line'>215</span> 	*/</span><span class="WHIT">
-<span class='line'>216</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">children</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.children</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>217</span> 
-<span class='line'>218</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>219</span> 	* Select a specific child or get the selected tab.
-<span class='line'>220</span> 	* @public
-<span class='line'>221</span> 	* @name ch.TabNavigator#select
-<span class='line'>222</span> 	* @function
-<span class='line'>223</span> 	* @param {number} tab Tab's index.
-<span class='line'>224</span> 	* @exampleDescription Create a TabNavigator
-<span class='line'>225</span> 	* @example
-<span class='line'>226</span> 	* widget.select(2);
-<span class='line'>227</span> 	* 
-<span class='line'>228</span> 	* // Get selected page
-<span class='line'>229</span> 	* var selected = widget.select();
-<span class='line'>230</span> 	*/</span><span class="WHIT">
-<span class='line'>231</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">select</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tab</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>232</span> </span><span class="WHIT">		</span><span class="COMM">// Returns selectd tab instead set it</span><span class="WHIT">
-<span class='line'>233</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">tab</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>234</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>235</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>236</span> 
-<span class='line'>237</span> </span><span class="WHIT">		</span><span class="NAME">select</span><span class="PUNC">(</span><span class="NAME">tab</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>238</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>239</span> 
-<span class='line'>240</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>241</span> 
-<span class='line'>242</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>243</span> 	* Deprecated - Returns the selected child's index.
-<span class='line'>244</span> 	* @public
-<span class='line'>245</span> 	* @name ch.TabNavigator#getSelected
-<span class='line'>246</span> 	* @function
-<span class='line'>247</span> 	* @returns {number} selected Tab's index.
-<span class='line'>248</span> 	* @deprecated
-<span class='line'>249</span> 	*/</span><span class="WHIT">
-<span class='line'>250</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">getSelected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>251</span> 
-<span class='line'>252</span> </span><span class="COMM">/**
-<span class='line'>253</span> *	Default event delegation
-<span class='line'>254</span> */</span><span class="WHIT">
-<span class='line'>255</span> 
-<span class='line'>256</span> </span><span class="WHIT">	</span><span class="NAME">createTabs</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>257</span> 
-<span class='line'>258</span> </span><span class="WHIT">	</span><span class="COMM">// If hash open that tab</span><span class="WHIT">
-<span class='line'>259</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.children.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">--</span><span class="PUNC">;</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>260</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">that.children</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">$content.attr</span><span class="PUNC">(</span><span class="STRN">"id"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">hash</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>261</span> </span><span class="WHIT">			</span><span class="NAME">select</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">+</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>262</span> </span><span class="WHIT">			</span><span class="NAME">hashed</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>263</span> </span><span class="WHIT">			</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>264</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>265</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>266</span> 
-<span class='line'>267</span> </span><span class="WHIT">	</span><span class="COMM">// Shows the first tab if not hash or it's hash and it isn't from the current tab</span><span class="WHIT">
-<span class='line'>268</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">hash</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">hash</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">hashed</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>269</span> </span><span class="WHIT">		</span><span class="NAME">that.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">innerShow</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>270</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>271</span> </span><span class="WHIT">	
-<span class='line'>272</span> 	</span><span class="COMM">/**
-<span class='line'>273</span> 	* Triggers when the component is ready to use (Since 0.8.0).
-<span class='line'>274</span> 	* @name ch.TabNavigator#ready
-<span class='line'>275</span> 	* @event
-<span class='line'>276</span> 	* @public
-<span class='line'>277</span> 	* @since 0.8.0
-<span class='line'>278</span> 	* @example
-<span class='line'>279</span> 	* // Following the first example, using &lt;code>widget&lt;/code> as tabNavigator's instance controller:
-<span class='line'>280</span> 	* widget.on("ready",function () {
-<span class='line'>281</span> 	*	this.show();
-<span class='line'>282</span> 	* });
-<span class='line'>283</span> 	*/</span><span class="WHIT">
-<span class='line'>284</span> </span><span class="WHIT">	</span><span class="COMM">//This avoit to trigger execute after the component was instanciated</span><span class="WHIT">
-<span class='line'>285</span> </span><span class="WHIT">	</span><span class="NAME">setTimeout</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="NAME">that.trigger</span><span class="PUNC">(</span><span class="STRN">"ready"</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">50</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>286</span> 
-<span class='line'>287</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>288</span> 
-<span class='line'>289</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>290</span> 
-<span class='line'>291</span> </span><span class="NAME">ch.factory</span><span class="PUNC">(</span><span class="STRN">"tabNavigator"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>292</span> 
-<span class='line'>293</span> </span><span class="COMM">/**
-<span class='line'>294</span> * Tab is a simple unit of content for TabNavigators.
-<span class='line'>295</span> * @abstract
-<span class='line'>296</span> * @name Tab
-<span class='line'>297</span> * @class Tab
-<span class='line'>298</span> * @augments ch.Navs
-<span class='line'>299</span> * @memberOf ch
-<span class='line'>300</span> * @param {object} conf Object with configuration properties
-<span class='line'>301</span> * @returns itself
-<span class='line'>302</span> * @ignore
-<span class='line'>303</span> */</span><span class="WHIT">
-<span class='line'>304</span> 
-<span class='line'>305</span> </span><span class="NAME">ch.tab</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>306</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>307</span> 	* Reference to a internal component instance, saves all the information and configuration properties.
-<span class='line'>308</span> 	* @private
-<span class='line'>309</span> 	* @name ch.Tab#that
-<span class='line'>310</span> 	* @type object
-<span class='line'>311</span> 	* @ignore
-<span class='line'>312</span> 	*/</span><span class="WHIT">
-<span class='line'>313</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>314</span> 
-<span class='line'>315</span> </span><span class="WHIT">	</span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.clon</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>316</span> </span><span class="WHIT">	</span><span class="NAME">conf.icon</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>317</span> 
-<span class='line'>318</span> </span><span class="WHIT">	</span><span class="NAME">that.conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>319</span> 
-<span class='line'>320</span> </span><span class="COMM">/**
-<span class='line'>321</span> *	Inheritance
-<span class='line'>322</span> */</span><span class="WHIT">
-<span class='line'>323</span> 
-<span class='line'>324</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.uiobject.call</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>325</span> </span><span class="WHIT">	</span><span class="NAME">that.parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.clon</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>326</span> 
-<span class='line'>327</span> </span><span class="COMM">/**
-<span class='line'>328</span> *	Private Members
-<span class='line'>329</span> */</span><span class="WHIT">
-<span class='line'>330</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>331</span> 	* Creates the basic structure for the tab's content.
-<span class='line'>332</span> 	* @private
-<span class='line'>333</span> 	* @name ch.Tab#createContent
-<span class='line'>334</span> 	* @function
-<span class='line'>335</span> 	* @ignore
-<span class='line'>336</span> 	*/</span><span class="WHIT">
-<span class='line'>337</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">createContent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>338</span> </span><span class="WHIT">		
-<span class='line'>339</span> 		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">href</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.element.href.split</span><span class="PUNC">(</span><span class="STRN">"#"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>340</span> </span><span class="WHIT">			</span><span class="NAME">controller</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.$element.parents</span><span class="PUNC">(</span><span class="STRN">".ch-tabNavigator"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>341</span> </span><span class="WHIT">			</span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">controller.find</span><span class="PUNC">(</span><span class="STRN">"#"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">href</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>342</span> 
-<span class='line'>343</span> </span><span class="WHIT">		</span><span class="COMM">// If there are a tabContent...</span><span class="WHIT">
-<span class='line'>344</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">content.length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>345</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">content</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>346</span> 
-<span class='line'>347</span> </span><span class="WHIT">		</span><span class="COMM">// If tabContent doesn't exists</span><span class="WHIT">
-<span class='line'>348</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>349</span> </span><span class="WHIT">			</span><span class="COMM">/**
-<span class='line'>350</span> 			* Content configuration property.
-<span class='line'>351</span> 			* @public
-<span class='line'>352</span> 			* @name ch.Tab#source
-<span class='line'>353</span> 			* @type string
-<span class='line'>354</span> 			* @ignore
-<span class='line'>355</span> 			*/</span><span class="WHIT">
-<span class='line'>356</span> </span><span class="WHIT">			</span><span class="NAME">that.source</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.element.href</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>357</span> 
-<span class='line'>358</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">id</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">href.length</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">href</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"ch-tab"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">that.uid.replace</span><span class="PUNC">(</span><span class="STRN">"#"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"-"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>359</span> 
-<span class='line'>360</span> </span><span class="WHIT">			</span><span class="COMM">// Create tabContent</span><span class="WHIT">
-<span class='line'>361</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"&lt;div id=\""</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">id</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"\" role=\"tabpanel\" class=\"ch-hide\">"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">appendTo</span><span class="PUNC">(</span><span class="NAME">controller.children</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">eq</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>362</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>363</span> 
-<span class='line'>364</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>365</span> 
-<span class='line'>366</span> </span><span class="COMM">/**
-<span class='line'>367</span> *	Protected Members
-<span class='line'>368</span> */</span><span class="WHIT">
-<span class='line'>369</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>370</span> 	* Reference to the trigger element.
-<span class='line'>371</span> 	* @protected
-<span class='line'>372</span> 	* @name ch.Tab#$trigger
-<span class='line'>373</span> 	* @type jQuery
-<span class='line'>374</span> 	* @ignore
-<span class='line'>375</span> 	*/</span><span class="WHIT">
-<span class='line'>376</span> </span><span class="WHIT">	</span><span class="NAME">that.$trigger</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.$element</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>377</span> 
-<span class='line'>378</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>379</span> 	* The component's content.
-<span class='line'>380</span> 	* @protected
-<span class='line'>381</span> 	* @name ch.Tab#$content
-<span class='line'>382</span> 	* @type jQuery
-<span class='line'>383</span> 	* @ignore
-<span class='line'>384</span> 	*/</span><span class="WHIT">
-<span class='line'>385</span> </span><span class="WHIT">	</span><span class="NAME">that.$content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createContent</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>386</span> 
-<span class='line'>387</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>388</span> 	* Shows component's content.
-<span class='line'>389</span> 	* @protected
-<span class='line'>390</span> 	* @function
-<span class='line'>391</span> 	* @name ch.Tab#innerShow
-<span class='line'>392</span> 	* @returns itself
-<span class='line'>393</span> 	* @ignore
-<span class='line'>394</span> 	*/</span><span class="WHIT">
-<span class='line'>395</span> </span><span class="WHIT">	</span><span class="NAME">that.innerShow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>396</span> </span><span class="WHIT">		</span><span class="NAME">that.prevent</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>397</span> 
-<span class='line'>398</span> </span><span class="WHIT">		</span><span class="NAME">that.active</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>399</span> 
-<span class='line'>400</span> </span><span class="WHIT">		</span><span class="COMM">// Load my content if I'need an ajax request </span><span class="WHIT">
-<span class='line'>401</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"source"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">that.content</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>402</span> 
-<span class='line'>403</span> </span><span class="WHIT">		</span><span class="COMM">// Show me</span><span class="WHIT">
-<span class='line'>404</span> </span><span class="WHIT">		</span><span class="NAME">that.$trigger.addClass</span><span class="PUNC">(</span><span class="STRN">"ch-"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"type"</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"-trigger-on"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>405</span> 
-<span class='line'>406</span> </span><span class="WHIT">		</span><span class="COMM">// Set me as hidden false</span><span class="WHIT">
-<span class='line'>407</span> </span><span class="WHIT">		</span><span class="NAME">that.$content</span><span class="WHIT">
-<span class='line'>408</span> </span><span class="WHIT">				</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"aria-hidden"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"false"</span><span class="PUNC">)</span><span class="WHIT">
-<span class='line'>409</span> </span><span class="WHIT">				</span><span class="PUNC">.</span><span class="NAME">removeClass</span><span class="PUNC">(</span><span class="STRN">"ch-hide"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>410</span> 
-<span class='line'>411</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>412</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>413</span> 
-<span class='line'>414</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>415</span> 	* Hides component's content.
-<span class='line'>416</span> 	* @protected
-<span class='line'>417</span> 	* @function
-<span class='line'>418</span> 	* @name ch.Tab#innerHide
-<span class='line'>419</span> 	* @returns itself
-<span class='line'>420</span> 	* @ignore
-<span class='line'>421</span> 	*/</span><span class="WHIT">
-<span class='line'>422</span> </span><span class="WHIT">	</span><span class="NAME">that.innerHide</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>423</span> </span><span class="WHIT">		</span><span class="NAME">that.prevent</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>424</span> 
-<span class='line'>425</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">that.active</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>426</span> </span><span class="WHIT">		
-<span class='line'>427</span> 		</span><span class="NAME">that.active</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>428</span> 
-<span class='line'>429</span> </span><span class="WHIT">		</span><span class="COMM">// Hide me</span><span class="WHIT">
-<span class='line'>430</span> </span><span class="WHIT">		</span><span class="NAME">that.$trigger.removeClass</span><span class="PUNC">(</span><span class="STRN">"ch-"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"type"</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"-trigger-on"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>431</span> 
-<span class='line'>432</span> </span><span class="WHIT">		</span><span class="COMM">// Set all inactive tabs as hidden</span><span class="WHIT">
-<span class='line'>433</span> </span><span class="WHIT">		</span><span class="NAME">that.$content</span><span class="WHIT">
-<span class='line'>434</span> </span><span class="WHIT">				</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"aria-hidden"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"true"</span><span class="PUNC">)</span><span class="WHIT">
-<span class='line'>435</span> </span><span class="WHIT">				</span><span class="PUNC">.</span><span class="NAME">addClass</span><span class="PUNC">(</span><span class="STRN">"ch-hide"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>436</span> 
-<span class='line'>437</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>438</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>439</span> 
-<span class='line'>440</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>441</span> 	* This callback is triggered when async data is loaded into component's content, when ajax content comes back.
-<span class='line'>442</span> 	* @protected
-<span class='line'>443</span> 	* @name ch.Tab#contentCallback
-<span class='line'>444</span> 	* @ignore
-<span class='line'>445</span> 	*/</span><span class="WHIT">
-<span class='line'>446</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">on</span><span class="PUNC">(</span><span class="STRN">"contentLoad"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">context</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>447</span> 
-<span class='line'>448</span> </span><span class="WHIT">		</span><span class="NAME">that.$content.html</span><span class="PUNC">(</span><span class="NAME">that.staticContent</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>449</span> 
-<span class='line'>450</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"onContentLoad"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>451</span> </span><span class="WHIT">			</span><span class="NAME">conf.onContentLoad.call</span><span class="PUNC">(</span><span class="NAME">context</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">that.staticContent</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>452</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>453</span> 
-<span class='line'>454</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>455</span> 
-<span class='line'>456</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>457</span> 	* This callback is triggered when async request fails.
-<span class='line'>458</span> 	* @public
-<span class='line'>459</span> 	* @name contentCallback
-<span class='line'>460</span> 	* @returns {Chico-UI Object}
-<span class='line'>461</span> 	* @memberOf ch.TabNavigator
-<span class='line'>462</span> 	* @ignore
-<span class='line'>463</span> 	*/</span><span class="WHIT">
-<span class='line'>464</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">on</span><span class="PUNC">(</span><span class="STRN">"contentError"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>465</span> 
-<span class='line'>466</span> </span><span class="WHIT">		</span><span class="NAME">that.$content.html</span><span class="PUNC">(</span><span class="NAME">that.staticContent</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>467</span> 
-<span class='line'>468</span> </span><span class="WHIT">		</span><span class="COMM">// Get the original that.source</span><span class="WHIT">
-<span class='line'>469</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">originalSource</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.source</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>470</span> 
-<span class='line'>471</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"onContentError"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>472</span> </span><span class="WHIT">			</span><span class="NAME">conf.onContentError.call</span><span class="PUNC">(</span><span class="NAME">data.context</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data.jqXHR</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data.textStatus</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data.errorThrown</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>473</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>474</span> 
-<span class='line'>475</span> </span><span class="WHIT">		</span><span class="COMM">// Reset content configuration</span><span class="WHIT">
-<span class='line'>476</span> </span><span class="WHIT">		</span><span class="NAME">that.source</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">originalSource</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>477</span> </span><span class="WHIT">		
-<span class='line'>478</span> 		</span><span class="NAME">that.staticContent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>479</span> 
-<span class='line'>480</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>481</span> 
-<span class='line'>482</span> </span><span class="COMM">/**
-<span class='line'>483</span> *	Public Members
-<span class='line'>484</span> */</span><span class="WHIT">
-<span class='line'>485</span> 
-<span class='line'>486</span> </span><span class="COMM">/**
-<span class='line'>487</span> *	Default event delegation
-<span class='line'>488</span> */</span><span class="WHIT">
-<span class='line'>489</span> </span><span class="WHIT">	
-<span class='line'>490</span> 	</span><span class="COMM">// Add the attributes for WAI-ARIA to the tabs and tabpanel</span><span class="WHIT">
-<span class='line'>491</span> </span><span class="WHIT">	</span><span class="NAME">that.$content.attr</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>492</span> </span><span class="WHIT">		</span><span class="STRN">"role"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"tabpanel"</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>493</span> </span><span class="WHIT">		</span><span class="STRN">"aria-hidden"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">that.$content.hasClass</span><span class="PUNC">(</span><span class="STRN">"ch-hide"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>494</span> </span><span class="WHIT">		</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"ch-hide"</span><span class="WHIT">
-<span class='line'>495</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>496</span> 
-<span class='line'>497</span> </span><span class="WHIT">	</span><span class="NAME">that.$trigger.attr</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>498</span> </span><span class="WHIT">		</span><span class="STRN">"role"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"tab"</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>499</span> </span><span class="WHIT">		</span><span class="STRN">"arial-controls"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">that.$content.attr</span><span class="PUNC">(</span><span class="STRN">"id"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>500</span> </span><span class="WHIT">		</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"ch-tab-trigger"</span><span class="WHIT">
-<span class='line'>501</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>502</span> </span><span class="WHIT">		
-<span class='line'>503</span> 	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>504</span> </span><span class="PUNC">}</span></pre></body></html>
+<span class='line'> 19</span> * @see ch.Controllers
+<span class='line'> 20</span> */</span><span class="WHIT">
+<span class='line'> 21</span> 
+<span class='line'> 22</span> </span><span class="NAME">ch.tabNavigator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 23</span> 
+<span class='line'> 24</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 25</span> 	* Reference to a internal component instance, saves all the information and configuration properties.
+<span class='line'> 26</span> 	* @private
+<span class='line'> 27</span> 	* @name ch.TabNavigator#that
+<span class='line'> 28</span> 	* @type object
+<span class='line'> 29</span> 	*/</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 31</span> 
+<span class='line'> 32</span> </span><span class="WHIT">	</span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.clon</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 33</span> 
+<span class='line'> 34</span> </span><span class="WHIT">	</span><span class="NAME">that.conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 35</span> 
+<span class='line'> 36</span> </span><span class="COMM">/**
+<span class='line'> 37</span> *	Inheritance
+<span class='line'> 38</span> */</span><span class="WHIT">
+<span class='line'> 39</span> 
+<span class='line'> 40</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.controllers.call</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">	</span><span class="NAME">that.parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.clon</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> 
+<span class='line'> 43</span> </span><span class="COMM">/**
+<span class='line'> 44</span> *	Private Members
+<span class='line'> 45</span> */</span><span class="WHIT">
+<span class='line'> 46</span> 
+<span class='line'> 47</span> </span><span class="WHIT">	</span><span class="COMM">// Add CSS class to the main element </span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">	</span><span class="NAME">that.$element.addClass</span><span class="PUNC">(</span><span class="STRN">"ch-tabNavigator"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> 
+<span class='line'> 50</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 51</span> 	* The actual location hash, is used to know if there's a specific tab selected.
+<span class='line'> 52</span> 	* @private
+<span class='line'> 53</span> 	* @name ch.TabNavigator#hash
+<span class='line'> 54</span> 	* @type string
+<span class='line'> 55</span> 	*/</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">hash</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">window.location.hash.replace</span><span class="PUNC">(</span><span class="STRN">"#!/"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 57</span> 
+<span class='line'> 58</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 59</span> 	* A boolean property to know if the some tag should be selected.
+<span class='line'> 60</span> 	* @private
+<span class='line'> 61</span> 	* @name ch.TabNavigator#hashed
+<span class='line'> 62</span> 	* @type boolean
+<span class='line'> 63</span> 	* @default false
+<span class='line'> 64</span> 	*/</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">		</span><span class="NAME">hashed</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 66</span> 
+<span class='line'> 67</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 68</span> 	* Get wich tab is selected.
+<span class='line'> 69</span> 	* @private
+<span class='line'> 70</span> 	* @name ch.TabNavigator#selected
+<span class='line'> 71</span> 	* @type number
+<span class='line'> 72</span> 	*/</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">		</span><span class="COMM">//selected = conf.selected - 1 || conf.value - 1 || 0,</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">		</span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.selected</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">conf.value</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 75</span> 
+<span class='line'> 76</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 77</span> 	* Create controller's children.
+<span class='line'> 78</span> 	* @private
+<span class='line'> 79</span> 	* @name ch.TabNavigator#createTabs
+<span class='line'> 80</span> 	* @function
+<span class='line'> 81</span> 	*/</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">		</span><span class="NAME">createTabs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 83</span> </span><span class="WHIT">	
+<span class='line'> 84</span> 			</span><span class="COMM">// Children</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">			</span><span class="NAME">that.$triggers.find</span><span class="PUNC">(</span><span class="STRN">"a"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">	
+<span class='line'> 87</span> 				</span><span class="COMM">// Tab context</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">tab</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">					</span><span class="NAME">tab.uid</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.uid</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"#"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">					</span><span class="NAME">tab.type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"tab"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">					</span><span class="NAME">tab.element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">					</span><span class="NAME">tab.$element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">					</span><span class="NAME">tab.controller</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">	
+<span class='line'> 95</span> 				</span><span class="COMM">// Tab configuration</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">config</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">					</span><span class="NAME">config.open</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">					</span><span class="NAME">config.onShow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">				
+<span class='line'>100</span> 				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">that.conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"cache"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">config.cache</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.conf.cache</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">	
+<span class='line'>102</span> 				</span><span class="COMM">/**
+<span class='line'>103</span> 				* Fired when the content of one dynamic tab loads.
+<span class='line'>104</span> 				* @name ch.TabNavigator#onContentLoad
+<span class='line'>105</span> 				* @event
+<span class='line'>106</span> 				* @public
+<span class='line'>107</span> 				*/</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">that.conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"onContentLoad"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">config.onContentLoad</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.conf.onContentLoad</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">				
+<span class='line'>110</span> 				</span><span class="COMM">/**
+<span class='line'>111</span> 				* Fired when the content of one dynamic tab did not load.
+<span class='line'>112</span> 				* @name ch.TabNavigator#onContentError
+<span class='line'>113</span> 				* @event
+<span class='line'>114</span> 				* @public
+<span class='line'>115</span> 				*/</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">that.conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"onContentError"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">config.onContentError</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.conf.onContentError</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>117</span> </span><span class="WHIT">	
+<span class='line'>118</span> 				</span><span class="COMM">// Create Tabs</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">				</span><span class="NAME">that.children.push</span><span class="PUNC">(</span><span class="NAME">ch.tab.call</span><span class="PUNC">(</span><span class="NAME">tab</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">config</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">	
+<span class='line'>121</span> 				</span><span class="COMM">// Bind new click to have control</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">				</span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">on</span><span class="PUNC">(</span><span class="STRN">"click"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">					</span><span class="NAME">that.prevent</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">					</span><span class="NAME">select</span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>125</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>126</span> </span><span class="WHIT">	
+<span class='line'>127</span> 			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>128</span> </span><span class="WHIT">	
+<span class='line'>129</span> 			</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">	
+<span class='line'>131</span> 		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>132</span> 
+<span class='line'>133</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>134</span> 	* Select a child to show its content.
+<span class='line'>135</span> 	* @name ch.TabNavigator#select
+<span class='line'>136</span> 	* @private
+<span class='line'>137</span> 	* @function
+<span class='line'>138</span> 	*/</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">		</span><span class="NAME">select</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tab</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">			
+<span class='line'>141</span> 			</span><span class="COMM">// If select a tab that don't exist do nothing</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">that.children</span><span class="PUNC">[</span><span class="NAME">tab</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>143</span> 
+<span class='line'>144</span> </span><span class="WHIT">			</span><span class="NAME">tab</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.children</span><span class="PUNC">[</span><span class="NAME">tab</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span> 
+<span class='line'>146</span> </span><span class="WHIT">			</span><span class="COMM">// Don't click me if I'm open</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tab</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">that.children</span><span class="PUNC">[</span><span class="NAME">selected</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">	
+<span class='line'>149</span> 			</span><span class="COMM">// Hide my open bro</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">			</span><span class="NAME">$.each</span><span class="PUNC">(</span><span class="NAME">that.children</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tab</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">e.innerHide</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">			
+<span class='line'>154</span> 			</span><span class="COMM">// shows the tab</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">			</span><span class="NAME">tab.innerShow</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">	
+<span class='line'>157</span> 			</span><span class="COMM">//Change location hash</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="WHIT">			</span><span class="NAME">window.location.hash</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"#!/"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">tab.$content.attr</span><span class="PUNC">(</span><span class="STRN">"id"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">	
+<span class='line'>160</span> 			</span><span class="COMM">/**
+<span class='line'>161</span> 			* Fired when a tab is selected.
+<span class='line'>162</span> 			* @name ch.TabNavigator#onSelect
+<span class='line'>163</span> 			* @event
+<span class='line'>164</span> 			* @public
+<span class='line'>165</span> 			*/</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">			</span><span class="NAME">that.callbacks</span><span class="PUNC">(</span><span class="STRN">"onSelect"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>167</span> 
+<span class='line'>168</span> </span><span class="WHIT">			</span><span class="COMM">// new callback</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">			</span><span class="NAME">that.trigger</span><span class="PUNC">(</span><span class="STRN">"select"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">	
+<span class='line'>171</span> 			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">			
+<span class='line'>173</span> 		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>174</span> 
+<span class='line'>175</span> </span><span class="COMM">/**
+<span class='line'>176</span> *	Protected Members
+<span class='line'>177</span> */</span><span class="WHIT">
+<span class='line'>178</span> 
+<span class='line'>179</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>180</span> 	* The component's triggers container.
+<span class='line'>181</span> 	* @protected
+<span class='line'>182</span> 	* @name ch.TabNavigator#$triggers
+<span class='line'>183</span> 	* @type jQuery
+<span class='line'>184</span> 	*/</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">	</span><span class="NAME">that.$triggers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.$element.children</span><span class="PUNC">(</span><span class="STRN">":first"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addClass</span><span class="PUNC">(</span><span class="STRN">"ch-tabNavigator-triggers"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"role"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"tablist"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>186</span> 
+<span class='line'>187</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>188</span> 	* The component's content.
+<span class='line'>189</span> 	* @protected
+<span class='line'>190</span> 	* @name ch.TabNavigator#$content
+<span class='line'>191</span> 	* @type jQuery
+<span class='line'>192</span> 	*/</span><span class="WHIT">
+<span class='line'>193</span> </span><span class="WHIT">	</span><span class="NAME">that.$content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.$triggers.next</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addClass</span><span class="PUNC">(</span><span class="STRN">"ch-tabNavigator-content ch-box"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"role"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"presentation"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>194</span> 
+<span class='line'>195</span> </span><span class="COMM">/**
+<span class='line'>196</span> *	Public Members
+<span class='line'>197</span> */</span><span class="WHIT">
+<span class='line'>198</span> 
+<span class='line'>199</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>200</span> 	* @borrows ch.Object#uid as ch.TabNavigator#uid
+<span class='line'>201</span> 	*/</span><span class="WHIT">	
+<span class='line'>202</span> 	
+<span class='line'>203</span> 	</span><span class="COMM">/**
+<span class='line'>204</span> 	* @borrows ch.Object#element as ch.TabNavigator#element
+<span class='line'>205</span> 	*/</span><span class="WHIT">
+<span class='line'>206</span> 
+<span class='line'>207</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>208</span> 	* @borrows ch.Object#type as ch.TabNavigator#type
+<span class='line'>209</span> 	*/</span><span class="WHIT">
+<span class='line'>210</span> 
+<span class='line'>211</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>212</span> 	* Children instances associated to this controller.
+<span class='line'>213</span> 	* @public
+<span class='line'>214</span> 	* @name ch.TabNavigator#children
+<span class='line'>215</span> 	* @type collection
+<span class='line'>216</span> 	*/</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">children</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.children</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>218</span> 
+<span class='line'>219</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>220</span> 	* Select a specific child or get the selected tab.
+<span class='line'>221</span> 	* @public
+<span class='line'>222</span> 	* @name ch.TabNavigator#select
+<span class='line'>223</span> 	* @function
+<span class='line'>224</span> 	* @param {number} tab Tab's index.
+<span class='line'>225</span> 	* @exampleDescription Create a TabNavigator
+<span class='line'>226</span> 	* @example
+<span class='line'>227</span> 	* widget.select(2);
+<span class='line'>228</span> 	* 
+<span class='line'>229</span> 	* // Get selected page
+<span class='line'>230</span> 	* var selected = widget.select();
+<span class='line'>231</span> 	*/</span><span class="WHIT">
+<span class='line'>232</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">select</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">tab</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="WHIT">		</span><span class="COMM">// Returns selectd tab instead set it</span><span class="WHIT">
+<span class='line'>234</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">tab</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>235</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>237</span> 
+<span class='line'>238</span> </span><span class="WHIT">		</span><span class="NAME">select</span><span class="PUNC">(</span><span class="NAME">tab</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>240</span> 
+<span class='line'>241</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>242</span> 
+<span class='line'>243</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>244</span> 	* Deprecated - Returns the selected child's index.
+<span class='line'>245</span> 	* @public
+<span class='line'>246</span> 	* @name ch.TabNavigator#getSelected
+<span class='line'>247</span> 	* @function
+<span class='line'>248</span> 	* @returns {number} selected Tab's index.
+<span class='line'>249</span> 	* @deprecated
+<span class='line'>250</span> 	*/</span><span class="WHIT">
+<span class='line'>251</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">getSelected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>252</span> 
+<span class='line'>253</span> </span><span class="COMM">/**
+<span class='line'>254</span> *	Default event delegation
+<span class='line'>255</span> */</span><span class="WHIT">
+<span class='line'>256</span> 
+<span class='line'>257</span> </span><span class="WHIT">	</span><span class="NAME">createTabs</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>258</span> 
+<span class='line'>259</span> </span><span class="WHIT">	</span><span class="COMM">// If hash open that tab</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.children.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">--</span><span class="PUNC">;</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>261</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">that.children</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">$content.attr</span><span class="PUNC">(</span><span class="STRN">"id"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">hash</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="WHIT">			</span><span class="NAME">select</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">+</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">			</span><span class="NAME">hashed</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="WHIT">			</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>265</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>266</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>267</span> 
+<span class='line'>268</span> </span><span class="WHIT">	</span><span class="COMM">// Shows the first tab if not hash or it's hash and it isn't from the current tab</span><span class="WHIT">
+<span class='line'>269</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">hash</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">hash</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">hashed</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>270</span> </span><span class="WHIT">		</span><span class="NAME">that.children</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">innerShow</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>272</span> </span><span class="WHIT">	
+<span class='line'>273</span> 	</span><span class="COMM">/**
+<span class='line'>274</span> 	* Triggers when the component is ready to use (Since 0.8.0).
+<span class='line'>275</span> 	* @name ch.TabNavigator#ready
+<span class='line'>276</span> 	* @event
+<span class='line'>277</span> 	* @public
+<span class='line'>278</span> 	* @since 0.8.0
+<span class='line'>279</span> 	* @example
+<span class='line'>280</span> 	* // Following the first example, using &lt;code>widget&lt;/code> as tabNavigator's instance controller:
+<span class='line'>281</span> 	* widget.on("ready",function () {
+<span class='line'>282</span> 	*	this.show();
+<span class='line'>283</span> 	* });
+<span class='line'>284</span> 	*/</span><span class="WHIT">
+<span class='line'>285</span> </span><span class="WHIT">	</span><span class="COMM">//This avoit to trigger execute after the component was instanciated</span><span class="WHIT">
+<span class='line'>286</span> </span><span class="WHIT">	</span><span class="NAME">setTimeout</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="NAME">that.trigger</span><span class="PUNC">(</span><span class="STRN">"ready"</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">50</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>287</span> 
+<span class='line'>288</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>289</span> 
+<span class='line'>290</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>291</span> 
+<span class='line'>292</span> </span><span class="NAME">ch.factory</span><span class="PUNC">(</span><span class="STRN">"tabNavigator"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>293</span> 
+<span class='line'>294</span> </span><span class="COMM">/**
+<span class='line'>295</span> * Tab is a simple unit of content for TabNavigators.
+<span class='line'>296</span> * @abstract
+<span class='line'>297</span> * @name Tab
+<span class='line'>298</span> * @class Tab
+<span class='line'>299</span> * @augments ch.Navs
+<span class='line'>300</span> * @memberOf ch
+<span class='line'>301</span> * @param {object} conf Object with configuration properties
+<span class='line'>302</span> * @returns itself
+<span class='line'>303</span> * @ignore
+<span class='line'>304</span> */</span><span class="WHIT">
+<span class='line'>305</span> 
+<span class='line'>306</span> </span><span class="NAME">ch.tab</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>307</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>308</span> 	* Reference to a internal component instance, saves all the information and configuration properties.
+<span class='line'>309</span> 	* @private
+<span class='line'>310</span> 	* @name ch.Tab#that
+<span class='line'>311</span> 	* @type object
+<span class='line'>312</span> 	* @ignore
+<span class='line'>313</span> 	*/</span><span class="WHIT">
+<span class='line'>314</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>315</span> 
+<span class='line'>316</span> </span><span class="WHIT">	</span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.clon</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>317</span> </span><span class="WHIT">	</span><span class="NAME">conf.icon</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>318</span> 
+<span class='line'>319</span> </span><span class="WHIT">	</span><span class="NAME">that.conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>320</span> 
+<span class='line'>321</span> </span><span class="COMM">/**
+<span class='line'>322</span> *	Inheritance
+<span class='line'>323</span> */</span><span class="WHIT">
+<span class='line'>324</span> 
+<span class='line'>325</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.uiobject.call</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>326</span> </span><span class="WHIT">	</span><span class="NAME">that.parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.clon</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>327</span> 
+<span class='line'>328</span> </span><span class="COMM">/**
+<span class='line'>329</span> *	Private Members
+<span class='line'>330</span> */</span><span class="WHIT">
+<span class='line'>331</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>332</span> 	* Creates the basic structure for the tab's content.
+<span class='line'>333</span> 	* @private
+<span class='line'>334</span> 	* @name ch.Tab#createContent
+<span class='line'>335</span> 	* @function
+<span class='line'>336</span> 	* @ignore
+<span class='line'>337</span> 	*/</span><span class="WHIT">
+<span class='line'>338</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">createContent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>339</span> </span><span class="WHIT">		
+<span class='line'>340</span> 		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">href</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.element.href.split</span><span class="PUNC">(</span><span class="STRN">"#"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>341</span> </span><span class="WHIT">			</span><span class="NAME">controller</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.$element.parents</span><span class="PUNC">(</span><span class="STRN">".ch-tabNavigator"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>342</span> </span><span class="WHIT">			</span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">controller.find</span><span class="PUNC">(</span><span class="STRN">"#"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">href</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>343</span> 
+<span class='line'>344</span> </span><span class="WHIT">		</span><span class="COMM">// If there are a tabContent...</span><span class="WHIT">
+<span class='line'>345</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">content.length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>346</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">content</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>347</span> 
+<span class='line'>348</span> </span><span class="WHIT">		</span><span class="COMM">// If tabContent doesn't exists</span><span class="WHIT">
+<span class='line'>349</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>350</span> </span><span class="WHIT">			</span><span class="COMM">/**
+<span class='line'>351</span> 			* Content configuration property.
+<span class='line'>352</span> 			* @public
+<span class='line'>353</span> 			* @name ch.Tab#source
+<span class='line'>354</span> 			* @type string
+<span class='line'>355</span> 			* @ignore
+<span class='line'>356</span> 			*/</span><span class="WHIT">
+<span class='line'>357</span> </span><span class="WHIT">			</span><span class="NAME">that.source</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.element.href</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>358</span> 
+<span class='line'>359</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">id</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">href.length</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">href</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"ch-tab"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">that.uid.replace</span><span class="PUNC">(</span><span class="STRN">"#"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"-"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>360</span> 
+<span class='line'>361</span> </span><span class="WHIT">			</span><span class="COMM">// Create tabContent</span><span class="WHIT">
+<span class='line'>362</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"&lt;div id=\""</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">id</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"\" role=\"tabpanel\" class=\"ch-hide\">"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">appendTo</span><span class="PUNC">(</span><span class="NAME">controller.children</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">eq</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>363</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>364</span> 
+<span class='line'>365</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>366</span> 
+<span class='line'>367</span> </span><span class="COMM">/**
+<span class='line'>368</span> *	Protected Members
+<span class='line'>369</span> */</span><span class="WHIT">
+<span class='line'>370</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>371</span> 	* Reference to the trigger element.
+<span class='line'>372</span> 	* @protected
+<span class='line'>373</span> 	* @name ch.Tab#$trigger
+<span class='line'>374</span> 	* @type jQuery
+<span class='line'>375</span> 	* @ignore
+<span class='line'>376</span> 	*/</span><span class="WHIT">
+<span class='line'>377</span> </span><span class="WHIT">	</span><span class="NAME">that.$trigger</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.$element</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>378</span> 
+<span class='line'>379</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>380</span> 	* The component's content.
+<span class='line'>381</span> 	* @protected
+<span class='line'>382</span> 	* @name ch.Tab#$content
+<span class='line'>383</span> 	* @type jQuery
+<span class='line'>384</span> 	* @ignore
+<span class='line'>385</span> 	*/</span><span class="WHIT">
+<span class='line'>386</span> </span><span class="WHIT">	</span><span class="NAME">that.$content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">createContent</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>387</span> 
+<span class='line'>388</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>389</span> 	* Shows component's content.
+<span class='line'>390</span> 	* @protected
+<span class='line'>391</span> 	* @function
+<span class='line'>392</span> 	* @name ch.Tab#innerShow
+<span class='line'>393</span> 	* @returns itself
+<span class='line'>394</span> 	* @ignore
+<span class='line'>395</span> 	*/</span><span class="WHIT">
+<span class='line'>396</span> </span><span class="WHIT">	</span><span class="NAME">that.innerShow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>397</span> </span><span class="WHIT">		</span><span class="NAME">that.prevent</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>398</span> 
+<span class='line'>399</span> </span><span class="WHIT">		</span><span class="NAME">that.active</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>400</span> 
+<span class='line'>401</span> </span><span class="WHIT">		</span><span class="COMM">// Load my content if I'need an ajax request </span><span class="WHIT">
+<span class='line'>402</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"source"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">that.content</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>403</span> 
+<span class='line'>404</span> </span><span class="WHIT">		</span><span class="COMM">// Show me</span><span class="WHIT">
+<span class='line'>405</span> </span><span class="WHIT">		</span><span class="NAME">that.$trigger.addClass</span><span class="PUNC">(</span><span class="STRN">"ch-"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"type"</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"-trigger-on"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>406</span> 
+<span class='line'>407</span> </span><span class="WHIT">		</span><span class="COMM">// Set me as hidden false</span><span class="WHIT">
+<span class='line'>408</span> </span><span class="WHIT">		</span><span class="NAME">that.$content</span><span class="WHIT">
+<span class='line'>409</span> </span><span class="WHIT">				</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"aria-hidden"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"false"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>410</span> </span><span class="WHIT">				</span><span class="PUNC">.</span><span class="NAME">removeClass</span><span class="PUNC">(</span><span class="STRN">"ch-hide"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>411</span> 
+<span class='line'>412</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>413</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>414</span> 
+<span class='line'>415</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>416</span> 	* Hides component's content.
+<span class='line'>417</span> 	* @protected
+<span class='line'>418</span> 	* @function
+<span class='line'>419</span> 	* @name ch.Tab#innerHide
+<span class='line'>420</span> 	* @returns itself
+<span class='line'>421</span> 	* @ignore
+<span class='line'>422</span> 	*/</span><span class="WHIT">
+<span class='line'>423</span> </span><span class="WHIT">	</span><span class="NAME">that.innerHide</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>424</span> </span><span class="WHIT">		</span><span class="NAME">that.prevent</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>425</span> 
+<span class='line'>426</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">that.active</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>427</span> </span><span class="WHIT">		
+<span class='line'>428</span> 		</span><span class="NAME">that.active</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>429</span> 
+<span class='line'>430</span> </span><span class="WHIT">		</span><span class="COMM">// Hide me</span><span class="WHIT">
+<span class='line'>431</span> </span><span class="WHIT">		</span><span class="NAME">that.$trigger.removeClass</span><span class="PUNC">(</span><span class="STRN">"ch-"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"type"</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"-trigger-on"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>432</span> 
+<span class='line'>433</span> </span><span class="WHIT">		</span><span class="COMM">// Set all inactive tabs as hidden</span><span class="WHIT">
+<span class='line'>434</span> </span><span class="WHIT">		</span><span class="NAME">that.$content</span><span class="WHIT">
+<span class='line'>435</span> </span><span class="WHIT">				</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">"aria-hidden"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"true"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>436</span> </span><span class="WHIT">				</span><span class="PUNC">.</span><span class="NAME">addClass</span><span class="PUNC">(</span><span class="STRN">"ch-hide"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>437</span> 
+<span class='line'>438</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>439</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>440</span> 
+<span class='line'>441</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>442</span> 	* This callback is triggered when async data is loaded into component's content, when ajax content comes back.
+<span class='line'>443</span> 	* @protected
+<span class='line'>444</span> 	* @name ch.Tab#contentCallback
+<span class='line'>445</span> 	* @ignore
+<span class='line'>446</span> 	*/</span><span class="WHIT">
+<span class='line'>447</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">on</span><span class="PUNC">(</span><span class="STRN">"contentLoad"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">context</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>448</span> 
+<span class='line'>449</span> </span><span class="WHIT">		</span><span class="NAME">that.$content.html</span><span class="PUNC">(</span><span class="NAME">that.staticContent</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>450</span> 
+<span class='line'>451</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"onContentLoad"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>452</span> </span><span class="WHIT">			</span><span class="NAME">conf.onContentLoad.call</span><span class="PUNC">(</span><span class="NAME">context</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">that.staticContent</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>453</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>454</span> 
+<span class='line'>455</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>456</span> 
+<span class='line'>457</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>458</span> 	* This callback is triggered when async request fails.
+<span class='line'>459</span> 	* @public
+<span class='line'>460</span> 	* @name contentCallback
+<span class='line'>461</span> 	* @returns {Chico-UI Object}
+<span class='line'>462</span> 	* @memberOf ch.TabNavigator
+<span class='line'>463</span> 	* @ignore
+<span class='line'>464</span> 	*/</span><span class="WHIT">
+<span class='line'>465</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">on</span><span class="PUNC">(</span><span class="STRN">"contentError"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>466</span> 
+<span class='line'>467</span> </span><span class="WHIT">		</span><span class="NAME">that.$content.html</span><span class="PUNC">(</span><span class="NAME">that.staticContent</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>468</span> 
+<span class='line'>469</span> </span><span class="WHIT">		</span><span class="COMM">// Get the original that.source</span><span class="WHIT">
+<span class='line'>470</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">originalSource</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.source</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>471</span> 
+<span class='line'>472</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"onContentError"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>473</span> </span><span class="WHIT">			</span><span class="NAME">conf.onContentError.call</span><span class="PUNC">(</span><span class="NAME">data.context</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data.jqXHR</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data.textStatus</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data.errorThrown</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>474</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>475</span> 
+<span class='line'>476</span> </span><span class="WHIT">		</span><span class="COMM">// Reset content configuration</span><span class="WHIT">
+<span class='line'>477</span> </span><span class="WHIT">		</span><span class="NAME">that.source</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">originalSource</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>478</span> </span><span class="WHIT">		
+<span class='line'>479</span> 		</span><span class="NAME">that.staticContent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>480</span> 
+<span class='line'>481</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>482</span> 
+<span class='line'>483</span> </span><span class="COMM">/**
+<span class='line'>484</span> *	Public Members
+<span class='line'>485</span> */</span><span class="WHIT">
+<span class='line'>486</span> 
+<span class='line'>487</span> </span><span class="COMM">/**
+<span class='line'>488</span> *	Default event delegation
+<span class='line'>489</span> */</span><span class="WHIT">
+<span class='line'>490</span> </span><span class="WHIT">	
+<span class='line'>491</span> 	</span><span class="COMM">// Add the attributes for WAI-ARIA to the tabs and tabpanel</span><span class="WHIT">
+<span class='line'>492</span> </span><span class="WHIT">	</span><span class="NAME">that.$content.attr</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>493</span> </span><span class="WHIT">		</span><span class="STRN">"role"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"tabpanel"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>494</span> </span><span class="WHIT">		</span><span class="STRN">"aria-hidden"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">that.$content.hasClass</span><span class="PUNC">(</span><span class="STRN">"ch-hide"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>495</span> </span><span class="WHIT">		</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"ch-hide"</span><span class="WHIT">
+<span class='line'>496</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>497</span> 
+<span class='line'>498</span> </span><span class="WHIT">	</span><span class="NAME">that.$trigger.attr</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>499</span> </span><span class="WHIT">		</span><span class="STRN">"role"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"tab"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>500</span> </span><span class="WHIT">		</span><span class="STRN">"arial-controls"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">that.$content.attr</span><span class="PUNC">(</span><span class="STRN">"id"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>501</span> </span><span class="WHIT">		</span><span class="STRN">"class"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"ch-tab-trigger"</span><span class="WHIT">
+<span class='line'>502</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>503</span> </span><span class="WHIT">		
+<span class='line'>504</span> 	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>505</span> </span><span class="PUNC">}</span></pre></body></html>
