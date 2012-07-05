@@ -444,7 +444,7 @@ section.main .updated {
 }
 
 section.main .updated + h3 {
-	margin-top: 20px!important;
+	margin-top: 20px !important;
 }
 
 .home-list {
@@ -461,6 +461,10 @@ code {
 	margin: 10px 0;
 	padding: 7px 10px;
 	border-radius: 3px;
+}
+
+pre{
+	clear:both;
 }
 
 .terminal {
