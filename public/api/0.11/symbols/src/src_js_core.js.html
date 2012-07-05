@@ -1,0 +1,754 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span> * ch is the namespace for Chico-UI.
+<span class='line'>  3</span> * @namespace ch
+<span class='line'>  4</span> * @name ch
+<span class='line'>  5</span> * @static
+<span class='line'>  6</span> */</span><span class="WHIT">
+<span class='line'>  7</span> 
+<span class='line'>  8</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ch</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">window.ch</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>  9</span> 
+<span class='line'> 10</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 11</span> 	* Current version
+<span class='line'> 12</span> 	* @name version
+<span class='line'> 13</span> 	* @type number
+<span class='line'> 14</span> 	* @memberOf ch
+<span class='line'> 15</span> 	*/</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="WHIT">	</span><span class="NAME">version</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"0.11"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 18</span> 	* Here you will find a map of all component's instances created by Chico-UI.
+<span class='line'> 19</span> 	* @name instances
+<span class='line'> 20</span> 	* @type object
+<span class='line'> 21</span> 	* @memberOf ch
+<span class='line'> 22</span> 	*/</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="WHIT">	</span><span class="NAME">instances</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 25</span> 	* Available device's features.
+<span class='line'> 26</span> 	* @name features
+<span class='line'> 27</span> 	* @type object
+<span class='line'> 28</span> 	* @see ch.Support
+<span class='line'> 29</span> 	* @memberOf ch
+<span class='line'> 30</span> 	*/</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">	</span><span class="NAME">features</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 32</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 33</span> 	* Core constructor function.
+<span class='line'> 34</span> 	* @name init
+<span class='line'> 35</span> 	* @function
+<span class='line'> 36</span> 	* @memberOf ch
+<span class='line'> 37</span> 	*/</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">	</span><span class="NAME">init</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'> 39</span> 		</span><span class="COMM">// unmark the no-js flag on html tag</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">		</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"html"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">removeClass</span><span class="PUNC">(</span><span class="STRN">"no-js"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">		</span><span class="COMM">// check for browser support</span><span class="WHIT">
+<span class='line'> 42</span> </span><span class="WHIT">		</span><span class="NAME">ch.features</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.support</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">		</span><span class="COMM">// TODO: This should be on keyboard controller.</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">		</span><span class="NAME">ch.utils.document.bind</span><span class="PUNC">(</span><span class="STRN">"keydown"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">ch.keyboard</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 47</span> 	* References and commons functions.
+<span class='line'> 48</span> 	* @name Utils
+<span class='line'> 49</span> 	* @class Utils
+<span class='line'> 50</span> 	* @type object
+<span class='line'> 51</span> 	* @memberOf ch
+<span class='line'> 52</span> 	*/</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">	</span><span class="NAME">utils</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">		</span><span class="NAME">body</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"body"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">		</span><span class="NAME">html</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"html"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">		</span><span class="NAME">window</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">window</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">		</span><span class="NAME">document</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">document</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">		</span><span class="NAME">zIndex</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">1000</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">		</span><span class="NAME">index</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">// global instantiation index</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">		</span><span class="NAME">isTag</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">string</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="REGX">/&lt;([\w:]+)/</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">test</span><span class="PUNC">(</span><span class="NAME">string</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">		</span><span class="NAME">isSelector</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">selector</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">regex</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">$.expr.match</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">$.expr.match</span><span class="PUNC">[</span><span class="WHIT"> </span><span class="NAME">regex</span><span class="WHIT"> </span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">test</span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">ch.utils.isTag</span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 71</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">		</span><span class="NAME">inDom</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">context</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">selector</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">"string"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">			</span><span class="COMM">// jQuery: If you wish to use any of the meta-characters ( such as !"#$%&'()*+,./:;&lt;=>?@[\]^`{|}~ ) as a literal part of a name, you must escape the character with two backslashes: \\.</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">selector</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">selector.replace</span><span class="PUNC">(</span><span class="REGX">/(\!|\"|\$|\%|\&|\'|\(|\)|\*|\+|\,|\/|\;|\&lt;|\=|\>|\?|\@|\[|\\|\]|\^|\`|\{|\||\}|\~)/gi</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">str</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">$1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">"\\\\"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">$1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">selector</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">context</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 79</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'> 81</span> 		* Checks if the parameter given is an Array.
+<span class='line'> 82</span> 		* @name isArray
+<span class='line'> 83</span> 		* @public
+<span class='line'> 84</span> 		* @param o The member to be checked
+<span class='line'> 85</span> 		* @function
+<span class='line'> 86</span> 		* @memberOf ch.Utils
+<span class='line'> 87</span> 		* @returns boolean
+<span class='line'> 88</span> 		*/</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">		</span><span class="NAME">isArray</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 90</span> 
+<span class='line'> 91</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">Array.hasOwnProperty</span><span class="PUNC">(</span><span class="STRN">"isArray"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Array.isArray</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 94</span> 
+<span class='line'> 95</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">Object.prototype.toString.apply</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"[object Array]"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 99</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>100</span> 		* Checks if the url given is right to load content.
+<span class='line'>101</span> 		* @name isUrl
+<span class='line'>102</span> 		* @public
+<span class='line'>103</span> 		* @function
+<span class='line'>104</span> 		* @memberOf ch.Utils
+<span class='line'>105</span> 		* @returns boolean
+<span class='line'>106</span> 		*/</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">		</span><span class="NAME">isUrl</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">		</span><span class="COMM">/* 
+<span class='line'>109</span> 		# RegExp
+<span class='line'>110</span> 
+<span class='line'>111</span> 		https://github.com/mercadolibre/chico/issues/579#issuecomment-5206670
+<span class='line'>112</span> 
+<span class='line'>113</span> 		```javascript
+<span class='line'>114</span> 		1	1.1						   1.2	 1.3  1.4		1.5		  1.6					2					   3 			   4					5
+<span class='line'>115</span> 		/^(((https|http|ftp|file):\/\/)|www\.|\.\/|(\.\.\/)+|(\/{1,2})|(\d{1,3}\.){3}\d{1,3})(((\w+|-)(\.?)(\/?))+)(\:\d{1,5}){0,1}(((\w+|-)(\.?)(\/?))+)((\?)(\w+=(\w?)+(&?))+)?$/
+<span class='line'>116</span> 		```
+<span class='line'>117</span> 
+<span class='line'>118</span> 		## Description
+<span class='line'>119</span> 		1. Checks for the start of the URL
+<span class='line'>120</span> 			1. if starts with a protocols followed by :// Example: file://chico
+<span class='line'>121</span> 			2. if start with www followed by . (dot) Example: www.chico
+<span class='line'>122</span> 			3. if starts with ./ 
+<span class='line'>123</span> 			4. if starts with ../ and can repeat one or more times
+<span class='line'>124</span> 			5. if start with double slash // Example: //chico.server
+<span class='line'>125</span> 			6. if start with an ip address
+<span class='line'>126</span> 		2. Checks the domain
+<span class='line'>127</span> 		  letters, dash followed by a dot or by a slash. All this group can repeat one or more times
+<span class='line'>128</span> 		3. Ports
+<span class='line'>129</span> 		 Zero or one time
+<span class='line'>130</span> 		4. Idem to point two
+<span class='line'>131</span> 		5. QueryString pairs
+<span class='line'>132</span> 
+<span class='line'>133</span> 		## Allowed URLs
+<span class='line'>134</span> 		1. http://www.mercadolibre.com
+<span class='line'>135</span> 		2. http://mercadolibre.com/
+<span class='line'>136</span> 		3. http://mercadolibre.com:8080?hola=
+<span class='line'>137</span> 		4. http://mercadolibre.com/pepe
+<span class='line'>138</span> 		5. http://localhost:2020
+<span class='line'>139</span> 		6. http://192.168.1.1
+<span class='line'>140</span> 		7. http://192.168.1.1:9090
+<span class='line'>141</span> 		8. www.mercadolibre.com
+<span class='line'>142</span> 		9. /mercadolibre
+<span class='line'>143</span> 		10. /mercadolibre/mercado
+<span class='line'>144</span> 		11. /tooltip?siteId=MLA&categId=1744&buyingMode=buy_it_now&listingTypeId=bronze
+<span class='line'>145</span> 		12. ./pepe
+<span class='line'>146</span> 		13. ../../mercado/
+<span class='line'>147</span> 		14. www.mercadolibre.com?siteId=MLA&categId=1744&buyingMode=buy_it_now&listingTypeId=bronze
+<span class='line'>148</span> 		15. www.mercado-libre.com
+<span class='line'>149</span> 		16. http://ui.ml.com:8080/ajax.html
+<span class='line'>150</span> 
+<span class='line'>151</span> 		## Forbiden URLs
+<span class='line'>152</span> 		1. http://
+<span class='line'>153</span> 		2. http://www&
+<span class='line'>154</span> 		3. http://hola=
+<span class='line'>155</span> 		4. /../../mercado/
+<span class='line'>156</span> 		5. /mercado/../pepe
+<span class='line'>157</span> 		6. mercadolibre.com
+<span class='line'>158</span> 		7. mercado/mercado
+<span class='line'>159</span> 		8. localhost:8080/mercadolibre
+<span class='line'>160</span> 		9. pepe/../pepe.html
+<span class='line'>161</span> 		10. /pepe/../pepe.html
+<span class='line'>162</span> 		11. 192.168.1.1
+<span class='line'>163</span> 		12. localhost:8080/pepe
+<span class='line'>164</span> 		13. localhost:80-80
+<span class='line'>165</span> 		14. www.mercadolibre.com?siteId=MLA&categId=1744&buyi ngMode=buy_it_now&listingTypeId=bronze
+<span class='line'>166</span> 		15. `&lt;asd src="www.mercadolibre.com">`
+<span class='line'>167</span> 		16. Mercadolibre.................
+<span class='line'>168</span> 		17. /laksjdlkasjd../
+<span class='line'>169</span> 		18. /..pepe..
+<span class='line'>170</span> 		19. /pepe..
+<span class='line'>171</span> 		20. pepe:/
+<span class='line'>172</span> 		21. /:pepe
+<span class='line'>173</span> 		22. dadadas.pepe
+<span class='line'>174</span> 		23. qdasdasda
+<span class='line'>175</span> 		24. http://ui.ml.com:8080:8080/ajax.html
+<span class='line'>176</span> 		*/</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">(</span><span class="REGX">/^(((https|http|ftp|file):\/\/)|www\.|\.\/|(\.\.\/)+|(\/{1,2})|(\d{1,3}\.){3}\d{1,3})(((\w+|-)(\.?)(\/?))+)(\:\d{1,5}){0,1}(((\w+|-)(\.?)(\/?)(#?))+)((\?)(\w+=(\w?)+(&?))+)?(\w+#\w+)?$/</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">test</span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">		</span><span class="NAME">avoidTextSelection</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">			</span><span class="NAME">$.each</span><span class="PUNC">(</span><span class="NAME">arguments</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">$.browser.msie</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">					</span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">attr</span><span class="PUNC">(</span><span class="STRN">'unselectable'</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'on'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">$.browser.opera</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">					</span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="STRN">"mousedown"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'>186</span> 					</span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addClass</span><span class="PUNC">(</span><span class="STRN">"ch-user-no-select"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">		</span><span class="NAME">hasOwn</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">hOP</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Object.prototype.hasOwnProperty</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>193</span> 
+<span class='line'>194</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">property</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">hOP.call</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">property</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">		</span><span class="COMM">// Based on: http://www.quirksmode.org/dom/getstyles.html</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="WHIT">		</span><span class="NAME">getStyles</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">style</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>200</span> </span><span class="WHIT">			</span><span class="COMM">// Main browsers</span><span class="WHIT">
+<span class='line'>201</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">window.getComputedStyle</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>202</span> 
+<span class='line'>203</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">getComputedStyle</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">getPropertyValue</span><span class="PUNC">(</span><span class="NAME">style</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>204</span> 
+<span class='line'>205</span> </span><span class="WHIT">			</span><span class="COMM">// IE</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>207</span> 
+<span class='line'>208</span> </span><span class="WHIT">				</span><span class="COMM">// Turn style name into camel notation</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">				</span><span class="NAME">style</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">style.replace</span><span class="PUNC">(</span><span class="REGX">/\-(\w)/g</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">str</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">$1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$1.toUpperCase</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>210</span> 
+<span class='line'>211</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">element.currentStyle</span><span class="PUNC">[</span><span class="NAME">style</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>212</span> 
+<span class='line'>213</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">		</span><span class="COMM">// Grab the vendor prefix of the current browser</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">		</span><span class="COMM">// Based on: http://lea.verou.me/2009/02/find-the-vendor-prefix-of-the-current-browser/</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">		</span><span class="STRN">"VENDOR_PREFIX"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">			
+<span class='line'>219</span> 			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">regex</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="REGX">/^(Webkit|Khtml|Moz|ms|O)(?=[A-Z])/</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">			
+<span class='line'>221</span> 				</span><span class="NAME">styleDeclaration</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementsByTagName</span><span class="PUNC">(</span><span class="STRN">"script"</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">style</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>222</span> 
+<span class='line'>223</span> </span><span class="WHIT">			</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">prop</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">styleDeclaration</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>224</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">regex.test</span><span class="PUNC">(</span><span class="NAME">prop</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">prop.match</span><span class="PUNC">(</span><span class="NAME">regex</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">toLowerCase</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>226</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>227</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>228</span> </span><span class="WHIT">			
+<span class='line'>229</span> 			</span><span class="COMM">// Nothing found so far? Webkit does not enumerate over the CSS properties of the style object.</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="WHIT">			</span><span class="COMM">// However (prop in style) returns the correct value, so we'll have to test for</span><span class="WHIT">
+<span class='line'>231</span> </span><span class="WHIT">			</span><span class="COMM">// the precence of a specific property</span><span class="WHIT">
+<span class='line'>232</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"WebkitOpacity"</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">styleDeclaration</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">"webkit"</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="STRN">"KhtmlOpacity"</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">styleDeclaration</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">"khtml"</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>234</span> 
+<span class='line'>235</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="COMM">/**
+<span class='line'>240</span> * Chico UI global events reference.
+<span class='line'>241</span> * @name Events
+<span class='line'>242</span> * @class Events
+<span class='line'>243</span> * @memberOf ch
+<span class='line'>244</span> * @static
+<span class='line'>245</span> */</span><span class="WHIT">	
+<span class='line'>246</span> </span><span class="NAME">ch.events</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>248</span> 	* Layout event collection.
+<span class='line'>249</span> 	* @name LAYOUT
+<span class='line'>250</span> 	* @public
+<span class='line'>251</span> 	* @static
+<span class='line'>252</span> 	* @constant
+<span class='line'>253</span> 	* @type object
+<span class='line'>254</span> 	* @memberOf ch.Events
+<span class='line'>255</span> 	*/</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="WHIT">	</span><span class="NAME">LAYOUT</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>258</span> 		* Every time Chico-UI needs to inform al visual components that layout has been changed, he triggers this event.
+<span class='line'>259</span> 		* @name CHANGE
+<span class='line'>260</span> 		* @memberOf ch.Events.LAYOUT
+<span class='line'>261</span> 		* @public
+<span class='line'>262</span> 		* @type string
+<span class='line'>263</span> 		* @constant
+<span class='line'>264</span> 		* @see ch.Form
+<span class='line'>265</span> 		* @see ch.Layer
+<span class='line'>266</span> 		* @see ch.Tooltip
+<span class='line'>267</span> 		* @see ch.Helper 
+<span class='line'>268</span> 		*/</span><span class="WHIT">
+<span class='line'>269</span> </span><span class="WHIT">		</span><span class="NAME">CHANGE</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"change"</span><span class="WHIT">
+<span class='line'>270</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>272</span> 	* Viewport event collection.
+<span class='line'>273</span> 	* @name VIEWPORT
+<span class='line'>274</span> 	* @public
+<span class='line'>275</span> 	* @static
+<span class='line'>276</span> 	* @constant
+<span class='line'>277</span> 	* @type object
+<span class='line'>278</span> 	* @memberOf ch.Events
+<span class='line'>279</span> 	*/</span><span class="WHIT">
+<span class='line'>280</span> </span><span class="WHIT">	</span><span class="NAME">VIEWPORT</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>282</span> 		* Every time Chico-UI needs to inform all visual components that window has been scrolled or resized, he triggers this event.
+<span class='line'>283</span> 		* @name CHANGE
+<span class='line'>284</span> 		* @constant
+<span class='line'>285</span> 		* @memberOf ch.Events.VIEWPORT
+<span class='line'>286</span> 		* @see ch.Positioner
+<span class='line'>287</span> 		*/</span><span class="WHIT">
+<span class='line'>288</span> </span><span class="WHIT">		</span><span class="NAME">CHANGE</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"change"</span><span class="WHIT">
+<span class='line'>289</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>290</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>291</span> 	* Keryboard event collection.
+<span class='line'>292</span> 	* @name KEY
+<span class='line'>293</span> 	* @public
+<span class='line'>294</span> 	* @static
+<span class='line'>295</span> 	* @constant
+<span class='line'>296</span> 	* @type object
+<span class='line'>297</span> 	* @memberOf ch.Events
+<span class='line'>298</span> 	*/</span><span class="WHIT">
+<span class='line'>299</span> </span><span class="WHIT">	</span><span class="NAME">KEY</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>300</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>301</span> 		* Enter key event.
+<span class='line'>302</span> 		* @name ENTER
+<span class='line'>303</span> 		* @constant
+<span class='line'>304</span> 		* @memberOf ch.Events.KEY
+<span class='line'>305</span> 		*/</span><span class="WHIT">
+<span class='line'>306</span> </span><span class="WHIT">		</span><span class="NAME">ENTER</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"enter"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>307</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>308</span> 		* Esc key event.
+<span class='line'>309</span> 		* @name ESC
+<span class='line'>310</span> 		* @constant
+<span class='line'>311</span> 		* @memberOf ch.Events.KEY
+<span class='line'>312</span> 		*/</span><span class="WHIT">
+<span class='line'>313</span> </span><span class="WHIT">		</span><span class="NAME">ESC</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"esc"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>314</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>315</span> 		* Left arrow key event.
+<span class='line'>316</span> 		* @name LEFT_ARROW
+<span class='line'>317</span> 		* @constant
+<span class='line'>318</span> 		* @memberOf ch.Events.KEY
+<span class='line'>319</span> 		*/</span><span class="WHIT">
+<span class='line'>320</span> </span><span class="WHIT">		</span><span class="NAME">LEFT_ARROW</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"left_arrow"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>321</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>322</span> 		* Up arrow key event.
+<span class='line'>323</span> 		* @name UP_ARROW
+<span class='line'>324</span> 		* @constant
+<span class='line'>325</span> 		* @memberOf ch.Events.KEY
+<span class='line'>326</span> 		*/</span><span class="WHIT">
+<span class='line'>327</span> </span><span class="WHIT">		</span><span class="NAME">UP_ARROW</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"up_arrow"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>328</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>329</span> 		* Rigth arrow key event.
+<span class='line'>330</span> 		* @name RIGHT_ARROW
+<span class='line'>331</span> 		* @constant
+<span class='line'>332</span> 		* @memberOf ch.Events.KEY
+<span class='line'>333</span> 		*/</span><span class="WHIT">
+<span class='line'>334</span> </span><span class="WHIT">		</span><span class="NAME">RIGHT_ARROW</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"right_arrow"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>335</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>336</span> 		* Down arrow key event.
+<span class='line'>337</span> 		* @name DOWN_ARROW
+<span class='line'>338</span> 		* @constant
+<span class='line'>339</span> 		* @memberOf ch.Events.KEY
+<span class='line'>340</span> 		*/</span><span class="WHIT">
+<span class='line'>341</span> </span><span class="WHIT">		</span><span class="NAME">DOWN_ARROW</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"down_arrow"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>342</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>343</span> 		* Backspace key event.
+<span class='line'>344</span> 		* @name BACKSPACE
+<span class='line'>345</span> 		* @constant
+<span class='line'>346</span> 		* @memberOf ch.Events.KEY
+<span class='line'>347</span> 		*/</span><span class="WHIT">
+<span class='line'>348</span> </span><span class="WHIT">		</span><span class="NAME">BACKSPACE</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"backspace"</span><span class="WHIT">
+<span class='line'>349</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>350</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>351</span> 
+<span class='line'>352</span> </span><span class="COMM">/**
+<span class='line'>353</span> * Keyboard event controller utility to know wich keys are begin.
+<span class='line'>354</span> * @name Keyboard
+<span class='line'>355</span> * @class Keyboard
+<span class='line'>356</span> * @memberOf ch
+<span class='line'>357</span> * @param event
+<span class='line'>358</span> */</span><span class="WHIT">
+<span class='line'>359</span> </span><span class="NAME">ch.keyboard</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>360</span> 
+<span class='line'>361</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>362</span> 	* Map with references to key codes.
+<span class='line'>363</span> 	* @private
+<span class='line'>364</span> 	* @name ch.Keyboard#codeMap
+<span class='line'>365</span> 	* @type object
+<span class='line'>366</span> 	*/</span><span class="WHIT"> 
+<span class='line'>367</span> 	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">codeMap</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>368</span> </span><span class="WHIT">		</span><span class="STRN">"13"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"ENTER"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>369</span> </span><span class="WHIT">		</span><span class="STRN">"27"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"ESC"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>370</span> </span><span class="WHIT">		</span><span class="STRN">"37"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"LEFT_ARROW"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>371</span> </span><span class="WHIT">		</span><span class="STRN">"38"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"UP_ARROW"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>372</span> </span><span class="WHIT">		</span><span class="STRN">"39"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"RIGHT_ARROW"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>373</span> </span><span class="WHIT">		</span><span class="STRN">"40"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"DOWN_ARROW"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>374</span> </span><span class="WHIT">		 </span><span class="STRN">"8"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"BACKSPACE"</span><span class="WHIT">
+<span class='line'>375</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>376</span> 
+<span class='line'>377</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>378</span> 
+<span class='line'>379</span> </span><span class="WHIT">		</span><span class="COMM">// Check for event existency on the map</span><span class="WHIT">
+<span class='line'>380</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">codeMap</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">event.keyCode</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>381</span> 
+<span class='line'>382</span> </span><span class="WHIT">		</span><span class="COMM">// Trigger custom event with original event as second parameter</span><span class="WHIT">
+<span class='line'>383</span> </span><span class="WHIT">		</span><span class="NAME">ch.utils.document.trigger</span><span class="PUNC">(</span><span class="NAME">ch.events.KEY</span><span class="PUNC">[</span><span class="NAME">codeMap</span><span class="PUNC">[</span><span class="NAME">event.keyCode</span><span class="PUNC">]</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>384</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>385</span> </span><span class="PUNC">}</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>386</span> 
+<span class='line'>387</span> </span><span class="COMM">/** 
+<span class='line'>388</span> * Utility to clone objects
+<span class='line'>389</span> * @function
+<span class='line'>390</span> * @name clon
+<span class='line'>391</span> * @param o Object to clone
+<span class='line'>392</span> * @returns object
+<span class='line'>393</span> * @memberOf ch
+<span class='line'>394</span> */</span><span class="WHIT">
+<span class='line'>395</span> </span><span class="NAME">ch.clon</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>396</span> 
+<span class='line'>397</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">copy</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>398</span> </span><span class="WHIT">		</span><span class="NAME">x</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>399</span> 
+<span class='line'>400</span> </span><span class="WHIT">	</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">x</span><span class="WHIT"> </span><span class="KEYW">in</span><span class="WHIT"> </span><span class="NAME">o</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>401</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>402</span> </span><span class="WHIT">			</span><span class="NAME">copy</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">o</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>403</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>404</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>405</span> 
+<span class='line'>406</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">copy</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>407</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>408</span> 
+<span class='line'>409</span> 
+<span class='line'>410</span> </span><span class="COMM">/** 
+<span class='line'>411</span> * Class to create UI Components
+<span class='line'>412</span> * @name Factory
+<span class='line'>413</span> * @class Factory
+<span class='line'>414</span> * @param o Configuration Object
+<span class='line'>415</span> * @example
+<span class='line'>416</span> *	o {
+<span class='line'>417</span> *		component: "chat",
+<span class='line'>418</span> *		callback: function(){},
+<span class='line'>419</span> *		[script]: "http://..",
+<span class='line'>420</span> *		[style]: "http://..",
+<span class='line'>421</span> *		[callback]: function(){}	
+<span class='line'>422</span> *	}
+<span class='line'>423</span> * @returns collection
+<span class='line'>424</span> * @memberOf ch
+<span class='line'>425</span> */</span><span class="WHIT">
+<span class='line'>426</span> </span><span class="COMM">// TODO: Always it should receive a conf object as parameter (see Multiple component)</span><span class="WHIT">
+<span class='line'>427</span> </span><span class="COMM">// TODO: Try to deprecate .and() method on Validator</span><span class="WHIT">
+<span class='line'>428</span> </span><span class="NAME">ch.factory</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>429</span> 
+<span class='line'>430</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">x</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">o.component</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">o</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>431</span> </span><span class="WHIT">	
+<span class='line'>432</span> 	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">create</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> 
+<span class='line'>433</span> 
+<span class='line'>434</span> 		</span><span class="COMM">// Send configuration to a component trough options object</span><span class="WHIT">
+<span class='line'>435</span> </span><span class="WHIT">		</span><span class="NAME">$.fn</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">options</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>436</span> 
+<span class='line'>437</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">results</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>438</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>439</span> 
+<span class='line'>440</span> </span><span class="WHIT">			</span><span class="COMM">// Could be more than one argument</span><span class="WHIT">
+<span class='line'>441</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">_arguments</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">arguments</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>442</span> </span><span class="WHIT">			
+<span class='line'>443</span> 			</span><span class="NAME">that.each</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>444</span> </span><span class="WHIT">				
+<span class='line'>445</span> 				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">options</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>446</span> 
+<span class='line'>447</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">context</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>448</span> </span><span class="WHIT">					</span><span class="NAME">context.type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>449</span> </span><span class="WHIT">					</span><span class="NAME">context.element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>450</span> </span><span class="WHIT">					</span><span class="NAME">context.$element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>451</span> </span><span class="WHIT">					</span><span class="NAME">context.uid</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.utils.index</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// Global instantiation index</span><span class="WHIT">
+<span class='line'>452</span> </span><span class="WHIT">			
+<span class='line'>453</span> 				</span><span class="KEYW">switch</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>454</span> </span><span class="WHIT">					</span><span class="COMM">// If argument is a number, join with the conf</span><span class="WHIT">
+<span class='line'>455</span> </span><span class="WHIT">					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>456</span> </span><span class="WHIT">						</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">num</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>457</span> </span><span class="WHIT">						</span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>458</span> </span><span class="WHIT">						</span><span class="NAME">conf.value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">num</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>459</span> </span><span class="WHIT">						
+<span class='line'>460</span> 						</span><span class="COMM">// Could come a messages as a second argument</span><span class="WHIT">
+<span class='line'>461</span> </span><span class="WHIT">						</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">_arguments</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>462</span> </span><span class="WHIT">							</span><span class="NAME">conf.msg</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_arguments</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>463</span> </span><span class="WHIT">						</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>464</span> </span><span class="WHIT">					</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>465</span> </span><span class="WHIT">					
+<span class='line'>466</span> 					</span><span class="COMM">// This could be a message</span><span class="WHIT">
+<span class='line'>467</span> </span><span class="WHIT">					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"string"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>468</span> </span><span class="WHIT">						</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">msg</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>469</span> </span><span class="WHIT">						</span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>470</span> </span><span class="WHIT">						</span><span class="NAME">conf.msg</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">msg</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>471</span> </span><span class="WHIT">					</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>472</span> </span><span class="WHIT">					
+<span class='line'>473</span> 					</span><span class="COMM">// This is a condition for custom validation</span><span class="WHIT">
+<span class='line'>474</span> </span><span class="WHIT">					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"function"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>475</span> </span><span class="WHIT">						</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">func</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>476</span> </span><span class="WHIT">						</span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>477</span> </span><span class="WHIT">						</span><span class="NAME">conf.lambda</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>478</span> </span><span class="WHIT">						
+<span class='line'>479</span> 						</span><span class="COMM">// Could come a messages as a second argument</span><span class="WHIT">
+<span class='line'>480</span> </span><span class="WHIT">						</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">_arguments</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>481</span> </span><span class="WHIT">							</span><span class="NAME">conf.msg</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">_arguments</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>482</span> </span><span class="WHIT">						</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>483</span> </span><span class="WHIT">					</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>484</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>485</span> 
+<span class='line'>486</span> </span><span class="WHIT">				</span><span class="COMM">// Create a component from his constructor</span><span class="WHIT">
+<span class='line'>487</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">created</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">call</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">context</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>488</span> 
+<span class='line'>489</span> </span><span class="WHIT">				</span><span class="COMM">/*
+<span class='line'>490</span> 					MAPPING INSTANCES
+<span class='line'>491</span> 					Internal interface for avoid mapping objects
+<span class='line'>492</span> 					{
+<span class='line'>493</span> 						exists:true,
+<span class='line'>494</span> 						object: {}
+<span class='line'>495</span> 					}
+<span class='line'>496</span> 				*/</span><span class="WHIT">
+<span class='line'>497</span> 
+<span class='line'>498</span> </span><span class="WHIT">				</span><span class="NAME">created</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">created</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"public"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">created</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">created</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>499</span> 
+<span class='line'>500</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">created.type</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>501</span> </span><span class="WHIT">					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">created.type</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>502</span> </span><span class="WHIT">					</span><span class="COMM">// If component don't exists in the instances map create an empty array</span><span class="WHIT">
+<span class='line'>503</span> </span><span class="WHIT">					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">ch.instances</span><span class="PUNC">[</span><span class="NAME">type</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">ch.instances</span><span class="PUNC">[</span><span class="NAME">type</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>504</span> </span><span class="WHIT">						</span><span class="NAME">ch.instances</span><span class="PUNC">[</span><span class="NAME">type</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">push</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">created</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>505</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>506</span> 
+<span class='line'>507</span> </span><span class="WHIT">				</span><span class="COMM">// Avoid mapping objects that already exists</span><span class="WHIT">
+<span class='line'>508</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">created.exists</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>509</span> </span><span class="WHIT">					</span><span class="COMM">// Return the inner object</span><span class="WHIT">
+<span class='line'>510</span> </span><span class="WHIT">					</span><span class="NAME">created</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">created.object</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>511</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>512</span> 
+<span class='line'>513</span> </span><span class="WHIT">				</span><span class="NAME">results.push</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">created</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>514</span> 
+<span class='line'>515</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>516</span> 
+<span class='line'>517</span> </span><span class="WHIT">			</span><span class="COMM">// return the created components collection or single component</span><span class="WHIT">
+<span class='line'>518</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">results.length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">results</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">results</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>519</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>520</span> 
+<span class='line'>521</span> </span><span class="WHIT">		</span><span class="COMM">// if a callback is defined </span><span class="WHIT">
+<span class='line'>522</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">o.callback</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">o.callback</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>523</span> 
+<span class='line'>524</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// end create function</span><span class="WHIT">
+<span class='line'>525</span> 
+<span class='line'>526</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">ch</span><span class="PUNC">[</span><span class="NAME">x</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>527</span> </span><span class="WHIT">		</span><span class="COMM">// script already here, just create it</span><span class="WHIT">
+<span class='line'>528</span> </span><span class="WHIT">		</span><span class="NAME">create</span><span class="PUNC">(</span><span class="NAME">x</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>529</span> 
+<span class='line'>530</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>531</span> </span><span class="WHIT">		</span><span class="COMM">// get resurces and call create later</span><span class="WHIT">
+<span class='line'>532</span> </span><span class="WHIT">		</span><span class="NAME">ch.get</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>533</span> </span><span class="WHIT">			</span><span class="STRN">"method"</span><span class="PUNC">:</span><span class="STRN">"component"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>534</span> </span><span class="WHIT">			</span><span class="STRN">"component"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">x</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>535</span> </span><span class="WHIT">			</span><span class="STRN">"script"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">o.script</span><span class="PUNC">)</span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">o.script</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"src/js/"</span><span class="PUNC">+</span><span class="NAME">x</span><span class="PUNC">+</span><span class="STRN">".js"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>536</span> </span><span class="WHIT">			</span><span class="STRN">"styles"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">o.style</span><span class="PUNC">)</span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">o.style</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"src/css/"</span><span class="PUNC">+</span><span class="NAME">x</span><span class="PUNC">+</span><span class="STRN">".css"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>537</span> </span><span class="WHIT">			</span><span class="STRN">"callback"</span><span class="PUNC">:</span><span class="NAME">create</span><span class="WHIT">
+<span class='line'>538</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>539</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>540</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>541</span> 
+<span class='line'>542</span> </span><span class="COMM">/**
+<span class='line'>543</span> * Load components or content
+<span class='line'>544</span> * @name Get
+<span class='line'>545</span> * @class Get
+<span class='line'>546</span> * @param {object} o Configuration object 
+<span class='line'>547</span> * @example
+<span class='line'>548</span> *	o {
+<span class='line'>549</span> *		component: "chat",
+<span class='line'>550</span> *		[script]: "http://..",
+<span class='line'>551</span> *		[style]: "http://..",
+<span class='line'>552</span> *		[callback]: function(){}
+<span class='line'>553</span> *	}
+<span class='line'>554</span> * @memberOf ch
+<span class='line'>555</span> */</span><span class="WHIT">
+<span class='line'>556</span> </span><span class="NAME">ch.get</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>557</span> </span><span class="WHIT">	
+<span class='line'>558</span> 	</span><span class="COMM">// ch.get: "Should I get a style?"</span><span class="WHIT">
+<span class='line'>559</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">o.style</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>560</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">style</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">'link'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>561</span> </span><span class="WHIT">			</span><span class="NAME">style.href</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">o.style</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>562</span> </span><span class="WHIT">			</span><span class="NAME">style.rel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'stylesheet'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>563</span> </span><span class="WHIT">			</span><span class="NAME">style.type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'text/css'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>564</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>565</span> </span><span class="WHIT">	</span><span class="COMM">// ch.get: "Should I get a script?"		</span><span class="WHIT">
+<span class='line'>566</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">o.script</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>567</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">script</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">"script"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>568</span> </span><span class="WHIT">			</span><span class="NAME">script.src</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">o.script</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>569</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>570</span> 
+<span class='line'>571</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">head</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.getElementsByTagName</span><span class="PUNC">(</span><span class="STRN">"head"</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">document.documentElement</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>572</span> </span><span class="WHIT">	</span><span class="COMM">// Handle Script loading</span><span class="WHIT">
+<span class='line'>573</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">done</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>574</span> 
+<span class='line'>575</span> </span><span class="WHIT">	</span><span class="COMM">// Attach handlers for all browsers</span><span class="WHIT">
+<span class='line'>576</span> </span><span class="WHIT">	</span><span class="NAME">script.onload</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">script.onreadystatechange</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>577</span> 
+<span class='line'>578</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">done</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">this.readyState</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> 
+<span class='line'>579</span> 			</span><span class="NAME">this.readyState</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"loaded"</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">this.readyState</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"complete"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>580</span> </span><span class="WHIT">			</span><span class="NAME">done</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>581</span> </span><span class="WHIT">			</span><span class="COMM">// if callback is defined call it</span><span class="WHIT">
+<span class='line'>582</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">o.callback</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">o.callback</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">o.component</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>583</span> </span><span class="WHIT">			</span><span class="COMM">// Handle memory leak in IE</span><span class="WHIT">
+<span class='line'>584</span> </span><span class="WHIT">			</span><span class="NAME">script.onload</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">script.onreadystatechange</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>585</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">head</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">script.parentNode</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">head.removeChild</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">script</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>586</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>587</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>588</span> 
+<span class='line'>589</span> </span><span class="WHIT">	</span><span class="COMM">// Use insertBefore instead of appendChild to circumvent an IE6 bug.</span><span class="WHIT">
+<span class='line'>590</span> </span><span class="WHIT">	</span><span class="COMM">// This arises when a base node is used.</span><span class="WHIT">
+<span class='line'>591</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">o.script</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">head.insertBefore</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">script</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">head.firstChild</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>592</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">o.style</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">head.appendChild</span><span class="PUNC">(</span><span class="WHIT"> </span><span class="NAME">style</span><span class="WHIT"> </span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>593</span> 
+<span class='line'>594</span> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>595</span> 
+<span class='line'>596</span> 
+<span class='line'>597</span> </span><span class="COMM">/**
+<span class='line'>598</span> * Returns a data object with features supported by the device
+<span class='line'>599</span> * @name Support
+<span class='line'>600</span> * @class Support
+<span class='line'>601</span> * @returns {object}
+<span class='line'>602</span> * @memberOf ch 
+<span class='line'>603</span> */</span><span class="WHIT">
+<span class='line'>604</span> </span><span class="NAME">ch.support</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>605</span> 
+<span class='line'>606</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>607</span> 	* Private reference to the &lt;body> element
+<span class='line'>608</span> 	* @private
+<span class='line'>609</span> 	* @name body
+<span class='line'>610</span> 	* @type HTMLBodyElement
+<span class='line'>611</span> 	* @memberOf ch.Support
+<span class='line'>612</span> 	*/</span><span class="WHIT">
+<span class='line'>613</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">body</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.body</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">document.documentElement</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>614</span> 
+<span class='line'>615</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>616</span> 	* Public reference to features support
+<span class='line'>617</span> 	* @public
+<span class='line'>618</span> 	* @name self
+<span class='line'>619</span> 	* @type Object
+<span class='line'>620</span> 	* @memberOf ch.Support
+<span class='line'>621</span> 	*/</span><span class="WHIT">
+<span class='line'>622</span> </span><span class="WHIT">		</span><span class="NAME">self</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>623</span> 
+<span class='line'>624</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>625</span> 	* Verify that CSS Transitions are supported (or any of its browser-specific implementations).
+<span class='line'>626</span> 	* @basedOn http://gist.github.com/373874
+<span class='line'>627</span> 	* @public
+<span class='line'>628</span> 	* @name transition
+<span class='line'>629</span> 	* @type Boolean
+<span class='line'>630</span> 	* @memberOf ch.Support#self
+<span class='line'>631</span> 	*/</span><span class="WHIT">
+<span class='line'>632</span> </span><span class="WHIT">	</span><span class="NAME">self.transition</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>633</span> 
+<span class='line'>634</span> </span><span class="WHIT">		</span><span class="COMM">// Get reference to CSS Style Decalration</span><span class="WHIT">
+<span class='line'>635</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">style</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">body.style</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>636</span> </span><span class="WHIT">		</span><span class="COMM">// Grab "undefined" into a privated scope</span><span class="WHIT">
+<span class='line'>637</span> </span><span class="WHIT">			</span><span class="NAME">u</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>638</span> 
+<span class='line'>639</span> </span><span class="WHIT">		</span><span class="COMM">// Analize availability of transition on all browsers</span><span class="WHIT">
+<span class='line'>640</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">style.WebkitTransition</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">u</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">style.MozTransition</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">u</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">style.MSTransition</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">u</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">style.OTransition</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">u</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">style.transition</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">u</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>641</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>642</span> 
+<span class='line'>643</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>644</span> 	* Boolean property that indicates if CSS "Fixed" positioning are supported by the device.
+<span class='line'>645</span> 	* @basedOn http://kangax.github.com/cft/#IS_POSITION_FIXED_SUPPORTED
+<span class='line'>646</span> 	* @public
+<span class='line'>647</span> 	* @name fixed
+<span class='line'>648</span> 	* @type Boolean
+<span class='line'>649</span> 	* @memberOf ch.Support#self
+<span class='line'>650</span> 	*/</span><span class="WHIT">
+<span class='line'>651</span> </span><span class="WHIT">	</span><span class="NAME">self.fixed</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>652</span> 
+<span class='line'>653</span> </span><span class="WHIT">		</span><span class="COMM">// Flag to know if position is supported</span><span class="WHIT">
+<span class='line'>654</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">isSupported</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>655</span> </span><span class="WHIT">		</span><span class="COMM">// Create an element to test</span><span class="WHIT">
+<span class='line'>656</span> </span><span class="WHIT">			</span><span class="NAME">el</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">document.createElement</span><span class="PUNC">(</span><span class="STRN">"div"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>657</span> 
+<span class='line'>658</span> </span><span class="WHIT">		</span><span class="COMM">// Set the position fixed</span><span class="WHIT">
+<span class='line'>659</span> </span><span class="WHIT">		</span><span class="NAME">el.style.position</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"fixed"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>660</span> </span><span class="WHIT">		</span><span class="COMM">// Set a top</span><span class="WHIT">
+<span class='line'>661</span> </span><span class="WHIT">		</span><span class="NAME">el.style.top</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"10px"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>662</span> 
+<span class='line'>663</span> </span><span class="WHIT">		</span><span class="COMM">// Add element to DOM</span><span class="WHIT">
+<span class='line'>664</span> </span><span class="WHIT">		</span><span class="NAME">body.appendChild</span><span class="PUNC">(</span><span class="NAME">el</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>665</span> 
+<span class='line'>666</span> </span><span class="WHIT">		</span><span class="COMM">// Compare setted offset with "in DOM" offset of element</span><span class="WHIT">
+<span class='line'>667</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">el.offsetTop</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>668</span> </span><span class="WHIT">			</span><span class="NAME">isSupported</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>669</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>670</span> 
+<span class='line'>671</span> </span><span class="WHIT">		</span><span class="COMM">// Delete element from DOM</span><span class="WHIT">
+<span class='line'>672</span> </span><span class="WHIT">		</span><span class="NAME">body.removeChild</span><span class="PUNC">(</span><span class="NAME">el</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>673</span> 
+<span class='line'>674</span> </span><span class="WHIT">		</span><span class="COMM">// Results</span><span class="WHIT">
+<span class='line'>675</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">isSupported</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>676</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>677</span> 
+<span class='line'>678</span> </span><span class="WHIT">	</span><span class="COMM">// Return public object</span><span class="WHIT">
+<span class='line'>679</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">self</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>680</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>681</span> 
+<span class='line'>682</span> 
+<span class='line'>683</span> </span><span class="COMM">/**
+<span class='line'>684</span> * Extend is a utility that resolve creating interfaces problem for all UI-Objects.
+<span class='line'>685</span> * @name Extend
+<span class='line'>686</span> * @class Extend
+<span class='line'>687</span> * @memberOf ch
+<span class='line'>688</span> * @param {string} name Interface's name.
+<span class='line'>689</span> * @param {function} klass Class to inherit from.
+<span class='line'>690</span> * @param {function} [process] Optional function to pre-process configuration, recieves a 'conf' param and must return the configration object.
+<span class='line'>691</span> * @returns class
+<span class='line'>692</span> * @exampleDescription Create an URL interface type based on String component.
+<span class='line'>693</span> * @example
+<span class='line'>694</span> * ch.extend("string").as("url");
+<span class='line'>695</span> * @exampleDescription Create an Accordion interface type based on Menu component.
+<span class='line'>696</span> * @example
+<span class='line'>697</span> * ch.extend("menu").as("accordion"); 
+<span class='line'>698</span> * @exampleDescription And the coolest one... Create an Transition interface type based on his Modal component, with some conf manipulations:
+<span class='line'>699</span> * @example
+<span class='line'>700</span> * ch.extend("modal").as("transition", function(conf) {
+<span class='line'>701</span> *	conf.closeButton = false;
+<span class='line'>702</span> *	conf.msg = conf.msg || conf.content || "Please wait...";
+<span class='line'>703</span> *	conf.content = $("&lt;div&gt;").addClass("loading").after( $("&lt;p&gt;").html(conf.msg) );
+<span class='line'>704</span> *	return conf;
+<span class='line'>705</span> * });
+<span class='line'>706</span> */</span><span class="WHIT">
+<span class='line'>707</span> 
+<span class='line'>708</span> </span><span class="NAME">ch.extend</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">klass</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>709</span> 
+<span class='line'>710</span> </span><span class="WHIT">	</span><span class="STRN">"use strict"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>711</span> 
+<span class='line'>712</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>713</span> </span><span class="WHIT">		</span><span class="NAME">as</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">process</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>714</span> </span><span class="WHIT">			</span><span class="COMM">// Create the component in Chico-UI namespace</span><span class="WHIT">
+<span class='line'>715</span> </span><span class="WHIT">			</span><span class="NAME">ch</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>716</span> </span><span class="WHIT">				</span><span class="COMM">// Some interfaces need a data value,</span><span class="WHIT">
+<span class='line'>717</span> </span><span class="WHIT">				</span><span class="COMM">// others simply need to be 'true'.</span><span class="WHIT">
+<span class='line'>718</span> </span><span class="WHIT">				</span><span class="NAME">conf</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.value</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>719</span> </span><span class="WHIT">	
+<span class='line'>720</span> 				</span><span class="COMM">// Invoke pre-proccess if is defined,</span><span class="WHIT">
+<span class='line'>721</span> </span><span class="WHIT">				</span><span class="COMM">// or grab the raw conf argument,</span><span class="WHIT">
+<span class='line'>722</span> </span><span class="WHIT">				</span><span class="COMM">// or just create an empty object.</span><span class="WHIT">
+<span class='line'>723</span> </span><span class="WHIT">				</span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">process</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">process</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>724</span> </span><span class="WHIT">	
+<span class='line'>725</span> 				</span><span class="COMM">// Here we recieve messages,</span><span class="WHIT">
+<span class='line'>726</span> </span><span class="WHIT">				</span><span class="COMM">// or create an empty object.</span><span class="WHIT">
+<span class='line'>727</span> </span><span class="WHIT">				</span><span class="NAME">conf.messages</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.messages</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>728</span> </span><span class="WHIT">	
+<span class='line'>729</span> 				</span><span class="COMM">// If the interface recieve a 'msg' argument,</span><span class="WHIT">
+<span class='line'>730</span> </span><span class="WHIT">				</span><span class="COMM">// store it in the message map.</span><span class="WHIT">
+<span class='line'>731</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.utils.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"msg"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>732</span> </span><span class="WHIT">					</span><span class="NAME">conf.messages</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.msg</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>733</span> </span><span class="WHIT">					</span><span class="NAME">conf.msg</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>734</span> </span><span class="WHIT">					</span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">conf.msg</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>735</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>736</span> </span><span class="WHIT">				</span><span class="COMM">// Here is where the magic happen,</span><span class="WHIT">
+<span class='line'>737</span> </span><span class="WHIT">				</span><span class="COMM">// invoke the class with the new conf,</span><span class="WHIT">
+<span class='line'>738</span> </span><span class="WHIT">				</span><span class="COMM">// and return the instance to the namespace.</span><span class="WHIT">
+<span class='line'>739</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ch</span><span class="PUNC">[</span><span class="NAME">klass</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">call</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>740</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>741</span> </span><span class="WHIT">			</span><span class="COMM">// Almost done, now we need expose the new component,</span><span class="WHIT">
+<span class='line'>742</span> </span><span class="WHIT">			</span><span class="COMM">// let's ask the factory to do it for us.</span><span class="WHIT">
+<span class='line'>743</span> </span><span class="WHIT">			</span><span class="NAME">ch.factory</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>744</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// end as method</span><span class="WHIT">
+<span class='line'>745</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="COMM">// end return</span><span class="WHIT">
+<span class='line'>746</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>747</span> </span></pre></body></html>
