@@ -77,158 +77,752 @@ ch.cache = {
 };
 
 /**
-* List lets you manage collections. Create a list of objects, add, get and remove.
-* @name List
-* @class List
-* @standalone
-* @memberOf ch
-* @param {array} [collection] Constructs a List with an optional initial collection
+* ch is the namespace for Chico-UI.
+* @namespace ch
+* @name ch
+* @static
 */
 
-ch.list = function( collection ) {
-
-	var that = this;
+var ch = window.ch = {
 
 	/**
-	* @public
-	* @name ch.List#children
-	* @type collection
+	* Current version
+	* @name version
+	* @type number
+	* @memberOf ch
 	*/
-	var _children = ( collection && ch.utils.isArray( collection ) ) ? collection : [] ;
-
+	version: "0.11",
 	/**
-	* Seek members inside the collection by index, query string or object comparison.
-	* @private
+	* Here you will find a map of all component's instances created by Chico-UI.
+	* @name instances
+	* @type object
+	* @memberOf ch
+	*/
+	instances: {},
+	/**
+	* Available device's features.
+	* @name features
+	* @type object
+	* @see ch.Support
+	* @memberOf ch
+	*/
+	features: {},
+	/**
+	* Core constructor function.
+	* @name init
 	* @function
-	* @name ch.List#_find
-	* @param {number} [q]
-	* @param {string} [q]
-	* @param {object} [q]
-	* @param {function} [a]
-	* @return object
+	* @memberOf ch
 	*/
-	var _find = function(q, a) {
-		// null search return the entire collection
-		if ( !q ) {
-			return _children;
-		}
+	init: function() { 
+		// unmark the no-js flag on html tag
+		$("html").removeClass("no-js");
+		// check for browser support
+		ch.features = ch.support();
+		// TODO: This should be on keyboard controller.
+		ch.utils.document.bind("keydown", function(event){ ch.keyboard(event); });
+	},
+	/**
+	* References and commons functions.
+	* @name Utils
+	* @class Utils
+	* @type object
+	* @memberOf ch
+	*/
+	utils: {
+		body: $("body"),
+		html: $("html"),
+		window: $(window),
+		document: $(document),
+		zIndex: 1000,
+		index: 0, // global instantiation index
+		isTag: function(string){
+			return (/<([\w:]+)/).test(string);
+		},
+		isSelector: function (selector) {
+			if (typeof selector !== "string") return false;
+			for (var regex in $.expr.match){
+				if ($.expr.match[ regex ].test(selector) && !ch.utils.isTag(selector)) {
+					return true;
+				};
+			};
+			return false;
+		},
+		inDom: function (selector, context) {
+			if (typeof selector !== "string") return false;
+			// jQuery: If you wish to use any of the meta-characters ( such as !"#$%&'()*+,./:;<=>?@[\]^`{|}~ ) as a literal part of a name, you must escape the character with two backslashes: \\.
+			var selector = selector.replace(/(\!|\"|\$|\%|\&|\'|\(|\)|\*|\+|\,|\/|\;|\<|\=|\>|\?|\@|\[|\\|\]|\^|\`|\{|\||\}|\~)/gi, function (str, $1) {
+				return "\\\\" + $1;
+			});
+			return $(selector, context).length > 0;
+		},
+		/**
+		* Checks if the parameter given is an Array.
+		* @name isArray
+		* @public
+		* @param o The member to be checked
+		* @function
+		* @memberOf ch.Utils
+		* @returns boolean
+		*/
+		isArray: (function () {
 
-		var c = typeof q;
-		// number? return a specific position
-		if ( c === "number" ) {
-			q--; // _children is a Zero-index based collection
-			return ( a ) ? a.call( that , q ) : _children[q] ;
-		}
-		
-		// string? ok, let's find it
-		var t = size(), _prop, child;
-		if ( c === "string" || c === "object" ) {
-			while ( t-- ) {
-				child = _children[t];
-				// object or string strict equal
-				if ( child === q ) {
-					return ( a ) ? a.call( that , t ) : child ;
+			if (Array.hasOwnProperty("isArray")) {
+				return Array.isArray;
+			}
+
+			return function (o) {
+				return Object.prototype.toString.apply(o) === "[object Array]";
+			};
+		}()),
+		/**
+		* Checks if the url given is right to load content.
+		* @name isUrl
+		* @public
+		* @function
+		* @memberOf ch.Utils
+		* @returns boolean
+		*/
+		isUrl: function (url) {
+		/* 
+		# RegExp
+
+		https://github.com/mercadolibre/chico/issues/579#issuecomment-5206670
+
+		```javascript
+		1	1.1						   1.2	 1.3  1.4		1.5		  1.6					2					   3 			   4					5
+		/^(((https|http|ftp|file):\/\/)|www\.|\.\/|(\.\.\/)+|(\/{1,2})|(\d{1,3}\.){3}\d{1,3})(((\w+|-)(\.?)(\/?))+)(\:\d{1,5}){0,1}(((\w+|-)(\.?)(\/?))+)((\?)(\w+=(\w?)+(&?))+)?$/
+		```
+
+		## Description
+		1. Checks for the start of the URL
+			1. if starts with a protocols followed by :// Example: file://chico
+			2. if start with www followed by . (dot) Example: www.chico
+			3. if starts with ./ 
+			4. if starts with ../ and can repeat one or more times
+			5. if start with double slash // Example: //chico.server
+			6. if start with an ip address
+		2. Checks the domain
+		  letters, dash followed by a dot or by a slash. All this group can repeat one or more times
+		3. Ports
+		 Zero or one time
+		4. Idem to point two
+		5. QueryString pairs
+
+		## Allowed URLs
+		1. http://www.mercadolibre.com
+		2. http://mercadolibre.com/
+		3. http://mercadolibre.com:8080?hola=
+		4. http://mercadolibre.com/pepe
+		5. http://localhost:2020
+		6. http://192.168.1.1
+		7. http://192.168.1.1:9090
+		8. www.mercadolibre.com
+		9. /mercadolibre
+		10. /mercadolibre/mercado
+		11. /tooltip?siteId=MLA&categId=1744&buyingMode=buy_it_now&listingTypeId=bronze
+		12. ./pepe
+		13. ../../mercado/
+		14. www.mercadolibre.com?siteId=MLA&categId=1744&buyingMode=buy_it_now&listingTypeId=bronze
+		15. www.mercado-libre.com
+		16. http://ui.ml.com:8080/ajax.html
+
+		## Forbiden URLs
+		1. http://
+		2. http://www&
+		3. http://hola=
+		4. /../../mercado/
+		5. /mercado/../pepe
+		6. mercadolibre.com
+		7. mercado/mercado
+		8. localhost:8080/mercadolibre
+		9. pepe/../pepe.html
+		10. /pepe/../pepe.html
+		11. 192.168.1.1
+		12. localhost:8080/pepe
+		13. localhost:80-80
+		14. www.mercadolibre.com?siteId=MLA&categId=1744&buyi ngMode=buy_it_now&listingTypeId=bronze
+		15. `<asd src="www.mercadolibre.com">`
+		16. Mercadolibre.................
+		17. /laksjdlkasjd../
+		18. /..pepe..
+		19. /pepe..
+		20. pepe:/
+		21. /:pepe
+		22. dadadas.pepe
+		23. qdasdasda
+		24. http://ui.ml.com:8080:8080/ajax.html
+		*/
+			return ((/^(((https|http|ftp|file):\/\/)|www\.|\.\/|(\.\.\/)+|(\/{1,2})|(\d{1,3}\.){3}\d{1,3})(((\w+|-)(\.?)(\/?))+)(\:\d{1,5}){0,1}(((\w+|-)(\.?)(\/?)(#?))+)((\?)(\w+=(\w?)+(&?))+)?(\w+#\w+)?$/).test(url));
+		},
+		avoidTextSelection: function () {
+			$.each(arguments, function(i, e){
+				if ( $.browser.msie ) {
+					$(e).attr('unselectable', 'on');
+				} else if ($.browser.opera) {
+					$(e).bind("mousedown", function(){ return false; });
+				} else { 
+					$(e).addClass("ch-user-no-select");
+				};
+			});
+			return;
+		},
+		hasOwn: (function () {
+			var hOP = Object.prototype.hasOwnProperty;
+
+			return function (o, property) {
+				return hOP.call(o, property);
+			};
+		}()),
+		// Based on: http://www.quirksmode.org/dom/getstyles.html
+		getStyles: function (element, style) {
+			// Main browsers
+			if (window.getComputedStyle) {
+
+				return getComputedStyle(element, "").getPropertyValue(style);
+
+			// IE
+			} else {
+
+				// Turn style name into camel notation
+				style = style.replace(/\-(\w)/g, function (str, $1) { return $1.toUpperCase(); });
+
+				return element.currentStyle[style];
+
+			}
+		},
+		// Grab the vendor prefix of the current browser
+		// Based on: http://lea.verou.me/2009/02/find-the-vendor-prefix-of-the-current-browser/
+		"VENDOR_PREFIX": (function () {
+			
+			var regex = /^(Webkit|Khtml|Moz|ms|O)(?=[A-Z])/,
+			
+				styleDeclaration = document.getElementsByTagName("script")[0].style;
+
+			for (var prop in styleDeclaration) {
+				if (regex.test(prop)) {
+					return prop.match(regex)[0].toLowerCase();
 				}
-				// if isn't finded yet
-				// search inside an object for a string
-				for ( _prop in child ) {
-					if ( _prop === q || child[_prop] === q ) {
-						return ( a ) ? a.call( that , t ) : child ;
-					}
-				} // end for
-			} // end while
-		}
-	};
+			}
+			
+			// Nothing found so far? Webkit does not enumerate over the CSS properties of the style object.
+			// However (prop in style) returns the correct value, so we'll have to test for
+			// the precence of a specific property
+			if ("WebkitOpacity" in styleDeclaration) { return "webkit"; }
+			if ("KhtmlOpacity" in styleDeclaration) { return "khtml"; }
 
-	/**
-	* Adds a new child (or more) to the collection.
-	* @public
-	* @function
-	* @name ch.List#add
-	* @param {string} [child]
-	* @param {object} [child]
-	* @param {array} [child]
-	* @returns number The index of the added child.
-	* @returns collection Returns the entire collecction if the input is an array.
-	*/
-	var add = function( child ) {
-		
-		if ( ch.utils.isArray( child ) ) {
-			var i = 0, t = child.length;
-			for ( i; i < t; i++ ) {
-				_children.push( child[i] );
-			}			
-			return _children;
-		}
-		return _children.push( child );
-	};
-	
-	/**
-	* Removes a child from the collection by index, query string or object comparison.
-	* @public
-	* @function
-	* @name ch.List#rem
-	* @param {number} [q]
-	* @param {string} [q]
-	* @param {object} [q]
-	* @return {object} Returns the removed element
-	*/
-	var rem = function( q ) {
-		// null search return
-		if ( !q ) {
-			return that;
-		}
-		
-		var remove = function( t ) {
-			return _children.splice( t , 1 )[0];
-		}
-
-		return _find( q , remove );
-
-	};
-
-	/**
-	* Get a child from the collection by index, query string or object comparison.
-	* @public
-	* @function
-	* @name ch.List#get
-	* @param {number} [q] Get a child from the collection by index number.
-	* @param {string} [q] Get a child from the collection by a query string.
-	* @param {object} [q] Get a child from the collection by comparing objects.
-	* @return object
-	*/
-	var get = function( q ) {
-
-		return _find( q );
-
-	};
-
-	/**
-	* Get the amount of children from the collection.
-	* @public
-	* @function
-	* @name ch.List#size
-	* @return number
-	*/
-
-	var size = function() {
-		return _children.length;
-	};
-
-	/**
-	* @public
-	*/
-	var that = {
-		children: _children,
-		add: add,
-		rem: rem,
-		get: get,
-		size: size
-	};
-	
-	return that;
-	
+			return "";
+		}())
+	}
 };
+/**
+* Chico UI global events reference.
+* @name Events
+* @class Events
+* @memberOf ch
+* @static
+*/	
+ch.events = {
+	/**
+	* Layout event collection.
+	* @name LAYOUT
+	* @public
+	* @static
+	* @constant
+	* @type object
+	* @memberOf ch.Events
+	*/
+	LAYOUT: {
+		/**
+		* Every time Chico-UI needs to inform al visual components that layout has been changed, he triggers this event.
+		* @name CHANGE
+		* @memberOf ch.Events.LAYOUT
+		* @public
+		* @type string
+		* @constant
+		* @see ch.Form
+		* @see ch.Layer
+		* @see ch.Tooltip
+		* @see ch.Helper 
+		*/
+		CHANGE: "change"
+	},
+	/**
+	* Viewport event collection.
+	* @name VIEWPORT
+	* @public
+	* @static
+	* @constant
+	* @type object
+	* @memberOf ch.Events
+	*/
+	VIEWPORT: {
+		/**
+		* Every time Chico-UI needs to inform all visual components that window has been scrolled or resized, he triggers this event.
+		* @name CHANGE
+		* @constant
+		* @memberOf ch.Events.VIEWPORT
+		* @see ch.Positioner
+		*/
+		CHANGE: "change"
+	},
+	/**
+	* Keryboard event collection.
+	* @name KEY
+	* @public
+	* @static
+	* @constant
+	* @type object
+	* @memberOf ch.Events
+	*/
+	KEY: {
+		/**
+		* Enter key event.
+		* @name ENTER
+		* @constant
+		* @memberOf ch.Events.KEY
+		*/
+		ENTER: "enter",
+		/**
+		* Esc key event.
+		* @name ESC
+		* @constant
+		* @memberOf ch.Events.KEY
+		*/
+		ESC: "esc",
+		/**
+		* Left arrow key event.
+		* @name LEFT_ARROW
+		* @constant
+		* @memberOf ch.Events.KEY
+		*/
+		LEFT_ARROW: "left_arrow",
+		/**
+		* Up arrow key event.
+		* @name UP_ARROW
+		* @constant
+		* @memberOf ch.Events.KEY
+		*/
+		UP_ARROW: "up_arrow",
+		/**
+		* Rigth arrow key event.
+		* @name RIGHT_ARROW
+		* @constant
+		* @memberOf ch.Events.KEY
+		*/
+		RIGHT_ARROW: "right_arrow",
+		/**
+		* Down arrow key event.
+		* @name DOWN_ARROW
+		* @constant
+		* @memberOf ch.Events.KEY
+		*/
+		DOWN_ARROW: "down_arrow",
+		/**
+		* Backspace key event.
+		* @name BACKSPACE
+		* @constant
+		* @memberOf ch.Events.KEY
+		*/
+		BACKSPACE: "backspace"
+	}
+};
+
+/**
+* Keyboard event controller utility to know wich keys are begin.
+* @name Keyboard
+* @class Keyboard
+* @memberOf ch
+* @param event
+*/
+ch.keyboard = (function () {
+
+	/**
+	* Map with references to key codes.
+	* @private
+	* @name ch.Keyboard#codeMap
+	* @type object
+	*/ 
+	var codeMap = {
+		"13": "ENTER",
+		"27": "ESC",
+		"37": "LEFT_ARROW",
+		"38": "UP_ARROW",
+		"39": "RIGHT_ARROW",
+		"40": "DOWN_ARROW",
+		 "8": "BACKSPACE"
+	};
+
+	return function (event) {
+
+		// Check for event existency on the map
+		if(!ch.utils.hasOwn(codeMap, event.keyCode)) { return; }
+
+		// Trigger custom event with original event as second parameter
+		ch.utils.document.trigger(ch.events.KEY[codeMap[event.keyCode]], event);
+	};
+}());
+
+/** 
+* Utility to clone objects
+* @function
+* @name clon
+* @param o Object to clone
+* @returns object
+* @memberOf ch
+*/
+ch.clon = function(o) {
+
+	var copy = {},
+		x;
+
+	for (x in o) {
+		if (ch.utils.hasOwn(o, x)) {
+			copy[x] = o[x];
+		}
+	};
+
+	return copy;
+};
+
+
+/** 
+* Class to create UI Components
+* @name Factory
+* @class Factory
+* @param o Configuration Object
+* @example
+*	o {
+*		component: "chat",
+*		callback: function(){},
+*		[script]: "http://..",
+*		[style]: "http://..",
+*		[callback]: function(){}	
+*	}
+* @returns collection
+* @memberOf ch
+*/
+// TODO: Always it should receive a conf object as parameter (see Multiple component)
+// TODO: Try to deprecate .and() method on Validator
+ch.factory = function(o) {
+
+	var x = o.component || o;
+	
+	var create = function(x) { 
+
+		// Send configuration to a component trough options object
+		$.fn[x] = function( options ) {
+
+			var results = [];
+			var that = this;
+
+			// Could be more than one argument
+			var _arguments = arguments;
+			
+			that.each( function(i, e) {
+				
+				var conf = options || {};
+
+				var context = {};
+					context.type = x;
+					context.element = e;
+					context.$element = $(e);
+					context.uid = ch.utils.index += 1; // Global instantiation index
+			
+				switch(typeof conf) {
+					// If argument is a number, join with the conf
+					case "number":
+						var num = conf;
+						conf = {};
+						conf.value = num;
+						
+						// Could come a messages as a second argument
+						if (_arguments[1]) {
+							conf.msg = _arguments[1];
+						};
+					break;
+					
+					// This could be a message
+					case "string":
+						var msg = conf;
+						conf = {};
+						conf.msg = msg;
+					break;
+					
+					// This is a condition for custom validation
+					case "function":
+						var func = conf;
+						conf = {};
+						conf.lambda = func;
+						
+						// Could come a messages as a second argument
+						if (_arguments[1]) {
+							conf.msg = _arguments[1];
+						};
+					break;
+				};
+
+				// Create a component from his constructor
+				var created = ch[x].call( context, conf );
+
+				/*
+					MAPPING INSTANCES
+					Internal interface for avoid mapping objects
+					{
+						exists:true,
+						object: {}
+					}
+				*/
+
+				created = ( ch.utils.hasOwn(created, "public") ) ? created["public"] : created;
+
+				if (created.type) {
+					var type = created.type;
+					// If component don't exists in the instances map create an empty array
+					if (!ch.instances[type]) { ch.instances[type] = []; }
+						ch.instances[type].push( created );
+				}
+
+				// Avoid mapping objects that already exists
+				if (created.exists) {
+					// Return the inner object
+					created = created.object;
+				}
+
+				results.push( created );
+
+			});
+
+			// return the created components collection or single component
+			return ( results.length > 1 ) ? results : results[0];
+		};
+
+		// if a callback is defined 
+		if ( o.callback ) { o.callback(); }
+
+	} // end create function
+
+	if ( ch[x] ) {
+		// script already here, just create it
+		create(x);
+
+	} else {
+		// get resurces and call create later
+		ch.get({
+			"method":"component",
+			"component": x,
+			"script": (o.script)? o.script : "src/js/"+x+".js",
+			"styles": (o.style)? o.style : "src/css/"+x+".css",
+			"callback":create
+		});
+	}
+}
+
+/**
+* Load components or content
+* @name Get
+* @class Get
+* @param {object} o Configuration object 
+* @example
+*	o {
+*		component: "chat",
+*		[script]: "http://..",
+*		[style]: "http://..",
+*		[callback]: function(){}
+*	}
+* @memberOf ch
+*/
+ch.get = function(o) {
+	
+	// ch.get: "Should I get a style?"
+	if ( o.style ) {
+		var style = document.createElement('link');
+			style.href = o.style;
+			style.rel = 'stylesheet';
+			style.type = 'text/css';
+	}
+	// ch.get: "Should I get a script?"		
+	if ( o.script ) {
+		var script = document.createElement("script");
+			script.src = o.script;
+	}
+
+	var head = document.getElementsByTagName("head")[0] || document.documentElement;
+	// Handle Script loading
+	var done = false;
+
+	// Attach handlers for all browsers
+	script.onload = script.onreadystatechange = function() {
+
+		if ( !done && (!this.readyState || 
+			this.readyState === "loaded" || this.readyState === "complete") ) {
+			done = true;
+			// if callback is defined call it
+			if ( o.callback ) { o.callback( o.component ); }
+			// Handle memory leak in IE
+			script.onload = script.onreadystatechange = null;
+			if ( head && script.parentNode ) { head.removeChild( script ); }
+		}
+	};
+
+	// Use insertBefore instead of appendChild to circumvent an IE6 bug.
+	// This arises when a base node is used.
+	if ( o.script ) { head.insertBefore( script, head.firstChild ); }
+	if ( o.style ) { head.appendChild( style ); }
+
+}
+
+
+/**
+* Returns a data object with features supported by the device
+* @name Support
+* @class Support
+* @returns {object}
+* @memberOf ch 
+*/
+ch.support = function () {
+
+	/**
+	* Private reference to the <body> element
+	* @private
+	* @name body
+	* @type HTMLBodyElement
+	* @memberOf ch.Support
+	*/
+	var body = document.body || document.documentElement,
+
+	/**
+	* Public reference to features support
+	* @public
+	* @name self
+	* @type Object
+	* @memberOf ch.Support
+	*/
+		self = {};
+
+	/**
+	* Verify that CSS Transitions are supported (or any of its browser-specific implementations).
+	* @basedOn http://gist.github.com/373874
+	* @public
+	* @name transition
+	* @type Boolean
+	* @memberOf ch.Support#self
+	*/
+	self.transition = (function () {
+
+		// Get reference to CSS Style Decalration
+		var style = body.style,
+		// Grab "undefined" into a privated scope
+			u = undefined;
+
+		// Analize availability of transition on all browsers
+		return style.WebkitTransition !== u || style.MozTransition !== u || style.MSTransition !== u || style.OTransition !== u || style.transition !== u;
+	}());
+
+	/**
+	* Boolean property that indicates if CSS "Fixed" positioning are supported by the device.
+	* @basedOn http://kangax.github.com/cft/#IS_POSITION_FIXED_SUPPORTED
+	* @public
+	* @name fixed
+	* @type Boolean
+	* @memberOf ch.Support#self
+	*/
+	self.fixed = (function () {
+
+		// Flag to know if position is supported
+		var isSupported = false,
+		// Create an element to test
+			el = document.createElement("div");
+
+		// Set the position fixed
+		el.style.position = "fixed";
+		// Set a top
+		el.style.top = "10px";
+
+		// Add element to DOM
+		body.appendChild(el);
+
+		// Compare setted offset with "in DOM" offset of element
+		if (el.offsetTop === 10) {
+			isSupported = true;
+		}
+
+		// Delete element from DOM
+		body.removeChild(el);
+
+		// Results
+		return isSupported;
+	}());
+
+	// Return public object
+	return self;
+};
+
+
+/**
+* Extend is a utility that resolve creating interfaces problem for all UI-Objects.
+* @name Extend
+* @class Extend
+* @memberOf ch
+* @param {string} name Interface's name.
+* @param {function} klass Class to inherit from.
+* @param {function} [process] Optional function to pre-process configuration, recieves a 'conf' param and must return the configration object.
+* @returns class
+* @exampleDescription Create an URL interface type based on String component.
+* @example
+* ch.extend("string").as("url");
+* @exampleDescription Create an Accordion interface type based on Menu component.
+* @example
+* ch.extend("menu").as("accordion"); 
+* @exampleDescription And the coolest one... Create an Transition interface type based on his Modal component, with some conf manipulations:
+* @example
+* ch.extend("modal").as("transition", function(conf) {
+*	conf.closeButton = false;
+*	conf.msg = conf.msg || conf.content || "Please wait...";
+*	conf.content = $("&lt;div&gt;").addClass("loading").after( $("&lt;p&gt;").html(conf.msg) );
+*	return conf;
+* });
+*/
+
+ch.extend = function (klass) {
+
+	"use strict";
+
+	return {
+		as: function (name, process) {
+			// Create the component in Chico-UI namespace
+			ch[name] = function (conf) {
+				// Some interfaces need a data value,
+				// others simply need to be 'true'.
+				conf[name] = conf.value || true;
+	
+				// Invoke pre-proccess if is defined,
+				// or grab the raw conf argument,
+				// or just create an empty object.
+				conf = (process) ? process(conf) : conf || {};
+	
+				// Here we recieve messages,
+				// or create an empty object.
+				conf.messages = conf.messages || {};
+	
+				// If the interface recieve a 'msg' argument,
+				// store it in the message map.
+				if (ch.utils.hasOwn(conf, "msg")) {
+					conf.messages[name] = conf.msg;
+					conf.msg = null;
+					delete conf.msg;
+				}
+				// Here is where the magic happen,
+				// invoke the class with the new conf,
+				// and return the instance to the namespace.
+				return ch[klass].call(this, conf);
+			};
+			// Almost done, now we need expose the new component,
+			// let's ask the factory to do it for us.
+			ch.factory(name);
+		} // end as method
+	} // end return
+};
+
 
 /**
 * Eraser lets you erase component's instances and free unused memory. A Numer will erase only that particular instance, a component's name will erase all components of that type, a "meltdown" will erase all component's instances from any kind.
@@ -456,6 +1050,160 @@ ch.condition = function(condition) {
 };
 
 /**
+* List lets you manage collections. Create a list of objects, add, get and remove.
+* @name List
+* @class List
+* @standalone
+* @memberOf ch
+* @param {array} [collection] Constructs a List with an optional initial collection
+*/
+
+ch.list = function( collection ) {
+
+	var that = this;
+
+	/**
+	* @public
+	* @name ch.List#children
+	* @type collection
+	*/
+	var _children = ( collection && ch.utils.isArray( collection ) ) ? collection : [] ;
+
+	/**
+	* Seek members inside the collection by index, query string or object comparison.
+	* @private
+	* @function
+	* @name ch.List#_find
+	* @param {number} [q]
+	* @param {string} [q]
+	* @param {object} [q]
+	* @param {function} [a]
+	* @return object
+	*/
+	var _find = function(q, a) {
+		// null search return the entire collection
+		if ( !q ) {
+			return _children;
+		}
+
+		var c = typeof q;
+		// number? return a specific position
+		if ( c === "number" ) {
+			q--; // _children is a Zero-index based collection
+			return ( a ) ? a.call( that , q ) : _children[q] ;
+		}
+		
+		// string? ok, let's find it
+		var t = size(), _prop, child;
+		if ( c === "string" || c === "object" ) {
+			while ( t-- ) {
+				child = _children[t];
+				// object or string strict equal
+				if ( child === q ) {
+					return ( a ) ? a.call( that , t ) : child ;
+				}
+				// if isn't finded yet
+				// search inside an object for a string
+				for ( _prop in child ) {
+					if ( _prop === q || child[_prop] === q ) {
+						return ( a ) ? a.call( that , t ) : child ;
+					}
+				} // end for
+			} // end while
+		}
+	};
+
+	/**
+	* Adds a new child (or more) to the collection.
+	* @public
+	* @function
+	* @name ch.List#add
+	* @param {string} [child]
+	* @param {object} [child]
+	* @param {array} [child]
+	* @returns number The index of the added child.
+	* @returns collection Returns the entire collecction if the input is an array.
+	*/
+	var add = function( child ) {
+		
+		if ( ch.utils.isArray( child ) ) {
+			var i = 0, t = child.length;
+			for ( i; i < t; i++ ) {
+				_children.push( child[i] );
+			}			
+			return _children;
+		}
+		return _children.push( child );
+	};
+	
+	/**
+	* Removes a child from the collection by index, query string or object comparison.
+	* @public
+	* @function
+	* @name ch.List#rem
+	* @param {number} [q]
+	* @param {string} [q]
+	* @param {object} [q]
+	* @return {object} Returns the removed element
+	*/
+	var rem = function( q ) {
+		// null search return
+		if ( !q ) {
+			return that;
+		}
+		
+		var remove = function( t ) {
+			return _children.splice( t , 1 )[0];
+		}
+
+		return _find( q , remove );
+
+	};
+
+	/**
+	* Get a child from the collection by index, query string or object comparison.
+	* @public
+	* @function
+	* @name ch.List#get
+	* @param {number} [q] Get a child from the collection by index number.
+	* @param {string} [q] Get a child from the collection by a query string.
+	* @param {object} [q] Get a child from the collection by comparing objects.
+	* @return object
+	*/
+	var get = function( q ) {
+
+		return _find( q );
+
+	};
+
+	/**
+	* Get the amount of children from the collection.
+	* @public
+	* @function
+	* @name ch.List#size
+	* @return number
+	*/
+
+	var size = function() {
+		return _children.length;
+	};
+
+	/**
+	* @public
+	*/
+	var that = {
+		children: _children,
+		add: add,
+		rem: rem,
+		get: get,
+		size: size
+	};
+	
+	return that;
+	
+};
+
+/**
 * Object represents the abstract class of all Objects.
 * @abstract
 * @name Object
@@ -623,6 +1371,89 @@ ch.object = function(){
 
 	return that;
 };
+
+/**
+* Preload lets you load images on browser's memory. An array of sources will iterate and preload each one, a single source will do the same thing.
+* @name Preload
+* @class Preload
+* @standalone
+* @memberOf ch
+* @param {array} [arr] Collection of image sources
+* @param {string} [str] A single image source
+* @exampleDescription
+* @example
+* ch.preload(["img1.jpg","img2.jpg","img3.png"]);
+* @exampleDescription
+* @example
+* ch.preload("logo.jpg");
+*/
+ch.preload = function(arr) {
+
+	if (typeof arr === "string") {
+		arr = (arr.indexOf(",") > 0) ? arr.split(",") : [arr] ;
+	}
+
+	for (var i=0;i<arr.length;i++) {
+
+		var o = document.createElement("object");
+			o.data = arr[i]; // URL
+
+		var h = document.getElementsByTagName("head")[0];
+			h.appendChild(o);
+			h.removeChild(o); 
+	}
+};
+
+/**
+* OnImagesLoads executes a callback function when the images of a query selection loads.
+* @name onImagesLoads
+* @class onImagesLoads
+* @memberOf ch
+* @param callback function The function that the component will fire after the images load. 
+* @returns jQuery
+* @factorized
+* @exampleDescription
+* @example
+* $("img").onImagesLoads(callback);
+*/
+
+ch.onImagesLoads = function (conf) {
+
+	/**
+	* Reference to a internal component instance, saves all the information and configuration properties.
+	* @private
+	* @name ch.onImagesLoads#that
+	* @type object
+	*/
+	var that = this;
+	conf = ch.clon(conf);
+	that.conf = conf;
+	
+	that.$element
+		// On load event
+		.one("load", function () {
+			setTimeout(function () {
+				if (--that.$element.length <= 0) {
+					that.conf.lambda.call(that.$element, this);
+				}
+			}, 200);
+		})
+		// For each image
+		.each(function () {
+			// Cached images don't fire load sometimes, so we reset src.
+			if (this.complete || this.complete === undefined) {
+				var src = this.src;
+				
+				// Data uri fix bug in web-kit browsers
+				this.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+				this.src = src;
+			}
+		});
+	
+	return that;
+};
+
+ch.factory("onImagesLoads");
 
 /**
 * Positioner lets you centralize and manage changes related to positioned elements. Positioner returns an utility that resolves positioning for all widget.
@@ -1407,914 +2238,6 @@ ch.positioner = (function () {
 	};
 
 }());
-
-/**
-* ch is the namespace for Chico-UI.
-* @namespace ch
-* @name ch
-* @static
-*/
-
-var ch = window.ch = {
-
-	/**
-	* Current version
-	* @name version
-	* @type number
-	* @memberOf ch
-	*/
-	version: "0.11",
-	/**
-	* Here you will find a map of all component's instances created by Chico-UI.
-	* @name instances
-	* @type object
-	* @memberOf ch
-	*/
-	instances: {},
-	/**
-	* Available device's features.
-	* @name features
-	* @type object
-	* @see ch.Support
-	* @memberOf ch
-	*/
-	features: {},
-	/**
-	* Core constructor function.
-	* @name init
-	* @function
-	* @memberOf ch
-	*/
-	init: function() { 
-		// unmark the no-js flag on html tag
-		$("html").removeClass("no-js");
-		// check for browser support
-		ch.features = ch.support();
-		// TODO: This should be on keyboard controller.
-		ch.utils.document.bind("keydown", function(event){ ch.keyboard(event); });
-	},
-	/**
-	* References and commons functions.
-	* @name Utils
-	* @class Utils
-	* @type object
-	* @memberOf ch
-	*/
-	utils: {
-		body: $("body"),
-		html: $("html"),
-		window: $(window),
-		document: $(document),
-		zIndex: 1000,
-		index: 0, // global instantiation index
-		isTag: function(string){
-			return (/<([\w:]+)/).test(string);
-		},
-		isSelector: function (selector) {
-			if (typeof selector !== "string") return false;
-			for (var regex in $.expr.match){
-				if ($.expr.match[ regex ].test(selector) && !ch.utils.isTag(selector)) {
-					return true;
-				};
-			};
-			return false;
-		},
-		inDom: function (selector, context) {
-			if (typeof selector !== "string") return false;
-			// jQuery: If you wish to use any of the meta-characters ( such as !"#$%&'()*+,./:;<=>?@[\]^`{|}~ ) as a literal part of a name, you must escape the character with two backslashes: \\.
-			var selector = selector.replace(/(\!|\"|\$|\%|\&|\'|\(|\)|\*|\+|\,|\/|\;|\<|\=|\>|\?|\@|\[|\\|\]|\^|\`|\{|\||\}|\~)/gi, function (str, $1) {
-				return "\\\\" + $1;
-			});
-			return $(selector, context).length > 0;
-		},
-		/**
-		* Checks if the parameter given is an Array.
-		* @name isArray
-		* @public
-		* @param o The member to be checked
-		* @function
-		* @memberOf ch.Utils
-		* @returns boolean
-		*/
-		isArray: (function () {
-
-			if (Array.hasOwnProperty("isArray")) {
-				return Array.isArray;
-			}
-
-			return function (o) {
-				return Object.prototype.toString.apply(o) === "[object Array]";
-			};
-		}()),
-		/**
-		* Checks if the url given is right to load content.
-		* @name isUrl
-		* @public
-		* @function
-		* @memberOf ch.Utils
-		* @returns boolean
-		*/
-		isUrl: function (url) {
-		/* 
-		# RegExp
-
-		https://github.com/mercadolibre/chico/issues/579#issuecomment-5206670
-
-		```javascript
-		1	1.1						   1.2	 1.3  1.4		1.5		  1.6					2					   3 			   4					5
-		/^(((https|http|ftp|file):\/\/)|www\.|\.\/|(\.\.\/)+|(\/{1,2})|(\d{1,3}\.){3}\d{1,3})(((\w+|-)(\.?)(\/?))+)(\:\d{1,5}){0,1}(((\w+|-)(\.?)(\/?))+)((\?)(\w+=(\w?)+(&?))+)?$/
-		```
-
-		## Description
-		1. Checks for the start of the URL
-			1. if starts with a protocols followed by :// Example: file://chico
-			2. if start with www followed by . (dot) Example: www.chico
-			3. if starts with ./ 
-			4. if starts with ../ and can repeat one or more times
-			5. if start with double slash // Example: //chico.server
-			6. if start with an ip address
-		2. Checks the domain
-		  letters, dash followed by a dot or by a slash. All this group can repeat one or more times
-		3. Ports
-		 Zero or one time
-		4. Idem to point two
-		5. QueryString pairs
-
-		## Allowed URLs
-		1. http://www.mercadolibre.com
-		2. http://mercadolibre.com/
-		3. http://mercadolibre.com:8080?hola=
-		4. http://mercadolibre.com/pepe
-		5. http://localhost:2020
-		6. http://192.168.1.1
-		7. http://192.168.1.1:9090
-		8. www.mercadolibre.com
-		9. /mercadolibre
-		10. /mercadolibre/mercado
-		11. /tooltip?siteId=MLA&categId=1744&buyingMode=buy_it_now&listingTypeId=bronze
-		12. ./pepe
-		13. ../../mercado/
-		14. www.mercadolibre.com?siteId=MLA&categId=1744&buyingMode=buy_it_now&listingTypeId=bronze
-		15. www.mercado-libre.com
-		16. http://ui.ml.com:8080/ajax.html
-
-		## Forbiden URLs
-		1. http://
-		2. http://www&
-		3. http://hola=
-		4. /../../mercado/
-		5. /mercado/../pepe
-		6. mercadolibre.com
-		7. mercado/mercado
-		8. localhost:8080/mercadolibre
-		9. pepe/../pepe.html
-		10. /pepe/../pepe.html
-		11. 192.168.1.1
-		12. localhost:8080/pepe
-		13. localhost:80-80
-		14. www.mercadolibre.com?siteId=MLA&categId=1744&buyi ngMode=buy_it_now&listingTypeId=bronze
-		15. `<asd src="www.mercadolibre.com">`
-		16. Mercadolibre.................
-		17. /laksjdlkasjd../
-		18. /..pepe..
-		19. /pepe..
-		20. pepe:/
-		21. /:pepe
-		22. dadadas.pepe
-		23. qdasdasda
-		24. http://ui.ml.com:8080:8080/ajax.html
-		*/
-			return ((/^(((https|http|ftp|file):\/\/)|www\.|\.\/|(\.\.\/)+|(\/{1,2})|(\d{1,3}\.){3}\d{1,3})(((\w+|-)(\.?)(\/?))+)(\:\d{1,5}){0,1}(((\w+|-)(\.?)(\/?)(#?))+)((\?)(\w+=(\w?)+(&?))+)?(\w+#\w+)?$/).test(url));
-		},
-		avoidTextSelection: function () {
-			$.each(arguments, function(i, e){
-				if ( $.browser.msie ) {
-					$(e).attr('unselectable', 'on');
-				} else if ($.browser.opera) {
-					$(e).bind("mousedown", function(){ return false; });
-				} else { 
-					$(e).addClass("ch-user-no-select");
-				};
-			});
-			return;
-		},
-		hasOwn: (function () {
-			var hOP = Object.prototype.hasOwnProperty;
-
-			return function (o, property) {
-				return hOP.call(o, property);
-			};
-		}()),
-		// Based on: http://www.quirksmode.org/dom/getstyles.html
-		getStyles: function (element, style) {
-			// Main browsers
-			if (window.getComputedStyle) {
-
-				return getComputedStyle(element, "").getPropertyValue(style);
-
-			// IE
-			} else {
-
-				// Turn style name into camel notation
-				style = style.replace(/\-(\w)/g, function (str, $1) { return $1.toUpperCase(); });
-
-				return element.currentStyle[style];
-
-			}
-		},
-		// Grab the vendor prefix of the current browser
-		// Based on: http://lea.verou.me/2009/02/find-the-vendor-prefix-of-the-current-browser/
-		"VENDOR_PREFIX": (function () {
-			
-			var regex = /^(Webkit|Khtml|Moz|ms|O)(?=[A-Z])/,
-			
-				styleDeclaration = document.getElementsByTagName("script")[0].style;
-
-			for (var prop in styleDeclaration) {
-				if (regex.test(prop)) {
-					return prop.match(regex)[0].toLowerCase();
-				}
-			}
-			
-			// Nothing found so far? Webkit does not enumerate over the CSS properties of the style object.
-			// However (prop in style) returns the correct value, so we'll have to test for
-			// the precence of a specific property
-			if ("WebkitOpacity" in styleDeclaration) { return "webkit"; }
-			if ("KhtmlOpacity" in styleDeclaration) { return "khtml"; }
-
-			return "";
-		}())
-	}
-};
-/**
-* Chico UI global events reference.
-* @name Events
-* @class Events
-* @memberOf ch
-* @static
-*/	
-ch.events = {
-	/**
-	* Layout event collection.
-	* @name LAYOUT
-	* @public
-	* @static
-	* @constant
-	* @type object
-	* @memberOf ch.Events
-	*/
-	LAYOUT: {
-		/**
-		* Every time Chico-UI needs to inform al visual components that layout has been changed, he triggers this event.
-		* @name CHANGE
-		* @memberOf ch.Events.LAYOUT
-		* @public
-		* @type string
-		* @constant
-		* @see ch.Form
-		* @see ch.Layer
-		* @see ch.Tooltip
-		* @see ch.Helper 
-		*/
-		CHANGE: "change"
-	},
-	/**
-	* Viewport event collection.
-	* @name VIEWPORT
-	* @public
-	* @static
-	* @constant
-	* @type object
-	* @memberOf ch.Events
-	*/
-	VIEWPORT: {
-		/**
-		* Every time Chico-UI needs to inform all visual components that window has been scrolled or resized, he triggers this event.
-		* @name CHANGE
-		* @constant
-		* @memberOf ch.Events.VIEWPORT
-		* @see ch.Positioner
-		*/
-		CHANGE: "change"
-	},
-	/**
-	* Keryboard event collection.
-	* @name KEY
-	* @public
-	* @static
-	* @constant
-	* @type object
-	* @memberOf ch.Events
-	*/
-	KEY: {
-		/**
-		* Enter key event.
-		* @name ENTER
-		* @constant
-		* @memberOf ch.Events.KEY
-		*/
-		ENTER: "enter",
-		/**
-		* Esc key event.
-		* @name ESC
-		* @constant
-		* @memberOf ch.Events.KEY
-		*/
-		ESC: "esc",
-		/**
-		* Left arrow key event.
-		* @name LEFT_ARROW
-		* @constant
-		* @memberOf ch.Events.KEY
-		*/
-		LEFT_ARROW: "left_arrow",
-		/**
-		* Up arrow key event.
-		* @name UP_ARROW
-		* @constant
-		* @memberOf ch.Events.KEY
-		*/
-		UP_ARROW: "up_arrow",
-		/**
-		* Rigth arrow key event.
-		* @name RIGHT_ARROW
-		* @constant
-		* @memberOf ch.Events.KEY
-		*/
-		RIGHT_ARROW: "right_arrow",
-		/**
-		* Down arrow key event.
-		* @name DOWN_ARROW
-		* @constant
-		* @memberOf ch.Events.KEY
-		*/
-		DOWN_ARROW: "down_arrow",
-		/**
-		* Backspace key event.
-		* @name BACKSPACE
-		* @constant
-		* @memberOf ch.Events.KEY
-		*/
-		BACKSPACE: "backspace"
-	}
-};
-
-/**
-* Keyboard event controller utility to know wich keys are begin.
-* @name Keyboard
-* @class Keyboard
-* @memberOf ch
-* @param event
-*/
-ch.keyboard = (function () {
-
-	/**
-	* Map with references to key codes.
-	* @private
-	* @name ch.Keyboard#codeMap
-	* @type object
-	*/ 
-	var codeMap = {
-		"13": "ENTER",
-		"27": "ESC",
-		"37": "LEFT_ARROW",
-		"38": "UP_ARROW",
-		"39": "RIGHT_ARROW",
-		"40": "DOWN_ARROW",
-		 "8": "BACKSPACE"
-	};
-
-	return function (event) {
-
-		// Check for event existency on the map
-		if(!ch.utils.hasOwn(codeMap, event.keyCode)) { return; }
-
-		// Trigger custom event with original event as second parameter
-		ch.utils.document.trigger(ch.events.KEY[codeMap[event.keyCode]], event);
-	};
-}());
-
-/** 
-* Utility to clone objects
-* @function
-* @name clon
-* @param o Object to clone
-* @returns object
-* @memberOf ch
-*/
-ch.clon = function(o) {
-
-	var copy = {},
-		x;
-
-	for (x in o) {
-		if (ch.utils.hasOwn(o, x)) {
-			copy[x] = o[x];
-		}
-	};
-
-	return copy;
-};
-
-
-/** 
-* Class to create UI Components
-* @name Factory
-* @class Factory
-* @param o Configuration Object
-* @example
-*	o {
-*		component: "chat",
-*		callback: function(){},
-*		[script]: "http://..",
-*		[style]: "http://..",
-*		[callback]: function(){}	
-*	}
-* @returns collection
-* @memberOf ch
-*/
-// TODO: Always it should receive a conf object as parameter (see Multiple component)
-// TODO: Try to deprecate .and() method on Validator
-ch.factory = function(o) {
-
-	var x = o.component || o;
-	
-	var create = function(x) { 
-
-		// Send configuration to a component trough options object
-		$.fn[x] = function( options ) {
-
-			var results = [];
-			var that = this;
-
-			// Could be more than one argument
-			var _arguments = arguments;
-			
-			that.each( function(i, e) {
-				
-				var conf = options || {};
-
-				var context = {};
-					context.type = x;
-					context.element = e;
-					context.$element = $(e);
-					context.uid = ch.utils.index += 1; // Global instantiation index
-			
-				switch(typeof conf) {
-					// If argument is a number, join with the conf
-					case "number":
-						var num = conf;
-						conf = {};
-						conf.value = num;
-						
-						// Could come a messages as a second argument
-						if (_arguments[1]) {
-							conf.msg = _arguments[1];
-						};
-					break;
-					
-					// This could be a message
-					case "string":
-						var msg = conf;
-						conf = {};
-						conf.msg = msg;
-					break;
-					
-					// This is a condition for custom validation
-					case "function":
-						var func = conf;
-						conf = {};
-						conf.lambda = func;
-						
-						// Could come a messages as a second argument
-						if (_arguments[1]) {
-							conf.msg = _arguments[1];
-						};
-					break;
-				};
-
-				// Create a component from his constructor
-				var created = ch[x].call( context, conf );
-
-				/*
-					MAPPING INSTANCES
-					Internal interface for avoid mapping objects
-					{
-						exists:true,
-						object: {}
-					}
-				*/
-
-				created = ( ch.utils.hasOwn(created, "public") ) ? created["public"] : created;
-
-				if (created.type) {
-					var type = created.type;
-					// If component don't exists in the instances map create an empty array
-					if (!ch.instances[type]) { ch.instances[type] = []; }
-						ch.instances[type].push( created );
-				}
-
-				// Avoid mapping objects that already exists
-				if (created.exists) {
-					// Return the inner object
-					created = created.object;
-				}
-
-				results.push( created );
-
-			});
-
-			// return the created components collection or single component
-			return ( results.length > 1 ) ? results : results[0];
-		};
-
-		// if a callback is defined 
-		if ( o.callback ) { o.callback(); }
-
-	} // end create function
-
-	if ( ch[x] ) {
-		// script already here, just create it
-		create(x);
-
-	} else {
-		// get resurces and call create later
-		ch.get({
-			"method":"component",
-			"component": x,
-			"script": (o.script)? o.script : "src/js/"+x+".js",
-			"styles": (o.style)? o.style : "src/css/"+x+".css",
-			"callback":create
-		});
-	}
-}
-
-/**
-* Load components or content
-* @name Get
-* @class Get
-* @param {object} o Configuration object 
-* @example
-*	o {
-*		component: "chat",
-*		[script]: "http://..",
-*		[style]: "http://..",
-*		[callback]: function(){}
-*	}
-* @memberOf ch
-*/
-ch.get = function(o) {
-	
-	// ch.get: "Should I get a style?"
-	if ( o.style ) {
-		var style = document.createElement('link');
-			style.href = o.style;
-			style.rel = 'stylesheet';
-			style.type = 'text/css';
-	}
-	// ch.get: "Should I get a script?"		
-	if ( o.script ) {
-		var script = document.createElement("script");
-			script.src = o.script;
-	}
-
-	var head = document.getElementsByTagName("head")[0] || document.documentElement;
-	// Handle Script loading
-	var done = false;
-
-	// Attach handlers for all browsers
-	script.onload = script.onreadystatechange = function() {
-
-		if ( !done && (!this.readyState || 
-			this.readyState === "loaded" || this.readyState === "complete") ) {
-			done = true;
-			// if callback is defined call it
-			if ( o.callback ) { o.callback( o.component ); }
-			// Handle memory leak in IE
-			script.onload = script.onreadystatechange = null;
-			if ( head && script.parentNode ) { head.removeChild( script ); }
-		}
-	};
-
-	// Use insertBefore instead of appendChild to circumvent an IE6 bug.
-	// This arises when a base node is used.
-	if ( o.script ) { head.insertBefore( script, head.firstChild ); }
-	if ( o.style ) { head.appendChild( style ); }
-
-}
-
-
-/**
-* Returns a data object with features supported by the device
-* @name Support
-* @class Support
-* @returns {object}
-* @memberOf ch 
-*/
-ch.support = function () {
-
-	/**
-	* Private reference to the <body> element
-	* @private
-	* @name body
-	* @type HTMLBodyElement
-	* @memberOf ch.Support
-	*/
-	var body = document.body || document.documentElement,
-
-	/**
-	* Public reference to features support
-	* @public
-	* @name self
-	* @type Object
-	* @memberOf ch.Support
-	*/
-		self = {};
-
-	/**
-	* Verify that CSS Transitions are supported (or any of its browser-specific implementations).
-	* @basedOn http://gist.github.com/373874
-	* @public
-	* @name transition
-	* @type Boolean
-	* @memberOf ch.Support#self
-	*/
-	self.transition = (function () {
-
-		// Get reference to CSS Style Decalration
-		var style = body.style,
-		// Grab "undefined" into a privated scope
-			u = undefined;
-
-		// Analize availability of transition on all browsers
-		return style.WebkitTransition !== u || style.MozTransition !== u || style.MSTransition !== u || style.OTransition !== u || style.transition !== u;
-	}());
-
-	/**
-	* Boolean property that indicates if CSS "Fixed" positioning are supported by the device.
-	* @basedOn http://kangax.github.com/cft/#IS_POSITION_FIXED_SUPPORTED
-	* @public
-	* @name fixed
-	* @type Boolean
-	* @memberOf ch.Support#self
-	*/
-	self.fixed = (function () {
-
-		// Flag to know if position is supported
-		var isSupported = false,
-		// Create an element to test
-			el = document.createElement("div");
-
-		// Set the position fixed
-		el.style.position = "fixed";
-		// Set a top
-		el.style.top = "10px";
-
-		// Add element to DOM
-		body.appendChild(el);
-
-		// Compare setted offset with "in DOM" offset of element
-		if (el.offsetTop === 10) {
-			isSupported = true;
-		}
-
-		// Delete element from DOM
-		body.removeChild(el);
-
-		// Results
-		return isSupported;
-	}());
-
-	// Return public object
-	return self;
-};
-
-
-/**
-* Extend is a utility that resolve creating interfaces problem for all UI-Objects.
-* @name Extend
-* @class Extend
-* @memberOf ch
-* @param {string} name Interface's name.
-* @param {function} klass Class to inherit from.
-* @param {function} [process] Optional function to pre-process configuration, recieves a 'conf' param and must return the configration object.
-* @returns class
-* @exampleDescription Create an URL interface type based on String component.
-* @example
-* ch.extend("string").as("url");
-* @exampleDescription Create an Accordion interface type based on Menu component.
-* @example
-* ch.extend("menu").as("accordion"); 
-* @exampleDescription And the coolest one... Create an Transition interface type based on his Modal component, with some conf manipulations:
-* @example
-* ch.extend("modal").as("transition", function(conf) {
-*	conf.closeButton = false;
-*	conf.msg = conf.msg || conf.content || "Please wait...";
-*	conf.content = $("&lt;div&gt;").addClass("loading").after( $("&lt;p&gt;").html(conf.msg) );
-*	return conf;
-* });
-*/
-
-ch.extend = function (klass) {
-
-	"use strict";
-
-	return {
-		as: function (name, process) {
-			// Create the component in Chico-UI namespace
-			ch[name] = function (conf) {
-				// Some interfaces need a data value,
-				// others simply need to be 'true'.
-				conf[name] = conf.value || true;
-	
-				// Invoke pre-proccess if is defined,
-				// or grab the raw conf argument,
-				// or just create an empty object.
-				conf = (process) ? process(conf) : conf || {};
-	
-				// Here we recieve messages,
-				// or create an empty object.
-				conf.messages = conf.messages || {};
-	
-				// If the interface recieve a 'msg' argument,
-				// store it in the message map.
-				if (ch.utils.hasOwn(conf, "msg")) {
-					conf.messages[name] = conf.msg;
-					conf.msg = null;
-					delete conf.msg;
-				}
-				// Here is where the magic happen,
-				// invoke the class with the new conf,
-				// and return the instance to the namespace.
-				return ch[klass].call(this, conf);
-			};
-			// Almost done, now we need expose the new component,
-			// let's ask the factory to do it for us.
-			ch.factory(name);
-		} // end as method
-	} // end return
-};
-
-
-/**
-* Viewport is a reference to position and size of the visible area of browser.
-* @name Viewport
-* @class Viewport
-* @standalone
-* @memberOf ch
-*/
-ch.viewport = {
-
-	/**
-	* Width of the visible area.
-	* @public
-	* @name ch.Viewport#width
-	* @type Number
-	*/
-	"width": ch.utils.window.width(),
-
-	/**
-	* Height of the visible area.
-	* @public
-	* @name ch.Viewport#height
-	* @type Number
-	*/
-	"height": ch.utils.window.height(),
-
-	/**
-	* Left offset of the visible area.
-	* @public
-	* @name ch.Viewport#left
-	* @type Number
-	*/
-	"left": ch.utils.window.scrollLeft(),
-
-	/**
-	* Top offset of the visible area.
-	* @public
-	* @name ch.Viewport#top
-	* @type Number
-	*/
-	"top": ch.utils.window.scrollTop(),
-
-	/**
-	* Right offset of the visible area.
-	* @public
-	* @name ch.Viewport#right
-	* @type Number
-	*/
-	"right": ch.utils.window.scrollLeft() + ch.utils.window.width(),
-
-	/**
-	* Bottom offset of the visible area.
-	* @public
-	* @name ch.Viewport#bottom
-	* @type Number
-	*/
-	"bottom": ch.utils.window.scrollTop() + ch.utils.window.height(),
-
-	/**
-	* Element representing the visible area.
-	* @public
-	* @name ch.Viewport#element
-	* @type Object
-	*/
-	"element": ch.utils.window,
-
-	/**
-	* Updates width and height of the visible area and updates ch.viewport.width and ch.viewport.height
-	* @public
-	* @function
-	* @name ch.Viewport#getSize
-	* @returns Object
-	*/
-	"getSize": function () {
-
-		return {
-			"width": this.width = ch.utils.window.width(),
-			"height": this.height = ch.utils.window.height()
-		};
-
-	},
-
-	/**
-	* Updates left, top, right and bottom coordinates of the visible area, relative to the window.
-	* @public
-	* @function
-	* @name ch.Viewport#getPosition
-	* @returns Object
-	*/
-	"getPosition": function () {
-
-		var size = this.getSize();
-
-		return {
-			"left": 0,
-			"top": 0,
-			"right": size.width,
-			"bottom": size.height,
-			// Size is for use as context on Positioner
-			// (see getCoordinates method on Positioner)
-			"width": size.width,
-			"height": size.height
-		};
-		
-	},
-	
-	/**
-	* Updates left, top, right and bottom coordinates of the visible area, relative to the document.
-	* @public
-	* @function
-	* @name ch.Viewport#getOffset
-	* @returns Object
-	*/
-	"getOffset": function () {
-
-		var position = this.getPosition(),
-			scrollLeft = ch.utils.window.scrollLeft(),
-			scrollTop = ch.utils.window.scrollTop();
-
-		return {
-			"left": this.left = scrollLeft,
-			"top": this.top = scrollTop,
-			"right": this.right = scrollLeft + position.right,
-			"bottom": this.bottom = scrollTop + position.bottom
-		};
-		
-	}
-};
-
-/**
-* Preload lets you load images on browser's memory. An array of sources will iterate and preload each one, a single source will do the same thing.
-* @name Preload
-* @class Preload
-* @standalone
-* @memberOf ch
-* @param {array} [arr] Collection of image sources
-* @param {string} [str] A single image source
-* @exampleDescription
-* @example
-* ch.preload(["img1.jpg","img2.jpg","img3.png"]);
-* @exampleDescription
-* @example
-* ch.preload("logo.jpg");
-*/
-ch.preload = function(arr) {
-
-	if (typeof arr === "string") {
-		arr = (arr.indexOf(",") > 0) ? arr.split(",") : [arr] ;
-	}
-
-	for (var i=0;i<arr.length;i++) {
-
-		var o = document.createElement("object");
-			o.data = arr[i]; // URL
-
-		var h = document.getElementsByTagName("head")[0];
-			h.appendChild(o);
-			h.removeChild(o); 
-	}
-};
 
 /**
 * Calendar shows months, and lets you move across the months of the year. Calendar lets you set one or many dates as selected. 
@@ -3236,6 +3159,2100 @@ ch.calendar = function (conf) {
 };
 
 ch.factory("calendar");
+
+/**
+* Viewport is a reference to position and size of the visible area of browser.
+* @name Viewport
+* @class Viewport
+* @standalone
+* @memberOf ch
+*/
+ch.viewport = {
+
+	/**
+	* Width of the visible area.
+	* @public
+	* @name ch.Viewport#width
+	* @type Number
+	*/
+	"width": ch.utils.window.width(),
+
+	/**
+	* Height of the visible area.
+	* @public
+	* @name ch.Viewport#height
+	* @type Number
+	*/
+	"height": ch.utils.window.height(),
+
+	/**
+	* Left offset of the visible area.
+	* @public
+	* @name ch.Viewport#left
+	* @type Number
+	*/
+	"left": ch.utils.window.scrollLeft(),
+
+	/**
+	* Top offset of the visible area.
+	* @public
+	* @name ch.Viewport#top
+	* @type Number
+	*/
+	"top": ch.utils.window.scrollTop(),
+
+	/**
+	* Right offset of the visible area.
+	* @public
+	* @name ch.Viewport#right
+	* @type Number
+	*/
+	"right": ch.utils.window.scrollLeft() + ch.utils.window.width(),
+
+	/**
+	* Bottom offset of the visible area.
+	* @public
+	* @name ch.Viewport#bottom
+	* @type Number
+	*/
+	"bottom": ch.utils.window.scrollTop() + ch.utils.window.height(),
+
+	/**
+	* Element representing the visible area.
+	* @public
+	* @name ch.Viewport#element
+	* @type Object
+	*/
+	"element": ch.utils.window,
+
+	/**
+	* Updates width and height of the visible area and updates ch.viewport.width and ch.viewport.height
+	* @public
+	* @function
+	* @name ch.Viewport#getSize
+	* @returns Object
+	*/
+	"getSize": function () {
+
+		return {
+			"width": this.width = ch.utils.window.width(),
+			"height": this.height = ch.utils.window.height()
+		};
+
+	},
+
+	/**
+	* Updates left, top, right and bottom coordinates of the visible area, relative to the window.
+	* @public
+	* @function
+	* @name ch.Viewport#getPosition
+	* @returns Object
+	*/
+	"getPosition": function () {
+
+		var size = this.getSize();
+
+		return {
+			"left": 0,
+			"top": 0,
+			"right": size.width,
+			"bottom": size.height,
+			// Size is for use as context on Positioner
+			// (see getCoordinates method on Positioner)
+			"width": size.width,
+			"height": size.height
+		};
+		
+	},
+	
+	/**
+	* Updates left, top, right and bottom coordinates of the visible area, relative to the document.
+	* @public
+	* @function
+	* @name ch.Viewport#getOffset
+	* @returns Object
+	*/
+	"getOffset": function () {
+
+		var position = this.getPosition(),
+			scrollLeft = ch.utils.window.scrollLeft(),
+			scrollTop = ch.utils.window.scrollTop();
+
+		return {
+			"left": this.left = scrollLeft,
+			"top": this.top = scrollTop,
+			"right": this.right = scrollLeft + position.right,
+			"bottom": this.bottom = scrollTop + position.bottom
+		};
+		
+	}
+};
+
+/**
+* Object represents the abstract class of all widgets.
+* @abstract
+* @name Uiobject
+* @class Uiobject
+* @augments ch.Object
+* @requires ch.Cache
+* @memberOf ch
+* @exampleDescription 
+* @example
+* ch.uiobject.call();
+* @see ch.Object
+* @see ch.Cache
+* @see ch.Controllers
+* @see ch.Floats
+* @see ch.Navs
+* @see ch.Watcher
+*/
+
+ch.uiobject = function(){
+
+	/**
+	* Reference to a internal component instance, saves all the information and configuration properties.
+	* @private
+	* @name ch.Uiobject#that
+	* @type object
+	*/
+	var that = this;
+
+	var conf = that.conf;
+	
+
+/**
+*	Inheritance
+*/
+
+	that = ch.object.call(that);
+	that.parent = ch.clon(that);
+
+
+
+/**
+*	Protected Members
+*/
+
+	/**
+	* Component static content.
+	* @protected
+	* @name ch.Uiobject#staticContent
+	* @type string
+	*/
+	that.staticContent;
+
+	/**
+	* DOM Parent of content, this is useful to attach DOM Content when float is hidding.
+	* @protected
+	* @name ch.Uiobject#DOMParent
+	* @type HTMLElement
+	*/
+	that.DOMParent;
+
+	/**
+	* Component original content.
+	* @protected
+	* @name ch.Uiobject#originalContent
+	* @type HTMLElement
+	*/
+	that.originalContent;
+
+	/**
+	* Set and get the content of a component. With no arguments will behave as a getter function. Send any kind of content and will be a setter function. Use a valid URL for AJAX content, use a CSS selector for a DOM content or just send a static content like HTML or Text.
+	* @ignore
+	* @name ch.Uiobject#content
+	* @protected
+	* @function
+	* @param {string} [content] Could be a simple text, html or a url to get the content with ajax.
+	* @returns {string} content
+	* @requires ch.Cache
+	* @exampleDescription Simple static content
+	* @example
+	* $(element).layer().content("Some static content");
+	* @exampleDescription Get DOM content
+	* @example
+	* $(element).layer().content("#hiddenContent");
+	* @exampleDescription Get AJAX content
+	* @example
+	* $(element).layer().content("http://chico.com/content/layer.html");
+	*/
+	that.content = function(content) {
+
+		var _get = (content) ? false : true,
+
+			// Local argument
+			content = content,
+			// Local isURL
+			sourceIsUrl = ch.utils.isUrl(that.source),
+			// Local isSelector
+			sourceIsSelector = ch.utils.isSelector(that.source),
+			// Local inDom
+			sourceInDom = (!sourceIsUrl) ? ch.utils.inDom(that.source) : false,
+			// Get context, could be a single component or a controller
+			context = ( ch.utils.hasOwn(that, "controller") ) ? that.controller : that["public"],
+			// undefined, for comparison.
+			undefined,
+			// Save cache configuration
+			cache = ( ch.utils.hasOwn(conf, "cache") ) ? conf.cache : true;
+
+		/**
+		* Get content
+		*/
+
+		// return defined content
+		if (_get) {
+
+			// no source, no content
+			if (that.source === undefined) {
+				that.staticContent = "<p>No content defined for this component</p>";
+				that.trigger("contentLoad");
+
+				return;
+			}
+
+			// First time we need to get the content.
+			// Is cache is off, go and get content again.
+			// Yeap, recursive.
+			if (!cache || that.staticContent === undefined) {
+				that.content(that.source);
+				return;
+			}
+
+			// Get data from cache if the staticContent was defined
+			if (cache && that.staticContent) {
+				var fromCache = ch.cache.get(that.source);
+
+				// Load content from cache
+				if (fromCache && that.staticContent != fromCache) {
+					that.staticContent = fromCache;
+
+					that.trigger("contentLoad");
+
+					// Return and load content from cache
+					return;
+				}
+
+				// Return and show the latest content that was loaded
+				return;
+			}
+		}
+
+		/**
+		* Set content
+		*/
+
+		// Reset cache to overwrite content
+		conf.cache = false;
+
+		// Local isURL
+		var isUrl = ch.utils.isUrl(content),
+			// Local isSelector
+			isSelector = ch.utils.isSelector(content),
+			// Local inDom
+			inDom = (!isUrl) ? ch.utils.inDom(content) : false;
+
+		/* Evaluate static content*/
+
+		// Set 'that.staticContent' and overwrite 'that.source'
+		// just in case you want to update DOM or AJAX Content.
+
+		that.staticContent = that.source = content;
+
+		/* Evaluate AJAX content*/
+
+		if (isUrl) {
+
+			// First check Cache
+			// Check if this source is in our cache
+			if (cache) {
+				var fromCache = ch.cache.get(that.source);
+				if (fromCache) {
+					conf.cache = cache;
+					that.staticContent = fromCache;
+					that.trigger("contentLoad", context);
+					return;
+				}
+			}
+
+			var _method, _serialized, _params = "x=x";
+
+			// If the trigger is a form button, serialize its parent to send data to the server.
+			if (that.$element.attr('type') == 'submit') {
+				_method = that.$element.parents('form').attr('method') || 'GET';
+				_serialized = that.$element.parents('form').serialize();
+				_params = _params + ((_serialized != '') ? '&' + _serialized : '');
+			};
+
+			// Set ajax config
+			// On IE (6-7) "that" reference losts for second time
+			// Why?? I don't know... but with a setTimeOut() works fine!
+			setTimeout(function(){
+
+				$.ajax({
+					url: that.source,
+					type: _method || 'GET',
+					data: _params,
+					// each component could have a different cache configuration
+					cache: cache,
+					async: true,
+					beforeSend: function(jqXHR){
+						// Ajax default HTTP headers
+						jqXHR.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+					},
+					success: function(data, textStatus, jqXHR){
+						// Save data as staticContent
+						that.staticContent = data;
+
+						// Use the contentLoad callback.
+						that.trigger("contentLoad", context);
+
+						// Save new staticContent to the cache
+						if (cache) {
+							ch.cache.set(that.source, that.staticContent);
+						}
+
+					},
+					error: function(jqXHR, textStatus, errorThrown){
+						that.staticContent = "<p>Error on ajax call.</p>";
+
+						var data = {
+							"context": context,
+							"jqXHR": jqXHR,
+							"textStatus": textStatus,
+							"errorThrown": errorThrown
+						};
+
+						// Use the contentError callback.
+						that.trigger("contentError", data);
+					}
+				});
+
+			}, 0);
+
+			// Return Spinner and wait for async callback
+			that.$content.html("<div class=\"ch-loading\"></div>");
+			that.staticContent = undefined;
+
+		} else {
+
+			/* Evaluate DOM content*/
+
+			if (isSelector && inDom) {
+
+				// Save original DOMFragment.
+				that.originalContent = $(content);
+
+				// Save DOMParent, so we know where to re-insert the content.
+				that.DOMParent = that.originalContent.parent();
+
+				// Save a clone to original DOM content
+				that.staticContent = that.originalContent.clone().removeClass("ch-hide");
+
+			}
+
+			// Save new data to the cache
+			if (cache) {
+				ch.cache.set(that.source, that.staticContent);
+			}
+
+			// First time we need to set the callbacks that append and remove the original content.
+			if (that.originalContent && that.originalContent.selector == that.source) {
+
+				// Remove DOM content from DOM to avoid ID duplications
+				that["public"].on("show", function() {
+					that.originalContent.detach();
+				});
+
+				// Returns DOMelement to DOM
+				that["public"].on("hide", function(){
+					that.originalContent.appendTo(that.DOMParent||"body");
+				});
+			}
+		}
+
+		/* Set previous cache configuration*/
+		conf.cache = cache;
+
+		// trigger contentLoad callback for DOM and Static content.
+		if (that.staticContent !== undefined) {
+			that.trigger("contentLoad", context);
+		}
+
+	};
+
+	/**
+	* Prevent propagation and default actions.
+	* @name ch.Uiobject#prevent
+	* @function
+	* @protected
+	* @param {event} event Recieves a event object
+	*/
+	that.prevent = function(event) {
+
+		if (event && typeof event == "object") {
+			event.preventDefault();
+			event.stopPropagation();
+		};
+
+		return that;
+	};
+
+/**
+*	Public Members
+*/
+	
+	/**
+	* Component's public scope. In this scope you will find all public members.
+	*/
+
+	/**
+	* Sets and gets component content. To get the defined content just use the method without arguments, like 'widget.content()'. To define a new content pass an argument to it, like 'widget.content("new content")'. Use a valid URL to get content using AJAX. Use a CSS selector to get content from a DOM Element. Or just use a String with HTML code.
+	* @ignore
+	* @public
+	* @name ch.Uiobject#content
+	* @function
+	* @param {string} content Static content, DOM selector or URL. If argument is empty then will return the content.
+	* @exampleDescription Get the defined content
+	* @example
+	* widget.content();
+	* @exampleDescription Set static content
+	* @example
+	* widget.content("Some static content");
+	* @exampleDescription Set DOM content
+	* @example
+	* widget.content("#hiddenContent");
+	* @exampleDescription Set AJAX content
+	* @example
+	* widget.content("http://chico.com/some/content.html");
+	*/
+	that["public"].content = function(content){
+		if (content) { // sets
+			// Reset content data
+			that.source = content;
+			that.staticContent = undefined;
+
+			if (that.active) {
+				that.content(content);
+			}
+
+			return that["public"];
+
+		} else { // gets
+			return that.staticContent;
+		}
+	};
+	
+	/**
+	* @borrows ch.Object#trigger as ch.Uiobject#trigger
+	*/
+
+	/**
+	* @borrows ch.Object#on as ch.Uiobject#on
+	*/
+
+	/**
+	* @borrows ch.Object#once as ch.Uiobject#once
+	*/
+
+	/**
+	* @borrows ch.Object#off as ch.Uiobject#off
+	*/
+	
+
+	return that;
+};
+
+/**
+* Validator is an engine for HTML forms elements.
+* @name Validator
+* @class Validator
+* @augments ch.Object
+* @requires ch.Condition
+* @memberOf ch
+* @param {Object} conf Object with configuration properties.
+* @param {Object} conf.conditions Object with conditions.
+* @returns itself
+* @factorized
+* @see ch.Object
+* @see ch.Condition
+*/
+
+ch.validator = function(conf) {
+	/**
+	* Reference to a internal component instance, saves all the information and configuration properties.
+	* @protected
+	* @name ch.Validator#that
+	* @type Object
+	*/
+	var that = this;
+	conf = ch.clon(conf);
+	that.conf = conf;	
+
+/**
+* Inheritance
+*/
+
+	that = ch.object.call(that);
+	that.parent = ch.clon(that);
+
+/**
+* Private Members
+*/
+	var conditions = (function(){
+		var c = {}; // temp collection
+		var condition = ch.condition.call(that["public"], conf.condition);
+
+		c[condition.name] = condition;
+
+		// return all the configured conditions
+		return c;
+	})(); // Love this ;)
+
+	/**
+	* Search for instances of Validators with the same trigger, and then merge it's properties with it.
+	* @private
+	* @name ch.Validator#checkInstance
+	* @function
+	* @returns Object
+	*/
+	var checkInstance;
+	if (checkInstance = function() {
+
+		var instance, instances = ch.instances.validator;
+		if ( instances && instances.length > 0 ) {
+			for (var i = 0, j = instances.length; i < j; i+=1) {
+				instance = instances[i];
+
+				if (instance.element !== that.element) {
+
+					continue;
+				}
+
+				// Extend instance's conditions
+				instance.extend(conditions);
+
+				// To let know the ch.Factory that already exists,
+				// this way we avoid to have duplicated references.
+				return {
+					exists: true,
+					object: instance
+				}
+			}
+		}
+	}()){
+		return checkInstance;
+	};
+
+	var validate = function(value) {
+
+		if (!that.enabled) { return true; }
+
+		var condition, tested, empty, val, message, required = conditions["required"];
+
+		// Avoid fields that aren't required when they are empty or de-activated
+		if (!required && value === "" && that.active === false) { return {"status": true}; }
+
+		if (that.enabled && (!that.active || value !== "" || required)) {
+			/**
+			* Triggers before start validation process.
+			* @name ch.Validator#beforeValidate
+			* @event
+			* @public
+			* @exampleDescription 
+			* @example
+			* widget.on("beforeValidate",function(){
+			*	submitButton.disable();
+			* });
+			*/
+			// old callback system
+			that.callbacks('beforeValidate');
+			// new callback
+			that.trigger("beforeValidate");
+
+			// for each condition
+			for (condition in conditions){
+
+				val = ((condition === "required") ? that.element : value.toLowerCase());
+				// this is the validation
+				tested = test.call(this, condition, val);
+
+				// return false if any test fails,
+				if (!tested) {
+
+					/**
+					* Triggers when an error occurs on the validation process.
+					* @name ch.Validator#error
+					* @event
+					* @public
+					* @exampleDescription
+					* @example
+					* widget.on("error",function(event, condition){
+					*	errorModal.show();
+					* });
+					*/
+					// old callback system
+					that.callbacks('onError', condition);
+					// new callback
+					that.trigger("error", condition);
+
+					that.active = true;
+
+					// stops the proccess
+					//return false;
+					return {
+						"status": false,
+						"condition": condition,
+						"msg": conditions[condition].message
+					}
+				};
+			}
+		}
+
+		// Status OK (with previous error)
+		if (that.active || !that.enabled) {
+			// Public status OK
+			that.active = false;
+		}
+
+		/**
+		* Triggers when the validation process ends.
+		* @name ch.Validator#afterValidate
+		* @event
+		* @public
+		* @exampleDescription
+		* @example
+		* widget.on("afterValidate",function(){
+		*	submitButton.disable();
+		* });
+		*/
+		// old callback system
+		that.callbacks('afterValidate');
+		// new callback
+		that.trigger("afterValidate");
+
+		// It's all good ;)
+		//return true;
+		return {
+			"status": true
+		}
+	}
+
+	/**
+	* Test a condition looking for error.
+	* @private
+	* @name ch.Validator#test
+	* @see ch.Condition
+	*/
+	var test = function(condition, value){
+		
+		if (value === "" && condition !== "required") { return true };
+		
+		var isOk = false,
+			// this is the validation
+			validation = this || window,
+			condition = conditions[condition];
+
+		isOk = condition.test.call(validation, value);
+
+		return isOk;
+		
+	};
+
+/**
+* Protected Members
+*/
+
+	/**
+	* Flag that let you know if there's a validation going on.
+	* @protected
+	* @name ch.Validator#active
+	* @type boolean
+	*/
+	that.active = false;
+
+	/**
+	* Flag that let you know if the all conditions are enabled or not.
+	* @protected
+	* @name ch.Validator#enabled
+	* @type boolean
+	*/
+	that.enabled = true;
+
+/**
+*	Public Members
+*/
+
+	/**
+	* @borrows ch.Object#uid as ch.TabNavigator#uid
+	*/	
+	
+	/**
+	* This public property defines the component type. All instances are saved into a 'map', grouped by its type. You can reach for any or all of the components from a specific type with 'ch.instances'.
+	* @public
+	* @name ch.Validator#type
+	* @type String
+	*/
+	that["public"].type = "validator";
+
+	/**
+	* This public Map saves all the validation configurations from this instance.
+	* @public
+	* @name ch.Validator#conditions
+	* @type object
+	*/
+	that["public"].conditions = conditions;
+
+	/**
+	* Active is a boolean property that let you know if there's a validation going on.
+	* @public
+	* @function
+	* @name ch.Validator#isActive
+	* @returns itself
+	*/
+	that["public"].isActive = function() {
+		return that.active;
+	};
+
+	/**
+	* Let you keep chaining methods.
+	* @public
+	* @function
+	* @name ch.Validator#and
+	* @returns itself
+	*/
+	that["public"].and = function(){
+		return that.$element;
+	};
+
+	/**
+	* Merge its conditions with a new conditions of another instance with the same trigger.
+	* @public
+	* @function
+	* @name ch.Validator#extend
+	* @returns itself
+	*/
+	that["public"].extend = function(input){
+		$.extend(conditions, input);
+
+		return that["public"];
+	};
+
+	/**
+	* Clear all active validations.
+	* @public
+	* @function
+	* @name ch.Validator#clear
+	* @returns itself
+	*/
+	that["public"].clear = function() {
+		that.active = false;
+
+		return that["public"];
+	};
+
+	/**
+	* Runs all configured conditions and returns an object with a status value, condition name and a message.
+	* @public
+	* @function
+	* @name ch.Validator#validate
+	* @returns Status Object
+	*/
+	that["public"].validate = function(value){
+		// this is the validation
+		return validate.call(this, value);
+	}
+
+	/**
+	* Turn on Validator engine or an specific condition.
+	* @public
+	* @name enable
+	* @name ch.Validator#enable
+	* @returns itself
+	*/
+	that["public"].enable = function(condition){
+		if (condition && conditions[condition]){
+			// Enable specific condition
+			conditions[condition].enable();
+		} else {
+			// enable all
+			that.enabled = true;
+			for (condition in conditions){
+				conditions[condition].enable();
+			}
+		}
+		return that["public"];
+	}
+
+	/**
+	* Turn on Validator engine or an specific condition.
+	* @public
+	* @name disable
+	* @name ch.Validator#disable
+	* @returns itself
+	*/
+	that["public"].disable = function(condition){
+		if (condition && conditions[condition]){
+			// disable specific condition
+			conditions[condition].disable();
+		} else {
+			// disable all
+			that.enabled = false;
+			for (condition in conditions){
+				conditions[condition].disable();
+			}
+		}
+		return that["public"];
+	}
+
+/**
+*	Default event delegation
+*/
+	/**
+	* Triggers when the component is ready to use.
+	* @name ch.Validator#ready
+	* @event
+	* @public
+	* @exampleDescription Following the first example, using <code>widget</code> as modal's instance controller:
+	* @example
+	* widget.on("ready",function(){
+	*	this.show();
+	* });
+	*/
+	that.trigger("ready");
+
+	return that;
+};
+ch.factory("validator");
+
+/**
+* Abstract class
+* @abstract
+* @name Controllers
+* @class Controllers 
+* @augments ch.Uiobject
+* @memberOf ch
+* @returns itself
+* @see ch.Accordion
+* @see ch.Menu
+* @see ch.Form
+* @see ch.Uiobject
+*/
+
+ch.controllers = function(){
+
+	/**
+	* Reference to a internal component instance, saves all the information and configuration properties.
+	* @name ch.Controllers#that
+	* @type object
+	*/ 
+	var that = this;
+		
+	/**
+	*  Inheritance
+	*/
+	that = ch.uiobject.call(that);
+	that.parent = ch.clon(that);
+	
+ 
+	/**
+	* Collection of children elements.
+	* @name ch.Controllers#children
+	* @type collection
+	*/ 
+	that.children = [];
+			
+	/**
+	*  Public Members
+	*/	
+		
+	return that;
+};
+
+
+/**
+* Controls brings the functionality of all form controls.
+* @abstract
+* @name Controls
+* @class Controls
+* @augments ch.Uiobject
+* @requires ch.Floats
+* @memberOf ch
+* @returns itself
+* @see ch.Countdown
+* @see ch.Validation
+* @see ch.AutoComplete
+* @see ch.DatePicker
+* @see ch.Uiobject
+* @see ch.Floats
+*/
+
+ch.controls = function () {
+
+	/**
+	* Reference to a internal component instance, saves all the information and configuration properties.
+	* @name ch.Controls#that
+	* @type Object
+	*/
+	var that = this,
+
+		conf = that.conf;
+
+/**
+*  Inheritance
+*/
+	that = ch.uiobject.call(that);
+	that.parent = ch.clon(that);
+
+/**
+*  Protected Members
+*/
+
+	/**
+	* Creates a reference to the Float component instanced.
+	* @protected
+	* @type Object
+	* @name ch.Controls#createFloat
+	*/
+	that.createFloat = function (c) {
+		c.position = {
+			"context": conf.context || c.context || c.$element || that.$element,
+			"offset": c.offset,
+			"points": c.points
+		};
+
+		return ch.floats.call({
+			"element": (ch.utils.hasOwn(c, "$element")) ? c.$element[0] : that.element,
+			"$element": c.$element || that.$element,
+			"uid": (ch.utils.index += 1),
+			"type": c.type || that.type,
+			"conf": c
+		});
+
+		
+	};
+
+/**
+*  Public Members
+*/
+
+	return that;
+};
+
+/**
+* AutoComplete lets you suggest anything from an input element. Use a suggestion service or use a collection with the suggestions.
+* @name AutoComplete
+* @class AutoComplete
+* @augments ch.Controls
+* @see ch.Controls
+* @memberOf ch
+* @param {Object} [conf] Object with configuration properties.
+* @param {String} conf.url The url pointing to the suggestions's service.
+* @param {String} [conf.message] It represent the text when no options are shown.
+* @param {Array} [conf.suggestions] The suggestions's collection. If a URL is set at conf.url parametter this will be omitted.
+* @returns itself
+* @factorized
+* @exampleDescription Create a new autoComplete with configuration.
+* @example
+* var widget = $(".example").autoComplete({
+*     "url": "http://site.com/mySuggestions?q=",
+*     "message": "Write..."
+* });
+*/
+ 
+ch.autoComplete = function(conf){
+
+	/**
+	* Reference to a internal component instance, saves all the information and configuration properties.
+	* @private
+	* @name ch.AutoComplete#that
+	* @type object
+	*/
+	var that = this;
+		
+	conf = ch.clon(conf);
+	conf.icon = false;
+	conf.type = "autoComplete";
+	conf.message = conf.message || "Please write to be suggested";
+	conf.suggestions = conf.suggestions;
+	conf.jsonpCallback = conf.jsonpCallback || "autoComplete";
+	
+	that.conf = conf;
+		
+/**
+*	Inheritance
+*/
+	
+	that = ch.controls.call(that);
+	that.parent = ch.clon(that);
+	
+/**
+*  Private Members
+*/
+
+	/**
+	* Select an item.
+	* @private
+	* @type Function
+	* @name ch.AutoComplete#selectItem
+	*/
+	var selectItem = function (arrow, event) {
+		that.prevent(event);
+
+		if (that.selected === (arrow === "bottom" ? that.items.length - 1 : 0)) { return; }
+		$(that.items[that.selected]).removeClass("ch-autoComplete-selected");
+		
+		if (arrow === "bottom") { that.selected += 1; } else { that.selected -= 1; }
+		$(that.items[that.selected]).addClass("ch-autoComplete-selected");
+	};
+
+/**
+*  Protected Members
+*/
+
+	/**
+	* The number of the selected item.
+	* @protected
+	* @type Number
+	* @name ch.AutoComplete#selected
+	*/
+	that.selected = -1;
+
+	/**
+	* List of the shown suggestions.
+	* @protected
+	* @type Array
+	* @name ch.AutoComplete#suggestions
+	*/
+	that.suggestions = that.conf.suggestions;
+
+	/**
+	* The input where the AutoComplete works.
+	* @protected
+	* @type jQuery
+	* @name ch.AutoComplete#$trigger
+	*/
+	//that.$trigger = that.$element.addClass("ch-" + that.type + "-trigger");
+
+	/**
+	* Inner reference to content container. Here is where the content will be added.
+	* @protected
+	* @type jQuery
+	* @name ch.AutoComplete#$content
+	*/
+	that.$content = $("<ul class=\"ch-autoComplete-list\"></ul>");
+
+	/**
+	* It has the items loaded.
+	* @protected
+	* @type Boolean
+	* @name ch.AutoComplete#behaviorActived
+	*/
+	that.behaviorActived = false;
+
+	/**
+	* It has the items loaded.
+	* @protected
+	* @type Array
+	* @name ch.AutoComplete#items
+	*/
+	that.items = [];
+	
+	/**
+	* Reference to the Float component instanced.
+	* @protected
+	* @type Object
+	* @name ch.AutoComplete#float
+	*/
+	that["float"] = that.createFloat({
+		"content": that.$content,
+		"points": conf.points,
+		"points": "lt lb",
+		"cache": false,
+		"closable": false,
+		"aria": {
+			"role": "tooltip",
+			"identifier": "aria-describedby"
+		},
+		"width": that.$element.outerWidth() + "px"
+	});
+
+	/**
+	* It sets On/Off the loading icon.
+	* @protected
+	* @function
+	* @name ch.AutoComplete#loading
+	*/
+	that.loading = function(show){
+		if(show){
+			that.$element.addClass("ch-autoComplete-loading");
+		} else {
+			that.$element.removeClass("ch-autoComplete-loading");
+		}
+	}
+
+	/**
+	* It fills the content inside the element represented by the float.
+	* @protected
+	* @function
+	* @name ch.AutoComplete#populateContent
+	*/
+	that.populateContent = function (event,result) {
+		// No results doesn't anything
+		if (result.length===0 || that.element.value==="") {
+			that.loading(false);
+			that["float"].innerHide();
+			return that;
+		}
+			
+		// Only one result and the same as the input hide float and doesn't anything
+		if (result.length===1 && result[0]===that.element.value) {
+			that.loading(false);
+			that["float"].innerHide();
+			return that;
+		}
+
+		var list = "";
+		$.each(result, function (i, e) {
+			list+="<li data-index=\""+i+"\">"+e+"</li>";
+		})
+
+		that.trigger("contentUnload");
+		that.$content.html(list);
+		that.selected = -1;
+		
+		that["float"].content(that.$content);
+		
+		that.trigger("contentLoaded");
+		
+		that.items = that.$content.children();
+		
+		// Adds only once the behavior
+		if (!that.behaviorActived) {
+			that.suggestionsBehavior(event);
+			that.behaviorActived = true;
+		}
+
+		that["float"].innerShow();
+		that.loading(false);
+		return that;
+	}
+
+	/**
+	* It does the query to the server if configured an URL, or it does the query inside the array given.
+	* @protected
+	* @function
+	* @name ch.AutoComplete#doQuery
+	*/
+	that.doQuery = function(event){
+		var q = that.$element.val().toLowerCase();
+		// When URL is configured it will execute an ajax request.
+		if (that.element.value !== "" && event.keyCode !== 38 && event.keyCode !== 40  && event.keyCode !== 13  && event.keyCode !== 27) {
+			if (that.conf.url !== undefined) {
+				that.loading(true);
+				var result = $.ajax({
+					url: that.conf.url + q + "&callback=" + that.conf.jsonpCallback,
+					dataType:"jsonp",
+					cache:false,
+					global:true,
+					context: window,
+					jsonp:that.conf.jsonpCallback,
+					crossDomain:true
+				});
+			// When not URL configured and suggestions array were configured it search inside the suggestions array.
+			} else if (that.conf.url === undefined) {
+				var result = [];
+				for(var a=(that.suggestions.length-1);(a+1);a--){
+					var word = that.suggestions[a].toLowerCase();
+					var exist = word.search(q);
+					if(!exist){
+						result.push(that.suggestions[a]);
+					}
+				};
+				that.populateContent(event,result);
+			}
+		}
+		return that;
+	}
+
+	/**
+	* Binds the behavior related to the list.
+	* @protected
+	* @function
+	* @name ch.AutoComplete#suggestionsBehavior
+	*/
+	that.suggestionsBehavior = function(event){
+		// BACKSPACE key bheavior. When backspace go to the start show the message
+		ch.utils.document.on(ch.events.KEY.BACKSPACE, function (x, event) {
+
+			// When the user make backspace with empty input autocomplete is shutting off
+			if(that.element.value.length===0){
+				that.prevent(event);
+				that.$element.trigger("blur");
+			}
+
+			// When isn't any letter it hides the float
+			if(that.element.value.length<=1){
+				that["float"].innerHide();
+				that.loading(false);
+			}
+
+		})
+		// ESC key behavior, it closes the suggestions's list 
+		.on(ch.events.KEY.ESC, function (x, event) { that.$element.trigger("blur"); })
+		// ENTER key behavior, it selects the item who is selected
+		.on(ch.events.KEY.ENTER, function (x, event) { that.$element.val($(that.items[that.selected]).text()); that.$element.trigger("blur"); })
+		// UP ARROW key behavior, it selects the previous item
+		.on(ch.events.KEY.UP_ARROW, function (x, event) { selectItem("up", event); })
+		// DOWN ARROW key behavior, it selects the next item
+		.on(ch.events.KEY.DOWN_ARROW, function (x, event) { selectItem("bottom", event); });
+		// MouseOver & MouseDown Behavior
+		that["float"].$content.on("mouseover mousedown",function(evt){
+			var event = evt || window.event;
+			var target = event.target || event.srcElement;
+			var type = event.type;
+			if(target.tagName === "LI"){
+				// mouse over behavior
+				if(type === "mouseover"){
+					// removes the class if one is selected
+					$(that.items[that.selected]).removeClass("ch-autoComplete-selected");
+					// selects the correct item
+					that.selected = parseInt(target.getAttribute("data-index"));
+					// adds the class to highlight the item
+					$(that.items[that.selected]).addClass("ch-autoComplete-selected");	
+				} 
+				// mouse down behavior
+				if(type === "mousedown") {
+					that.prevent(event);
+					that.$element.val($(that.items[that.selected]).text());
+					that.$element.trigger("blur");
+				}		
+			}
+		});
+	}
+
+	/**
+	* Internal show method. It adds the behavior.
+	* @protected
+	* @function
+	* @name ch.AutoComplete#show
+	*/
+	that.show = function(event){
+		// new callbacks
+		that.trigger("show");
+		var query = that.element.value;
+		that.doQuery(event);
+		// Global keyup behavior
+		ch.utils.document.on("keyup", function (event) {that.doQuery(event);  });
+		//that.$content.html("");
+
+		return that;
+	}
+
+	/**
+	* Internal hide method. It removes the behavior.
+	* @protected
+	* @function
+	* @name ch.AutoComplete-hide
+	*/
+	that.hide = function(event){
+		that.trigger("hide");
+		that.behaviorActived = false;
+		that.$content.off("mouseover mousedown");
+		ch.utils.document.off("keyup " + ch.events.KEY.ENTER + " " + ch.events.KEY.ESC + " " + ch.events.KEY.UP_ARROW + " " + ch.events.KEY.DOWN_ARROW + " " + ch.events.KEY.BACKSPACE);
+		that["float"].innerHide();
+		return that;
+	}
+
+	/**
+	* It gives the main behavior(focus, blur and turn off autocomplete attribute) to the $trigger.
+	* @protected
+	* @function
+	* @name ch.AutoComplete#configBehavior
+	*/
+	that.configBehavior = function () {
+		that.$element
+			.bind("focus", function (event) { 				
+				that.show(event);
+			})
+			.bind("blur", function (event) { 
+				that.hide(event);
+			})
+			.attr("autocomplete","off")
+			.addClass("ch-" + that.type + "-trigger");
+		return that;
+	};
+
+/**
+*  Public Members
+*/
+ 
+	/**
+	* @borrows ch.Object#uid as ch.Menu#uid
+	*/	
+	
+	/**
+	* @borrows ch.Object#element as ch.Menu#element
+	*/
+
+	/**
+	* @borrows ch.Object#type as ch.Menu#type
+	*/
+	
+	/**
+	* Shows component's content.
+	* @public
+	* @name ch.AutoComplete-show
+	* @function
+	* @returns itself
+	*/
+	that["public"].show = function(){
+		that.show();
+		return that["public"];
+	};
+
+	/**
+	* Hides component's content.
+	* @public
+	* @name ch.AutoComplete#hide
+	* @function
+	* @returns itself
+	*/	
+	that["public"].hide = function(){
+		that.hide(ch.events.KEY.ESC);
+		return that["public"];
+	};
+
+	/**
+	* Add suggestions to be shown.
+	* @public
+	* @name ch.AutoComplete#suggest
+	* @function
+	* @returns itself
+	*/	
+	that["public"].suggest = function(data){
+		that.suggestions = data;
+		that.populateContent(window.event,that.suggestions);
+		return that["public"];
+	};
+
+	
+	//Fills the Float with the message.
+	//that.populateContent([that.conf.message]);
+
+/**
+*  Default event delegation
+*/	
+	that.configBehavior();
+	
+	/*that["float"].on("ready", function () {
+		that["float"]["public"].width((that.$element.outerWidth()));
+	});*/
+	
+	/**
+	* Triggers when the component is ready to use (Since 0.8.0).
+	* @name ch.AutoComplete#ready
+	* @event
+	* @public
+	* @exampleDescription Following the first example, using <code>widget</code> as autoComplete's instance controller:
+	* @example
+	* widget.on("ready",function () {
+	*	this.show();
+	* });
+	*/
+	setTimeout(function(){ that.trigger("ready")}, 50);
+
+	return that;
+};
+
+ch.factory("autoComplete");
+
+/**
+* Blink lets you give visual feedback to the user. Blink can be used when the user performs some action that changes some data at the screen. Blink creates a visual highlight changing background color from yellow to white.
+* @name Blink
+* @class Blink
+* @memberOf ch
+* @param {Object} conf Configuration object
+* @param {number} [conf.time] Amount of time to blink in milliseconds
+* @returns jQuery Object 
+* @factorized
+* @exampleDescription Blinks a element.  
+* @example
+* var widget = $(".example").blink();
+*/
+ch.blink = function (conf) {
+
+	var that = this,
+		// Hex start level toString(16).
+		level = 1, 
+		// Time, 200 miliseconds by default.
+		t = conf.time || 200,
+		// Inner highlighter.
+		highlight = function (e) {
+			// Let know everyone we are active.
+			that.$element.addClass("ch-active").attr("role","alert").attr("aria-live","polite");
+			// Color iteration.
+			function step () {
+				// New hex level.
+				var h = level.toString(16);
+				// Change background-color, redraw().
+				e.style.backgroundColor = '#FFFF' + h + h;
+				// Itearate for all hex levels.
+				if (level < 15) {
+					// Increment hex level.
+					level += 1;
+					// Inner recursion.
+					setTimeout(step, t);
+				} else {
+					// Stop right there...
+					that.$element.removeClass("ch-active").attr("aria-live","off").removeAttr("role");
+				}
+			};
+		// Begin steps.
+		setTimeout(step, t);
+	}
+	// Start a blink if the element isn't active.
+	if (!that.$element.hasClass("ch-active")) {
+		highlight(that.element);
+	}
+	// Return the element so keep chaining things.
+	return that.$element;
+}
+ch.factory("blink");
+
+/**
+* Floats brings the functionality of all Floats elements.
+* @abstract
+* @name ch.Floats
+* @class Floats
+* @augments ch.Uiobject
+* @requires ch.Positioner
+* @returns itself
+* @see ch.Tooltip
+* @see ch.Layer
+* @see ch.Modal
+* @see ch.Controls
+* @see ch.Transition
+* @see ch.Zoom
+* @see ch.Uiobject
+* @see ch.Positioner
+*/
+
+ch.floats = function () {
+
+	/**
+	* Reference to a internal component instance, saves all the information and configuration properties.
+	* @protected
+	* @name ch.Floats#that
+	* @type object
+	*/
+	var that = this,
+		conf = that.conf;
+/**
+* Inheritance
+*/
+
+	that = ch.uiobject.call(that);
+	that.parent = ch.clon(that);
+
+/**
+* Private Members
+*/
+
+	/**
+	* Creates a 'cone', is a visual asset for floats.
+	* @private
+	* @function
+	* @deprecated
+	* @name ch.Floats#createCone
+	*/
+
+	/**
+	* Creates close button.
+	* @private
+	* @function
+	* @deprecated
+	* @name ch.Floats#createClose
+	*/
+
+	/**
+	* Closable behavior.
+	* @private
+	* @function
+	* @name ch.Floats-closable
+	*/
+	// TODO: Create "closable" interface
+	var closable = (function () {
+		/**
+		* Returns any if the component closes automatic. 
+		* @public
+		* @function
+		* @methodOf ch.Floats#closabe
+		* @exampleDescription to get the height
+		* @example
+		* widget.closable() // true | false | "button"
+		* @returns boolean | string
+		*/
+		that["public"].closable = function () {
+			return that.closable;
+		};
+
+		
+		return function () {
+			
+			// Closable Off: don't anything
+			if (!that.closable) { return; }
+
+			// Closable On
+
+			if (ch.utils.hasOwn(conf, "closeButton") && conf.closeButton || ch.utils.hasOwn(conf, "event") && conf.event === "click") {
+				// Append close buttons	
+				// It will close with close button
+				that.$container
+					.prepend("<a class=\"ch-close\" style=\"z-index:" + (ch.utils.zIndex += 1) + "\">×</a>")
+					.bind("click", function (event) {
+						if ($(event.target || event.srcElement).hasClass("ch-close")) { 
+							that.innerHide(event);
+						}
+					});
+			}
+
+			// It will close only with close button
+			if (that.closable === "button") {
+				return;
+			}
+
+			// Default Closable behavior
+			// It will close with click on document, too
+			that.on("show", function () {
+				ch.utils.document.one("click", that.innerHide);
+			});
+
+			// Stop event propatation, if click container.
+			that.$container.bind("click", function (event) {
+				event.stopPropagation();
+			});
+
+			// and ESC key support
+			ch.utils.document.bind(ch.events.KEY.ESC, function () {
+				that.innerHide();
+			});
+		};
+
+	})();
+
+/**
+* Protected Members
+*/
+	/**
+	* Flag that indicates if the float is active and rendered on the DOM tree.
+	* @protected
+	* @name ch.Floats#active
+	* @type boolean
+	*/
+	that.active = false;
+
+	/**
+	* It sets the hablity of auto close the component or indicate who closes the component.
+	* @protected
+	* @function
+	* @name ch.Floats#closable
+	* @type boolean | string
+	*/
+	that.closable = ch.utils.hasOwn(conf, "closable") ? conf.closable: true;
+
+	/**
+	* Content configuration property.
+	* @protected
+	* @name ch.Floats#source
+	* @type string
+	*/
+	that.source = conf.content || conf.msg || conf.ajax || that.element.href || that.$element.parents("form").attr("action");
+
+	/**
+	* Inner function that resolves the component's layout and returns a static reference.
+	* @protected
+	* @name ch.Floats#$container
+	* @type jQuery
+	*/
+	that.$container = (function () { // Create Layout
+		
+		// Final jQuery Object
+		var $container,
+		
+		// Component with close button and keyboard binding for close
+		//	closable = ch.utils.hasOwn(conf, "closeButton") && conf.closeButton,
+		
+		// HTML Div Element with role for WAI-ARIA
+			container = ["<div role=\"" + conf.aria.role + "\""];
+			
+		// ID for WAI-ARIA
+		if (ch.utils.hasOwn(conf.aria, "identifier")) {
+			
+			// Generated ID using component name and its instance order
+			var id = "ch-" + that.type + "-" + (ch.utils.hasOwn(ch.instances, that.type) ? ch.instances[that.type].length + 1 : "1");
+			
+			// Add ID to container element
+			container.push(" id=\"" + id + "\"");
+			
+			// Add aria attribute to trigger element
+			that.$element.attr(conf.aria.identifier, id);
+		}
+		
+		// Classname with component type and extra classes from conf.classes
+		container.push(" class=\"ch-hide ch-" + that.type + (ch.utils.hasOwn(conf, "classes") ? " " + conf.classes : "") + "\"");
+		
+		// Z-index
+		container.push(" style=\"z-index:" + (ch.utils.zIndex += 1) + ";");
+		
+		// Width
+		if (ch.utils.hasOwn(conf, "width")) {
+			container.push("width:" + conf.width + ((typeof conf.width === "number") ? "px;" : ";"));
+		}
+		
+		// Height
+		if (ch.utils.hasOwn(conf, "height")) {
+			container.push("height:" + conf.height + ((typeof conf.height === "number") ? "px;" : ";"));
+		}
+		
+		// Style and tag close
+		container.push("\">");
+		
+		// Create cone
+		if (ch.utils.html.hasClass("lt-ie8") && ch.utils.hasOwn(conf, "cone")) {
+			container.push("<div class=\"ch-" + that.type + "-cone\"></div>");
+		}
+
+		// Create close button
+		//if (closable) { container.push("<div class=\"btn close\" style=\"z-index:" + (ch.utils.zIndex += 1) + "\"></div>"); }
+		
+		// Tag close
+		container.push("</div>");
+		
+		// jQuery Object generated from string
+		$container = $(container.join(""));
+
+		// Create cone
+		if (ch.utils.hasOwn(conf, "cone")) { $container.addClass("ch-cone"); }
+		
+		// Close behavior bindings
+		/*if (closable) {
+			// Close button event delegation
+			$container.bind("click", function (event) {
+				if ($(event.target || event.srcElement).hasClass("close")) { that.innerHide(event); }
+			});
+			
+			// ESC key support
+			ch.utils.document.bind(ch.events.KEY.ESC, function (event) { that.innerHide(event); });
+		}*/
+		
+		// Efects configuration
+		conf.fx = ch.utils.hasOwn(conf, "fx") ? conf.fx : true;
+
+		// Position component configuration
+		conf.position = conf.position || {};
+		conf.position.element = $container;
+		conf.position.reposition = ch.utils.hasOwn(conf, "reposition") ? conf.reposition : true;
+
+		// Initialize positioner component
+		that.position = ch.positioner(conf.position);
+
+		// Return the entire Layout
+		return $container;
+	})();
+
+	/**
+	* Inner reference to content container. Here is where the content will be added.
+	* @protected
+	* @name ch.Floats#$content
+	* @type jQuery
+	* @see ch.Object#content
+	*/
+	that.$content = $("<div class=\"ch-" + that.type + "-content\">").appendTo(that.$container);
+
+	/**
+	* This callback is triggered when async data is loaded into component's content, when ajax content comes back.
+	* @protected
+	* @function
+	* @name ch.Floats#contentCallback
+	* @returns itself
+	*/
+	that["public"].on("contentLoad", function (event, context) {
+		that.$content.html(that.staticContent);
+
+		if (ch.utils.hasOwn(conf, "onContentLoad")) {
+			conf.onContentLoad.call(context, that.staticContent);
+		}
+
+		that.position("refresh");
+	});
+
+	/**
+	* This callback is triggered when async request fails.
+	* @protected
+	* @name ch.Floats#contentError
+	* @function
+	* @returns {this}
+	*/
+	that["public"].on("contentError", function (event, data) {
+
+		that.$content.html(that.staticContent);
+
+		// Get the original that.source
+		var originalSource = that.source;
+
+		if (ch.utils.hasOwn(conf, "onContentError")) {
+			conf.onContentError.call(data.context, data.jqXHR, data.textStatus, data.errorThrown);
+		}
+
+		// Reset content configuration
+		that.source = originalSource;
+		that.staticContent = undefined;
+
+		if (ch.utils.hasOwn(conf, "position")) {
+		   ch.positioner(conf.position);
+		}
+
+	});
+
+	/**
+	* Inner show method. Attach the component layout to the DOM tree.
+	* @protected
+	* @function
+	* @name ch.Floats#innerShow
+	* @returns itself
+	*/
+	that.innerShow = function (event) {
+		if (event) {
+			that.prevent(event);
+		}
+
+		// Avoid showing things that are already shown
+		if (that.active) return;
+
+		// Add layout to DOM tree
+		// Increment zIndex
+		that.$container
+			.appendTo("body")
+			.css("z-index", ch.utils.zIndex++);
+
+		// This make a reflow, but we need that the static content appends to DOM
+		// Get content
+		that.content();
+
+		/**
+		* Triggers when component is visible.
+		* @name ch.Floats#show
+		* @event
+		* @public
+		* @exampleDescription It change the content when the component was shown.
+		* @example
+		* widget.on("show",function () {
+		*	this.content("Some new content");
+		* });
+		* @see ch.Floats#show
+		*/
+		// Show component with effects
+		if (conf.fx) {
+			that.$container.fadeIn("fast", function () {
+				
+				that.$container.removeClass("ch-hide");
+				// new callbacks
+				that.trigger("show");
+				// Old callback system
+				that.callbacks('onShow');
+
+			});
+		} else {
+		// Show component without effects
+			that.$container.removeClass("ch-hide");
+			// new callbacks
+			that.trigger("show");
+			// Old callback system
+			that.callbacks('onShow');
+		}
+
+		that.position("refresh");
+		
+		that.active = true;
+
+		return that;
+	};
+
+	/**
+	* Inner hide method. Hides the component and detach it from DOM tree.
+	* @protected
+	* @function
+	* @name ch.Floats#innerHide
+	* @returns itself
+	*/
+	that.innerHide = function (event) {
+		
+		if (event) {
+			event.stopPropagation();
+		}
+
+		if (!that.active) {
+			return;
+		}
+
+		var afterHide = function () {
+
+			that.active = false;
+
+		/**
+		* Triggers when component is not longer visible.
+		* @name ch.Floats#hide
+		* @event
+		* @public
+		* @exampleDescription When the component hides show other component.
+		* @example
+		* widget.on("hide",function () {
+		*	otherComponent.show();
+		* });
+		*/
+			// new callbacks
+			that.trigger("hide");
+			// Old callback system
+			that.callbacks('onHide');
+
+			that.$container.detach();
+
+		};
+
+		// Show component with effects
+		if (conf.fx) {
+			that.$container.fadeOut("fast", afterHide);
+
+		// Show component without effects
+		} else {
+			that.$container.addClass("ch-hide");
+			afterHide();
+		}
+
+		return that;
+
+	};
+
+	/**
+	* Getter and setter for size attributes on any float component.
+	* @protected
+	* @function
+	* @name ch.Floats#size
+	* @param {String} prop Property that will be setted or getted, like "width" or "height".
+	* @param {String} [data] Only for setter. It's the new value of defined property.
+	* @returns itself
+	*/
+	that.size = function (prop, data) {
+		// Getter
+		if (!data) { return that.conf[prop]; }
+
+		// Setter
+		that.conf[prop] = data;
+
+		// Container size
+		that.$container[prop](data);
+
+		// Refresh position
+		that.position("refresh");
+
+		return that["public"];
+	};
+
+
+/**
+* Public Members
+*/
+
+	/**
+	* @borrows ch.Object#on as ch.Floats#on
+	*/
+
+	/**
+	* @borrows ch.Object#once as ch.Floats#once
+	*/
+
+	/**
+	* @borrows ch.Object#off as ch.Floats#off
+	*/
+
+	//Documented again because the method works in this class
+	/**
+	* Sets and gets component content. To get the defined content just use the method without arguments, like 'widget.content()'. To define a new content pass an argument to it, like 'widget.content("new content")'. Use a valid URL to get content using AJAX. Use a CSS selector to get content from a DOM Element. Or just use a String with HTML code.
+	* @public
+	* @name ch.Uiobject#content
+	* @function
+	* @param {string} content Static content, DOM selector or URL. If argument is empty then will return the content.
+	* @exampleDescription Get the defined content
+	* @example
+	* widget.content();
+	* @exampleDescription Set static content
+	* @example
+	* widget.content("Some static content");
+	* @exampleDescription Set DOM content
+	* @example
+	* widget.content("#hiddenContent");
+	* @exampleDescription Set AJAX content
+	* @example
+	* widget.content("http://chico.com/some/content.html");
+	*/
+
+	/**
+	* Triggers the innerShow method, returns the public scope to keep method chaining and sets new content if receive a parameter.
+	* @public
+	* @function
+	* @name ch.Floats#show
+	* @returns itself
+	* @see ch.Floats#content
+	*/
+	that["public"].show = function (content) {
+		if (content !== undefined) { that["public"].content(content); }
+		that.innerShow();
+		return that["public"];
+	};
+
+	/**
+	* Triggers the innerHide method and returns the public scope to keep method chaining.
+	* @public
+	* @function
+	* @name ch.Floats#hide
+	* @returns itself
+	*/
+	that["public"].hide = function () {
+		that.innerHide();
+		return that["public"];
+	};
+	
+	/**
+	* Sets or gets positioning configuration. Use it without arguments to get actual configuration. Pass an argument to define a new positioning configuration.
+	* @public
+	* @function
+	* @name ch.Floats#position
+	* @exampleDescription Change component's position.
+	* @example
+	* widget.position({ 
+	*	  offset: "0 10",
+	*	  points: "lt lb"
+	* });
+	* @exampleDescription Refresh position.
+	* @example
+	* widget.position("refresh");
+	* @see ch.Floats#position
+	*/
+	// Create a custom Positioner object to update conf.position data of Float family
+	that["public"].position = function (o) {
+
+		var r = that["public"];
+
+		switch (typeof o) {
+		// Custom Setter: It updates conf.position data
+		case "object":
+			// New points
+			if (ch.utils.hasOwn(o, "points")) { conf.position.points = o.points; }
+
+			// New reposition
+			if (ch.utils.hasOwn(o, "reposition")) { conf.position.reposition = o.reposition; }
+
+			// New offset (splitted)
+			if (ch.utils.hasOwn(o, "offset")) { conf.position.offset = o.offset; }
+
+			// New context
+			if (ch.utils.hasOwn(o, "context")) { conf.position.context = o.context; }
+
+			// Original Positioner
+			that.position(conf.position);
+
+			break;
+
+		// Refresh
+		case "string":
+			that.position("refresh");
+			
+			break;
+
+		// Getter
+		case "undefined":
+		default:
+			r = that.position();
+			
+			break;
+		}
+
+		return r;
+	};
+
+	/**
+	* Sets or gets the width property of the component's layout. Use it without arguments to get the value. To set a new value pass an argument, could be a Number or CSS value like '300' or '300px'.
+	* @public
+	* @function
+	* @name ch.Floats#width
+	* @param {Number|String} [width]
+	* @returns itself
+	* @see ch.Zarasa#size
+	* @see ch.Floats#size
+	* @exampleDescription to set the width
+	* @example
+	* widget.width(700);
+	* @exampleDescription to get the width
+	* @example
+	* widget.width() // 700
+	*/
+	that["public"].width = function (data) {
+		return that.size("width", data) || that["public"];
+	};
+
+	/**
+	* Sets or gets the height of the Float element.
+	* @public
+	* @function
+	* @name ch.Floats#height
+	* @returns itself
+	* @see ch.Floats#size
+	* @exampleDescription to set the height
+	* @example
+	* widget.height(300);
+	* @exampleDescription to get the height
+	* @example
+	* widget.height // 300
+	*/
+	that["public"].height = function (data) {
+		return that.size("height", data) || that["public"];
+	};
+
+	/**
+	* Returns a Boolean if the component's core behavior is active. That means it will return 'true' if the component is on and it will return false otherwise.
+	* @public
+	* @function
+	* @name ch.Floats#isActive
+	* @returns boolean
+	*/
+	that["public"].isActive = function () {
+		return that.active;
+	};
+	
+	/**
+	* Triggers when the component is ready to use.
+	* @name ch.Floats#ready
+	* @event
+	* @public
+	* @exampleDescription Following the first example, using <code>widget</code> as modal's instance controller:
+	* @example
+	* widget.on("ready",function () {
+	*	this.show();
+	* });
+	*/
+	that.trigger("ready");
+
+	/**
+	*	Default behavior
+	*/
+
+	// Add Closable behavior
+	closable();
+
+
+	return that;
+
+};
 
 /**
 * Carousel is a large list of elements. Some elements will be shown in a preset area, and others will be hidden waiting for the user interaction to show it.
@@ -4424,793 +6441,6 @@ ch.carousel = function (conf) {
 ch.factory("carousel");
 
 /**
-* OnImagesLoads executes a callback function when the images of a query selection loads.
-* @name onImagesLoads
-* @class onImagesLoads
-* @memberOf ch
-* @param callback function The function that the component will fire after the images load. 
-* @returns jQuery
-* @factorized
-* @exampleDescription
-* @example
-* $("img").onImagesLoads(callback);
-*/
-
-ch.onImagesLoads = function (conf) {
-
-	/**
-	* Reference to a internal component instance, saves all the information and configuration properties.
-	* @private
-	* @name ch.onImagesLoads#that
-	* @type object
-	*/
-	var that = this;
-	conf = ch.clon(conf);
-	that.conf = conf;
-	
-	that.$element
-		// On load event
-		.one("load", function () {
-			setTimeout(function () {
-				if (--that.$element.length <= 0) {
-					that.conf.lambda.call(that.$element, this);
-				}
-			}, 200);
-		})
-		// For each image
-		.each(function () {
-			// Cached images don't fire load sometimes, so we reset src.
-			if (this.complete || this.complete === undefined) {
-				var src = this.src;
-				
-				// Data uri fix bug in web-kit browsers
-				this.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-				this.src = src;
-			}
-		});
-	
-	return that;
-};
-
-ch.factory("onImagesLoads");
-
-/**
-* Object represents the abstract class of all widgets.
-* @abstract
-* @name Uiobject
-* @class Uiobject
-* @augments ch.Object
-* @requires ch.Cache
-* @memberOf ch
-* @exampleDescription 
-* @example
-* ch.uiobject.call();
-* @see ch.Object
-* @see ch.Cache
-* @see ch.Controllers
-* @see ch.Floats
-* @see ch.Navs
-* @see ch.Watcher
-*/
-
-ch.uiobject = function(){
-
-	/**
-	* Reference to a internal component instance, saves all the information and configuration properties.
-	* @private
-	* @name ch.Uiobject#that
-	* @type object
-	*/
-	var that = this;
-
-	var conf = that.conf;
-	
-
-/**
-*	Inheritance
-*/
-
-	that = ch.object.call(that);
-	that.parent = ch.clon(that);
-
-
-
-/**
-*	Protected Members
-*/
-
-	/**
-	* Component static content.
-	* @protected
-	* @name ch.Uiobject#staticContent
-	* @type string
-	*/
-	that.staticContent;
-
-	/**
-	* DOM Parent of content, this is useful to attach DOM Content when float is hidding.
-	* @protected
-	* @name ch.Uiobject#DOMParent
-	* @type HTMLElement
-	*/
-	that.DOMParent;
-
-	/**
-	* Component original content.
-	* @protected
-	* @name ch.Uiobject#originalContent
-	* @type HTMLElement
-	*/
-	that.originalContent;
-
-	/**
-	* Set and get the content of a component. With no arguments will behave as a getter function. Send any kind of content and will be a setter function. Use a valid URL for AJAX content, use a CSS selector for a DOM content or just send a static content like HTML or Text.
-	* @ignore
-	* @name ch.Uiobject#content
-	* @protected
-	* @function
-	* @param {string} [content] Could be a simple text, html or a url to get the content with ajax.
-	* @returns {string} content
-	* @requires ch.Cache
-	* @exampleDescription Simple static content
-	* @example
-	* $(element).layer().content("Some static content");
-	* @exampleDescription Get DOM content
-	* @example
-	* $(element).layer().content("#hiddenContent");
-	* @exampleDescription Get AJAX content
-	* @example
-	* $(element).layer().content("http://chico.com/content/layer.html");
-	*/
-	that.content = function(content) {
-
-		var _get = (content) ? false : true,
-
-			// Local argument
-			content = content,
-			// Local isURL
-			sourceIsUrl = ch.utils.isUrl(that.source),
-			// Local isSelector
-			sourceIsSelector = ch.utils.isSelector(that.source),
-			// Local inDom
-			sourceInDom = (!sourceIsUrl) ? ch.utils.inDom(that.source) : false,
-			// Get context, could be a single component or a controller
-			context = ( ch.utils.hasOwn(that, "controller") ) ? that.controller : that["public"],
-			// undefined, for comparison.
-			undefined,
-			// Save cache configuration
-			cache = ( ch.utils.hasOwn(conf, "cache") ) ? conf.cache : true;
-
-		/**
-		* Get content
-		*/
-
-		// return defined content
-		if (_get) {
-
-			// no source, no content
-			if (that.source === undefined) {
-				that.staticContent = "<p>No content defined for this component</p>";
-				that.trigger("contentLoad");
-
-				return;
-			}
-
-			// First time we need to get the content.
-			// Is cache is off, go and get content again.
-			// Yeap, recursive.
-			if (!cache || that.staticContent === undefined) {
-				that.content(that.source);
-				return;
-			}
-
-			// Get data from cache if the staticContent was defined
-			if (cache && that.staticContent) {
-				var fromCache = ch.cache.get(that.source);
-
-				// Load content from cache
-				if (fromCache && that.staticContent != fromCache) {
-					that.staticContent = fromCache;
-
-					that.trigger("contentLoad");
-
-					// Return and load content from cache
-					return;
-				}
-
-				// Return and show the latest content that was loaded
-				return;
-			}
-		}
-
-		/**
-		* Set content
-		*/
-
-		// Reset cache to overwrite content
-		conf.cache = false;
-
-		// Local isURL
-		var isUrl = ch.utils.isUrl(content),
-			// Local isSelector
-			isSelector = ch.utils.isSelector(content),
-			// Local inDom
-			inDom = (!isUrl) ? ch.utils.inDom(content) : false;
-
-		/* Evaluate static content*/
-
-		// Set 'that.staticContent' and overwrite 'that.source'
-		// just in case you want to update DOM or AJAX Content.
-
-		that.staticContent = that.source = content;
-
-		/* Evaluate AJAX content*/
-
-		if (isUrl) {
-
-			// First check Cache
-			// Check if this source is in our cache
-			if (cache) {
-				var fromCache = ch.cache.get(that.source);
-				if (fromCache) {
-					conf.cache = cache;
-					that.staticContent = fromCache;
-					that.trigger("contentLoad", context);
-					return;
-				}
-			}
-
-			var _method, _serialized, _params = "x=x";
-
-			// If the trigger is a form button, serialize its parent to send data to the server.
-			if (that.$element.attr('type') == 'submit') {
-				_method = that.$element.parents('form').attr('method') || 'GET';
-				_serialized = that.$element.parents('form').serialize();
-				_params = _params + ((_serialized != '') ? '&' + _serialized : '');
-			};
-
-			// Set ajax config
-			// On IE (6-7) "that" reference losts for second time
-			// Why?? I don't know... but with a setTimeOut() works fine!
-			setTimeout(function(){
-
-				$.ajax({
-					url: that.source,
-					type: _method || 'GET',
-					data: _params,
-					// each component could have a different cache configuration
-					cache: cache,
-					async: true,
-					beforeSend: function(jqXHR){
-						// Ajax default HTTP headers
-						jqXHR.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-					},
-					success: function(data, textStatus, jqXHR){
-						// Save data as staticContent
-						that.staticContent = data;
-
-						// Use the contentLoad callback.
-						that.trigger("contentLoad", context);
-
-						// Save new staticContent to the cache
-						if (cache) {
-							ch.cache.set(that.source, that.staticContent);
-						}
-
-					},
-					error: function(jqXHR, textStatus, errorThrown){
-						that.staticContent = "<p>Error on ajax call.</p>";
-
-						var data = {
-							"context": context,
-							"jqXHR": jqXHR,
-							"textStatus": textStatus,
-							"errorThrown": errorThrown
-						};
-
-						// Use the contentError callback.
-						that.trigger("contentError", data);
-					}
-				});
-
-			}, 0);
-
-			// Return Spinner and wait for async callback
-			that.$content.html("<div class=\"ch-loading\"></div>");
-			that.staticContent = undefined;
-
-		} else {
-
-			/* Evaluate DOM content*/
-
-			if (isSelector && inDom) {
-
-				// Save original DOMFragment.
-				that.originalContent = $(content);
-
-				// Save DOMParent, so we know where to re-insert the content.
-				that.DOMParent = that.originalContent.parent();
-
-				// Save a clone to original DOM content
-				that.staticContent = that.originalContent.clone().removeClass("ch-hide");
-
-			}
-
-			// Save new data to the cache
-			if (cache) {
-				ch.cache.set(that.source, that.staticContent);
-			}
-
-			// First time we need to set the callbacks that append and remove the original content.
-			if (that.originalContent && that.originalContent.selector == that.source) {
-
-				// Remove DOM content from DOM to avoid ID duplications
-				that["public"].on("show", function() {
-					that.originalContent.detach();
-				});
-
-				// Returns DOMelement to DOM
-				that["public"].on("hide", function(){
-					that.originalContent.appendTo(that.DOMParent||"body");
-				});
-			}
-		}
-
-		/* Set previous cache configuration*/
-		conf.cache = cache;
-
-		// trigger contentLoad callback for DOM and Static content.
-		if (that.staticContent !== undefined) {
-			that.trigger("contentLoad", context);
-		}
-
-	};
-
-	/**
-	* Prevent propagation and default actions.
-	* @name ch.Uiobject#prevent
-	* @function
-	* @protected
-	* @param {event} event Recieves a event object
-	*/
-	that.prevent = function(event) {
-
-		if (event && typeof event == "object") {
-			event.preventDefault();
-			event.stopPropagation();
-		};
-
-		return that;
-	};
-
-/**
-*	Public Members
-*/
-	
-	/**
-	* Component's public scope. In this scope you will find all public members.
-	*/
-
-	/**
-	* Sets and gets component content. To get the defined content just use the method without arguments, like 'widget.content()'. To define a new content pass an argument to it, like 'widget.content("new content")'. Use a valid URL to get content using AJAX. Use a CSS selector to get content from a DOM Element. Or just use a String with HTML code.
-	* @ignore
-	* @public
-	* @name ch.Uiobject#content
-	* @function
-	* @param {string} content Static content, DOM selector or URL. If argument is empty then will return the content.
-	* @exampleDescription Get the defined content
-	* @example
-	* widget.content();
-	* @exampleDescription Set static content
-	* @example
-	* widget.content("Some static content");
-	* @exampleDescription Set DOM content
-	* @example
-	* widget.content("#hiddenContent");
-	* @exampleDescription Set AJAX content
-	* @example
-	* widget.content("http://chico.com/some/content.html");
-	*/
-	that["public"].content = function(content){
-		if (content) { // sets
-			// Reset content data
-			that.source = content;
-			that.staticContent = undefined;
-
-			if (that.active) {
-				that.content(content);
-			}
-
-			return that["public"];
-
-		} else { // gets
-			return that.staticContent;
-		}
-	};
-	
-	/**
-	* @borrows ch.Object#trigger as ch.Uiobject#trigger
-	*/
-
-	/**
-	* @borrows ch.Object#on as ch.Uiobject#on
-	*/
-
-	/**
-	* @borrows ch.Object#once as ch.Uiobject#once
-	*/
-
-	/**
-	* @borrows ch.Object#off as ch.Uiobject#off
-	*/
-	
-
-	return that;
-};
-
-/**
-* Validator is an engine for HTML forms elements.
-* @name Validator
-* @class Validator
-* @augments ch.Object
-* @requires ch.Condition
-* @memberOf ch
-* @param {Object} conf Object with configuration properties.
-* @param {Object} conf.conditions Object with conditions.
-* @returns itself
-* @factorized
-* @see ch.Object
-* @see ch.Condition
-*/
-
-ch.validator = function(conf) {
-	/**
-	* Reference to a internal component instance, saves all the information and configuration properties.
-	* @protected
-	* @name ch.Validator#that
-	* @type Object
-	*/
-	var that = this;
-	conf = ch.clon(conf);
-	that.conf = conf;	
-
-/**
-* Inheritance
-*/
-
-	that = ch.object.call(that);
-	that.parent = ch.clon(that);
-
-/**
-* Private Members
-*/
-	var conditions = (function(){
-		var c = {}; // temp collection
-		var condition = ch.condition.call(that["public"], conf.condition);
-
-		c[condition.name] = condition;
-
-		// return all the configured conditions
-		return c;
-	})(); // Love this ;)
-
-	/**
-	* Search for instances of Validators with the same trigger, and then merge it's properties with it.
-	* @private
-	* @name ch.Validator#checkInstance
-	* @function
-	* @returns Object
-	*/
-	var checkInstance;
-	if (checkInstance = function() {
-
-		var instance, instances = ch.instances.validator;
-		if ( instances && instances.length > 0 ) {
-			for (var i = 0, j = instances.length; i < j; i+=1) {
-				instance = instances[i];
-
-				if (instance.element !== that.element) {
-
-					continue;
-				}
-
-				// Extend instance's conditions
-				instance.extend(conditions);
-
-				// To let know the ch.Factory that already exists,
-				// this way we avoid to have duplicated references.
-				return {
-					exists: true,
-					object: instance
-				}
-			}
-		}
-	}()){
-		return checkInstance;
-	};
-
-	var validate = function(value) {
-
-		if (!that.enabled) { return true; }
-
-		var condition, tested, empty, val, message, required = conditions["required"];
-
-		// Avoid fields that aren't required when they are empty or de-activated
-		if (!required && value === "" && that.active === false) { return {"status": true}; }
-
-		if (that.enabled && (!that.active || value !== "" || required)) {
-			/**
-			* Triggers before start validation process.
-			* @name ch.Validator#beforeValidate
-			* @event
-			* @public
-			* @exampleDescription 
-			* @example
-			* widget.on("beforeValidate",function(){
-			*	submitButton.disable();
-			* });
-			*/
-			// old callback system
-			that.callbacks('beforeValidate');
-			// new callback
-			that.trigger("beforeValidate");
-
-			// for each condition
-			for (condition in conditions){
-
-				val = ((condition === "required") ? that.element : value.toLowerCase());
-				// this is the validation
-				tested = test.call(this, condition, val);
-
-				// return false if any test fails,
-				if (!tested) {
-
-					/**
-					* Triggers when an error occurs on the validation process.
-					* @name ch.Validator#error
-					* @event
-					* @public
-					* @exampleDescription
-					* @example
-					* widget.on("error",function(event, condition){
-					*	errorModal.show();
-					* });
-					*/
-					// old callback system
-					that.callbacks('onError', condition);
-					// new callback
-					that.trigger("error", condition);
-
-					that.active = true;
-
-					// stops the proccess
-					//return false;
-					return {
-						"status": false,
-						"condition": condition,
-						"msg": conditions[condition].message
-					}
-				};
-			}
-		}
-
-		// Status OK (with previous error)
-		if (that.active || !that.enabled) {
-			// Public status OK
-			that.active = false;
-		}
-
-		/**
-		* Triggers when the validation process ends.
-		* @name ch.Validator#afterValidate
-		* @event
-		* @public
-		* @exampleDescription
-		* @example
-		* widget.on("afterValidate",function(){
-		*	submitButton.disable();
-		* });
-		*/
-		// old callback system
-		that.callbacks('afterValidate');
-		// new callback
-		that.trigger("afterValidate");
-
-		// It's all good ;)
-		//return true;
-		return {
-			"status": true
-		}
-	}
-
-	/**
-	* Test a condition looking for error.
-	* @private
-	* @name ch.Validator#test
-	* @see ch.Condition
-	*/
-	var test = function(condition, value){
-		
-		if (value === "" && condition !== "required") { return true };
-		
-		var isOk = false,
-			// this is the validation
-			validation = this || window,
-			condition = conditions[condition];
-
-		isOk = condition.test.call(validation, value);
-
-		return isOk;
-		
-	};
-
-/**
-* Protected Members
-*/
-
-	/**
-	* Flag that let you know if there's a validation going on.
-	* @protected
-	* @name ch.Validator#active
-	* @type boolean
-	*/
-	that.active = false;
-
-	/**
-	* Flag that let you know if the all conditions are enabled or not.
-	* @protected
-	* @name ch.Validator#enabled
-	* @type boolean
-	*/
-	that.enabled = true;
-
-/**
-*	Public Members
-*/
-
-	/**
-	* @borrows ch.Object#uid as ch.TabNavigator#uid
-	*/	
-	
-	/**
-	* This public property defines the component type. All instances are saved into a 'map', grouped by its type. You can reach for any or all of the components from a specific type with 'ch.instances'.
-	* @public
-	* @name ch.Validator#type
-	* @type String
-	*/
-	that["public"].type = "validator";
-
-	/**
-	* This public Map saves all the validation configurations from this instance.
-	* @public
-	* @name ch.Validator#conditions
-	* @type object
-	*/
-	that["public"].conditions = conditions;
-
-	/**
-	* Active is a boolean property that let you know if there's a validation going on.
-	* @public
-	* @function
-	* @name ch.Validator#isActive
-	* @returns itself
-	*/
-	that["public"].isActive = function() {
-		return that.active;
-	};
-
-	/**
-	* Let you keep chaining methods.
-	* @public
-	* @function
-	* @name ch.Validator#and
-	* @returns itself
-	*/
-	that["public"].and = function(){
-		return that.$element;
-	};
-
-	/**
-	* Merge its conditions with a new conditions of another instance with the same trigger.
-	* @public
-	* @function
-	* @name ch.Validator#extend
-	* @returns itself
-	*/
-	that["public"].extend = function(input){
-		$.extend(conditions, input);
-
-		return that["public"];
-	};
-
-	/**
-	* Clear all active validations.
-	* @public
-	* @function
-	* @name ch.Validator#clear
-	* @returns itself
-	*/
-	that["public"].clear = function() {
-		that.active = false;
-
-		return that["public"];
-	};
-
-	/**
-	* Runs all configured conditions and returns an object with a status value, condition name and a message.
-	* @public
-	* @function
-	* @name ch.Validator#validate
-	* @returns Status Object
-	*/
-	that["public"].validate = function(value){
-		// this is the validation
-		return validate.call(this, value);
-	}
-
-	/**
-	* Turn on Validator engine or an specific condition.
-	* @public
-	* @name enable
-	* @name ch.Validator#enable
-	* @returns itself
-	*/
-	that["public"].enable = function(condition){
-		if (condition && conditions[condition]){
-			// Enable specific condition
-			conditions[condition].enable();
-		} else {
-			// enable all
-			that.enabled = true;
-			for (condition in conditions){
-				conditions[condition].enable();
-			}
-		}
-		return that["public"];
-	}
-
-	/**
-	* Turn on Validator engine or an specific condition.
-	* @public
-	* @name disable
-	* @name ch.Validator#disable
-	* @returns itself
-	*/
-	that["public"].disable = function(condition){
-		if (condition && conditions[condition]){
-			// disable specific condition
-			conditions[condition].disable();
-		} else {
-			// disable all
-			that.enabled = false;
-			for (condition in conditions){
-				conditions[condition].disable();
-			}
-		}
-		return that["public"];
-	}
-
-/**
-*	Default event delegation
-*/
-	/**
-	* Triggers when the component is ready to use.
-	* @name ch.Validator#ready
-	* @event
-	* @public
-	* @exampleDescription Following the first example, using <code>widget</code> as modal's instance controller:
-	* @example
-	* widget.on("ready",function(){
-	*	this.show();
-	* });
-	*/
-	that.trigger("ready");
-
-	return that;
-};
-ch.factory("validator");
-
-/**
 * Navs is a representation of navs components.
 * @abstract
 * @name Navs
@@ -5449,601 +6679,6 @@ ch.navs = function () {
 
 
 /**
-* AutoComplete lets you suggest anything from an input element. Use a suggestion service or use a collection with the suggestions.
-* @name AutoComplete
-* @class AutoComplete
-* @augments ch.Controls
-* @see ch.Controls
-* @memberOf ch
-* @param {Object} [conf] Object with configuration properties.
-* @param {String} conf.url The url pointing to the suggestions's service.
-* @param {String} [conf.message] It represent the text when no options are shown.
-* @param {Array} [conf.suggestions] The suggestions's collection. If a URL is set at conf.url parametter this will be omitted.
-* @returns itself
-* @factorized
-* @exampleDescription Create a new autoComplete with configuration.
-* @example
-* var widget = $(".example").autoComplete({
-*     "url": "http://site.com/mySuggestions?q=",
-*     "message": "Write..."
-* });
-*/
- 
-ch.autoComplete = function(conf){
-
-	/**
-	* Reference to a internal component instance, saves all the information and configuration properties.
-	* @private
-	* @name ch.AutoComplete#that
-	* @type object
-	*/
-	var that = this;
-		
-	conf = ch.clon(conf);
-	conf.icon = false;
-	conf.type = "autoComplete";
-	conf.message = conf.message || "Please write to be suggested";
-	conf.suggestions = conf.suggestions;
-	conf.jsonpCallback = conf.jsonpCallback || "autoComplete";
-	
-	that.conf = conf;
-		
-/**
-*	Inheritance
-*/
-	
-	that = ch.controls.call(that);
-	that.parent = ch.clon(that);
-	
-/**
-*  Private Members
-*/
-
-	/**
-	* Select an item.
-	* @private
-	* @type Function
-	* @name ch.AutoComplete#selectItem
-	*/
-	var selectItem = function (arrow, event) {
-		that.prevent(event);
-
-		if (that.selected === (arrow === "bottom" ? that.items.length - 1 : 0)) { return; }
-		$(that.items[that.selected]).removeClass("ch-autoComplete-selected");
-		
-		if (arrow === "bottom") { that.selected += 1; } else { that.selected -= 1; }
-		$(that.items[that.selected]).addClass("ch-autoComplete-selected");
-	};
-
-/**
-*  Protected Members
-*/
-
-	/**
-	* The number of the selected item.
-	* @protected
-	* @type Number
-	* @name ch.AutoComplete#selected
-	*/
-	that.selected = -1;
-
-	/**
-	* List of the shown suggestions.
-	* @protected
-	* @type Array
-	* @name ch.AutoComplete#suggestions
-	*/
-	that.suggestions = that.conf.suggestions;
-
-	/**
-	* The input where the AutoComplete works.
-	* @protected
-	* @type jQuery
-	* @name ch.AutoComplete#$trigger
-	*/
-	//that.$trigger = that.$element.addClass("ch-" + that.type + "-trigger");
-
-	/**
-	* Inner reference to content container. Here is where the content will be added.
-	* @protected
-	* @type jQuery
-	* @name ch.AutoComplete#$content
-	*/
-	that.$content = $("<ul class=\"ch-autoComplete-list\"></ul>");
-
-	/**
-	* It has the items loaded.
-	* @protected
-	* @type Boolean
-	* @name ch.AutoComplete#behaviorActived
-	*/
-	that.behaviorActived = false;
-
-	/**
-	* It has the items loaded.
-	* @protected
-	* @type Array
-	* @name ch.AutoComplete#items
-	*/
-	that.items = [];
-	
-	/**
-	* Reference to the Float component instanced.
-	* @protected
-	* @type Object
-	* @name ch.AutoComplete#float
-	*/
-	that["float"] = that.createFloat({
-		"content": that.$content,
-		"points": conf.points,
-		"points": "lt lb",
-		"cache": false,
-		"closable": false,
-		"aria": {
-			"role": "tooltip",
-			"identifier": "aria-describedby"
-		},
-		"width": that.$element.outerWidth() + "px"
-	});
-
-	/**
-	* It sets On/Off the loading icon.
-	* @protected
-	* @function
-	* @name ch.AutoComplete#loading
-	*/
-	that.loading = function(show){
-		if(show){
-			that.$element.addClass("ch-autoComplete-loading");
-		} else {
-			that.$element.removeClass("ch-autoComplete-loading");
-		}
-	}
-
-	/**
-	* It fills the content inside the element represented by the float.
-	* @protected
-	* @function
-	* @name ch.AutoComplete#populateContent
-	*/
-	that.populateContent = function (event,result) {
-		// No results doesn't anything
-		if (result.length===0 || that.element.value==="") {
-			that.loading(false);
-			that["float"].innerHide();
-			return that;
-		}
-			
-		// Only one result and the same as the input hide float and doesn't anything
-		if (result.length===1 && result[0]===that.element.value) {
-			that.loading(false);
-			that["float"].innerHide();
-			return that;
-		}
-
-		var list = "";
-		$.each(result, function (i, e) {
-			list+="<li data-index=\""+i+"\">"+e+"</li>";
-		})
-
-		that.trigger("contentUnload");
-		that.$content.html(list);
-		that.selected = -1;
-		
-		that["float"].content(that.$content);
-		
-		that.trigger("contentLoaded");
-		
-		that.items = that.$content.children();
-		
-		// Adds only once the behavior
-		if (!that.behaviorActived) {
-			that.suggestionsBehavior(event);
-			that.behaviorActived = true;
-		}
-
-		that["float"].innerShow();
-		that.loading(false);
-		return that;
-	}
-
-	/**
-	* It does the query to the server if configured an URL, or it does the query inside the array given.
-	* @protected
-	* @function
-	* @name ch.AutoComplete#doQuery
-	*/
-	that.doQuery = function(event){
-		var q = that.$element.val().toLowerCase();
-		// When URL is configured it will execute an ajax request.
-		if (that.element.value !== "" && event.keyCode !== 38 && event.keyCode !== 40  && event.keyCode !== 13  && event.keyCode !== 27) {
-			if (that.conf.url !== undefined) {
-				that.loading(true);
-				var result = $.ajax({
-					url: that.conf.url + q + "&callback=" + that.conf.jsonpCallback,
-					dataType:"jsonp",
-					cache:false,
-					global:true,
-					context: window,
-					jsonp:that.conf.jsonpCallback,
-					crossDomain:true
-				});
-			// When not URL configured and suggestions array were configured it search inside the suggestions array.
-			} else if (that.conf.url === undefined) {
-				var result = [];
-				for(var a=(that.suggestions.length-1);(a+1);a--){
-					var word = that.suggestions[a].toLowerCase();
-					var exist = word.search(q);
-					if(!exist){
-						result.push(that.suggestions[a]);
-					}
-				};
-				that.populateContent(event,result);
-			}
-		}
-		return that;
-	}
-
-	/**
-	* Binds the behavior related to the list.
-	* @protected
-	* @function
-	* @name ch.AutoComplete#suggestionsBehavior
-	*/
-	that.suggestionsBehavior = function(event){
-		// BACKSPACE key bheavior. When backspace go to the start show the message
-		ch.utils.document.on(ch.events.KEY.BACKSPACE, function (x, event) {
-
-			// When the user make backspace with empty input autocomplete is shutting off
-			if(that.element.value.length===0){
-				that.prevent(event);
-				that.$element.trigger("blur");
-			}
-
-			// When isn't any letter it hides the float
-			if(that.element.value.length<=1){
-				that["float"].innerHide();
-				that.loading(false);
-			}
-
-		})
-		// ESC key behavior, it closes the suggestions's list 
-		.on(ch.events.KEY.ESC, function (x, event) { that.$element.trigger("blur"); })
-		// ENTER key behavior, it selects the item who is selected
-		.on(ch.events.KEY.ENTER, function (x, event) { that.$element.val($(that.items[that.selected]).text()); that.$element.trigger("blur"); })
-		// UP ARROW key behavior, it selects the previous item
-		.on(ch.events.KEY.UP_ARROW, function (x, event) { selectItem("up", event); })
-		// DOWN ARROW key behavior, it selects the next item
-		.on(ch.events.KEY.DOWN_ARROW, function (x, event) { selectItem("bottom", event); });
-		// MouseOver & MouseDown Behavior
-		that["float"].$content.on("mouseover mousedown",function(evt){
-			var event = evt || window.event;
-			var target = event.target || event.srcElement;
-			var type = event.type;
-			if(target.tagName === "LI"){
-				// mouse over behavior
-				if(type === "mouseover"){
-					// removes the class if one is selected
-					$(that.items[that.selected]).removeClass("ch-autoComplete-selected");
-					// selects the correct item
-					that.selected = parseInt(target.getAttribute("data-index"));
-					// adds the class to highlight the item
-					$(that.items[that.selected]).addClass("ch-autoComplete-selected");	
-				} 
-				// mouse down behavior
-				if(type === "mousedown") {
-					that.prevent(event);
-					that.$element.val($(that.items[that.selected]).text());
-					that.$element.trigger("blur");
-				}		
-			}
-		});
-	}
-
-	/**
-	* Internal show method. It adds the behavior.
-	* @protected
-	* @function
-	* @name ch.AutoComplete#show
-	*/
-	that.show = function(event){
-		// new callbacks
-		that.trigger("show");
-		var query = that.element.value;
-		that.doQuery(event);
-		// Global keyup behavior
-		ch.utils.document.on("keyup", function (event) {that.doQuery(event);  });
-		//that.$content.html("");
-
-		return that;
-	}
-
-	/**
-	* Internal hide method. It removes the behavior.
-	* @protected
-	* @function
-	* @name ch.AutoComplete-hide
-	*/
-	that.hide = function(event){
-		that.trigger("hide");
-		that.behaviorActived = false;
-		that.$content.off("mouseover mousedown");
-		ch.utils.document.off("keyup " + ch.events.KEY.ENTER + " " + ch.events.KEY.ESC + " " + ch.events.KEY.UP_ARROW + " " + ch.events.KEY.DOWN_ARROW + " " + ch.events.KEY.BACKSPACE);
-		that["float"].innerHide();
-		return that;
-	}
-
-	/**
-	* It gives the main behavior(focus, blur and turn off autocomplete attribute) to the $trigger.
-	* @protected
-	* @function
-	* @name ch.AutoComplete#configBehavior
-	*/
-	that.configBehavior = function () {
-		that.$element
-			.bind("focus", function (event) { 				
-				that.show(event);
-			})
-			.bind("blur", function (event) { 
-				that.hide(event);
-			})
-			.attr("autocomplete","off")
-			.addClass("ch-" + that.type + "-trigger");
-		return that;
-	};
-
-/**
-*  Public Members
-*/
- 
-	/**
-	* @borrows ch.Object#uid as ch.Menu#uid
-	*/	
-	
-	/**
-	* @borrows ch.Object#element as ch.Menu#element
-	*/
-
-	/**
-	* @borrows ch.Object#type as ch.Menu#type
-	*/
-	
-	/**
-	* Shows component's content.
-	* @public
-	* @name ch.AutoComplete-show
-	* @function
-	* @returns itself
-	*/
-	that["public"].show = function(){
-		that.show();
-		return that["public"];
-	};
-
-	/**
-	* Hides component's content.
-	* @public
-	* @name ch.AutoComplete#hide
-	* @function
-	* @returns itself
-	*/	
-	that["public"].hide = function(){
-		that.hide(ch.events.KEY.ESC);
-		return that["public"];
-	};
-
-	/**
-	* Add suggestions to be shown.
-	* @public
-	* @name ch.AutoComplete#suggest
-	* @function
-	* @returns itself
-	*/	
-	that["public"].suggest = function(data){
-		that.suggestions = data;
-		that.populateContent(window.event,that.suggestions);
-		return that["public"];
-	};
-
-	
-	//Fills the Float with the message.
-	//that.populateContent([that.conf.message]);
-
-/**
-*  Default event delegation
-*/	
-	that.configBehavior();
-	
-	/*that["float"].on("ready", function () {
-		that["float"]["public"].width((that.$element.outerWidth()));
-	});*/
-	
-	/**
-	* Triggers when the component is ready to use (Since 0.8.0).
-	* @name ch.AutoComplete#ready
-	* @event
-	* @public
-	* @exampleDescription Following the first example, using <code>widget</code> as autoComplete's instance controller:
-	* @example
-	* widget.on("ready",function () {
-	*	this.show();
-	* });
-	*/
-	setTimeout(function(){ that.trigger("ready")}, 50);
-
-	return that;
-};
-
-ch.factory("autoComplete");
-
-/**
-* Blink lets you give visual feedback to the user. Blink can be used when the user performs some action that changes some data at the screen. Blink creates a visual highlight changing background color from yellow to white.
-* @name Blink
-* @class Blink
-* @memberOf ch
-* @param {Object} conf Configuration object
-* @param {number} [conf.time] Amount of time to blink in milliseconds
-* @returns jQuery Object 
-* @factorized
-* @exampleDescription Blinks a element.  
-* @example
-* var widget = $(".example").blink();
-*/
-ch.blink = function (conf) {
-
-	var that = this,
-		// Hex start level toString(16).
-		level = 1, 
-		// Time, 200 miliseconds by default.
-		t = conf.time || 200,
-		// Inner highlighter.
-		highlight = function (e) {
-			// Let know everyone we are active.
-			that.$element.addClass("ch-active").attr("role","alert").attr("aria-live","polite");
-			// Color iteration.
-			function step () {
-				// New hex level.
-				var h = level.toString(16);
-				// Change background-color, redraw().
-				e.style.backgroundColor = '#FFFF' + h + h;
-				// Itearate for all hex levels.
-				if (level < 15) {
-					// Increment hex level.
-					level += 1;
-					// Inner recursion.
-					setTimeout(step, t);
-				} else {
-					// Stop right there...
-					that.$element.removeClass("ch-active").attr("aria-live","off").removeAttr("role");
-				}
-			};
-		// Begin steps.
-		setTimeout(step, t);
-	}
-	// Start a blink if the element isn't active.
-	if (!that.$element.hasClass("ch-active")) {
-		highlight(that.element);
-	}
-	// Return the element so keep chaining things.
-	return that.$element;
-}
-ch.factory("blink");
-
-/**
-* Abstract class
-* @abstract
-* @name Controllers
-* @class Controllers 
-* @augments ch.Uiobject
-* @memberOf ch
-* @returns itself
-* @see ch.Accordion
-* @see ch.Menu
-* @see ch.Form
-* @see ch.Uiobject
-*/
-
-ch.controllers = function(){
-
-	/**
-	* Reference to a internal component instance, saves all the information and configuration properties.
-	* @name ch.Controllers#that
-	* @type object
-	*/ 
-	var that = this;
-		
-	/**
-	*  Inheritance
-	*/
-	that = ch.uiobject.call(that);
-	that.parent = ch.clon(that);
-	
- 
-	/**
-	* Collection of children elements.
-	* @name ch.Controllers#children
-	* @type collection
-	*/ 
-	that.children = [];
-			
-	/**
-	*  Public Members
-	*/	
-		
-	return that;
-};
-
-
-/**
-* Controls brings the functionality of all form controls.
-* @abstract
-* @name Controls
-* @class Controls
-* @augments ch.Uiobject
-* @requires ch.Floats
-* @memberOf ch
-* @returns itself
-* @see ch.Countdown
-* @see ch.Validation
-* @see ch.AutoComplete
-* @see ch.DatePicker
-* @see ch.Uiobject
-* @see ch.Floats
-*/
-
-ch.controls = function () {
-
-	/**
-	* Reference to a internal component instance, saves all the information and configuration properties.
-	* @name ch.Controls#that
-	* @type Object
-	*/
-	var that = this,
-
-		conf = that.conf;
-
-/**
-*  Inheritance
-*/
-	that = ch.uiobject.call(that);
-	that.parent = ch.clon(that);
-
-/**
-*  Protected Members
-*/
-
-	/**
-	* Creates a reference to the Float component instanced.
-	* @protected
-	* @type Object
-	* @name ch.Controls#createFloat
-	*/
-	that.createFloat = function (c) {
-		c.position = {
-			"context": conf.context || c.context || c.$element || that.$element,
-			"offset": c.offset,
-			"points": c.points
-		};
-
-		return ch.floats.call({
-			"element": (ch.utils.hasOwn(c, "$element")) ? c.$element[0] : that.element,
-			"$element": c.$element || that.$element,
-			"uid": (ch.utils.index += 1),
-			"type": c.type || that.type,
-			"conf": c
-		});
-
-		
-	};
-
-/**
-*  Public Members
-*/
-
-	return that;
-};
-
-/**
 * Countdown counts the maximum of characters that user can enter in a form control. Countdown could limit the possibility to continue inserting charset.
 * @name Countdown
 * @class Countdown
@@ -6226,6 +6861,336 @@ ch.countdown = function (conf) {
 ch.factory("countdown");
 
 /**
+* Datepicker lets you select dates.
+* @name DatePicker
+* @class DatePicker
+* @augments ch.Controls
+* @requires ch.Calendar
+* @see ch.Controls
+* @see ch.Calendar
+* @memberOf ch
+* @param {Object} [conf] Object with configuration properties.
+* @param {String} [conf.format] Sets the date format. By default is "DD/MM/YYYY".
+* @param {String} [conf.selected] Sets a date that should be selected by default. By default is the date of today.
+* @param {String} [conf.from] Set a maximum selectable date.
+* @param {String} [conf.to] Set a minimum selectable date.
+* @param {String} [conf.points] Points to be positioned. See Positioner component. By default is "ct cb".
+* @param {Array} [conf.monthsNames] By default is ["Enero", ... , "Diciembre"].
+* @param {Array} [conf.weekdays] By default is ["Dom", ... , "Sab"].
+* @param {Boolean} [conf.closable] Defines if floated component will be closed when a date is selected or not. By default it's "true".
+* @returns itself
+* @factorized
+* @exampleDescription Create a new datePicker.
+* @example
+* var widget = $(".example").datePicker();
+* @exampleDescription Create a new Date Picker with configuration.
+* @example
+* var widget = $(".example").datePicker({
+*	 "format": "MM/DD/YYYY",
+*	 "selected": "2011/12/25",
+*	 "from": "2010/12/25",
+*	 "to": "2012/12/25",
+*	 "monthsNames": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+*	 "weekdays": ["Su", "Mo", "Tu", "We", "Thu", "Fr", "Sa"]
+* });
+*/
+
+ch.datePicker = function (conf) {
+
+	/**
+	* Reference to a internal component instance, saves all the information and configuration properties.
+	* @private
+	* @name ch.DatePicker#that
+	* @type object
+	*/
+	var that = this;
+
+	conf = ch.clon(conf);
+
+	// Configuration by default
+	conf.format = conf.format || "DD/MM/YYYY";
+	conf.points = conf.points || "ct cb";
+	conf.closable = ch.utils.hasOwn(conf, "closable") ? conf.closable : true;
+
+	that.conf = conf;
+
+/**
+*	Inheritance
+*/
+
+	that = ch.controls.call(that);
+	that.parent = ch.clon(that);
+
+/**
+*	Private Members
+*/
+	
+/**
+*	Protected Members
+*/
+
+	/**
+	* Pick a date in the Calendar and updates the input data.
+	* @protected
+	* @function
+	* @name ch.DatePicker#process
+	*/
+	that.process = function (event) {
+
+		// Day selection
+		if (event.target.nodeName !== "TD" || event.target.className.indexOf("ch-disabled") !== -1 || event.target.className.indexOf("ch-calendar-other") !== -1) { return; }
+
+		// Select the day and update input value with selected date
+		that.element.value = that.calendar.selectDay(event.target.innerHTML);
+
+		// Hide float
+		if (conf.closable) { that["float"].innerHide(); }
+
+		/**
+		* Callback function
+		* @public
+		* @name ch.DatePicker#select
+		* @event
+		*/
+		// Old callback system
+		that.callbacks("onSelect");
+		// New callback
+		that.trigger("select");
+
+	};
+
+	
+	/**
+	* Reference to the Calendar component instance.
+	* @protected
+	* @type Object
+	* @name ch.DatePicker#calendar
+	*/
+	that.calendar = $("<div>")
+		// Add functionality for date selection
+		.bind("click", function (event) { that.process(event); })
+		// Instance Calendar component
+		.calendar({
+			"format": conf.format,
+			"from": conf.from,
+			"to": conf.to,
+			"selected": conf.selected,
+			"monthsNames": conf.monthsNames,
+			"weekdays": conf.weekdays
+		});
+	
+	/**
+	* Reference to the Float component instanced.
+	* @protected
+	* @type Object
+	* @name ch.DatePicker#float
+	*/
+	that["float"] = that.createFloat({
+		"$element": $("<i role=\"button\" class=\"ch-datePicker-trigger ch-icon-calendar\"></i>").insertAfter(that.element),
+		"content": that.calendar.element,
+		"points": conf.points,
+		"offset": "0 5",
+		"aria": {
+			"role": "tooltip",
+			"identifier": "aria-describedby"
+		},
+		"closeButton": false,
+		"cone": true
+	});
+
+/**
+*  Public Members
+*/
+
+	/**
+	* @borrows ch.Object#uid as ch.Menu#uid
+	*/	
+	
+	/**
+	* @borrows ch.Object#element as ch.Menu#element
+	*/
+
+	/**
+	* @borrows ch.Object#type as ch.Menu#type
+	*/
+
+	/**
+	* Triggers the innerShow method and returns the public scope to keep method chaining.
+	* @public
+	* @name ch.DatePicker#show
+	* @function
+	* @returns itself
+	* @exampleDescription Following the first example, using <code>widget</code> as modal's instance controller:
+	* @example
+	* widget.show();
+	*/
+	that["public"].show = function () {
+		that["float"].innerShow();
+
+		return that["public"];
+	};
+
+	/**
+	* Triggers the innerHide method and returns the public scope to keep method chaining.
+	* @public
+	* @name ch.DatePicker#show
+	* @function
+	* @returns itself
+	* @exampleDescription Following the first example, using <code>widget</code> as modal's instance controller:
+	* @example
+	* widget.hide();
+	*/
+	that["public"].hide = function () {
+		that["float"].innerHide();
+
+		return that["public"];
+	};
+
+	/**
+	* Select a specific date or returns the selected date.
+	* @public
+	* @since 0.9
+	* @name ch.DatePicker#select
+	* @function
+	* @param {string} "YYYY/MM/DD".
+	* @return itself
+	*/
+	that["public"].select = function (date) {
+		// Select the day and update input value with selected date
+		// Setter
+		if (date) {
+			that.calendar.select(date);
+			that.element.value = that.calendar.select();
+
+			return that["public"];
+		}
+
+		// Getter
+		return that.calendar.select();
+	};
+
+	/**
+	* Returns date of today
+	* @public
+	* @since 0.9
+	* @name ch.DatePicker#today
+	* @function
+	* @return date
+	*/
+	that["public"].today = function () {
+		return that.calendar.today();
+	};
+
+	/**
+	* Move to the next month or year. If it isn't specified, it will be moved to next month.
+	* @public
+	* @function
+	* @name ch.DatePicker#next
+	* @param {String} time A string that allows specify if it should move to next month or year.
+	* @return itself
+	* @default Next month
+	*/
+	that["public"].next = function (time) {
+		that.calendar.next(time);		
+
+		return that["public"];
+	};
+
+	/**
+	* Move to the previous month or year. If it isn't specified, it will be moved to previous month.
+	* @public
+	* @function
+	* @name ch.DatePicker#prev
+	* @param {String} time A string that allows specify if it should move to previous month or year.
+	* @return itself
+	* @default Previous month
+	*/
+	that["public"].prev = function (time) {
+		that.calendar.prev(time);
+
+		return that["public"];
+	};
+
+	/**
+	* Reset the Date Picker to date of today
+	* @public
+	* @name ch.DatePicker#reset
+	* @function
+	* @return itself
+	*/
+	that["public"].reset = function () {
+		
+		// Delete input value
+		that.element.value = "";
+		
+		that.calendar.reset();
+
+		return that["public"];
+	};
+
+	/**
+	* Set a minimum selectable date.
+	* @public
+	* @name ch.DatePicker#from
+	* @function
+	* @param {string} "YYYY/MM/DD".
+	* @return itself
+	*/
+	that["public"].from = function (date) {
+		that.calendar.from(date);
+		
+		return that["public"];
+	};
+
+	/**
+	* Set a maximum selectable date.
+	* @public
+	* @name ch.DatePicker#to
+	* @function
+	* @param {string} "YYYY/MM/DD".
+	* @return itself
+	*/
+	that["public"].to = function (date) {
+		that.calendar.to(date);
+		
+		return that["public"];
+	};
+
+	
+/**
+*	Default event delegation
+*/
+	
+	// Change type of input to "text"
+	that.element.type = "text";
+
+	// Change value of input if there are a selected date
+	that.element.value = (conf.selected) ? that.calendar.select() : that.element.value;
+	
+	// Add show behaivor to float's trigger.
+	that["float"].$element
+		.css("cursor", "pointer")
+		.bind("click", function (event) { that["float"].innerShow(event); });
+
+	/**
+	* Triggers when the component is ready to use (Since 0.8.0).
+	* @name ch.DatePicker#ready
+	* @event
+	* @public
+	* @exampleDescription Following the first example, using <code>widget</code> as Date Picker's instance controller:
+	* @example
+	* widget.on("ready", function () {
+	* 	this.show();
+	* });
+	*/
+	setTimeout(function () { that.trigger("ready"); }, 50);
+
+	return that;
+};
+
+ch.factory("datePicker");
+
+/**
 * Expando lets you show or hide the content. Expando needs a pair: the title and the content related to that title.
 * @name Expando
 * @class Expando
@@ -6380,639 +7345,290 @@ ch.expando = function (conf) {
 ch.factory("expando");
 
 /**
-* Floats brings the functionality of all Floats elements.
-* @abstract
-* @name ch.Floats
-* @class Floats
-* @augments ch.Uiobject
+* Dropdown shows a list of options for navigation.
+* @name Dropdown
+* @class Dropdown
+* @augments ch.Navs
 * @requires ch.Positioner
-* @returns itself
-* @see ch.Tooltip
-* @see ch.Layer
-* @see ch.Modal
-* @see ch.Controls
-* @see ch.Transition
-* @see ch.Zoom
-* @see ch.Uiobject
+* @see ch.Navs
 * @see ch.Positioner
+* @see ch.Expando
+* @see ch.TabNavigator
+* @memberOf ch
+* @param {Object} [conf] Object with configuration properties.
+* @param {Boolean} [conf.open] Shows the dropdown open when component was loaded. By default, the value is false.
+* @param {Boolean} [conf.icon] Shows an arrow as icon. By default, the value is true.
+* @param {String} [conf.points] Sets the points where component will be positioned, specified by configuration or centered by default: "cm cm".
+* @param {Boolean} [conf.fx] Enable or disable UI effects. By default, the effects are disable.
+* @returns itself
+* @factorized
+* @exampleDescription Create a new dropdown without configuration.
+* @example
+* var widget = $(".example").dropdown();
+* @exampleDescription Create a new dropdown with configuration.
+* @example
+* var widget = $(".example").dropdown({
+*     "open": true,
+*     "icon": false,
+*     "points": "lt lt",
+*     "fx": true
+* });
 */
 
-ch.floats = function () {
+ch.dropdown = function (conf) {
 
 	/**
 	* Reference to a internal component instance, saves all the information and configuration properties.
-	* @protected
-	* @name ch.Floats#that
+	* @private
+	* @name ch.Dropdown#that
 	* @type object
 	*/
-	var that = this,
-		conf = that.conf;
+	var that = this;
+
+	conf = ch.clon(conf);
+	
+	conf.reposition = ch.utils.hasOwn(conf, "reposition") ? conf.reposition : true;
+	
+	that.conf = conf;
+
 /**
-* Inheritance
+*	Inheritance
 */
 
-	that = ch.uiobject.call(that);
+	that = ch.navs.call(that);
 	that.parent = ch.clon(that);
 
 /**
-* Private Members
+*  Private Members
 */
 
-	/**
-	* Creates a 'cone', is a visual asset for floats.
-	* @private
-	* @function
-	* @deprecated
-	* @name ch.Floats#createCone
-	*/
-
-	/**
-	* Creates close button.
-	* @private
-	* @function
-	* @deprecated
-	* @name ch.Floats#createClose
-	*/
-
-	/**
-	* Closable behavior.
-	* @private
-	* @function
-	* @name ch.Floats-closable
-	*/
-	// TODO: Create "closable" interface
-	var closable = (function () {
-		/**
-		* Returns any if the component closes automatic. 
-		* @public
-		* @function
-		* @methodOf ch.Floats#closabe
-		* @exampleDescription to get the height
-		* @example
-		* widget.closable() // true | false | "button"
-		* @returns boolean | string
-		*/
-		that["public"].closable = function () {
-			return that.closable;
-		};
-
-		
-		return function () {
-			
-			// Closable Off: don't anything
-			if (!that.closable) { return; }
-
-			// Closable On
-
-			if (ch.utils.hasOwn(conf, "closeButton") && conf.closeButton || ch.utils.hasOwn(conf, "event") && conf.event === "click") {
-				// Append close buttons	
-				// It will close with close button
-				that.$container
-					.prepend("<a class=\"ch-close\" style=\"z-index:" + (ch.utils.zIndex += 1) + "\">×</a>")
-					.bind("click", function (event) {
-						if ($(event.target || event.srcElement).hasClass("ch-close")) { 
-							that.innerHide(event);
-						}
-					});
-			}
-
-			// It will close only with close button
-			if (that.closable === "button") {
-				return;
-			}
-
-			// Default Closable behavior
-			// It will close with click on document, too
-			that.on("show", function () {
-				ch.utils.document.one("click", that.innerHide);
-			});
-
-			// Stop event propatation, if click container.
-			that.$container.bind("click", function (event) {
-				event.stopPropagation();
-			});
-
-			// and ESC key support
-			ch.utils.document.bind(ch.events.KEY.ESC, function () {
-				that.innerHide();
-			});
-		};
-
-	})();
 
 /**
-* Protected Members
+*  Protected Members
 */
 	/**
-	* Flag that indicates if the float is active and rendered on the DOM tree.
+	* The component's trigger.
 	* @protected
-	* @name ch.Floats#active
-	* @type boolean
-	*/
-	that.active = false;
-
-	/**
-	* It sets the hablity of auto close the component or indicate who closes the component.
-	* @protected
-	* @function
-	* @name ch.Floats#closable
-	* @type boolean | string
-	*/
-	that.closable = ch.utils.hasOwn(conf, "closable") ? conf.closable: true;
-
-	/**
-	* Content configuration property.
-	* @protected
-	* @name ch.Floats#source
-	* @type string
-	*/
-	that.source = conf.content || conf.msg || conf.ajax || that.element.href || that.$element.parents("form").attr("action");
-
-	/**
-	* Inner function that resolves the component's layout and returns a static reference.
-	* @protected
-	* @name ch.Floats#$container
+	* @name ch.Dropdown#$trigger
 	* @type jQuery
 	*/
-	that.$container = (function () { // Create Layout
+	that.$trigger = (function () {
 		
-		// Final jQuery Object
-		var $container,
+		var $el = that.$trigger;
 		
-		// Component with close button and keyboard binding for close
-		//	closable = ch.utils.hasOwn(conf, "closeButton") && conf.closeButton,
+		if (!that.$element.hasClass("secondary") || !that.$element.hasClass("ch-dropdown-skin")) { $el.addClass("ch-btn-skin ch-btn-small"); }
 		
-		// HTML Div Element with role for WAI-ARIA
-			container = ["<div role=\"" + conf.aria.role + "\""];
-			
-		// ID for WAI-ARIA
-		if (ch.utils.hasOwn(conf.aria, "identifier")) {
-			
-			// Generated ID using component name and its instance order
-			var id = "ch-" + that.type + "-" + (ch.utils.hasOwn(ch.instances, that.type) ? ch.instances[that.type].length + 1 : "1");
-			
-			// Add ID to container element
-			container.push(" id=\"" + id + "\"");
-			
-			// Add aria attribute to trigger element
-			that.$element.attr(conf.aria.identifier, id);
-		}
+		return $el;
 		
-		// Classname with component type and extra classes from conf.classes
-		container.push(" class=\"ch-hide ch-" + that.type + (ch.utils.hasOwn(conf, "classes") ? " " + conf.classes : "") + "\"");
-		
-		// Z-index
-		container.push(" style=\"z-index:" + (ch.utils.zIndex += 1) + ";");
-		
-		// Width
-		if (ch.utils.hasOwn(conf, "width")) {
-			container.push("width:" + conf.width + ((typeof conf.width === "number") ? "px;" : ";"));
-		}
-		
-		// Height
-		if (ch.utils.hasOwn(conf, "height")) {
-			container.push("height:" + conf.height + ((typeof conf.height === "number") ? "px;" : ";"));
-		}
-		
-		// Style and tag close
-		container.push("\">");
-		
-		// Create cone
-		if (ch.utils.html.hasClass("lt-ie8") && ch.utils.hasOwn(conf, "cone")) {
-			container.push("<div class=\"ch-" + that.type + "-cone\"></div>");
-		}
+	}());
 
-		// Create close button
-		//if (closable) { container.push("<div class=\"btn close\" style=\"z-index:" + (ch.utils.zIndex += 1) + "\"></div>"); }
+	/**
+	* The component's content.
+	* @protected
+	* @name ch.Dropdown#$content
+	* @type jQuery
+	*/
+	that.$content = (function () {
 		
-		// Tag close
-		container.push("</div>");
+		// jQuery Object
+		var $content = that.$content
+		// Prevent click on content (except links)
+			.bind("click", function(event) {
+				if ((event.target || event.srcElement).tagName === "A") {
+					that.innerHide();
+				}
+				event.stopPropagation();
+			})
+		// WAI-ARIA properties
+			.attr({ "role": "menu", "aria-hidden": "true" });
 		
-		// jQuery Object generated from string
-		$container = $(container.join(""));
+		// WAI-ARIA for options into content
+		$content.children("a").attr("role", "menuitem");
 
-		// Create cone
-		if (ch.utils.hasOwn(conf, "cone")) { $container.addClass("ch-cone"); }
+		// Position
+		that.position = ch.positioner({
+			"element": $content,
+			"context": that.$trigger,
+			"points": (conf.points || "lt lb"),
+			"offset": "0 -1",
+			"reposition": conf.reposition
+		});
 		
-		// Close behavior bindings
-		/*if (closable) {
-			// Close button event delegation
-			$container.bind("click", function (event) {
-				if ($(event.target || event.srcElement).hasClass("close")) { that.innerHide(event); }
+		return $content;
+	}());
+
+
+	/**
+	* Dropdown options.
+	* @protected
+	* @jQuery Collection
+	* @name ch.Dropdown#$options
+	*/
+	that.$options = that.$content.find("a");
+
+
+	/**
+	* Keyboard events object.
+	* @protected
+	* @Object
+	* @name ch.Dropdown#shortcuts
+	*/
+	that.shortcuts = (function () {
+		var selected,
+			map = {},
+			arrow,
+			optionsLength = that.$options.length,
+			selectOption = function (key, event) {
+				// Validations
+				if (!that.active) { return; }
+
+				// Prevent default behaivor
+				that.prevent(event);
+				
+				// Sets the arrow that user press
+				arrow = key.type;
+
+				// Sets limits behaivor
+				if (selected === (arrow === "down_arrow" ? optionsLength - 1 : 0)) { return; }
+
+				// Unselects current option
+				that.$options[selected].blur();
+
+				if (arrow === "down_arrow") { selected += 1; } else { selected -= 1; }
+
+				// Selects new current option
+				that.$options[selected].focus();
+			};
+
+		return function () {
+			// Keyboard support initialize
+			selected = 0;
+
+			// Item selected by mouseover
+			$.each(that.$options, function (i, e) {
+				$(e).bind("mouseenter", function () {
+					that.$options[selected = i].focus();
+				});
 			});
 			
-			// ESC key support
-			ch.utils.document.bind(ch.events.KEY.ESC, function (event) { that.innerHide(event); });
-		}*/
-		
-		// Efects configuration
-		conf.fx = ch.utils.hasOwn(conf, "fx") ? conf.fx : true;
-
-		// Position component configuration
-		conf.position = conf.position || {};
-		conf.position.element = $container;
-		conf.position.reposition = ch.utils.hasOwn(conf, "reposition") ? conf.reposition : true;
-
-		// Initialize positioner component
-		that.position = ch.positioner(conf.position);
-
-		// Return the entire Layout
-		return $container;
-	})();
+			// Creates keyboard shortcuts map and binding events
+			map["click " + ch.events.KEY.ESC] = function () { that.innerHide(); };
+			map[ch.events.KEY.UP_ARROW + " " +ch.events.KEY.DOWN_ARROW] = selectOption;
+			ch.utils.document.on(map);
+		}
+	}());
 
 	/**
-	* Inner reference to content container. Here is where the content will be added.
-	* @protected
-	* @name ch.Floats#$content
-	* @type jQuery
-	* @see ch.Object#content
-	*/
-	that.$content = $("<div class=\"ch-" + that.type + "-content\">").appendTo(that.$container);
-
-	/**
-	* This callback is triggered when async data is loaded into component's content, when ajax content comes back.
+	* Shows component's content.
 	* @protected
 	* @function
-	* @name ch.Floats#contentCallback
-	* @returns itself
-	*/
-	that["public"].on("contentLoad", function (event, context) {
-		that.$content.html(that.staticContent);
-
-		if (ch.utils.hasOwn(conf, "onContentLoad")) {
-			conf.onContentLoad.call(context, that.staticContent);
-		}
-
-		that.position("refresh");
-	});
-
-	/**
-	* This callback is triggered when async request fails.
-	* @protected
-	* @name ch.Floats#contentError
-	* @function
-	* @returns {this}
-	*/
-	that["public"].on("contentError", function (event, data) {
-
-		that.$content.html(that.staticContent);
-
-		// Get the original that.source
-		var originalSource = that.source;
-
-		if (ch.utils.hasOwn(conf, "onContentError")) {
-			conf.onContentError.call(data.context, data.jqXHR, data.textStatus, data.errorThrown);
-		}
-
-		// Reset content configuration
-		that.source = originalSource;
-		that.staticContent = undefined;
-
-		if (ch.utils.hasOwn(conf, "position")) {
-		   ch.positioner(conf.position);
-		}
-
-	});
-
-	/**
-	* Inner show method. Attach the component layout to the DOM tree.
-	* @protected
-	* @function
-	* @name ch.Floats#innerShow
+	* @name ch.Dropdown#innerShow
 	* @returns itself
 	*/
 	that.innerShow = function (event) {
-		if (event) {
-			that.prevent(event);
-		}
-
-		// Avoid showing things that are already shown
-		if (that.active) return;
-
-		// Add layout to DOM tree
-		// Increment zIndex
-		that.$container
-			.appendTo("body")
-			.css("z-index", ch.utils.zIndex++);
-
-		// This make a reflow, but we need that the static content appends to DOM
-		// Get content
-		that.content();
-
-		/**
-		* Triggers when component is visible.
-		* @name ch.Floats#show
-		* @event
-		* @public
-		* @exampleDescription It change the content when the component was shown.
-		* @example
-		* widget.on("show",function () {
-		*	this.content("Some new content");
-		* });
-		* @see ch.Floats#show
-		*/
-		// Show component with effects
-		if (conf.fx) {
-			that.$container.fadeIn("fast", function () {
-				
-				that.$container.removeClass("ch-hide");
-				// new callbacks
-				that.trigger("show");
-				// Old callback system
-				that.callbacks('onShow');
-
-			});
-		} else {
-		// Show component without effects
-			that.$container.removeClass("ch-hide");
-			// new callbacks
-			that.trigger("show");
-			// Old callback system
-			that.callbacks('onShow');
-		}
-
-		that.position("refresh");
 		
-		that.active = true;
-
-		return that;
-	};
-
-	/**
-	* Inner hide method. Hides the component and detach it from DOM tree.
-	* @protected
-	* @function
-	* @name ch.Floats#innerHide
-	* @returns itself
-	*/
-	that.innerHide = function (event) {
+		// Stop propagation
+		that.prevent(event);
 		
-		if (event) {
-			event.stopPropagation();
-		}
-
-		if (!that.active) {
-			return;
-		}
-
-		var afterHide = function () {
-
-			that.active = false;
-
-		/**
-		* Triggers when component is not longer visible.
-		* @name ch.Floats#hide
-		* @event
-		* @public
-		* @exampleDescription When the component hides show other component.
-		* @example
-		* widget.on("hide",function () {
-		*	otherComponent.show();
-		* });
-		*/
-			// new callbacks
-			that.trigger("hide");
-			// Old callback system
-			that.callbacks('onHide');
-
-			that.$container.detach();
-
-		};
-
-		// Show component with effects
-		if (conf.fx) {
-			that.$container.fadeOut("fast", afterHide);
-
-		// Show component without effects
-		} else {
-			that.$container.addClass("ch-hide");
-			afterHide();
-		}
-
-		return that;
-
-	};
-
-	/**
-	* Getter and setter for size attributes on any float component.
-	* @protected
-	* @function
-	* @name ch.Floats#size
-	* @param {String} prop Property that will be setted or getted, like "width" or "height".
-	* @param {String} [data] Only for setter. It's the new value of defined property.
-	* @returns itself
-	*/
-	that.size = function (prop, data) {
-		// Getter
-		if (!data) { return that.conf[prop]; }
-
-		// Setter
-		that.conf[prop] = data;
-
-		// Container size
-		that.$container[prop](data);
-
+		// Z-index of content and updates aria values
+		that.$content.css("z-index", ch.utils.zIndex += 1).attr("aria-hidden", "false");
+		
+		// Z-index of trigger over content (secondary / skin dropdown)
+		if (that.$element.hasClass("ch-dropdown-skin")) { that.$trigger.css("z-index", ch.utils.zIndex += 1); }
+		
+		// Inheritance innerShow
+		that.parent.innerShow(event);
+		
 		// Refresh position
 		that.position("refresh");
 
-		return that["public"];
+		// Reset all dropdowns except itself
+		$.each(ch.instances.dropdown, function (i, e) { 
+			if (e.uid !== that.uid) { e.hide(); }
+		});
+
+		that.$options[0].focus();
+
+		return that;
 	};
 
+	/**
+	* Hides component's content.
+	* @protected
+	* @function
+	* @name ch.Dropdown#innerHide
+	* @returns itself
+	*/
+	that.innerHide = function (event) {
 
+		// Inheritance innerHide
+		that.parent.innerHide(event);
+		
+		// Updates aria values
+		that.$content.attr("aria-hidden", "true");
+
+		return that;
+	};
+	
 /**
-* Public Members
+*  Public Members
 */
-
+ 
 	/**
-	* @borrows ch.Object#on as ch.Floats#on
-	*/
-
-	/**
-	* @borrows ch.Object#once as ch.Floats#once
-	*/
-
-	/**
-	* @borrows ch.Object#off as ch.Floats#off
-	*/
-
-	//Documented again because the method works in this class
-	/**
-	* Sets and gets component content. To get the defined content just use the method without arguments, like 'widget.content()'. To define a new content pass an argument to it, like 'widget.content("new content")'. Use a valid URL to get content using AJAX. Use a CSS selector to get content from a DOM Element. Or just use a String with HTML code.
-	* @public
-	* @name ch.Uiobject#content
-	* @function
-	* @param {string} content Static content, DOM selector or URL. If argument is empty then will return the content.
-	* @exampleDescription Get the defined content
-	* @example
-	* widget.content();
-	* @exampleDescription Set static content
-	* @example
-	* widget.content("Some static content");
-	* @exampleDescription Set DOM content
-	* @example
-	* widget.content("#hiddenContent");
-	* @exampleDescription Set AJAX content
-	* @example
-	* widget.content("http://chico.com/some/content.html");
-	*/
-
-	/**
-	* Triggers the innerShow method, returns the public scope to keep method chaining and sets new content if receive a parameter.
-	* @public
-	* @function
-	* @name ch.Floats#show
-	* @returns itself
-	* @see ch.Floats#content
-	*/
-	that["public"].show = function (content) {
-		if (content !== undefined) { that["public"].content(content); }
-		that.innerShow();
-		return that["public"];
-	};
-
-	/**
-	* Triggers the innerHide method and returns the public scope to keep method chaining.
-	* @public
-	* @function
-	* @name ch.Floats#hide
-	* @returns itself
-	*/
-	that["public"].hide = function () {
-		that.innerHide();
-		return that["public"];
-	};
+	* @borrows ch.Object#uid as ch.Menu#uid
+	*/	
 	
 	/**
-	* Sets or gets positioning configuration. Use it without arguments to get actual configuration. Pass an argument to define a new positioning configuration.
-	* @public
-	* @function
-	* @name ch.Floats#position
-	* @exampleDescription Change component's position.
-	* @example
-	* widget.position({ 
-	*	  offset: "0 10",
-	*	  points: "lt lb"
-	* });
-	* @exampleDescription Refresh position.
-	* @example
-	* widget.position("refresh");
-	* @see ch.Floats#position
+	* @borrows ch.Object#element as ch.Menu#element
 	*/
-	// Create a custom Positioner object to update conf.position data of Float family
-	that["public"].position = function (o) {
-
-		var r = that["public"];
-
-		switch (typeof o) {
-		// Custom Setter: It updates conf.position data
-		case "object":
-			// New points
-			if (ch.utils.hasOwn(o, "points")) { conf.position.points = o.points; }
-
-			// New reposition
-			if (ch.utils.hasOwn(o, "reposition")) { conf.position.reposition = o.reposition; }
-
-			// New offset (splitted)
-			if (ch.utils.hasOwn(o, "offset")) { conf.position.offset = o.offset; }
-
-			// New context
-			if (ch.utils.hasOwn(o, "context")) { conf.position.context = o.context; }
-
-			// Original Positioner
-			that.position(conf.position);
-
-			break;
-
-		// Refresh
-		case "string":
-			that.position("refresh");
-			
-			break;
-
-		// Getter
-		case "undefined":
-		default:
-			r = that.position();
-			
-			break;
-		}
-
-		return r;
-	};
 
 	/**
-	* Sets or gets the width property of the component's layout. Use it without arguments to get the value. To set a new value pass an argument, could be a Number or CSS value like '300' or '300px'.
-	* @public
-	* @function
-	* @name ch.Floats#width
-	* @param {Number|String} [width]
-	* @returns itself
-	* @see ch.Zarasa#size
-	* @see ch.Floats#size
-	* @exampleDescription to set the width
-	* @example
-	* widget.width(700);
-	* @exampleDescription to get the width
-	* @example
-	* widget.width() // 700
+	* @borrows ch.Object#type as ch.Menu#type
 	*/
-	that["public"].width = function (data) {
-		return that.size("width", data) || that["public"];
-	};
-
-	/**
-	* Sets or gets the height of the Float element.
-	* @public
-	* @function
-	* @name ch.Floats#height
-	* @returns itself
-	* @see ch.Floats#size
-	* @exampleDescription to set the height
-	* @example
-	* widget.height(300);
-	* @exampleDescription to get the height
-	* @example
-	* widget.height // 300
-	*/
-	that["public"].height = function (data) {
-		return that.size("height", data) || that["public"];
-	};
-
-	/**
-	* Returns a Boolean if the component's core behavior is active. That means it will return 'true' if the component is on and it will return false otherwise.
-	* @public
-	* @function
-	* @name ch.Floats#isActive
-	* @returns boolean
-	*/
-	that["public"].isActive = function () {
-		return that.active;
-	};
 	
 	/**
-	* Triggers when the component is ready to use.
-	* @name ch.Floats#ready
+	* @borrows ch.Navs#show as ch.Dropdown#type
+	*/
+
+	/**
+	* @borrows ch.Navs#hide as ch.Dropdown#hide
+	*/
+	
+	/**
+	* Positioning configuration.
+	* @public
+	* @name ch.Dropdown#position
+	* @function
+	*/
+	that["public"].position = that.position;
+
+/** 
+*  Default event delegation
+*/			
+
+	ch.utils.avoidTextSelection(that.$trigger);
+
+	// Inits keyboards support
+	that.shortcuts();
+	
+	/**
+	* Triggers when the component is ready to use (Since 0.8.0).
+	* @name ch.Dropdown#ready
 	* @event
 	* @public
-	* @exampleDescription Following the first example, using <code>widget</code> as modal's instance controller:
+	* @since 0.8.0
+	* @exampleDescription Following the first example, using <code>widget</code> as dropdown's instance controller:
 	* @example
 	* widget.on("ready",function () {
 	*	this.show();
 	* });
 	*/
-	that.trigger("ready");
-
-	/**
-	*	Default behavior
-	*/
-
-	// Add Closable behavior
-	closable();
-
+	setTimeout(function(){ that.trigger("ready")}, 50);
 
 	return that;
-
 };
+
+ch.factory("dropdown");
 
 /**
 * Forms is a Controller of DOM's HTMLFormElement.
@@ -7701,610 +8317,238 @@ ch.layer = function (conf) {
 ch.factory("layer");
 
 /**
-* Datepicker lets you select dates.
-* @name DatePicker
-* @class DatePicker
-* @augments ch.Controls
-* @requires ch.Calendar
-* @see ch.Controls
-* @see ch.Calendar
+* Modal is a centered floated window with a dark gray dimmer background. Modal lets you handle its size, positioning and content.
+* @name Modal
+* @class Modal
+* @augments ch.Floats
 * @memberOf ch
 * @param {Object} [conf] Object with configuration properties.
-* @param {String} [conf.format] Sets the date format. By default is "DD/MM/YYYY".
-* @param {String} [conf.selected] Sets a date that should be selected by default. By default is the date of today.
-* @param {String} [conf.from] Set a maximum selectable date.
-* @param {String} [conf.to] Set a minimum selectable date.
-* @param {String} [conf.points] Points to be positioned. See Positioner component. By default is "ct cb".
-* @param {Array} [conf.monthsNames] By default is ["Enero", ... , "Diciembre"].
-* @param {Array} [conf.weekdays] By default is ["Dom", ... , "Sab"].
-* @param {Boolean} [conf.closable] Defines if floated component will be closed when a date is selected or not. By default it's "true".
+* @param {String} [conf.content] Sets content by: static content, DOM selector or URL. By default, the content is the href attribute value  or form's action attribute.
+* @param {Number || String} [conf.width] Sets width property of the component's layout. By default, the width is "500px".
+* @param {Number || String} [conf.height] Sets height property of the component's layout. By default, the height is elastic.
+* @param {Boolean} [conf.fx] Enable or disable UI effects. By default, the effects are enable.
+* @param {Boolean} [conf.cache] Enable or disable the content cache. By default, the cache is enable.
+* @param {String} [conf.closable] Sets the way (true, "button" or false) the Modal close. By default, the modal close true.
 * @returns itself
 * @factorized
-* @exampleDescription Create a new datePicker.
+* @see ch.Floats
+* @see ch.Tooltip
+* @see ch.Layer
+* @see ch.Zoom
+* @exampleDescription Create a new modal window triggered by an anchor with a class name 'example'.
 * @example
-* var widget = $(".example").datePicker();
-* @exampleDescription Create a new Date Picker with configuration.
+* var widget = $("a.example").modal();
+* @exampleDescription Create a new modal window triggered by form.
 * @example
-* var widget = $(".example").datePicker({
-*	 "format": "MM/DD/YYYY",
-*	 "selected": "2011/12/25",
-*	 "from": "2010/12/25",
-*	 "to": "2012/12/25",
-*	 "monthsNames": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-*	 "weekdays": ["Su", "Mo", "Tu", "We", "Thu", "Fr", "Sa"]
+* var widget = $("form").modal();
+* @exampleDescription Create a new modal window with configuration.
+* @example
+* var widget = $("a.example").modal({
+*     "content": "Some content here!",
+*     "width": "500px",
+*     "height": 350,
+*     "cache": false,
+*     "fx": false
 * });
+* @exampleDescription Now <code>widget</code> is a reference to the modal instance controller. You can set a new content by using <code>widget</code> like this:
+* @example
+* widget.content("http://content.com/new/content");
 */
 
-ch.datePicker = function (conf) {
+ch.modal = function (conf) {
 
 	/**
 	* Reference to a internal component instance, saves all the information and configuration properties.
 	* @private
-	* @name ch.DatePicker#that
+	* @name ch.Modal#that
 	* @type object
 	*/
 	var that = this;
-
 	conf = ch.clon(conf);
 
-	// Configuration by default
-	conf.format = conf.format || "DD/MM/YYYY";
-	conf.points = conf.points || "ct cb";
-	conf.closable = ch.utils.hasOwn(conf, "closable") ? conf.closable : true;
+	conf.classes = conf.classes || "ch-box";
+	conf.reposition = false;
 
+	// Closable configuration
+	conf.closeButton = ch.utils.hasOwn(conf, "closeButton") ? conf.closeButton : true;
+	conf.closable = ch.utils.hasOwn(conf, "closable") ? conf.closable : true;
+	
+	conf.aria = {};
+	
+	if (conf.closeButton) {
+		conf.aria.role = "dialog";
+		conf.aria.identifier = "aria-label";
+	} else {
+		conf.aria.role = "alert";
+	}
+	
 	that.conf = conf;
 
 /**
 *	Inheritance
 */
 
-	that = ch.controls.call(that);
+	that = ch.floats.call(that);
 	that.parent = ch.clon(that);
 
 /**
 *	Private Members
 */
-	
+
+	/**
+	* Reference to the dimmer object, the gray background element.
+	* @private
+	* @name ch.Modal#$dimmer
+	* @type jQuery
+	*/
+	var $dimmer = $("<div class=\"ch-dimmer\">");
+
+	// Set dimmer height for IE6
+	if (ch.utils.html.hasClass("ie6")) { $dimmer.height(parseInt(document.documentElement.clientHeight, 10) * 3); }
+
+	/**
+	* Reference to dimmer control, turn on/off the dimmer object.
+	* @private
+	* @name ch.Modal#dimmer
+	* @type object
+	*/
+	var dimmer = {
+		on: function () {
+
+			if (that.active) { return; }
+
+			$dimmer
+				.css("z-index", ch.utils.zIndex += 1)
+				.appendTo(ch.utils.body)
+				.fadeIn();
+
+			/*if (that.type === "modal") {
+				$dimmer.one("click", function (event) { that.innerHide(event) });
+			}*/
+			
+			// TODO: position dimmer with Positioner
+			if (!ch.features.fixed) {
+			 	ch.positioner({ element: $dimmer });
+			}
+
+			if (ch.utils.html.hasClass("ie6")) {
+				$("select, object").css("visibility", "hidden");
+			}
+		},
+		off: function () {
+			$dimmer.fadeOut("normal", function () {
+				$dimmer.detach();
+				if (ch.utils.html.hasClass("ie6")) {
+					$("select, object").css("visibility", "visible");
+				}
+			});
+		}
+	};
+
 /**
 *	Protected Members
 */
 
 	/**
-	* Pick a date in the Calendar and updates the input data.
+	* Inner show method. Attach the component's layout to the DOM tree and load defined content.
 	* @protected
+	* @name ch.Modal#innerShow
 	* @function
-	* @name ch.DatePicker#process
-	*/
-	that.process = function (event) {
-
-		// Day selection
-		if (event.target.nodeName !== "TD" || event.target.className.indexOf("ch-disabled") !== -1 || event.target.className.indexOf("ch-calendar-other") !== -1) { return; }
-
-		// Select the day and update input value with selected date
-		that.element.value = that.calendar.selectDay(event.target.innerHTML);
-
-		// Hide float
-		if (conf.closable) { that["float"].innerHide(); }
-
-		/**
-		* Callback function
-		* @public
-		* @name ch.DatePicker#select
-		* @event
-		*/
-		// Old callback system
-		that.callbacks("onSelect");
-		// New callback
-		that.trigger("select");
-
-	};
-
-	
-	/**
-	* Reference to the Calendar component instance.
-	* @protected
-	* @type Object
-	* @name ch.DatePicker#calendar
-	*/
-	that.calendar = $("<div>")
-		// Add functionality for date selection
-		.bind("click", function (event) { that.process(event); })
-		// Instance Calendar component
-		.calendar({
-			"format": conf.format,
-			"from": conf.from,
-			"to": conf.to,
-			"selected": conf.selected,
-			"monthsNames": conf.monthsNames,
-			"weekdays": conf.weekdays
-		});
-	
-	/**
-	* Reference to the Float component instanced.
-	* @protected
-	* @type Object
-	* @name ch.DatePicker#float
-	*/
-	that["float"] = that.createFloat({
-		"$element": $("<i role=\"button\" class=\"ch-datePicker-trigger ch-icon-calendar\"></i>").insertAfter(that.element),
-		"content": that.calendar.element,
-		"points": conf.points,
-		"offset": "0 5",
-		"aria": {
-			"role": "tooltip",
-			"identifier": "aria-describedby"
-		},
-		"closeButton": false,
-		"cone": true
-	});
-
-/**
-*  Public Members
-*/
-
-	/**
-	* @borrows ch.Object#uid as ch.Menu#uid
-	*/	
-	
-	/**
-	* @borrows ch.Object#element as ch.Menu#element
-	*/
-
-	/**
-	* @borrows ch.Object#type as ch.Menu#type
-	*/
-
-	/**
-	* Triggers the innerShow method and returns the public scope to keep method chaining.
-	* @public
-	* @name ch.DatePicker#show
-	* @function
-	* @returns itself
-	* @exampleDescription Following the first example, using <code>widget</code> as modal's instance controller:
-	* @example
-	* widget.show();
-	*/
-	that["public"].show = function () {
-		that["float"].innerShow();
-
-		return that["public"];
-	};
-
-	/**
-	* Triggers the innerHide method and returns the public scope to keep method chaining.
-	* @public
-	* @name ch.DatePicker#show
-	* @function
-	* @returns itself
-	* @exampleDescription Following the first example, using <code>widget</code> as modal's instance controller:
-	* @example
-	* widget.hide();
-	*/
-	that["public"].hide = function () {
-		that["float"].innerHide();
-
-		return that["public"];
-	};
-
-	/**
-	* Select a specific date or returns the selected date.
-	* @public
-	* @since 0.9
-	* @name ch.DatePicker#select
-	* @function
-	* @param {string} "YYYY/MM/DD".
-	* @return itself
-	*/
-	that["public"].select = function (date) {
-		// Select the day and update input value with selected date
-		// Setter
-		if (date) {
-			that.calendar.select(date);
-			that.element.value = that.calendar.select();
-
-			return that["public"];
-		}
-
-		// Getter
-		return that.calendar.select();
-	};
-
-	/**
-	* Returns date of today
-	* @public
-	* @since 0.9
-	* @name ch.DatePicker#today
-	* @function
-	* @return date
-	*/
-	that["public"].today = function () {
-		return that.calendar.today();
-	};
-
-	/**
-	* Move to the next month or year. If it isn't specified, it will be moved to next month.
-	* @public
-	* @function
-	* @name ch.DatePicker#next
-	* @param {String} time A string that allows specify if it should move to next month or year.
-	* @return itself
-	* @default Next month
-	*/
-	that["public"].next = function (time) {
-		that.calendar.next(time);		
-
-		return that["public"];
-	};
-
-	/**
-	* Move to the previous month or year. If it isn't specified, it will be moved to previous month.
-	* @public
-	* @function
-	* @name ch.DatePicker#prev
-	* @param {String} time A string that allows specify if it should move to previous month or year.
-	* @return itself
-	* @default Previous month
-	*/
-	that["public"].prev = function (time) {
-		that.calendar.prev(time);
-
-		return that["public"];
-	};
-
-	/**
-	* Reset the Date Picker to date of today
-	* @public
-	* @name ch.DatePicker#reset
-	* @function
-	* @return itself
-	*/
-	that["public"].reset = function () {
-		
-		// Delete input value
-		that.element.value = "";
-		
-		that.calendar.reset();
-
-		return that["public"];
-	};
-
-	/**
-	* Set a minimum selectable date.
-	* @public
-	* @name ch.DatePicker#from
-	* @function
-	* @param {string} "YYYY/MM/DD".
-	* @return itself
-	*/
-	that["public"].from = function (date) {
-		that.calendar.from(date);
-		
-		return that["public"];
-	};
-
-	/**
-	* Set a maximum selectable date.
-	* @public
-	* @name ch.DatePicker#to
-	* @function
-	* @param {string} "YYYY/MM/DD".
-	* @return itself
-	*/
-	that["public"].to = function (date) {
-		that.calendar.to(date);
-		
-		return that["public"];
-	};
-
-	
-/**
-*	Default event delegation
-*/
-	
-	// Change type of input to "text"
-	that.element.type = "text";
-
-	// Change value of input if there are a selected date
-	that.element.value = (conf.selected) ? that.calendar.select() : that.element.value;
-	
-	// Add show behaivor to float's trigger.
-	that["float"].$element
-		.css("cursor", "pointer")
-		.bind("click", function (event) { that["float"].innerShow(event); });
-
-	/**
-	* Triggers when the component is ready to use (Since 0.8.0).
-	* @name ch.DatePicker#ready
-	* @event
-	* @public
-	* @exampleDescription Following the first example, using <code>widget</code> as Date Picker's instance controller:
-	* @example
-	* widget.on("ready", function () {
-	* 	this.show();
-	* });
-	*/
-	setTimeout(function () { that.trigger("ready"); }, 50);
-
-	return that;
-};
-
-ch.factory("datePicker");
-
-/**
-* Dropdown shows a list of options for navigation.
-* @name Dropdown
-* @class Dropdown
-* @augments ch.Navs
-* @requires ch.Positioner
-* @see ch.Navs
-* @see ch.Positioner
-* @see ch.Expando
-* @see ch.TabNavigator
-* @memberOf ch
-* @param {Object} [conf] Object with configuration properties.
-* @param {Boolean} [conf.open] Shows the dropdown open when component was loaded. By default, the value is false.
-* @param {Boolean} [conf.icon] Shows an arrow as icon. By default, the value is true.
-* @param {String} [conf.points] Sets the points where component will be positioned, specified by configuration or centered by default: "cm cm".
-* @param {Boolean} [conf.fx] Enable or disable UI effects. By default, the effects are disable.
-* @returns itself
-* @factorized
-* @exampleDescription Create a new dropdown without configuration.
-* @example
-* var widget = $(".example").dropdown();
-* @exampleDescription Create a new dropdown with configuration.
-* @example
-* var widget = $(".example").dropdown({
-*     "open": true,
-*     "icon": false,
-*     "points": "lt lt",
-*     "fx": true
-* });
-*/
-
-ch.dropdown = function (conf) {
-
-	/**
-	* Reference to a internal component instance, saves all the information and configuration properties.
-	* @private
-	* @name ch.Dropdown#that
-	* @type object
-	*/
-	var that = this;
-
-	conf = ch.clon(conf);
-	
-	conf.reposition = ch.utils.hasOwn(conf, "reposition") ? conf.reposition : true;
-	
-	that.conf = conf;
-
-/**
-*	Inheritance
-*/
-
-	that = ch.navs.call(that);
-	that.parent = ch.clon(that);
-
-/**
-*  Private Members
-*/
-
-
-/**
-*  Protected Members
-*/
-	/**
-	* The component's trigger.
-	* @protected
-	* @name ch.Dropdown#$trigger
-	* @type jQuery
-	*/
-	that.$trigger = (function () {
-		
-		var $el = that.$trigger;
-		
-		if (!that.$element.hasClass("secondary") || !that.$element.hasClass("ch-dropdown-skin")) { $el.addClass("ch-btn-skin ch-btn-small"); }
-		
-		return $el;
-		
-	}());
-
-	/**
-	* The component's content.
-	* @protected
-	* @name ch.Dropdown#$content
-	* @type jQuery
-	*/
-	that.$content = (function () {
-		
-		// jQuery Object
-		var $content = that.$content
-		// Prevent click on content (except links)
-			.bind("click", function(event) {
-				if ((event.target || event.srcElement).tagName === "A") {
-					that.innerHide();
-				}
-				event.stopPropagation();
-			})
-		// WAI-ARIA properties
-			.attr({ "role": "menu", "aria-hidden": "true" });
-		
-		// WAI-ARIA for options into content
-		$content.children("a").attr("role", "menuitem");
-
-		// Position
-		that.position = ch.positioner({
-			"element": $content,
-			"context": that.$trigger,
-			"points": (conf.points || "lt lb"),
-			"offset": "0 -1",
-			"reposition": conf.reposition
-		});
-		
-		return $content;
-	}());
-
-
-	/**
-	* Dropdown options.
-	* @protected
-	* @jQuery Collection
-	* @name ch.Dropdown#$options
-	*/
-	that.$options = that.$content.find("a");
-
-
-	/**
-	* Keyboard events object.
-	* @protected
-	* @Object
-	* @name ch.Dropdown#shortcuts
-	*/
-	that.shortcuts = (function () {
-		var selected,
-			map = {},
-			arrow,
-			optionsLength = that.$options.length,
-			selectOption = function (key, event) {
-				// Validations
-				if (!that.active) { return; }
-
-				// Prevent default behaivor
-				that.prevent(event);
-				
-				// Sets the arrow that user press
-				arrow = key.type;
-
-				// Sets limits behaivor
-				if (selected === (arrow === "down_arrow" ? optionsLength - 1 : 0)) { return; }
-
-				// Unselects current option
-				that.$options[selected].blur();
-
-				if (arrow === "down_arrow") { selected += 1; } else { selected -= 1; }
-
-				// Selects new current option
-				that.$options[selected].focus();
-			};
-
-		return function () {
-			// Keyboard support initialize
-			selected = 0;
-
-			// Item selected by mouseover
-			$.each(that.$options, function (i, e) {
-				$(e).bind("mouseenter", function () {
-					that.$options[selected = i].focus();
-				});
-			});
-			
-			// Creates keyboard shortcuts map and binding events
-			map["click " + ch.events.KEY.ESC] = function () { that.innerHide(); };
-			map[ch.events.KEY.UP_ARROW + " " +ch.events.KEY.DOWN_ARROW] = selectOption;
-			ch.utils.document.on(map);
-		}
-	}());
-
-	/**
-	* Shows component's content.
-	* @protected
-	* @function
-	* @name ch.Dropdown#innerShow
 	* @returns itself
 	*/
 	that.innerShow = function (event) {
-		
-		// Stop propagation
-		that.prevent(event);
-		
-		// Z-index of content and updates aria values
-		that.$content.css("z-index", ch.utils.zIndex += 1).attr("aria-hidden", "false");
-		
-		// Z-index of trigger over content (secondary / skin dropdown)
-		if (that.$element.hasClass("ch-dropdown-skin")) { that.$trigger.css("z-index", ch.utils.zIndex += 1); }
-		
-		// Inheritance innerShow
-		that.parent.innerShow(event);
-		
-		// Refresh position
-		that.position("refresh");
-
-		// Reset all dropdowns except itself
-		$.each(ch.instances.dropdown, function (i, e) { 
-			if (e.uid !== that.uid) { e.hide(); }
-		});
-
-		that.$options[0].focus();
-
+		dimmer.on();
+		that.parent.innerShow(event);		
+		that.$element.blur();
 		return that;
 	};
 
 	/**
-	* Hides component's content.
+	* Inner hide method. Hides the component's layout and detach it from DOM tree.
 	* @protected
+	* @name ch.Modal#innerHide
 	* @function
-	* @name ch.Dropdown#innerHide
 	* @returns itself
 	*/
 	that.innerHide = function (event) {
-
-		// Inheritance innerHide
+		dimmer.off();
 		that.parent.innerHide(event);
-		
-		// Updates aria values
-		that.$content.attr("aria-hidden", "true");
-
 		return that;
 	};
-	
-/**
-*  Public Members
-*/
- 
+
 	/**
-	* @borrows ch.Object#uid as ch.Menu#uid
+	* Returns any if the component closes automatic. 
+	* @protected
+	* @name ch.Modal#closable
+	* @function
+	* @returns boolean
+	*/
+
+/**
+*	Public Members
+*/
+
+	/**
+	* @borrows ch.Object#uid as ch.Modal#uid
 	*/	
 	
 	/**
-	* @borrows ch.Object#element as ch.Menu#element
+	* @borrows ch.Object#element as ch.Modal#element
 	*/
 
 	/**
-	* @borrows ch.Object#type as ch.Menu#type
-	*/
-	
-	/**
-	* @borrows ch.Navs#show as ch.Dropdown#type
+	* @borrows ch.Object#type as ch.Modal#type
 	*/
 
 	/**
-	* @borrows ch.Navs#hide as ch.Dropdown#hide
+	* @borrows ch.Uiobject#content as ch.Modal#content
 	*/
-	
+
 	/**
-	* Positioning configuration.
-	* @public
-	* @name ch.Dropdown#position
-	* @function
+	* @borrows ch.Floats#isActive as ch.Modal#isActive
 	*/
-	that["public"].position = that.position;
 
-/** 
-*  Default event delegation
-*/			
-
-	ch.utils.avoidTextSelection(that.$trigger);
-
-	// Inits keyboards support
-	that.shortcuts();
-	
 	/**
-	* Triggers when the component is ready to use (Since 0.8.0).
-	* @name ch.Dropdown#ready
+	* @borrows ch.Floats#show as ch.Modal#show
+	*/
+
+	/**
+	* @borrows ch.Floats#hide as ch.Modal#hide
+	*/
+
+	/**
+	* @borrows ch.Floats#width as ch.Modal#width
+	*/
+
+	/**
+	* @borrows ch.Floats#height as ch.Modal#height
+	*/
+
+	/**
+	* @borrows ch.Floats#position as ch.Modal#position
+	*/
+
+	/**
+	* @borrows ch.Floats#closable as ch.Modal#closable
+	*/
+
+/**
+*	Default event delegation
+*/
+
+	if (that.element.tagName === "INPUT" && that.element.type === "submit") {
+		that.$element.parents("form").bind("submit", function (event) { that.innerShow(event); });
+	} else {
+		that.$element.bind("click", function (event) { that.innerShow(event); });
+	}
+
+	/**
+	* Triggers when the component is ready to use.
+	* @name ch.Modal#ready
 	* @event
 	* @public
-	* @since 0.8.0
-	* @exampleDescription Following the first example, using <code>widget</code> as dropdown's instance controller:
 	* @example
+	* // Following the first example, using <code>widget</code> as modal's instance controller:
 	* widget.on("ready",function () {
 	*	this.show();
 	* });
@@ -8314,7 +8558,55 @@ ch.dropdown = function (conf) {
 	return that;
 };
 
-ch.factory("dropdown");
+ch.factory("modal");
+
+
+/**
+* Transition lets you give feedback to the users when their have to wait for an action. 
+* @name Transition
+* @class Transition
+* @interface
+* @augments ch.Floats
+* @requires ch.Modal
+* @memberOf ch
+* @param {Object} [conf] Object with configuration properties.
+* @param {String} [conf.content] Sets content by: static content, DOM selector or URL. By default, the content is the href attribute value  or form's action attribute.
+* @param {Number || String} [conf.width] Sets width property of the component's layout. By default, the width is "500px".
+* @param {Number || String} [conf.height] Sets height property of the component's layout. By default, the height is elastic.
+* @param {Boolean} [conf.fx] Enable or disable UI effects. By default, the effects are enable.
+* @param {Boolean} [conf.cache] Enable or disable the content cache. By default, the cache is enable.
+* @param {String} [conf.closable] Sets the way (true, "button" or false) the Transition close. By default, the transition close true.
+* @returns itself
+* @factorized
+* @see ch.Tooltip
+* @see ch.Layer
+* @see ch.Zoom
+* @see ch.Modal
+* @see ch.Floats
+* @exampleDescription Create a transition.
+* @example
+* var widget = $("a.example").transition();
+* @exampleDescription Create a transition with configuration.
+* @example
+* var widget = $("a.example").transition({
+*     "content": "Some content here!",
+*     "width": "500px",
+*     "height": 350,
+*     "cache": false,
+*     "fx": false
+* });
+*/
+
+ch.extend("modal").as("transition", function (conf) {
+
+	conf.closable = false;
+	
+	conf.msg = conf.msg || conf.content || "Please wait...";
+	
+	conf.content = $("<div class=\"ch-loading\"></div><p>" + conf.msg + "</p>");
+	
+	return conf;
+});
 
 /**
 * Menu lets you organize the links by categories.
@@ -9248,6 +9540,211 @@ ch.extend("validation").as("custom", function(conf) {
 
 	return conf;
 });
+
+/**
+* Tooltip improves the native tooltips. Tooltip uses the 'alt' and 'title' attributes to grab its content.
+* @name Tooltip
+* @class Tooltip
+* @augments ch.Floats
+* @memberOf ch
+* @param {Object} [conf] Object with configuration properties.
+* @param {Boolean} [conf.fx] Enable or disable UI effects. By default, the effects are enable.
+* @param {String} [conf.points] Sets the points where component will be positioned, specified by configuration or centered by default: "cm cm".
+* @param {String} [conf.offset] Sets the offset in pixels that component will be displaced from original position determined by points. It's specified by configuration or zero by default: "0 0".
+* @returns itself
+* @factorized
+* @see ch.Modal
+* @see ch.Layer
+* @see ch.Zoom
+* @see ch.Flaots
+* @exampleDescription Create a tooltip.
+* @example
+* var widget = $(".some-element").tooltip();
+* @exampleDescription Create a new tooltip with configuration.
+* @example
+* var widget = $("a.example").tooltip({
+*     "fx": false,
+*     "offset": "10 -10",
+*     "points": "lt rt"
+* });
+* @exampleDescription
+* Now <code>widget</code> is a reference to the tooltip instance controller.
+* You can set a new content by using <code>widget</code> like this: 
+* @example
+* widget.width(300);
+*/
+
+ch.tooltip = function (conf) {
+
+	/**
+	* Reference to a internal component instance, saves all the information and configuration properties.
+	* @private
+	* @name ch.Tooltip#that
+	* @type object
+	*/
+	var that = this;
+
+	conf = ch.clon(conf);
+
+	conf.cone = true;
+	conf.content = that.element.title || that.element.alt;
+	
+	// Closable configuration
+	conf.closable = false;
+
+	conf.aria = {};
+	conf.aria.role = "tooltip";
+	conf.aria.identifier = "aria-describedby";
+
+	conf.position = {};
+	conf.position.context = that.$element;
+	conf.position.offset = conf.offset || "0 10";
+	conf.position.points = conf.points || "lt lb";
+
+	that.conf = conf;
+
+/**
+*	Inheritance
+*/
+
+	that = ch.floats.call(that);
+	that.parent = ch.clon(that);
+
+/**
+*	Private Members
+*/
+	/**
+	* The attribute that will provide the content. It can be "title" or "alt" attributes.
+	* @protected
+	* @name ch.Tooltip#attrReference
+	* @type string
+	*/
+	var attrReference = (that.element.title) ? "title" : "alt",
+
+	/**
+	* The original attribute content.
+	* @private
+	* @name ch.Tooltip#attrContent
+	* @type string
+	*/
+		attrContent = that.element.title || that.element.alt;
+
+/**
+*	Protected Members
+*/
+
+	/**
+	* Inner show method. Attach the component layout to the DOM tree.
+	* @protected
+	* @name ch.Tooltip#innerShow
+	* @function
+	* @returns itself
+	*/
+	that.innerShow = function (event) {
+		
+		// Reset all tooltip, except me
+		$.each(ch.instances.tooltip, function (i, e) {
+			if (e !== that["public"]) {
+				e.hide();
+			}
+		});
+		
+		// IE8 remembers the attribute even when is removed, so ... empty the attribute to fix the bug.
+		that.element[attrReference] = "";
+
+		that.parent.innerShow(event);
+
+		return that;
+	};
+
+	/**
+	* Inner hide method. Hides the component and detach it from DOM tree.
+	* @protected
+	* @name ch.Tooltip#innerHide
+	* @function
+	* @returns itself
+	*/
+	that.innerHide = function (event) {
+		that.element[attrReference] = attrContent;
+
+		that.parent.innerHide(event);
+
+		return that;
+	};
+
+/**
+*	Public Members
+*/
+
+	/**
+	* @borrows ch.Object#uid as ch.Tooltip#uid
+	*/	
+	
+	/**
+	* @borrows ch.Object#element as ch.Tooltip#element
+	*/
+
+	/**
+	* @borrows ch.Object#type as ch.Tooltip#type
+	*/
+
+	/**
+	* @borrows ch.Object#content as ch.Tooltip#content
+	*/
+
+	/**
+	* @borrows ch.Floats#isActive as ch.Tooltip#isActive
+	*/
+
+	/**
+	* @borrows ch.Floats#show as ch.Tooltip#show
+	*/
+
+	/**
+	* @borrows ch.Floats#hide as ch.Tooltip#hide
+	*/
+
+	/**
+	* @borrows ch.Floats#width as ch.Tooltip#width
+	*/
+
+	/**
+	* @borrows ch.Floats#height as ch.Tooltip#height
+	*/
+
+	/**
+	* @borrows ch.Floats#position as ch.Tooltip#position
+	*/
+
+	/**
+	* @borrows ch.Floats#closable as ch.Tooltip#closable
+	*/
+
+/**
+*	Default event delegation
+*/
+
+	that.$element
+		.bind("mouseenter", that.innerShow)
+		.bind("mouseleave", that.innerHide);
+	
+	/**
+	* Triggers when component is ready to use.
+	* @name ch.Tooltip#ready
+	* @event
+	* @public
+	* @example
+	* // Following the first example, using <code>widget</code> as tooltip's instance controller:
+	* widget.on("ready",function () {
+	*	this.show();
+	* });
+	*/
+	setTimeout(function(){ that.trigger("ready")}, 50);
+
+	return that;
+};
+
+ch.factory("tooltip");
 
 /**
 * Validation is a engine for HTML forms elements.
@@ -10392,6 +10889,64 @@ ch.zoom = function (conf) {
 ch.factory("zoom");
 
 /**
+* Required validates that a must be filled.
+* @name Required
+* @class Required
+* @interface
+* @augments ch.Controls
+* @augments ch.Validation
+* @memberOf ch
+* @param {Object} [conf] Object with configuration properties.
+* @param {String} [conf.message] Validation message.
+* @param {String} [conf.points] Sets the points where validation-bubble will be positioned.
+* @param {String} [conf.offset] Sets the offset in pixels that validation-bubble will be displaced from original position determined by points. It's specified by configuration or zero by default: "0 0".
+* @param {String} [conf.context] It's a reference to position the validation-bubble
+* @returns itself
+* @factorized
+* @see ch.Validation
+* @see ch.Custom
+* @see ch.Number
+* @see ch.String
+* @see ch.Validator
+* @see ch.Condition
+* @exampleDescription Simple validation
+* @example
+* $("input").required("This field is required");
+*/
+ch.extend("validation").as("required", function(conf) {
+
+	conf.condition = {
+		name: "required",
+		expr: function(e) {
+
+			var $e = $(e);
+
+			var tag = ( $e.hasClass("options") || $e.hasClass("ch-form-options")) ? "OPTIONS" : e.tagName;
+			switch (tag) {
+				case 'OPTIONS':
+					return $e.find('input:checked').length !== 0;
+				break;
+
+				case 'SELECT':
+					var val = $e.val();
+					return (val != "-1" && val != "");
+				break;
+
+				case 'INPUT':
+				case 'TEXTAREA':
+					return $.trim($e.val()).length !== 0;
+				break;
+			};
+		},
+		message: conf.msg || conf.message,
+		value: conf.value
+	};
+
+	return conf;
+
+});
+
+/**
 * Number validates a given number.
 * @name Number
 * @class Number
@@ -10748,561 +11303,6 @@ ch.extend("validation").as("maxLength", function (conf) {
 	return conf;
 
 });
-
-/**
-* Required validates that a must be filled.
-* @name Required
-* @class Required
-* @interface
-* @augments ch.Controls
-* @augments ch.Validation
-* @memberOf ch
-* @param {Object} [conf] Object with configuration properties.
-* @param {String} [conf.message] Validation message.
-* @param {String} [conf.points] Sets the points where validation-bubble will be positioned.
-* @param {String} [conf.offset] Sets the offset in pixels that validation-bubble will be displaced from original position determined by points. It's specified by configuration or zero by default: "0 0".
-* @param {String} [conf.context] It's a reference to position the validation-bubble
-* @returns itself
-* @factorized
-* @see ch.Validation
-* @see ch.Custom
-* @see ch.Number
-* @see ch.String
-* @see ch.Validator
-* @see ch.Condition
-* @exampleDescription Simple validation
-* @example
-* $("input").required("This field is required");
-*/
-ch.extend("validation").as("required", function(conf) {
-
-	conf.condition = {
-		name: "required",
-		expr: function(e) {
-
-			var $e = $(e);
-
-			var tag = ( $e.hasClass("options") || $e.hasClass("ch-form-options")) ? "OPTIONS" : e.tagName;
-			switch (tag) {
-				case 'OPTIONS':
-					return $e.find('input:checked').length !== 0;
-				break;
-
-				case 'SELECT':
-					var val = $e.val();
-					return (val != "-1" && val != "");
-				break;
-
-				case 'INPUT':
-				case 'TEXTAREA':
-					return $.trim($e.val()).length !== 0;
-				break;
-			};
-		},
-		message: conf.msg || conf.message,
-		value: conf.value
-	};
-
-	return conf;
-
-});
-
-/**
-* Modal is a centered floated window with a dark gray dimmer background. Modal lets you handle its size, positioning and content.
-* @name Modal
-* @class Modal
-* @augments ch.Floats
-* @memberOf ch
-* @param {Object} [conf] Object with configuration properties.
-* @param {String} [conf.content] Sets content by: static content, DOM selector or URL. By default, the content is the href attribute value  or form's action attribute.
-* @param {Number || String} [conf.width] Sets width property of the component's layout. By default, the width is "500px".
-* @param {Number || String} [conf.height] Sets height property of the component's layout. By default, the height is elastic.
-* @param {Boolean} [conf.fx] Enable or disable UI effects. By default, the effects are enable.
-* @param {Boolean} [conf.cache] Enable or disable the content cache. By default, the cache is enable.
-* @param {String} [conf.closable] Sets the way (true, "button" or false) the Modal close. By default, the modal close true.
-* @returns itself
-* @factorized
-* @see ch.Floats
-* @see ch.Tooltip
-* @see ch.Layer
-* @see ch.Zoom
-* @exampleDescription Create a new modal window triggered by an anchor with a class name 'example'.
-* @example
-* var widget = $("a.example").modal();
-* @exampleDescription Create a new modal window triggered by form.
-* @example
-* var widget = $("form").modal();
-* @exampleDescription Create a new modal window with configuration.
-* @example
-* var widget = $("a.example").modal({
-*     "content": "Some content here!",
-*     "width": "500px",
-*     "height": 350,
-*     "cache": false,
-*     "fx": false
-* });
-* @exampleDescription Now <code>widget</code> is a reference to the modal instance controller. You can set a new content by using <code>widget</code> like this:
-* @example
-* widget.content("http://content.com/new/content");
-*/
-
-ch.modal = function (conf) {
-
-	/**
-	* Reference to a internal component instance, saves all the information and configuration properties.
-	* @private
-	* @name ch.Modal#that
-	* @type object
-	*/
-	var that = this;
-	conf = ch.clon(conf);
-
-	conf.classes = conf.classes || "ch-box";
-	conf.reposition = false;
-
-	// Closable configuration
-	conf.closeButton = ch.utils.hasOwn(conf, "closeButton") ? conf.closeButton : true;
-	conf.closable = ch.utils.hasOwn(conf, "closable") ? conf.closable : true;
-	
-	conf.aria = {};
-	
-	if (conf.closeButton) {
-		conf.aria.role = "dialog";
-		conf.aria.identifier = "aria-label";
-	} else {
-		conf.aria.role = "alert";
-	}
-	
-	that.conf = conf;
-
-/**
-*	Inheritance
-*/
-
-	that = ch.floats.call(that);
-	that.parent = ch.clon(that);
-
-/**
-*	Private Members
-*/
-
-	/**
-	* Reference to the dimmer object, the gray background element.
-	* @private
-	* @name ch.Modal#$dimmer
-	* @type jQuery
-	*/
-	var $dimmer = $("<div class=\"ch-dimmer\">");
-
-	// Set dimmer height for IE6
-	if (ch.utils.html.hasClass("ie6")) { $dimmer.height(parseInt(document.documentElement.clientHeight, 10) * 3); }
-
-	/**
-	* Reference to dimmer control, turn on/off the dimmer object.
-	* @private
-	* @name ch.Modal#dimmer
-	* @type object
-	*/
-	var dimmer = {
-		on: function () {
-
-			if (that.active) { return; }
-
-			$dimmer
-				.css("z-index", ch.utils.zIndex += 1)
-				.appendTo(ch.utils.body)
-				.fadeIn();
-
-			/*if (that.type === "modal") {
-				$dimmer.one("click", function (event) { that.innerHide(event) });
-			}*/
-			
-			// TODO: position dimmer with Positioner
-			if (!ch.features.fixed) {
-			 	ch.positioner({ element: $dimmer });
-			}
-
-			if (ch.utils.html.hasClass("ie6")) {
-				$("select, object").css("visibility", "hidden");
-			}
-		},
-		off: function () {
-			$dimmer.fadeOut("normal", function () {
-				$dimmer.detach();
-				if (ch.utils.html.hasClass("ie6")) {
-					$("select, object").css("visibility", "visible");
-				}
-			});
-		}
-	};
-
-/**
-*	Protected Members
-*/
-
-	/**
-	* Inner show method. Attach the component's layout to the DOM tree and load defined content.
-	* @protected
-	* @name ch.Modal#innerShow
-	* @function
-	* @returns itself
-	*/
-	that.innerShow = function (event) {
-		dimmer.on();
-		that.parent.innerShow(event);		
-		that.$element.blur();
-		return that;
-	};
-
-	/**
-	* Inner hide method. Hides the component's layout and detach it from DOM tree.
-	* @protected
-	* @name ch.Modal#innerHide
-	* @function
-	* @returns itself
-	*/
-	that.innerHide = function (event) {
-		dimmer.off();
-		that.parent.innerHide(event);
-		return that;
-	};
-
-	/**
-	* Returns any if the component closes automatic. 
-	* @protected
-	* @name ch.Modal#closable
-	* @function
-	* @returns boolean
-	*/
-
-/**
-*	Public Members
-*/
-
-	/**
-	* @borrows ch.Object#uid as ch.Modal#uid
-	*/	
-	
-	/**
-	* @borrows ch.Object#element as ch.Modal#element
-	*/
-
-	/**
-	* @borrows ch.Object#type as ch.Modal#type
-	*/
-
-	/**
-	* @borrows ch.Uiobject#content as ch.Modal#content
-	*/
-
-	/**
-	* @borrows ch.Floats#isActive as ch.Modal#isActive
-	*/
-
-	/**
-	* @borrows ch.Floats#show as ch.Modal#show
-	*/
-
-	/**
-	* @borrows ch.Floats#hide as ch.Modal#hide
-	*/
-
-	/**
-	* @borrows ch.Floats#width as ch.Modal#width
-	*/
-
-	/**
-	* @borrows ch.Floats#height as ch.Modal#height
-	*/
-
-	/**
-	* @borrows ch.Floats#position as ch.Modal#position
-	*/
-
-	/**
-	* @borrows ch.Floats#closable as ch.Modal#closable
-	*/
-
-/**
-*	Default event delegation
-*/
-
-	if (that.element.tagName === "INPUT" && that.element.type === "submit") {
-		that.$element.parents("form").bind("submit", function (event) { that.innerShow(event); });
-	} else {
-		that.$element.bind("click", function (event) { that.innerShow(event); });
-	}
-
-	/**
-	* Triggers when the component is ready to use.
-	* @name ch.Modal#ready
-	* @event
-	* @public
-	* @example
-	* // Following the first example, using <code>widget</code> as modal's instance controller:
-	* widget.on("ready",function () {
-	*	this.show();
-	* });
-	*/
-	setTimeout(function(){ that.trigger("ready")}, 50);
-
-	return that;
-};
-
-ch.factory("modal");
-
-
-/**
-* Transition lets you give feedback to the users when their have to wait for an action. 
-* @name Transition
-* @class Transition
-* @interface
-* @augments ch.Floats
-* @requires ch.Modal
-* @memberOf ch
-* @param {Object} [conf] Object with configuration properties.
-* @param {String} [conf.content] Sets content by: static content, DOM selector or URL. By default, the content is the href attribute value  or form's action attribute.
-* @param {Number || String} [conf.width] Sets width property of the component's layout. By default, the width is "500px".
-* @param {Number || String} [conf.height] Sets height property of the component's layout. By default, the height is elastic.
-* @param {Boolean} [conf.fx] Enable or disable UI effects. By default, the effects are enable.
-* @param {Boolean} [conf.cache] Enable or disable the content cache. By default, the cache is enable.
-* @param {String} [conf.closable] Sets the way (true, "button" or false) the Transition close. By default, the transition close true.
-* @returns itself
-* @factorized
-* @see ch.Tooltip
-* @see ch.Layer
-* @see ch.Zoom
-* @see ch.Modal
-* @see ch.Floats
-* @exampleDescription Create a transition.
-* @example
-* var widget = $("a.example").transition();
-* @exampleDescription Create a transition with configuration.
-* @example
-* var widget = $("a.example").transition({
-*     "content": "Some content here!",
-*     "width": "500px",
-*     "height": 350,
-*     "cache": false,
-*     "fx": false
-* });
-*/
-
-ch.extend("modal").as("transition", function (conf) {
-
-	conf.closable = false;
-	
-	conf.msg = conf.msg || conf.content || "Please wait...";
-	
-	conf.content = $("<div class=\"ch-loading\"></div><p>" + conf.msg + "</p>");
-	
-	return conf;
-});
-
-/**
-* Tooltip improves the native tooltips. Tooltip uses the 'alt' and 'title' attributes to grab its content.
-* @name Tooltip
-* @class Tooltip
-* @augments ch.Floats
-* @memberOf ch
-* @param {Object} [conf] Object with configuration properties.
-* @param {Boolean} [conf.fx] Enable or disable UI effects. By default, the effects are enable.
-* @param {String} [conf.points] Sets the points where component will be positioned, specified by configuration or centered by default: "cm cm".
-* @param {String} [conf.offset] Sets the offset in pixels that component will be displaced from original position determined by points. It's specified by configuration or zero by default: "0 0".
-* @returns itself
-* @factorized
-* @see ch.Modal
-* @see ch.Layer
-* @see ch.Zoom
-* @see ch.Flaots
-* @exampleDescription Create a tooltip.
-* @example
-* var widget = $(".some-element").tooltip();
-* @exampleDescription Create a new tooltip with configuration.
-* @example
-* var widget = $("a.example").tooltip({
-*     "fx": false,
-*     "offset": "10 -10",
-*     "points": "lt rt"
-* });
-* @exampleDescription
-* Now <code>widget</code> is a reference to the tooltip instance controller.
-* You can set a new content by using <code>widget</code> like this: 
-* @example
-* widget.width(300);
-*/
-
-ch.tooltip = function (conf) {
-
-	/**
-	* Reference to a internal component instance, saves all the information and configuration properties.
-	* @private
-	* @name ch.Tooltip#that
-	* @type object
-	*/
-	var that = this;
-
-	conf = ch.clon(conf);
-
-	conf.cone = true;
-	conf.content = that.element.title || that.element.alt;
-	
-	// Closable configuration
-	conf.closable = false;
-
-	conf.aria = {};
-	conf.aria.role = "tooltip";
-	conf.aria.identifier = "aria-describedby";
-
-	conf.position = {};
-	conf.position.context = that.$element;
-	conf.position.offset = conf.offset || "0 10";
-	conf.position.points = conf.points || "lt lb";
-
-	that.conf = conf;
-
-/**
-*	Inheritance
-*/
-
-	that = ch.floats.call(that);
-	that.parent = ch.clon(that);
-
-/**
-*	Private Members
-*/
-	/**
-	* The attribute that will provide the content. It can be "title" or "alt" attributes.
-	* @protected
-	* @name ch.Tooltip#attrReference
-	* @type string
-	*/
-	var attrReference = (that.element.title) ? "title" : "alt",
-
-	/**
-	* The original attribute content.
-	* @private
-	* @name ch.Tooltip#attrContent
-	* @type string
-	*/
-		attrContent = that.element.title || that.element.alt;
-
-/**
-*	Protected Members
-*/
-
-	/**
-	* Inner show method. Attach the component layout to the DOM tree.
-	* @protected
-	* @name ch.Tooltip#innerShow
-	* @function
-	* @returns itself
-	*/
-	that.innerShow = function (event) {
-		
-		// Reset all tooltip, except me
-		$.each(ch.instances.tooltip, function (i, e) {
-			if (e !== that["public"]) {
-				e.hide();
-			}
-		});
-		
-		// IE8 remembers the attribute even when is removed, so ... empty the attribute to fix the bug.
-		that.element[attrReference] = "";
-
-		that.parent.innerShow(event);
-
-		return that;
-	};
-
-	/**
-	* Inner hide method. Hides the component and detach it from DOM tree.
-	* @protected
-	* @name ch.Tooltip#innerHide
-	* @function
-	* @returns itself
-	*/
-	that.innerHide = function (event) {
-		that.element[attrReference] = attrContent;
-
-		that.parent.innerHide(event);
-
-		return that;
-	};
-
-/**
-*	Public Members
-*/
-
-	/**
-	* @borrows ch.Object#uid as ch.Tooltip#uid
-	*/	
-	
-	/**
-	* @borrows ch.Object#element as ch.Tooltip#element
-	*/
-
-	/**
-	* @borrows ch.Object#type as ch.Tooltip#type
-	*/
-
-	/**
-	* @borrows ch.Object#content as ch.Tooltip#content
-	*/
-
-	/**
-	* @borrows ch.Floats#isActive as ch.Tooltip#isActive
-	*/
-
-	/**
-	* @borrows ch.Floats#show as ch.Tooltip#show
-	*/
-
-	/**
-	* @borrows ch.Floats#hide as ch.Tooltip#hide
-	*/
-
-	/**
-	* @borrows ch.Floats#width as ch.Tooltip#width
-	*/
-
-	/**
-	* @borrows ch.Floats#height as ch.Tooltip#height
-	*/
-
-	/**
-	* @borrows ch.Floats#position as ch.Tooltip#position
-	*/
-
-	/**
-	* @borrows ch.Floats#closable as ch.Tooltip#closable
-	*/
-
-/**
-*	Default event delegation
-*/
-
-	that.$element
-		.bind("mouseenter", that.innerShow)
-		.bind("mouseleave", that.innerHide);
-	
-	/**
-	* Triggers when component is ready to use.
-	* @name ch.Tooltip#ready
-	* @event
-	* @public
-	* @example
-	* // Following the first example, using <code>widget</code> as tooltip's instance controller:
-	* widget.on("ready",function () {
-	*	this.show();
-	* });
-	*/
-	setTimeout(function(){ that.trigger("ready")}, 50);
-
-	return that;
-};
-
-ch.factory("tooltip");
 
 ;ch.init();
 
