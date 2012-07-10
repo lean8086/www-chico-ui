@@ -68,7 +68,6 @@ section.main nav .ch-rightcolumn h4 {
 }
 
 section.main p {
-	color: #444;
 	margin-bottom: 0.4em;
 }
 
@@ -219,8 +218,6 @@ a.menu-selected:visited {
 
 #home-description input {
 	margin-left: 12px;
-	-webkit-box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.25);
-	box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.25);
 }
 
 #ninja-img {
