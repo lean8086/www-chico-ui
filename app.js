@@ -242,6 +242,15 @@ app.get("/suggest", function (req, res) {
 
 
 /*
+*  AppCache
+*/
+app.get("/chico.appcache", function (req, res, next) {
+	res.header("Content-Type", "text/cache-manifest");
+	res.sendfile(__dirname + "/chico.appcache");
+});
+
+
+/*
 *  Routing
 */
 
