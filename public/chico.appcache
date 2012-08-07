@@ -1,0 +1,44 @@
+CACHE MANIFEST
+# v0.11
+
+CACHE:
+
+# CSS
+versions/latest/chico-mesh-min.css
+versions/latest/chico.css
+src/css/v4.css
+
+# JS
+versions/latest/jquery.js
+versions/latest/chico.js
+src/js/scripts.js
+src/js/canvas.min.js
+
+# IMG
+src/assets/ninja.png
+src/assets/vertical_cloth.png
+src/assets/icons/auto-complete-100x100.png
+src/assets/icons/blink-100x100.png
+src/assets/icons/calendar-100x100.png
+src/assets/icons/carousel-100x100.png
+src/assets/icons/countdown-100x100.png
+src/assets/icons/css-library-100x100.png
+src/assets/icons/date-picker-100x100.png
+src/assets/icons/dropdown-100x100.png
+src/assets/icons/expando-100x100.png
+src/assets/icons/form-100x100.png
+src/assets/icons/layer-100x100.png
+src/assets/icons/menu-100x100.png
+src/assets/icons/modal-100x100.png
+src/assets/icons/positioner-100x100.png
+src/assets/icons/tab-navigator-100x100.png
+src/assets/icons/tooltip-100x100.png
+src/assets/icons/validation-100x100.png
+src/assets/icons/zoom-100x100.png
+src/assets/see.png
+src/assets/mesh.png
+src/assets/browsers.png
+src/assets/opensource.png
+
+NETWORK:
+*
