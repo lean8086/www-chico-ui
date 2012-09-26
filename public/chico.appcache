@@ -1,5 +1,6 @@
 CACHE MANIFEST
-# v0.11
+# v0.11.1
+# 2012/09/26-10:45
 
 CACHE:
 
@@ -8,6 +9,12 @@ versions/latest/chico-mesh-min.css
 versions/latest/chico.css
 src/css/v4.css
 
+#ICONS
+versions/assets/icons.woff
+versions/assets/icons.ttf
+versions/assets/icons.eot
+versions/assets/icons.svg
+
 # JS
 versions/latest/jquery.js
 versions/latest/chico.js
@@ -15,6 +22,9 @@ src/js/scripts.js
 src/js/canvas.min.js
 
 # IMG
+versions/assets/loading.gif
+versions/assets/loading-small.gif
+versions/assets/loading-big.gif
 src/assets/ninja.png
 src/assets/vertical_cloth.png
 src/assets/icons/auto-complete-100x100.png
