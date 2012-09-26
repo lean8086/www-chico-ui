@@ -218,6 +218,8 @@ a.menu-selected:visited {
 
 #home-description input {
 	margin-left: 12px;
+	-webkit-box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.25);
+	box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.25);
 }
 
 #ninja-img {
@@ -263,7 +265,8 @@ section.main #products h3 {
 }
 
 #products .ch-carousel a {
-	width: 102px;
+	width: 112px;
+	position: relative;
 }
 
 #products .ch-carousel-list span {
@@ -572,7 +575,7 @@ section.main h4.ch-form-subtitle { font-size: 13px; }
 }
 
 .tableForm .ch-form-actions {
-	margin-left: 72px; 
+	margin-left: 72px;
 }
 
 .tableForm textarea {
@@ -616,6 +619,10 @@ section.main h5.ch-expando-trigger {
 
 .api-members {
 	margin-bottom: 50px;
+}
+
+.api-members .ch-expando-trigger {
+	font-size: 1em;
 }
 
 .api-members .ch-expando-content {

@@ -40,13 +40,15 @@ p.updated
 		dt
 			a(href="#buttons") 5 Buttons
 		dt
-			a(href="#icons") 6 Icons
+			a(href="#loadings") 6 Loadings
 		dt
-			a(href="#message-boxes") 7 Message boxes
+			a(href="#icons") 7 Icons
 		dt
-			a(href="#pagination") 8 Pagination
+			a(href="#message-boxes") 8 Message boxes
 		dt
-			a(href="#tables") 9 Tables
+			a(href="#pagination") 9 Pagination
+		dt
+			a(href="#tables") 10 Tables
 
 h3#description Description
 p
@@ -71,12 +73,12 @@ table.ch-datagrid
 				h6 Heading 6
 			td
 				pre
-					| <h1>Heading 1</h1>
-					| <h2>Heading 2</h2>
-					| <h3>Heading 3</h3>
-					| <h4>Heading 4</h4>
-					| <h5>Heading 5</h5>
-					| <h6>Heading 6</h6>
+					| <h1>Heading 1</h1>
+					| <h2>Heading 2</h2>
+					| <h3>Heading 3</h3>
+					| <h4>Heading 4</h4>
+					| <h5>Heading 5</h5>
+					| <h6>Heading 6</h6>
 
 h4#paragraphs Paragraphs
 table.ch-datagrid
@@ -93,7 +95,7 @@ table.ch-datagrid
 					| Ut enim ad minim veniam, quis nostrud exercitation.
 			td
 				pre
-					|<p>Lorem ipsum dolor sit amet.</p>
+					| <p>Lorem ipsum dolor sit amet.</p>
 					| <p>Ut enim ad minim veniam, quis nostrud exercitation.</p>
 
 h3#lists Lists
@@ -115,9 +117,9 @@ table.ch-datagrid
 			td
 				pre
 					| <ul>
-					| 	<li>foo</li>
-					| 	<li>foobar</li>
-					| 	<li>bar</li>
+					|     <li>foo</li>
+					|     <li>foobar</li>
+					|     <li>bar</li>
 					| </ul>
 
 h4#unordered Unordered
@@ -136,9 +138,9 @@ table.ch-datagrid
 			td
 				pre
 					| <ul class="ch-list">
-					| 	<li>foo</li>
-					| 	<li>foobar</li>
-					| 	<li>bar</li>
+					|     <li>foo</li>
+					|     <li>foobar</li>
+					|     <li>bar</li>
 					| </ul>
 
 h4#oreded Ordered
@@ -157,9 +159,9 @@ table.ch-datagrid
 			td
 				pre
 					| <ol class="ch-list">
-					| 	<li>foo</li>
-					| 	<li>foobar</li>
-					| 	<li>bar</li>
+					|    <li>foo</li>
+					|    <li>foobar</li>
+					|    <li>bar</li>
 					| </ol>
 
 h3#boxes Boxes
@@ -258,6 +260,34 @@ table.ch-datagrid
 			td
 				pre
 					| <input class="ch-btn-skin ch-btn-small ch-btn-disabled" disabled="disabled" />
+
+
+h3#loadings Loadings
+table.ch-datagrid
+	thead
+		tr
+			th Example
+			th Code snippet
+	tbody
+		tr
+			td
+				span.ch-loading-small
+			td
+				pre
+					| <span class="ch-loading-small"></span>
+		tr
+			td
+				span.ch-loading
+			td
+				pre
+					| <span class="ch-loading"></span>
+		tr
+			td
+				span.ch-loading-big
+			td
+				pre
+					| <span class="ch-loading-big"></span>
+
 
 h3#icons Icons
 p
@@ -705,7 +735,7 @@ table.ch-datagrid
 			td
 				ul.ch-pagination
 					li
-						a(href="/1.html") Previous
+						a(href="/1.html", type="prev") Previous
 					li
 						a(href="/1.html") 1
 
@@ -714,31 +744,32 @@ table.ch-datagrid
 					li
 						a(href="/3.html") 3
 					li
-						a(href="/3.html") Next
+						a(href="/3.html", type="next") Next
 			td
 				pre
 					| <ul class="ch-pagination">
-					|   <li><a type="prev" href="/2.html">Previous</a></li>
-					|   <li><a href="/1.html">1</a></li>
-					|   <li><a href="/2.html">2</a></li>
-					|   <li class="ch-pagination-current">
-					|	   <a href="/3.html">3</a>
-					|   </li>
-					|   <li><a href="/4.html">4</a></li>
-					|   <li><a type="next" href="/4.html">Next</a></li>
+					|     <li><a type="prev" href="/2.html">Previous</a></li>
+					|     <li><a href="/1.html">1</a></li>
+					|     <li><a href="/2.html">2</a></li>
+					|     <li class="ch-pagination-current">
+					|         <a href="/3.html">3</a>
+					|     </li>
+					|     <li><a href="/4.html">4</a></li>
+					|     <li><a type="next" href="/4.html">Next</a></li>
 					| </ul>
 
 h3#tables Tables
+h4 Controls
 .ch-g2-5
 	.ch-leftcolumn
-		table.ch-datagrid
+		table.ch-datagrid-controls
 			thead
 				tr
 					th(scope="col")
 						input(type="checkbox")
 					th(scope="col") Code
 					th.ch-datagrid-selected(scope="col") Price
-						span.ch-datagrid-asc (ascendant)
+						i.ch-datagrid-asc
 			tbody
 				tr
 					td
@@ -787,35 +818,90 @@ h3#tables Tables
 							sup 00
 .ch-g3-5
 	pre
-		|<table class="ch-datagrid">
-		|	<thead>
-		|		<tr>
-		|			<th scope="col">
-		|				<input type="checkbox" />
-		|			</th>
-		|			<th scope="col">Code</th>
-		|			<th scope="col" class="ch-datagrid-selected">Price
-		|				<span class="ch-datagrid-asc">(asc)<span>
-		|			</th>
-		|		<tr>
-		|	</thead>
-		|	<tbody>
-		|		<tr>
-		|			<td><input type="checkbox" /></td>
-		|			<td>A001XXL</td>
-		|			<td><p>$100<sup>00<sup></p></td>
-		|		</tr>
-		|		<tr class="ch-datagrid-selected">
-		|			<td><input type="checkbox" checked /></td>
-		|			<td>A002XXL</td>
-		|			<td><p>$110<sup>00<sup></p></td>
-		|		</tr>
-		|		<tr>
-		|			<td><input type="checkbox" /></td>
-		|			<td>A003XXL</td>
-		|			<td><p>$100<sup>00<sup></p></td>
-		|		</tr>
-		|		...
-		|	</tbody>
-		|</table>
+		| <table class="ch-datagrid-controls">
+		|     <thead>
+		|         <tr>
+		|             <th scope="col">
+		|                 <input type="checkbox" />
+		|             </th>
+		|             <th scope="col">Code</th>
+		|             <th scope="col" class="ch-datagrid-selected">Price
+		|                 <i class="ch-datagrid-asc"><i>
+		|             </th>
+		|         <tr>
+		|     </thead>
+		|     <tbody>
+		|         <tr>
+		|             <td><input type="checkbox" /></td>
+		|             <td>A001XXL</td>
+		|             <td><p>$100<sup>00<sup></p></td>
+		|         </tr>
+		|         <tr class="ch-datagrid-selected">
+		|             <td><input type="checkbox" checked /></td>
+		|             <td>A002XXL</td>
+		|             <td><p>$110<sup>00<sup></p></td>
+		|         </tr>
+		|         <tr>
+		|             <td><input type="checkbox" /></td>
+		|             <td>A003XXL</td>
+		|             <td><p>$100<sup>00<sup></p></td>
+		|         </tr>
+		|	 </tbody>
+		| </table>
+.clearfix
+
+h4 Readonly
+.ch-g2-5
+	.ch-leftcolumn
+		table.ch-datagrid
+			thead
+				tr
+					th(scope="col") Code
+					th(scope="col") Price
+			tbody
+				tr
+					td
+						| A001XXL
+					td
+						p.ch-price
+							| $100
+							sup 00
+				tr
+					td
+						| A002XXL
+					td
+						p.ch-price
+							| $110
+							sup 00
+				tr
+					td
+						| A003XXL
+					td
+						p.ch-price
+							| $120
+							sup 00
+.ch-g3-5
+	pre
+		| <table class="ch-datagrid">
+		|     <thead>
+		|         <tr>
+		|             <th scope="col">Code</th>
+		|             <th scope="col">Price</th>
+		|         <tr>
+		|     </thead>
+		|     <tbody>
+		|         <tr>
+		|             <td>A001XXL</td>
+		|             <td><p>$100<sup>00<sup></p></td>
+		|         </tr>
+		|         <tr>
+		|             <td>A002XXL</td>
+		|             <td><p>$110<sup>00<sup></p></td>
+		|         </tr>
+		|         <tr>
+		|             <td>A003XXL</td>
+		|             <td><p>$100<sup>00<sup></p></td>
+		|         </tr>
+		|     </tbody>
+		| </table>
 .clearfix
