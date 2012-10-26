@@ -9,633 +9,6 @@
  * Team: Hernan Mammana, Leandro Linares, Guillermo Paz.
  */
 
-.ch-cone [class^="ch-"][class$="-content"]:after,
-.ch-cone [class^="ch-"][class$="-content"]:before {
-	/* border transparent bug on FF: http://stackoverflow.com/a/6225439 */
-	border: outset transparent;
-	content: " ";
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
-	display: block;
-}
-
-.ch-cone [class^="ch-"][class$="-content"]:after {
-	border-width: 8px;
-}
-
-.ch-cone [class^="ch-"][class$="-content"]:before {
-	border-width: 9px;
-}
-
-.ch-cone.ch-points-ctcb [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-cbct [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-ctcb [class^="ch-"][class$="-content"]:before,
-.ch-cone.ch-points-cbct [class^="ch-"][class$="-content"]:before {
-	left: 50%;
-}
-
-.ch-cone.ch-points-lmrm [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-rmlm [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-lmrm [class^="ch-"][class$="-content"]:before,
-.ch-cone.ch-points-rmlm [class^="ch-"][class$="-content"]:before {
-	top: 50%;
-}
-
-.ch-cone.ch-points-ctcb [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-ctcb [class^="ch-"][class$="-content"]:before,
-.ch-cone.ch-points-ltlb [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-ltlb [class^="ch-"][class$="-content"]:before,
-.ch-cone.ch-points-rtrb [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-rtrb [class^="ch-"][class$="-content"]:before {
-	bottom: 100%;
-	border-bottom-style: solid;
-}
-
-.ch-cone.ch-points-cbct [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-cbct [class^="ch-"][class$="-content"]:before,
-.ch-cone.ch-points-lblt [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-lblt [class^="ch-"][class$="-content"]:before,
-.ch-cone.ch-points-rbrt [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-rbrt [class^="ch-"][class$="-content"]:before {
-	top: 100%;
-	border-top-style: solid;
-}
-
-.ch-cone.ch-points-lmrm [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-lmrm [class^="ch-"][class$="-content"]:before,
-.ch-cone.ch-points-ltrt [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-ltrt [class^="ch-"][class$="-content"]:before,
-.ch-cone.ch-points-lbrb [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-lbrb [class^="ch-"][class$="-content"]:before {
-	right: 100%;
-	border-right-style: solid;
-}
-
-.ch-cone.ch-points-rmlm [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-rmlm [class^="ch-"][class$="-content"]:before,
-.ch-cone.ch-points-rtlt [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-rtlt [class^="ch-"][class$="-content"]:before,
-.ch-cone.ch-points-rblb [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-rblb [class^="ch-"][class$="-content"]:before {
-	left: 100%;
-	border-left-style: solid;
-}
-
-.ch-cone.ch-points-ltlb [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-lblt [class^="ch-"][class$="-content"]:after {
-	left: 8px;
-}
-
-.ch-cone.ch-points-ltlb [class^="ch-"][class$="-content"]:before,
-.ch-cone.ch-points-lblt [class^="ch-"][class$="-content"]:before {
-	left: 7px;
-}
-
-.ch-cone.ch-points-rtrb [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-rbrt [class^="ch-"][class$="-content"]:after {
-	right: 8px;
-}
-
-.ch-cone.ch-points-rtrb [class^="ch-"][class$="-content"]:before,
-.ch-cone.ch-points-rbrt [class^="ch-"][class$="-content"]:before {
-	right: 7px;
-}
-
-.ch-cone.ch-points-ltrt [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-rtlt [class^="ch-"][class$="-content"]:after {
-	top: 4px;
-}
-
-.ch-cone.ch-points-ltrt [class^="ch-"][class$="-content"]:before,
-.ch-cone.ch-points-rtlt [class^="ch-"][class$="-content"]:before {
-	top: 3px;
-}
-
-.ch-cone.ch-points-lbrb [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-rblb [class^="ch-"][class$="-content"]:after {
-	bottom: 4px;
-}
-
-.ch-cone.ch-points-lbrb [class^="ch-"][class$="-content"]:before,
-.ch-cone.ch-points-rblb [class^="ch-"][class$="-content"]:before {
-	bottom: 3px;
-}
-
-.ch-cone.ch-points-ctcb [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-cbct [class^="ch-"][class$="-content"]:after {
-	margin-left: -8px;
-}
-
-.ch-cone.ch-points-lmrm [class^="ch-"][class$="-content"]:after,
-.ch-cone.ch-points-rmlm [class^="ch-"][class$="-content"]:after {
-	margin-top: -8px;
-}
-
-.ch-cone.ch-points-ctcb [class^="ch-"][class$="-content"]:before,
-.ch-cone.ch-points-cbct [class^="ch-"][class$="-content"]:before {
-	margin-left: -9px;
-}
-
-.ch-cone.ch-points-lmrm [class^="ch-"][class$="-content"]:before,
-.ch-cone.ch-points-rmlm [class^="ch-"][class$="-content"]:before {
-	margin-top: -9px;
-}
-
-.ch-calendar {
-	position:relative;
-	display:inline-block;
-}
-
-.ch-calendar-month {
-	font-size: 12px;
-	text-align: center;
-	width: 240px;
-}
-
-.ch-calendar caption,
-.ch-calendar thead,
-.ch-calendar td {
-	border: 1px solid #EDEDED;
-}
-
-.ch-calendar caption {
-	background-color: #EEEEEE;
-	background: -webkit-linear-gradient(#FFFFFF, #EEEEEE);
-	background: -moz-linear-gradient(#FFFFFF, #EEEEEE);
-	background: -o-linear-gradient(#FFFFFF, #EEEEEE);
-	background: linear-gradient(#FFFFFF, #EEEEEE);
-	font-size: 13px;
-	line-height: 28px;
-	text-shadow: 0 1px 0 #FFFFFF;
-	border-bottom: none;
-}
-
-.lt-ie10 .ch-calendar caption {
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#EEEEEE');
-}
-
-.ch-calendar thead {
-	border-weight: 0 1px;
-}
-
-.ch-calendar th {
-	font-size: 11px;
-	font-weight: normal;
-	width: 14.28%;
-}
-
-.ch-calendar td {
-	cursor: default;
-	height: 26px;
-	line-height: 26px;
-	width: 14.28%;
-}
-
-.ch-calendar-today {
-	background-color: #FEFBD6;
-}
-
-.ch-calendar-other {
-	color: #C6C6C6;
-	cursor: default!important;
-	overflow: hidden;
-	text-indent: -99px;
-}
-
-.ch-calendar-disabled,
-.ch-calendar-disabled:hover {
-	background-color: #FFF;
-	color: #C6C6C6;
-	cursor: not-allowed;
-}
-
-
-.ch-calendar-selected,
-.ch-calendar-selected:hover,
-.ch-calendar-selected.ch-today {
-	background-color: #A9A9A9!important;
-	color: #FFF!important;
-	font-weight: bold!important;
-}
-
-.ch-calendar-prev,
-.ch-calendar-next {
-	cursor: pointer;
-	position: absolute;
-	padding: 0px 20px;
-	height: 2.5em;
-	font-size: .9em;
-}
-
-.ch-calendar-prev {
-	left: 0;
-}
-
-.ch-calendar-next {
-	right: 0;
-}
-
-.ch-calendar-prev:after,
-.ch-calendar-next:after {
-	font-family: icons;
-	position: absolute;
-	top: 7px;
-	color: #666666;
-	text-shadow: 0 1px #FFFFFF;
-}
-
-.ch-calendar-prev:after {
-	content: "\f053";
-	left: 15px;
-}
-
-.ch-calendar-next:after {
-	content: "\f054";
-	right: 15px;
-}
-
-/* IE */
-.ie9 .ch-calendar caption,
-.ie8 .ch-calendar caption {
-	margin:0;
-}
-
-.ie7 .ch-calendar {
-	display:inline;
-	zoom:1;
-}
-
-.ie7 .ch-calendar-month {
-	border: 1px solid #EDEDED;
-}
-
-.lt-ie8 .ch-calendar-prev span,
-.lt-ie8 .ch-calendar-next span {
-	background-image: url("../assets/shapes.png");
-	overflow: hidden;
-	display: block;
-	width: 4px;
-	height: 7px;
-	margin-top: 12px;
-}
-
-.lt-ie8 .ch-calendar-prev span{
-	background-position: 0 -48px;
-}
-
-.lt-ie8 .ch-calendar-next span{
-	background-position: -3px -48px;
-}
-
-/* Date Picker */
-.ch-datePicker {
-	background-image:none;
-	position:absolute;
-	z-index: 300;
-	background-color: #fff;
-	border: 1px solid #EDEDED;
-	-webkit-box-shadow: 2px 2px 2px rgba(100, 100, 100, .1);
-	box-shadow: 2px 2px 2px rgba(100, 100, 100, .1);
-	min-width: 240px;
-}
-
-.ch-datePicker-trigger {
-	margin-left: 5px;
-	display: inline-block;
-	cursor: pointer;
-}
-
-.ch-datePicker-content .ch-calendar {
-	display: block;
-}
-
-.ch-datePicker-content .ch-calendar caption {
-	-webkit-box-shadow: none;
-	box-shadow: none;
-}
-
-.ch-datePicker-content .ch-calendar caption,
-.ch-datePicker-content .ch-calendar thead {
-	border: none;
-}
-
-.ch-datePicker-content .ch-calendar caption {
-	border-bottom: 1px solid #EDEDED;
-	margin: 0;
-}
-
-.ch-datePicker-content .ch-calendar-prev span,
-.ch-datePicker-content .ch-calendar-next span {
-	margin-top: 10px;
-}
-
-.ch-datePicker-content .ch-calendar-day:hover {
-	background-color: #F7F7F7;
-	color: #333;
-	font-weight: normal;
-	cursor:pointer;
-}
-
-.ch-datePicker-content .ch-calendar-day.ch-calendar-disabled:hover {
-	background-color: white;
-	color: #C6C6C6;
-	cursor: not-allowed;
-}
-
-/* Cone */
-/* Bottom */
-/* ltlb, ctcb, rtrb */
-.ch-datePicker.ch-points-ltlb .ch-datePicker-content:after,
-.ch-datePicker.ch-points-ctcb .ch-datePicker-content:after,
-.ch-datePicker.ch-points-rtrb .ch-datePicker-content:after {
-	border-bottom-color: #FFFFFF;
-}
-.ch-datePicker.ch-points-ltlb .ch-datePicker-content:before,
-.ch-datePicker.ch-points-ctcb .ch-datePicker-content:before,
-.ch-datePicker.ch-points-rtrb .ch-datePicker-content:before {
-	border-bottom-color: #DDDDDD;
-}
-
-/* Top */
-/* lblt, cbct, rbrt */
-.ch-datePicker.ch-points-lblt .ch-datePicker-content:after,
-.ch-datePicker.ch-points-cbct .ch-datePicker-content:after,
-.ch-datePicker.ch-points-rbrt .ch-datePicker-content:after {
-	border-top-color: #FFFFFF;
-}
-.ch-datePicker.ch-points-lblt .ch-datePicker-content:before,
-.ch-datePicker.ch-points-cbct .ch-datePicker-content:before,
-.ch-datePicker.ch-points-rbrt .ch-datePicker-content:before {
-	border-top-color: #DDDDDD;
-}
-
-/* Right */
-/* ltrt, lmrm, lbrb */
-.ch-datePicker.ch-points-ltrt .ch-datePicker-content:after,
-.ch-datePicker.ch-points-lmrm .ch-datePicker-content:after,
-.ch-datePicker.ch-points-lbrb .ch-datePicker-content:after {
-	border-right-color: #FFFFFF;
-}
-.ch-datePicker.ch-points-ltrt .ch-datePicker-content:before,
-.ch-datePicker.ch-points-lmrm .ch-datePicker-content:before,
-.ch-datePicker.ch-points-lbrb .ch-datePicker-content:before {
-	border-right-color: #DDDDDD;
-}
-
-/* Left */
-/* rtlt, rmlm, rblb */
-.ch-datePicker.ch-points-rtlt .ch-datePicker-content:after,
-.ch-datePicker.ch-points-rmlm .ch-datePicker-content:after,
-.ch-datePicker.ch-points-rblb .ch-datePicker-content:after {
-	border-left-color: #FFFFFF;
-}
-
-.ch-datePicker.ch-points-rtlt .ch-datePicker-content:before,
-.ch-datePicker.ch-points-rmlm .ch-datePicker-content:before,
-.ch-datePicker.ch-points-rblb .ch-datePicker-content:before {
-	border-left-color: #DDDDDD;
-}
-
-
-.ie9 .ch-datePicker-trigger {
-	line-height: 1.2em;
-}
-
-.lt-ie8 .ch-datePicker-trigger {
-	position: relative;
-	top: -4px;
-}
-
-.lt-ie8 .ch-datePicker {
-	width: 240px;
-}
-
-.lt-ie9 .ch-datePicker-cone:before {
-	width: auto;
-	height: auto;
-}
-
-.lt-ie8 .ch-datePicker-cone {
-	background-image: url("../assets/shapes.png");
-	display: block;
-	position: absolute;
-	width: 16px;
-	height: 8px;
-}
-
-.lt-ie8 .ch-points-ltlb .ch-datePicker-cone,
-.lt-ie8 .ch-points-ctcb .ch-datePicker-cone,
-.lt-ie8 .ch-points-rtrb .ch-datePicker-cone {
-	top: -8px;
-	background-position: 0 -16px;
-}
-
-.lt-ie8 .ch-points-lblt .ch-datePicker-cone,
-.lt-ie8 .ch-points-cbct .ch-datePicker-cone,
-.lt-ie8 .ch-points-rbrt .ch-datePicker-cone {
-	bottom: -8px;
-	background-position: 0 -24px;
-}
-
-.lt-ie8 .ch-points-ltlb .ch-datePicker-cone,
-.lt-ie8 .ch-points-lblt .ch-datePicker-cone {
-	left: 8px;
-}
-
-.lt-ie8 .ch-points-ctcb .ch-datePicker-cone,
-.lt-ie8 .ch-points-cbct .ch-datePicker-cone {
-	left: 50%;
-	margin-left: -8px;
-}
-
-.lt-ie8 .ch-points-rtrb .ch-datePicker-cone,
-.lt-ie8 .ch-points-rbrt .ch-datePicker-cone {
-	right: 8px;
-}
-
-.lt-ie8 .ch-points-ltrt .ch-datePicker-cone,
-.lt-ie8 .ch-points-lmrm .ch-datePicker-cone,
-.lt-ie8 .ch-points-lbrb .ch-datePicker-cone,
-.lt-ie8 .ch-points-rtlt .ch-datePicker-cone,
-.lt-ie8 .ch-points-rmlm .ch-datePicker-cone,
-.lt-ie8 .ch-points-rblb .ch-datePicker-cone {
-	width: 8px;
-	height: 16px;
-}
-
-.lt-ie8 .ch-points-ltrt .ch-datePicker-cone,
-.lt-ie8 .ch-points-lmrm .ch-datePicker-cone,
-.lt-ie8 .ch-points-lbrb .ch-datePicker-cone {
-	left: -8px;
-	background-position: 0 -16px;
-}
-
-.lt-ie8 .ch-points-rtlt .ch-datePicker-cone,
-.lt-ie8 .ch-points-rmlm .ch-datePicker-cone,
-.lt-ie8 .ch-points-rblb .ch-datePicker-cone {
-	right: -8px;
-	background-position: -8px -16px;
-}
-
-.lt-ie8 .ch-points-ltrt .ch-datePicker-cone,
-.lt-ie8 .ch-points-rtlt .ch-datePicker-cone {
-	top: 4px;
-}
-
-.lt-ie8 .ch-points-lmrm .ch-datePicker-cone,
-.lt-ie8 .ch-points-rmlm .ch-datePicker-cone {
-	top: 50%;
-	margin-top: -8px;
-}
-
-.lt-ie8 .ch-points-lbrb .ch-datePicker-cone,
-.lt-ie8 .ch-points-rblb .ch-datePicker-cone  {
-	bottom: 4px;
-}
-
-.ch-carousel {
-	overflow: auto;
-	position: relative;
-	/* Enable hardware acceleration */
-	-webkit-transform: translateZ(0);
-	-moz-transform: translateZ(0);
-	-ms-transform: translateZ(0);
-	-o-transform: translateZ(0);
-	transform: translateZ(0);
-}
-
-.ch-carousel-mask {
-	overflow: hidden;
-	position: relative;
-}
-
-.ch-carousel-adaptive {
-	margin: 0 50px;
-}
-
-.ch-carousel ul {
-	overflow: hidden;
-	-webkit-transition: all .8s ease;
-	-moz-transition: all .8s ease;
-	-ms-transition: all .8s ease;
-	-o-transition: all .8s ease;
-	transition: all .8s ease;
-	width: -moz-max-content;
-}
-
-.ch-carousel ul.ch-carousel-nofx {
-	-webkit-transition: none;
-	-moz-transition: none;
-	-ms-transition: none;
-	-o-transition: none;
-	transition: none;
-}
-
-.ch-carousel-item {
-	display: inline-block;
-	float: left; /* Fixes the inline-block inner space between li elements */
-}
-
-.ch-carousel-loading {
-	background: transparent url('../assets/loading_small.gif') center center no-repeat;
-}
-
-.ch-carousel-prev,
-.ch-carousel-next {
-	cursor: pointer;
-	position: absolute;
-	z-index: 2;
-	width: 47px;
-	height: 80px;
-	font-size: 2em;
-	line-height: 3.3em;
-	color: #666666;
-	
-}
-
-.ch-carousel-prev {
-	left: 0;
-}
-
-.ch-carousel-next {
-	right: 0;
-}
-
-.ch-carousel-prev:after,
-.ch-carousel-next:after {
-	font-family: icons;
-	position: absolute;
-}
-
-.ch-carousel-prev:after {
-	content: "\f053";
-	left: 17px;
-}
-
-.ch-carousel-next:after {
-	content: "\f054";
-	right: 17px;
-}
-
-.ch-carousel-prev:hover,
-.ch-carousel-next:hover {
-	opacity: 0.7;
-}
-
-.lt-ie8 .ch-carousel-prev span,
-.lt-ie8 .ch-carousel-next span {
-	background-image: url('../assets/shapes.png');
-	display: block;
-	height: 18px;
-	margin: 30px 20px;
-	overflow: hidden;
-	/* Bubble event to wrapper */
-	pointer-events: none;
-	text-indent: -99px;
-	width: 11px;
-}
-
-.lt-ie8 .ch-carousel-prev span {
-	background-position: -5px -53px;
-}
-
-.lt-ie8 .ch-carousel-next span {
-	background-position: 0 -68px;
-}
-
-.ch-carousel-disabled {
-	display: none;
-}
-
-/* Pagination */
-.ch-carousel-pages {
-	font-size: 0;
-	line-height: 0;
-	margin: 0 auto;
-	text-align: center;
-	width: 100%;
-}
-
-.ch-carousel-pages span {
-	background-color: #d1d1d1;
-	border-radius: 100%;
-	-webkit-box-shadow: inset 1px 1px #888;
-	box-shadow: inset 1px 1px #888;
-	cursor: pointer;
-	display: inline-block;
-	height: 10px;
-	margin: 10px 5px;
-	overflow: hidden;
-	text-indent: -99px;
-	width: 10px;
-}
-
-.ch-carousel-pages .ch-carousel-selected {
-	background-color: #16232f;
-}
-
 /*
 * Reset
 * @based: Eric Meyer
@@ -828,11 +201,11 @@ hr {
 
 @font-face {
 	font-family: "icons";
-	src: url('../assets/icons.eot');
-	src: url('../assets/icons.eot?#iefix') format('embedded-opentype'),
-		 url('../assets/icons.woff') format('woff'),
-		 url('../assets/icons.ttf') format('truetype'),
-		 url('../assets/icons.svg#icons') format('svg');
+	src: url('../../assets/0.2/icons.eot');
+	src: url('../../assets/0.2/icons.eot?#iefix') format('embedded-opentype'),
+		 url('../../assets/0.2/icons.woff') format('woff'),
+		 url('../../assets/0.2/icons.ttf') format('truetype'),
+		 url('../../assets/0.2/icons.svg#icons') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -1430,7 +803,7 @@ input.ch-btn-tiny::-moz-focus-inner {
 .lt-ie8 .ch-box-information,
 .lt-ie8 .ch-box-ok {
 	position: static;
-	background-image: url("../assets/icons.png");
+	background-image: url("../../assets/0.2/icons.png");
 	background-repeat: no-repeat;
 }
 
@@ -1593,19 +966,19 @@ input.ch-btn-tiny::-moz-focus-inner {
 }
 
 .ch-loading-big {
-	background-image: url('../assets/loading-big.gif');
+	background-image: url('../../assets/0.2/loading-big.gif');
 	width: 36px;
 	height: 36px;
 }
 
 .ch-loading {
-	background-image: url('../assets/loading.gif');
+	background-image: url('../../assets/0.2/loading.gif');
 	width: 24px;
 	height: 24px;
 }
 
 .ch-loading-small {
-	background-image: url('../assets/loading-small.gif');
+	background-image: url('../../assets/0.2/loading-small.gif');
 	display: inline-block;
 	width: 16px;
 	height: 16px;
@@ -1754,11 +1127,11 @@ input.ch-btn-tiny::-moz-focus-inner {
 }
 
 .lt-ie8 .ch-datagrid th.ch-datagrid-selected .ch-datagrid-asc {
-	background: transparent url("../assets/shapes.png") 0 -51px no-repeat;
+	background: transparent url("../../assets/0.2/shapes.png") 0 -51px no-repeat;
 }
 
 .lt-ie8 .ch-datagrid th.ch-datagrid-selected .ch-datagrid-desc {
-	background: transparent url("../assets/shapes.png") 0 -48px no-repeat;
+	background: transparent url("../../assets/0.2/shapes.png") 0 -48px no-repeat;
 }
 
 /*
@@ -1796,6 +1169,427 @@ input.ch-btn-tiny::-moz-focus-inner {
 }
 
 
+.ch-calendar {
+	position:relative;
+	display:inline-block;
+}
+
+.ch-calendar-month {
+	font-size: 12px;
+	text-align: center;
+	width: 240px;
+}
+
+.ch-calendar caption,
+.ch-calendar thead,
+.ch-calendar td {
+	border: 1px solid #EDEDED;
+}
+
+.ch-calendar caption {
+	background-color: #EEEEEE;
+	background: -webkit-linear-gradient(#FFFFFF, #EEEEEE);
+	background: -moz-linear-gradient(#FFFFFF, #EEEEEE);
+	background: -o-linear-gradient(#FFFFFF, #EEEEEE);
+	background: linear-gradient(#FFFFFF, #EEEEEE);
+	font-size: 13px;
+	line-height: 28px;
+	text-shadow: 0 1px 0 #FFFFFF;
+	border-bottom: none;
+}
+
+.lt-ie10 .ch-calendar caption {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#EEEEEE');
+}
+
+.ch-calendar thead {
+	border-weight: 0 1px;
+}
+
+.ch-calendar th {
+	font-size: 11px;
+	font-weight: normal;
+	width: 14.28%;
+}
+
+.ch-calendar td {
+	cursor: default;
+	height: 26px;
+	line-height: 26px;
+	width: 14.28%;
+}
+
+.ch-calendar-today {
+	background-color: #FEFBD6;
+}
+
+.ch-calendar-other {
+	color: #C6C6C6;
+	cursor: default!important;
+	overflow: hidden;
+	text-indent: -99px;
+}
+
+.ch-calendar-disabled,
+.ch-calendar-disabled:hover {
+	background-color: #FFF;
+	color: #C6C6C6;
+	cursor: not-allowed;
+}
+
+
+.ch-calendar-selected,
+.ch-calendar-selected:hover,
+.ch-calendar-selected.ch-today {
+	background-color: #A9A9A9!important;
+	color: #FFF!important;
+	font-weight: bold!important;
+}
+
+.ch-calendar-prev,
+.ch-calendar-next {
+	cursor: pointer;
+	position: absolute;
+	padding: 0px 20px;
+	height: 2.5em;
+	font-size: .9em;
+}
+
+.ch-calendar-prev {
+	left: 0;
+}
+
+.ch-calendar-next {
+	right: 0;
+}
+
+.ch-calendar-prev:after,
+.ch-calendar-next:after {
+	font-family: icons;
+	position: absolute;
+	top: 7px;
+	color: #666666;
+	text-shadow: 0 1px #FFFFFF;
+}
+
+.ch-calendar-prev:after {
+	content: "\f053";
+	left: 15px;
+}
+
+.ch-calendar-next:after {
+	content: "\f054";
+	right: 15px;
+}
+
+/* IE */
+.ie9 .ch-calendar caption,
+.ie8 .ch-calendar caption {
+	margin:0;
+}
+
+.ie7 .ch-calendar {
+	display:inline;
+	zoom:1;
+}
+
+.ie7 .ch-calendar-month {
+	border: 1px solid #EDEDED;
+}
+
+.lt-ie8 .ch-calendar-prev span,
+.lt-ie8 .ch-calendar-next span {
+	background-image: url("../../assets/0.2/shapes.png");
+	overflow: hidden;
+	display: block;
+	width: 4px;
+	height: 7px;
+	margin-top: 12px;
+}
+
+.lt-ie8 .ch-calendar-prev span{
+	background-position: 0 -48px;
+}
+
+.lt-ie8 .ch-calendar-next span{
+	background-position: -3px -48px;
+}
+
+.ch-carousel {
+	overflow: auto;
+	position: relative;
+	/* Enable hardware acceleration */
+	-webkit-transform: translateZ(0);
+	-moz-transform: translateZ(0);
+	-ms-transform: translateZ(0);
+	-o-transform: translateZ(0);
+	transform: translateZ(0);
+}
+
+.ch-carousel-mask {
+	overflow: hidden;
+	position: relative;
+}
+
+.ch-carousel-adaptive {
+	margin: 0 50px;
+}
+
+.ch-carousel ul {
+	overflow: hidden;
+	-webkit-transition: all .8s ease;
+	-moz-transition: all .8s ease;
+	-ms-transition: all .8s ease;
+	-o-transition: all .8s ease;
+	transition: all .8s ease;
+	width: -moz-max-content;
+}
+
+.ch-carousel ul.ch-carousel-nofx {
+	-webkit-transition: none;
+	-moz-transition: none;
+	-ms-transition: none;
+	-o-transition: none;
+	transition: none;
+}
+
+.ch-carousel-item {
+	display: inline-block;
+	float: left; /* Fixes the inline-block inner space between li elements */
+}
+
+.ch-carousel-loading {
+	background: transparent url('../../assets/0.2/loading_small.gif') center center no-repeat;
+}
+
+.ch-carousel-prev,
+.ch-carousel-next {
+	cursor: pointer;
+	position: absolute;
+	z-index: 2;
+	width: 47px;
+	height: 80px;
+	font-size: 2em;
+	line-height: 3.3em;
+	color: #666666;
+
+}
+
+.ch-carousel-prev {
+	left: 0;
+}
+
+.ch-carousel-next {
+	right: 0;
+}
+
+.ch-carousel-prev:after,
+.ch-carousel-next:after {
+	font-family: icons;
+	position: absolute;
+}
+
+.ch-carousel-prev:after {
+	content: "\f053";
+	left: 17px;
+}
+
+.ch-carousel-next:after {
+	content: "\f054";
+	right: 17px;
+}
+
+.ch-carousel-prev:hover,
+.ch-carousel-next:hover {
+	opacity: 0.7;
+}
+
+.lt-ie8 .ch-carousel-prev span,
+.lt-ie8 .ch-carousel-next span {
+	background-image: url('../../assets/0.2/shapes.png');
+	display: block;
+	height: 18px;
+	margin: 30px 20px;
+	overflow: hidden;
+	/* Bubble event to wrapper */
+	pointer-events: none;
+	text-indent: -99px;
+	width: 11px;
+}
+
+.lt-ie8 .ch-carousel-prev span {
+	background-position: -5px -53px;
+}
+
+.lt-ie8 .ch-carousel-next span {
+	background-position: 0 -68px;
+}
+
+.ch-carousel-disabled {
+	display: none;
+}
+
+/* Pagination */
+.ch-carousel-pages {
+	font-size: 0;
+	line-height: 0;
+	margin: 0 auto;
+	text-align: center;
+	width: 100%;
+}
+
+.ch-carousel-pages span {
+	background-color: #d1d1d1;
+	border-radius: 100%;
+	-webkit-box-shadow: inset 1px 1px #888;
+	box-shadow: inset 1px 1px #888;
+	cursor: pointer;
+	display: inline-block;
+	height: 10px;
+	margin: 10px 5px;
+	overflow: hidden;
+	text-indent: -99px;
+	width: 10px;
+}
+
+.ch-carousel-pages .ch-carousel-selected {
+	background-color: #16232f;
+}
+
+.ch-cone [class^="ch-"][class$="-content"]:after,
+.ch-cone [class^="ch-"][class$="-content"]:before {
+	/* border transparent bug on FF: http://stackoverflow.com/a/6225439 */
+	border: outset transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	display: block;
+}
+
+.ch-cone [class^="ch-"][class$="-content"]:after {
+	border-width: 8px;
+}
+
+.ch-cone [class^="ch-"][class$="-content"]:before {
+	border-width: 9px;
+}
+
+.ch-cone.ch-points-ctcb [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-cbct [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-ctcb [class^="ch-"][class$="-content"]:before,
+.ch-cone.ch-points-cbct [class^="ch-"][class$="-content"]:before {
+	left: 50%;
+}
+
+.ch-cone.ch-points-lmrm [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-rmlm [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-lmrm [class^="ch-"][class$="-content"]:before,
+.ch-cone.ch-points-rmlm [class^="ch-"][class$="-content"]:before {
+	top: 50%;
+}
+
+.ch-cone.ch-points-ctcb [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-ctcb [class^="ch-"][class$="-content"]:before,
+.ch-cone.ch-points-ltlb [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-ltlb [class^="ch-"][class$="-content"]:before,
+.ch-cone.ch-points-rtrb [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-rtrb [class^="ch-"][class$="-content"]:before {
+	bottom: 100%;
+	border-bottom-style: solid;
+}
+
+.ch-cone.ch-points-cbct [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-cbct [class^="ch-"][class$="-content"]:before,
+.ch-cone.ch-points-lblt [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-lblt [class^="ch-"][class$="-content"]:before,
+.ch-cone.ch-points-rbrt [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-rbrt [class^="ch-"][class$="-content"]:before {
+	top: 100%;
+	border-top-style: solid;
+}
+
+.ch-cone.ch-points-lmrm [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-lmrm [class^="ch-"][class$="-content"]:before,
+.ch-cone.ch-points-ltrt [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-ltrt [class^="ch-"][class$="-content"]:before,
+.ch-cone.ch-points-lbrb [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-lbrb [class^="ch-"][class$="-content"]:before {
+	right: 100%;
+	border-right-style: solid;
+}
+
+.ch-cone.ch-points-rmlm [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-rmlm [class^="ch-"][class$="-content"]:before,
+.ch-cone.ch-points-rtlt [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-rtlt [class^="ch-"][class$="-content"]:before,
+.ch-cone.ch-points-rblb [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-rblb [class^="ch-"][class$="-content"]:before {
+	left: 100%;
+	border-left-style: solid;
+}
+
+.ch-cone.ch-points-ltlb [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-lblt [class^="ch-"][class$="-content"]:after {
+	left: 8px;
+}
+
+.ch-cone.ch-points-ltlb [class^="ch-"][class$="-content"]:before,
+.ch-cone.ch-points-lblt [class^="ch-"][class$="-content"]:before {
+	left: 7px;
+}
+
+.ch-cone.ch-points-rtrb [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-rbrt [class^="ch-"][class$="-content"]:after {
+	right: 8px;
+}
+
+.ch-cone.ch-points-rtrb [class^="ch-"][class$="-content"]:before,
+.ch-cone.ch-points-rbrt [class^="ch-"][class$="-content"]:before {
+	right: 7px;
+}
+
+.ch-cone.ch-points-ltrt [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-rtlt [class^="ch-"][class$="-content"]:after {
+	top: 4px;
+}
+
+.ch-cone.ch-points-ltrt [class^="ch-"][class$="-content"]:before,
+.ch-cone.ch-points-rtlt [class^="ch-"][class$="-content"]:before {
+	top: 3px;
+}
+
+.ch-cone.ch-points-lbrb [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-rblb [class^="ch-"][class$="-content"]:after {
+	bottom: 4px;
+}
+
+.ch-cone.ch-points-lbrb [class^="ch-"][class$="-content"]:before,
+.ch-cone.ch-points-rblb [class^="ch-"][class$="-content"]:before {
+	bottom: 3px;
+}
+
+.ch-cone.ch-points-ctcb [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-cbct [class^="ch-"][class$="-content"]:after {
+	margin-left: -8px;
+}
+
+.ch-cone.ch-points-lmrm [class^="ch-"][class$="-content"]:after,
+.ch-cone.ch-points-rmlm [class^="ch-"][class$="-content"]:after {
+	margin-top: -8px;
+}
+
+.ch-cone.ch-points-ctcb [class^="ch-"][class$="-content"]:before,
+.ch-cone.ch-points-cbct [class^="ch-"][class$="-content"]:before {
+	margin-left: -9px;
+}
+
+.ch-cone.ch-points-lmrm [class^="ch-"][class$="-content"]:before,
+.ch-cone.ch-points-rmlm [class^="ch-"][class$="-content"]:before {
+	margin-top: -9px;
+}
+
 .ch-autoComplete .ch-autoComplete-cone {
 	display: none !important;
 }
@@ -1825,7 +1619,7 @@ input.ch-btn-tiny::-moz-focus-inner {
 
 /* IE */
 .ch-autoComplete-loading {
-	background: url('../assets/loading-small.gif') no-repeat right center;
+	background: url('../../assets/0.2/loading-small.gif') no-repeat right center;
 	background-size: 16px;
 
 }
@@ -1835,183 +1629,211 @@ input.ch-btn-tiny::-moz-focus-inner {
 	zoom: 1;
 }
 
-/* Trigger */
-.ch-expando-trigger{
-	color: #0637B3;
-	cursor: pointer;
-	position: relative;
-	padding-left: 16px;
-}
-
-/* Active trigger */
-.ch-expando-trigger:active {
-	color: #00D;
-}
-
-/* Visited trigger */
-.ch-expando-trigger:visited{
-	color: #800080;
-}
-
-/* Hover trigger */
-.ch-expando-trigger:hover {
-	text-decoration: underline;
-}
-
-/* Trigger icon */
-.ch-expando-trigger:after {
-	font-family: icons;
-	content: "\f0da";
+/* Date Picker */
+.ch-datePicker {
+	background-image:none;
 	position:absolute;
-	top: 2px;
-	left: 5px;
-	color: #999999;
-	text-decoration: none;
+	z-index: 300;
+	background-color: #fff;
+	border: 1px solid #EDEDED;
+	-webkit-box-shadow: 2px 2px 2px rgba(100, 100, 100, .1);
+	box-shadow: 2px 2px 2px rgba(100, 100, 100, .1);
+	min-width: 240px;
 }
 
-/* Trigger icon on */
-.ch-expando-trigger-on:after {
-	content: "\f0d7";
-	left: 2px;
-}
-
-/* Content */
-.ch-expando-content {
-	margin: 5px 0 0 16px;
-}
-
-/* IE */
-.lt-ie7 .ch-expando-trigger {
-	font-size:13px;
-	text-decoration: underline;
-}
-
-.ie7 .ch-expando-trigger{
-	font-size:13px;
-}
-
-/* Trigger icon */
-.lt-ie8 .ch-expando-trigger .ch-expando-ico {
-	background-image: url('../assets/shapes.png');
-	display: block;
-	position:absolute;
-	overflow: hidden;
-	text-indent: 14px;
-	background-position: -10px -85px;
-	width: 6px;
-	height: 10px;
-	top: 3px;
-	left: 3px;
-}
-
-/* Trigger icon on */
-.lt-ie8 .ch-expando-trigger-on .ch-expando-ico,
-.lt-ie8 .ch-expando-trigger-on:hover .ch-expando-ico {
-	background-position: 0 -87px;
-	width: 10px;
-	height: 6px;
-	top: 5px;
-	left: 1px;
-}
-
-/* Menu */
-.ch-menu {
-	max-width: 300px;
-}
-
-.ch-menu,
-.ch-accordion {
-	-webkit-box-shadow: 0px 2px 2px rgba(100, 100, 100, .1);
-	box-shadow: 0px 2px 2px rgba(100, 100, 100, .1);
-}
-
-.ch-menu .ch-expando,
-.ch-accordion .ch-expando {
-	margin: 5px 0;
-}
-
-/* L1 and L2 items */
-.ch-bellows-trigger,
-.ch-menu .ch-expando-trigger,
-.ch-accordion .ch-expando-trigger,
-.ch-menu .ch-expando-content a {
+.ch-datePicker-trigger {
+	margin-left: 5px;
+	display: inline-block;
 	cursor: pointer;
-	text-decoration: none!important;
-	color: #333!important;
+}
+
+.ch-datePicker-content .ch-calendar {
 	display: block;
-	padding: 5px 10px;
 }
 
-/* L1 and L2 items hover */
-.ch-bellows-trigger:hover,
-.ch-menu .ch-expando-trigger:hover,
-.ch-menu .ch-expando-content a:hover,
-.ch-accordion .ch-expando-trigger:hover {
-	background-color: #FDF9D5;
-	border-radius: 5px;
+.ch-datePicker-content .ch-calendar caption {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.ch-datePicker-content .ch-calendar caption,
+.ch-datePicker-content .ch-calendar thead {
+	border: none;
+}
+
+.ch-datePicker-content .ch-calendar caption {
+	border-bottom: 1px solid #EDEDED;
+	margin: 0;
+}
+
+.ch-datePicker-content .ch-calendar-prev span,
+.ch-datePicker-content .ch-calendar-next span {
+	margin-top: 10px;
+}
+
+.ch-datePicker-content .ch-calendar-day:hover {
+	background-color: #F7F7F7;
+	color: #333;
+	font-weight: normal;
+	cursor:pointer;
+}
+
+.ch-datePicker-content .ch-calendar-day.ch-calendar-disabled:hover {
+	background-color: white;
+	color: #C6C6C6;
+	cursor: not-allowed;
+}
+
+/* Cone */
+/* Bottom */
+/* ltlb, ctcb, rtrb */
+.ch-datePicker.ch-points-ltlb .ch-datePicker-content:after,
+.ch-datePicker.ch-points-ctcb .ch-datePicker-content:after,
+.ch-datePicker.ch-points-rtrb .ch-datePicker-content:after {
+	border-bottom-color: #FFFFFF;
+}
+.ch-datePicker.ch-points-ltlb .ch-datePicker-content:before,
+.ch-datePicker.ch-points-ctcb .ch-datePicker-content:before,
+.ch-datePicker.ch-points-rtrb .ch-datePicker-content:before {
+	border-bottom-color: #DDDDDD;
+}
+
+/* Top */
+/* lblt, cbct, rbrt */
+.ch-datePicker.ch-points-lblt .ch-datePicker-content:after,
+.ch-datePicker.ch-points-cbct .ch-datePicker-content:after,
+.ch-datePicker.ch-points-rbrt .ch-datePicker-content:after {
+	border-top-color: #FFFFFF;
+}
+.ch-datePicker.ch-points-lblt .ch-datePicker-content:before,
+.ch-datePicker.ch-points-cbct .ch-datePicker-content:before,
+.ch-datePicker.ch-points-rbrt .ch-datePicker-content:before {
+	border-top-color: #DDDDDD;
+}
+
+/* Right */
+/* ltrt, lmrm, lbrb */
+.ch-datePicker.ch-points-ltrt .ch-datePicker-content:after,
+.ch-datePicker.ch-points-lmrm .ch-datePicker-content:after,
+.ch-datePicker.ch-points-lbrb .ch-datePicker-content:after {
+	border-right-color: #FFFFFF;
+}
+.ch-datePicker.ch-points-ltrt .ch-datePicker-content:before,
+.ch-datePicker.ch-points-lmrm .ch-datePicker-content:before,
+.ch-datePicker.ch-points-lbrb .ch-datePicker-content:before {
+	border-right-color: #DDDDDD;
+}
+
+/* Left */
+/* rtlt, rmlm, rblb */
+.ch-datePicker.ch-points-rtlt .ch-datePicker-content:after,
+.ch-datePicker.ch-points-rmlm .ch-datePicker-content:after,
+.ch-datePicker.ch-points-rblb .ch-datePicker-content:after {
+	border-left-color: #FFFFFF;
+}
+
+.ch-datePicker.ch-points-rtlt .ch-datePicker-content:before,
+.ch-datePicker.ch-points-rmlm .ch-datePicker-content:before,
+.ch-datePicker.ch-points-rblb .ch-datePicker-content:before {
+	border-left-color: #DDDDDD;
 }
 
 
-/* L1 items */
-.ch-bellows-trigger,
-.ch-menu .ch-expando-trigger,
-.ch-menu .ch-expando-content,
-.ch-accordion .ch-expando-trigger,
-.ch-accordion .ch-expando-content {
+.ie9 .ch-datePicker-trigger {
+	line-height: 1.2em;
+}
+
+.lt-ie8 .ch-datePicker-trigger {
 	position: relative;
+	top: -4px;
 }
 
-/* L1 items icon */
-.ch-menu .ch-expando-trigger:after,
-.ch-accordion .ch-expando-trigger:after {
+.lt-ie8 .ch-datePicker {
+	width: 240px;
+}
+
+.lt-ie9 .ch-datePicker-cone:before {
+	width: auto;
+	height: auto;
+}
+
+.lt-ie8 .ch-datePicker-cone {
+	background-image: url("../../assets/0.2/shapes.png");
+	display: block;
+	position: absolute;
+	width: 16px;
+	height: 8px;
+}
+
+.lt-ie8 .ch-points-ltlb .ch-datePicker-cone,
+.lt-ie8 .ch-points-ctcb .ch-datePicker-cone,
+.lt-ie8 .ch-points-rtrb .ch-datePicker-cone {
+	top: -8px;
+	background-position: 0 -16px;
+}
+
+.lt-ie8 .ch-points-lblt .ch-datePicker-cone,
+.lt-ie8 .ch-points-cbct .ch-datePicker-cone,
+.lt-ie8 .ch-points-rbrt .ch-datePicker-cone {
+	bottom: -8px;
+	background-position: 0 -24px;
+}
+
+.lt-ie8 .ch-points-ltlb .ch-datePicker-cone,
+.lt-ie8 .ch-points-lblt .ch-datePicker-cone {
+	left: 8px;
+}
+
+.lt-ie8 .ch-points-ctcb .ch-datePicker-cone,
+.lt-ie8 .ch-points-cbct .ch-datePicker-cone {
+	left: 50%;
+	margin-left: -8px;
+}
+
+.lt-ie8 .ch-points-rtrb .ch-datePicker-cone,
+.lt-ie8 .ch-points-rbrt .ch-datePicker-cone {
+	right: 8px;
+}
+
+.lt-ie8 .ch-points-ltrt .ch-datePicker-cone,
+.lt-ie8 .ch-points-lmrm .ch-datePicker-cone,
+.lt-ie8 .ch-points-lbrb .ch-datePicker-cone,
+.lt-ie8 .ch-points-rtlt .ch-datePicker-cone,
+.lt-ie8 .ch-points-rmlm .ch-datePicker-cone,
+.lt-ie8 .ch-points-rblb .ch-datePicker-cone {
+	width: 8px;
+	height: 16px;
+}
+
+.lt-ie8 .ch-points-ltrt .ch-datePicker-cone,
+.lt-ie8 .ch-points-lmrm .ch-datePicker-cone,
+.lt-ie8 .ch-points-lbrb .ch-datePicker-cone {
+	left: -8px;
+	background-position: 0 -16px;
+}
+
+.lt-ie8 .ch-points-rtlt .ch-datePicker-cone,
+.lt-ie8 .ch-points-rmlm .ch-datePicker-cone,
+.lt-ie8 .ch-points-rblb .ch-datePicker-cone {
+	right: -8px;
+	background-position: -8px -16px;
+}
+
+.lt-ie8 .ch-points-ltrt .ch-datePicker-cone,
+.lt-ie8 .ch-points-rtlt .ch-datePicker-cone {
+	top: 4px;
+}
+
+.lt-ie8 .ch-points-lmrm .ch-datePicker-cone,
+.lt-ie8 .ch-points-rmlm .ch-datePicker-cone {
 	top: 50%;
 	margin-top: -8px;
-	right: 10px;
-	left: auto;
 }
 
-/* L2 items list */
-.ch-menu .ch-expando-content,
-.ch-accordion .ch-expando-content {
-	margin: 0;
+.lt-ie8 .ch-points-lbrb .ch-datePicker-cone,
+.lt-ie8 .ch-points-rblb .ch-datePicker-cone  {
+	bottom: 4px;
 }
-
-/* L2 items */
-.ch-menu .ch-expando-content a {
-	padding-left: 20px;
-}
-
-/* Selected child */
-.ch-accordion .ch-expando-trigger-on,
-.ch-menu .ch-expando-trigger-on {
-	background-color: #F7F7F7;
-	border-radius: 5px;
-}
-
-/* IE */
-.lt-ie8 .ch-menu .ch-expando-trigger .ch-expando-ico,
-.lt-ie8 .ch-accordion .ch-expando-trigger .ch-expando-ico {
-	right: 5px;
-	top: 8px;
-	left: auto;
-}
-
-.lt-ie8 .ch-menu .ch-expando-trigger-on .ch-expando-ico,
-.lt-ie8 .ch-accordion .ch-expando-trigger-on .ch-expando-ico {
-	top: 10px;
-}
-
-/* L2 items list */
-.ch-menu .ch-expando-content,
-.ch-accordion .ch-expando-content{
-	margin: 0;
-}
-
-/* L2 items */
-.ch-menu .ch-expando-content a {
-	padding-left: 20px;
-}
-
 
 /* Wrapper */
 .ch-dropdown {
@@ -2203,7 +2025,7 @@ input.ch-btn-tiny::-moz-focus-inner {
 }
 
 .lt-ie8 .ch-dropdown-trigger .ch-dropdown-ico {
-	background: transparent url('../assets/shapes.png') 0 -51px no-repeat;
+	background: transparent url('../../assets/0.2/shapes.png') 0 -51px no-repeat;
 	display: block;
 	height: 4px;
 	position: absolute;
@@ -2213,6 +2035,633 @@ input.ch-btn-tiny::-moz-focus-inner {
 	text-indent: 7px;
 	overflow: hidden;
 }
+
+/* Trigger */
+.ch-expando-trigger{
+	color: #0637B3;
+	cursor: pointer;
+	position: relative;
+	padding-left: 16px;
+}
+
+/* Active trigger */
+.ch-expando-trigger:active {
+	color: #00D;
+}
+
+/* Visited trigger */
+.ch-expando-trigger:visited{
+	color: #800080;
+}
+
+/* Hover trigger */
+.ch-expando-trigger:hover {
+	text-decoration: underline;
+}
+
+/* Trigger icon */
+.ch-expando-trigger:after {
+	font-family: icons;
+	content: "\f0da";
+	position:absolute;
+	top: 2px;
+	left: 5px;
+	color: #999999;
+	text-decoration: none;
+}
+
+/* Trigger icon on */
+.ch-expando-trigger-on:after {
+	content: "\f0d7";
+	left: 2px;
+}
+
+/* Content */
+.ch-expando-content {
+	margin: 5px 0 0 16px;
+}
+
+/* IE */
+.lt-ie7 .ch-expando-trigger {
+	font-size:13px;
+	text-decoration: underline;
+}
+
+.ie7 .ch-expando-trigger{
+	font-size:13px;
+}
+
+/* Trigger icon */
+.lt-ie8 .ch-expando-trigger .ch-expando-ico {
+	background-image: url('../../assets/0.2/shapes.png');
+	display: block;
+	position:absolute;
+	overflow: hidden;
+	text-indent: 14px;
+	background-position: -10px -85px;
+	width: 6px;
+	height: 10px;
+	top: 3px;
+	left: 3px;
+}
+
+/* Trigger icon on */
+.lt-ie8 .ch-expando-trigger-on .ch-expando-ico,
+.lt-ie8 .ch-expando-trigger-on:hover .ch-expando-ico {
+	background-position: 0 -87px;
+	width: 10px;
+	height: 6px;
+	top: 5px;
+	left: 1px;
+}
+
+input[type="search"]{
+  -webkit-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Generic input & textarea */
+input,
+textarea,
+select[multiple],
+.ch-form-select-multiple {
+	border: 1px solid #CDCDCD;
+	font-size: 13px;
+	border-radius: 3px;
+	-webkit-box-shadow: inset 1px 1px 1px rgba(204, 204, 204, 0.3);
+	box-shadow: inset 1px 1px 1px rgba(204, 204, 204, 0.3);
+	padding: 6px;
+	margin: 5px 0;
+}
+
+input[type="file"],
+input[type="checkbox"],
+input[type="radio"] {
+	border:none;
+	padding:0;
+}
+
+input:focus,
+textarea:focus,
+select[multiple]:focus,
+.ch-form-select-multiple:focus {
+	border: 2px solid #9A9A9A;
+	padding: 5px;
+	outline: 0;
+}
+
+input[type="file"]:focus,
+input[type="checkbox"]:focus,
+input[type="radio"]:focus,
+input[type="range"]:focus,
+select:focus {
+	outline: 1px dotted #9A9A9A;
+}
+
+input[type="checkbox"]:focus,
+input[type="radio"]:focus {
+	border: none;
+	padding: 0;
+}
+
+input[readonly],
+input[readonly]:focus {
+	border: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	color: #999999;
+	padding: 5px 0;
+}
+
+.ch-form-ico {
+	margin-left: 5px !important;
+}
+
+/* Module */
+.ch-form fieldset {
+	margin-bottom:10px;
+}
+
+	/* Title module */
+	.ch-form legend {
+		color:#dc7b1c;
+		font-size:14px;
+		font-weight:bold;
+		padding-bottom:15px;
+	}
+
+	.ch-form-subtitle {
+		font-size:13px;
+		font-weight:bold;
+	}
+
+/* Required specification or another */
+.ch-form-hint {
+	color: #999999;
+	font-size: 12px;
+	line-height: 12px;
+}
+
+/* Basic wrapper for horizontal view */
+.ch-form-row {
+	padding: 5px 0;
+	margin-bottom: 0;
+}
+
+/* Label */
+.ch-form-row label {
+	position:relative;
+	padding:7px 11px 5px 0;
+	display:inline-block;
+	text-align:right;
+	width:130px;
+}
+
+/* Label inline not used yet */
+	.ch-form-row input + label,
+	.ch-form-row select + label,
+	.ch-label-inline{
+		text-align:left;
+		width:auto;
+		padding-right:0;
+		font-weight:normal;
+		margin-left:0;
+	}
+
+/* Label required **/
+	.ch-form-required label{
+		font-weight:bold;
+	}
+
+	.ch-form-required.ch-form-options label{
+		font-weight:normal;
+	}
+
+/* Icon indication of required */
+	.ch-form-required em{
+		display:block;
+		position:absolute;
+		right:3px;
+		top: 3px;
+	}
+/* Icon indication of required in options */
+	.ch-form-required.ch-form-options em{
+		display:inline;
+		position:relative;
+		vertical-align:super;
+		top: auto;
+		right:auto;
+	}
+
+/* Checkbox inline
+.ch-form-row input + input[type=checkbox],*/
+.ch-form-checkbox-inline{
+	margin-left:11px;
+	margin-right:0;
+	border:none;
+}
+
+/* Range
+input[type=range],*/
+.ch-form-range{
+	padding:4px;
+	vertical-align:middle;
+}
+
+/* Select */
+.ch-form-row select {
+	margin:5px 0;
+}
+
+/* Select Multiple */
+.ch-form-row select[multiple],
+.ch-form-select-multiple {
+	vertical-align:top;
+	margin-top:10px;
+}
+
+/* Textarea */
+.ch-form-row textarea {
+	height:125px;
+	width:350px;
+	vertical-align:top;
+}
+
+/* Help bottom line that helps the user */
+.ch-form-row .ch-form-hint{
+	margin-left:145px;
+	display:block;
+}
+
+/* Error colorize the border */
+form .ch-form-error {
+	border: 1px solid #FF9999;
+}
+
+form .ch-form-error:focus,
+form .ch-form-error:focus {
+	border-width: 2px;
+	-webkit-box-shadow: 2px #FF9999;
+	box-shadow: 2px #FF9999;
+}
+
+
+/* Options */
+.ch-form-options{
+	margin: 0 0 15px 20px;
+	padding:0;
+}
+
+/* Subtitle in options */
+.ch-form-options .ch-form-subtitle{
+	margin-bottom:15px;
+	margin-left:-20px;
+}
+
+/* Subtitle in options & required */
+.ch-form-options.ch-form-required .ch-form-subtitle{
+	font-weight:bold;
+}
+
+/* Label in options */
+.ch-form-options label {
+	margin:0;
+	padding:0;
+}
+
+
+/* Radio & Checkbox in options
+.ch-form-options input[type="checkbox"],
+.ch-form-options input[type="radio"],*/
+.ch-form-options input{
+	margin:8px 4px 0 0;
+	/*display:block;
+	clear:both !important;
+	float:left;
+	line-height:30px;*/
+}
+
+.ch-form-options input[type="checkbox"]:focus,
+.ch-form-options input[type="radio"]:focus {
+	border:none;
+	padding:0;
+}
+
+
+/* Disabled status */
+.ch-form-disabled label{
+	color:#999999;
+}
+
+.ch-form-disabled input,
+.ch-form-disabled input[disabled],
+.ch-form-disabled textarea,
+.ch-form-disabled textarea[disabled] {
+	background-color:#F2F2F2;
+	cursor: not-allowed;
+}
+
+/* Actions */
+.ch-form-actions {
+	margin-left:145px;
+	text-align:left;
+}
+
+.ch-form-actions .ch-btn {
+	margin-right:10px;
+}
+
+
+/*Big inputs*/
+.ch-form-big .ch-form-row input,
+.ch-form-big .ch-form-row textarea,
+.ch-form-big .ch-form-row select[multiple],
+.ch-form-big .ch-form-row .ch-form-select-multiple {
+	border-radius: 3px;
+	padding: 12px 10px;
+	margin: 5px 0;
+}
+
+.ch-form-big .ch-form-row input:focus,
+.ch-form-big .ch-form-row textarea:focus,
+.ch-form-big .ch-form-row select[multiple]:focus,
+.ch-form-big .ch-form-row .ch-form-select-multiple:focus {
+	padding: 11px 9px;
+}
+
+.ch-layer {
+	-webkit-box-shadow: 2px 2px 2px rgba(100, 100, 100, .1);
+	box-shadow: 2px 2px 2px rgba(100, 100, 100, .1);
+	min-width: 4em;
+}
+
+.ch-layer .ch-close {
+	top: 8px;
+	right: 8px;
+}
+
+/* Cone */
+/* Bottom */
+/* ltlb, ctcb, rtrb */
+.ch-layer.ch-points-ltlb .ch-layer-content:after,
+.ch-layer.ch-points-ctcb .ch-layer-content:after,
+.ch-layer.ch-points-rtrb .ch-layer-content:after {
+	border-bottom-color: #FFFFFF;
+}
+.ch-layer.ch-points-ltlb .ch-layer-content:before,
+.ch-layer.ch-points-ctcb .ch-layer-content:before,
+.ch-layer.ch-points-rtrb .ch-layer-content:before {
+	border-bottom-color: #E5E5E5;
+}
+
+/* Top */
+/* lblt, cbct, rbrt */
+.ch-layer.ch-points-lblt .ch-layer-content:after,
+.ch-layer.ch-points-cbct .ch-layer-content:after,
+.ch-layer.ch-points-rbrt .ch-layer-content:after {
+	border-top-color: #FFFFFF;
+}
+.ch-layer.ch-points-lblt .ch-layer-content:before,
+.ch-layer.ch-points-cbct .ch-layer-content:before,
+.ch-layer.ch-points-rbrt .ch-layer-content:before {
+	border-top-color: #E5E5E5;
+}
+
+/* Right */
+/* ltrt, lmrm, lbrb */
+.ch-layer.ch-points-ltrt .ch-layer-content:after,
+.ch-layer.ch-points-lmrm .ch-layer-content:after,
+.ch-layer.ch-points-lbrb .ch-layer-content:after {
+	border-right-color: #FFFFFF;
+}
+.ch-layer.ch-points-ltrt .ch-layer-content:before,
+.ch-layer.ch-points-lmrm .ch-layer-content:before,
+.ch-layer.ch-points-lbrb .ch-layer-content:before {
+	border-right-color: #E5E5E5;
+}
+
+/* Left */
+/* rtlt, rmlm, rblb */
+.ch-layer.ch-points-rtlt .ch-layer-content:after,
+.ch-layer.ch-points-rmlm .ch-layer-content:after,
+.ch-layer.ch-points-rblb .ch-layer-content:after {
+	border-left-color: #FFFFFF;
+}
+
+.ch-layer.ch-points-rtlt .ch-layer-content:before,
+.ch-layer.ch-points-rmlm .ch-layer-content:before,
+.ch-layer.ch-points-rblb .ch-layer-content:before {
+	border-left-color: #E5E5E5;
+}
+
+/* Cone Y position */
+.ch-layer.ch-cone.ch-points-ltrt .ch-layer-content:after,
+.ch-layer.ch-cone.ch-points-rtlt .ch-layer-content:after {
+	top: 8px;
+}
+
+.ch-layer.ch-cone.ch-points-ltrt .ch-layer-content:before,
+.ch-layer.ch-cone.ch-points-rtlt .ch-layer-content:before {
+	top: 7px;
+}
+
+.ch-layer.ch-cone.ch-points-lbrb .ch-layer-content:after,
+.ch-layer.ch-cone.ch-points-rblb .ch-layer-content:after {
+	bottom: 8px;
+}
+
+.ch-layer.ch-cone.ch-points-lbrb .ch-layer-content:before,
+.ch-layer.ch-cone.ch-points-rblb .ch-layer-content:before {
+	bottom: 7px;
+}
+
+/* IE */
+.lt-ie10 .ch-layer {
+	filter: none;
+}
+
+/* IE 7 */
+.lt-ie8 .ch-layer-cone {
+	background-image: url('../../assets/0.2/shapes.png');
+	display: block;
+	position: absolute;
+	width: 16px;
+	height: 8px;
+}
+
+.lt-ie8 .ch-points-ltlb .ch-layer-cone,
+.lt-ie8 .ch-points-ctcb .ch-layer-cone,
+.lt-ie8 .ch-points-rtrb .ch-layer-cone {
+	top: -8px;
+	background-position: 0 -16px;
+}
+
+.lt-ie8 .ch-points-lblt .ch-layer-cone,
+.lt-ie8 .ch-points-cbct .ch-layer-cone,
+.lt-ie8 .ch-points-rbrt .ch-layer-cone {
+	bottom: -8px;
+	background-position: 0 -24px;
+}
+
+.lt-ie8 .ch-points-ltlb .ch-layer-cone,
+.lt-ie8 .ch-points-lblt .ch-layer-cone {
+	left: 8px;
+}
+
+.lt-ie8 .ch-points-ctcb .ch-layer-cone,
+.lt-ie8 .ch-points-cbct .ch-layer-cone {
+	left: 50%;
+	margin-left: -8px;
+}
+
+.lt-ie8 .ch-points-rtrb .ch-layer-cone,
+.lt-ie8 .ch-points-rbrt .ch-layer-cone {
+	right: 8px;
+}
+
+.lt-ie8 .ch-points-ltrt .ch-layer-cone,
+.lt-ie8 .ch-points-lmrm .ch-layer-cone,
+.lt-ie8 .ch-points-lbrb .ch-layer-cone,
+.lt-ie8 .ch-points-rtlt .ch-layer-cone,
+.lt-ie8 .ch-points-rmlm .ch-layer-cone,
+.lt-ie8 .ch-points-rblb .ch-layer-cone {
+	width: 8px;
+	height: 16px;
+}
+
+.lt-ie8 .ch-points-ltrt .ch-layer-cone,
+.lt-ie8 .ch-points-lmrm .ch-layer-cone,
+.lt-ie8 .ch-points-lbrb .ch-layer-cone {
+	left: -8px;
+	background-position: 0 -16px;
+}
+
+.lt-ie8 .ch-points-rtlt .ch-layer-cone,
+.lt-ie8 .ch-points-rmlm .ch-layer-cone,
+.lt-ie8 .ch-points-rblb .ch-layer-cone {
+	right: -8px;
+	background-position: -8px -16px;
+}
+
+.lt-ie8 .ch-points-ltrt .ch-layer-cone,
+.lt-ie8 .ch-points-rtlt .ch-layer-cone {
+	top: 4px;
+}
+
+.lt-ie8 .ch-points-lmrm .ch-layer-cone,
+.lt-ie8 .ch-points-rmlm .ch-layer-cone {
+	top: 50%;
+	margin-top: -8px;
+}
+
+.lt-ie8 .ch-points-lbrb .ch-layer-cone,
+.lt-ie8 .ch-points-rblb .ch-layer-cone  {
+	bottom: 4px;
+}
+
+/* Menu */
+.ch-menu {
+	max-width: 300px;
+}
+
+.ch-menu,
+.ch-accordion {
+	-webkit-box-shadow: 0px 2px 2px rgba(100, 100, 100, .1);
+	box-shadow: 0px 2px 2px rgba(100, 100, 100, .1);
+}
+
+.ch-menu .ch-expando,
+.ch-accordion .ch-expando {
+	margin: 5px 0;
+}
+
+/* L1 and L2 items */
+.ch-bellows-trigger,
+.ch-menu .ch-expando-trigger,
+.ch-accordion .ch-expando-trigger,
+.ch-menu .ch-expando-content a {
+	cursor: pointer;
+	text-decoration: none!important;
+	color: #333!important;
+	display: block;
+	padding: 5px 10px;
+}
+
+/* L1 and L2 items hover */
+.ch-bellows-trigger:hover,
+.ch-menu .ch-expando-trigger:hover,
+.ch-menu .ch-expando-content a:hover,
+.ch-accordion .ch-expando-trigger:hover {
+	background-color: #FDF9D5;
+	border-radius: 5px;
+}
+
+
+/* L1 items */
+.ch-bellows-trigger,
+.ch-menu .ch-expando-trigger,
+.ch-menu .ch-expando-content,
+.ch-accordion .ch-expando-trigger,
+.ch-accordion .ch-expando-content {
+	position: relative;
+}
+
+/* L1 items icon */
+.ch-menu .ch-expando-trigger:after,
+.ch-accordion .ch-expando-trigger:after {
+	top: 50%;
+	margin-top: -8px;
+	right: 10px;
+	left: auto;
+}
+
+/* L2 items list */
+.ch-menu .ch-expando-content,
+.ch-accordion .ch-expando-content {
+	margin: 0;
+}
+
+/* L2 items */
+.ch-menu .ch-expando-content a {
+	padding-left: 20px;
+}
+
+/* Selected child */
+.ch-accordion .ch-expando-trigger-on,
+.ch-menu .ch-expando-trigger-on {
+	background-color: #F7F7F7;
+	border-radius: 5px;
+}
+
+/* IE */
+.lt-ie8 .ch-menu .ch-expando-trigger .ch-expando-ico,
+.lt-ie8 .ch-accordion .ch-expando-trigger .ch-expando-ico {
+	right: 5px;
+	top: 8px;
+	left: auto;
+}
+
+.lt-ie8 .ch-menu .ch-expando-trigger-on .ch-expando-ico,
+.lt-ie8 .ch-accordion .ch-expando-trigger-on .ch-expando-ico {
+	top: 10px;
+}
+
+/* L2 items list */
+.ch-menu .ch-expando-content,
+.ch-accordion .ch-expando-content{
+	margin: 0;
+}
+
+/* L2 items */
+.ch-menu .ch-expando-content a {
+	padding-left: 20px;
+}
+
 
 .ch-dimmer {
 	background-color:rgba(0,0,0,.5);
@@ -2500,7 +2949,7 @@ input.ch-btn-tiny::-moz-focus-inner {
 
 /* IE */
 .lt-ie8 .ch-tooltip-cone {
-	background-image: url('../assets/shapes.png');
+	background-image: url('../../assets/0.2/shapes.png');
 	display: block;
 	position: absolute;
 	width: 16px;
@@ -2576,285 +3025,6 @@ input.ch-btn-tiny::-moz-focus-inner {
 .lt-ie8 .ch-points-lbrb .ch-tooltip-cone,
 .lt-ie8 .ch-points-rblb .ch-tooltip-cone  {
 	bottom: 4px;
-}
-
-input[type="search"]{
-  -webkit-appearance: textfield;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-	-webkit-appearance: none;
-	margin: 0;
-}
-
-/* Generic input & textarea */
-input,
-textarea,
-select[multiple],
-.ch-form-select-multiple {
-	border: 1px solid #CDCDCD;
-	font-size: 13px;
-	border-radius: 3px;
-	-webkit-box-shadow: inset 1px 1px 1px rgba(204, 204, 204, 0.3);
-	box-shadow: inset 1px 1px 1px rgba(204, 204, 204, 0.3);
-	padding: 6px;
-	margin: 5px 0;
-}
-
-input[type="file"],
-input[type="checkbox"],
-input[type="radio"] {
-	border:none;
-	padding:0;
-}
-
-input:focus,
-textarea:focus,
-select[multiple]:focus,
-.ch-form-select-multiple:focus {
-	border: 2px solid #9A9A9A;
-	padding: 5px;
-	outline: 0;
-}
-
-input[type="file"]:focus,
-input[type="checkbox"]:focus,
-input[type="radio"]:focus,
-input[type="range"]:focus,
-select:focus {
-	outline: 1px dotted #9A9A9A;
-}
-
-input[type="checkbox"]:focus,
-input[type="radio"]:focus {
-	border: none;
-	padding: 0;
-}
-
-input[readonly],
-input[readonly]:focus {
-	border: none;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-	color: #999999;
-	padding: 5px 0;
-}
-
-.ch-form-ico {
-	margin-left: 5px !important;
-}
-
-/* Module */
-.ch-form fieldset {
-	margin-bottom:10px;
-}
-
-	/* Title module */
-	.ch-form legend {
-		color:#dc7b1c;
-		font-size:14px;
-		font-weight:bold;
-		padding-bottom:15px;
-	}
-
-	.ch-form-subtitle {
-		font-size:13px;
-		font-weight:bold;
-	}
-
-/* Required specification or another */
-.ch-form-hint {
-	color: #999999;
-	font-size: 12px;
-	line-height: 12px;
-}
-
-/* Basic wrapper for horizontal view */
-.ch-form-row {
-	padding: 5px 0;
-	margin-bottom: 0;
-}
-
-/* Label */
-.ch-form-row label {
-	position:relative;
-	padding:7px 11px 5px 0;
-	display:inline-block;
-	text-align:right;
-	width:130px;
-}
-
-/* Label inline not used yet */
-	.ch-form-row input + label,
-	.ch-form-row select + label,
-	.ch-label-inline{
-		text-align:left;
-		width:auto;
-		padding-right:0;
-		font-weight:normal;
-		margin-left:0;
-	}
-
-/* Label required **/
-	.ch-form-required label{
-		font-weight:bold;
-	}
-
-	.ch-form-required.ch-form-options label{
-		font-weight:normal;
-	}
-
-/* Icon indication of required */
-	.ch-form-required em{
-		display:block;
-		position:absolute;
-		right:3px;
-		top: 3px;
-	}
-/* Icon indication of required in options */
-	.ch-form-required.ch-form-options em{
-		display:inline;
-		position:relative;
-		vertical-align:super;
-		top: auto;
-		right:auto;
-	}
-
-/* Checkbox inline
-.ch-form-row input + input[type=checkbox],*/
-.ch-form-checkbox-inline{
-	margin-left:11px;
-	margin-right:0;
-	border:none;
-}
-
-/* Range
-input[type=range],*/
-.ch-form-range{
-	padding:4px;
-	vertical-align:middle;
-}
-
-/* Select */
-.ch-form-row select {
-	margin:5px 0;
-}
-
-/* Select Multiple */
-.ch-form-row select[multiple],
-.ch-form-select-multiple {
-	vertical-align:top;
-	margin-top:10px;
-}
-
-/* Textarea */
-.ch-form-row textarea {
-	height:125px;
-	width:350px;
-	vertical-align:top;
-}
-
-/* Help bottom line that helps the user */
-.ch-form-row .ch-form-hint{
-	margin-left:145px;
-	display:block;
-}
-
-/* Error colorize the border */
-form .ch-form-error {
-	border: 1px solid #FF9999;
-}
-
-form .ch-form-error:focus,
-form .ch-form-error:focus {
-	border-width: 2px;
-	-webkit-box-shadow: 2px #FF9999;
-	box-shadow: 2px #FF9999;
-}
-
-
-/* Options */
-.ch-form-options{
-	margin: 0 0 15px 20px;
-	padding:0;
-}
-
-/* Subtitle in options */
-.ch-form-options .ch-form-subtitle{
-	margin-bottom:15px;
-	margin-left:-20px;
-}
-
-/* Subtitle in options & required */
-.ch-form-options.ch-form-required .ch-form-subtitle{
-	font-weight:bold;
-}
-
-/* Label in options */
-.ch-form-options label {
-	margin:0;
-	padding:0;
-}
-
-
-/* Radio & Checkbox in options
-.ch-form-options input[type="checkbox"],
-.ch-form-options input[type="radio"],*/
-.ch-form-options input{
-	margin:8px 4px 0 0;
-	/*display:block;
-	clear:both !important;
-	float:left;
-	line-height:30px;*/
-}
-
-.ch-form-options input[type="checkbox"]:focus,
-.ch-form-options input[type="radio"]:focus {
-	border:none;
-	padding:0;
-}
-
-
-/* Disabled status */
-.ch-form-disabled label{
-	color:#999999;
-}
-
-.ch-form-disabled input,
-.ch-form-disabled input[disabled],
-.ch-form-disabled textarea,
-.ch-form-disabled textarea[disabled] {
-	background-color:#F2F2F2;
-	cursor: not-allowed;
-}
-
-/* Actions */
-.ch-form-actions {
-	margin-left:145px;
-	text-align:left;
-}
-
-.ch-form-actions .ch-btn {
-	margin-right:10px;
-}
-
-
-/*Big inputs*/
-.ch-form-big .ch-form-row input,
-.ch-form-big .ch-form-row textarea,
-.ch-form-big .ch-form-row select[multiple],
-.ch-form-big .ch-form-row .ch-form-select-multiple {
-	border-radius: 3px;
-	padding: 12px 10px;
-	margin: 5px 0;
-}
-
-.ch-form-big .ch-form-row input:focus,
-.ch-form-big .ch-form-row textarea:focus,
-.ch-form-big .ch-form-row select[multiple]:focus,
-.ch-form-big .ch-form-row .ch-form-select-multiple:focus {
-	padding: 11px 9px;
 }
 
 .ch-validation {
@@ -2940,7 +3110,7 @@ form .ch-form-error:focus {
 
 /* IE 7 */
 .lt-ie8 .ch-validation-cone {
-	background-image: url('../assets/shapes.png');
+	background-image: url('../../assets/0.2/shapes.png');
 	display: block;
 	position: absolute;
 	width: 16px;
@@ -3020,176 +3190,6 @@ form .ch-form-error:focus {
 
 .lt-ie8 .ch-box-error.ch-validation {
 	background-position: -123px 4px;
-}
-
-.ch-layer {
-	-webkit-box-shadow: 2px 2px 2px rgba(100, 100, 100, .1);
-	box-shadow: 2px 2px 2px rgba(100, 100, 100, .1);
-	min-width: 4em;
-}
-
-.ch-layer .ch-close {
-	top: 8px;
-	right: 8px;
-}
-
-/* Cone */
-/* Bottom */
-/* ltlb, ctcb, rtrb */
-.ch-layer.ch-points-ltlb .ch-layer-content:after,
-.ch-layer.ch-points-ctcb .ch-layer-content:after,
-.ch-layer.ch-points-rtrb .ch-layer-content:after {
-	border-bottom-color: #FFFFFF;
-}
-.ch-layer.ch-points-ltlb .ch-layer-content:before,
-.ch-layer.ch-points-ctcb .ch-layer-content:before,
-.ch-layer.ch-points-rtrb .ch-layer-content:before {
-	border-bottom-color: #E5E5E5;
-}
-
-/* Top */
-/* lblt, cbct, rbrt */
-.ch-layer.ch-points-lblt .ch-layer-content:after,
-.ch-layer.ch-points-cbct .ch-layer-content:after,
-.ch-layer.ch-points-rbrt .ch-layer-content:after {
-	border-top-color: #FFFFFF;
-}
-.ch-layer.ch-points-lblt .ch-layer-content:before,
-.ch-layer.ch-points-cbct .ch-layer-content:before,
-.ch-layer.ch-points-rbrt .ch-layer-content:before {
-	border-top-color: #E5E5E5;
-}
-
-/* Right */
-/* ltrt, lmrm, lbrb */
-.ch-layer.ch-points-ltrt .ch-layer-content:after,
-.ch-layer.ch-points-lmrm .ch-layer-content:after,
-.ch-layer.ch-points-lbrb .ch-layer-content:after {
-	border-right-color: #FFFFFF;
-}
-.ch-layer.ch-points-ltrt .ch-layer-content:before,
-.ch-layer.ch-points-lmrm .ch-layer-content:before,
-.ch-layer.ch-points-lbrb .ch-layer-content:before {
-	border-right-color: #E5E5E5;
-}
-
-/* Left */
-/* rtlt, rmlm, rblb */
-.ch-layer.ch-points-rtlt .ch-layer-content:after,
-.ch-layer.ch-points-rmlm .ch-layer-content:after,
-.ch-layer.ch-points-rblb .ch-layer-content:after {
-	border-left-color: #FFFFFF;
-}
-
-.ch-layer.ch-points-rtlt .ch-layer-content:before,
-.ch-layer.ch-points-rmlm .ch-layer-content:before,
-.ch-layer.ch-points-rblb .ch-layer-content:before {
-	border-left-color: #E5E5E5;
-}
-
-/* Cone Y position */
-.ch-layer.ch-cone.ch-points-ltrt .ch-layer-content:after,
-.ch-layer.ch-cone.ch-points-rtlt .ch-layer-content:after {
-	top: 8px;
-}
-
-.ch-layer.ch-cone.ch-points-ltrt .ch-layer-content:before,
-.ch-layer.ch-cone.ch-points-rtlt .ch-layer-content:before {
-	top: 7px;
-}
-
-.ch-layer.ch-cone.ch-points-lbrb .ch-layer-content:after,
-.ch-layer.ch-cone.ch-points-rblb .ch-layer-content:after {
-	bottom: 8px;
-}
-
-.ch-layer.ch-cone.ch-points-lbrb .ch-layer-content:before,
-.ch-layer.ch-cone.ch-points-rblb .ch-layer-content:before {
-	bottom: 7px;
-}
-
-/* IE */
-.lt-ie10 .ch-layer {
-	filter: none;
-}
-
-/* IE 7 */
-.lt-ie8 .ch-layer-cone {
-	background-image: url('../assets/shapes.png');
-	display: block;
-	position: absolute;
-	width: 16px;
-	height: 8px;
-}
-
-.lt-ie8 .ch-points-ltlb .ch-layer-cone,
-.lt-ie8 .ch-points-ctcb .ch-layer-cone,
-.lt-ie8 .ch-points-rtrb .ch-layer-cone {
-	top: -8px;
-	background-position: 0 -16px;
-}
-
-.lt-ie8 .ch-points-lblt .ch-layer-cone,
-.lt-ie8 .ch-points-cbct .ch-layer-cone,
-.lt-ie8 .ch-points-rbrt .ch-layer-cone {
-	bottom: -8px;
-	background-position: 0 -24px;
-}
-
-.lt-ie8 .ch-points-ltlb .ch-layer-cone,
-.lt-ie8 .ch-points-lblt .ch-layer-cone {
-	left: 8px;
-}
-
-.lt-ie8 .ch-points-ctcb .ch-layer-cone,
-.lt-ie8 .ch-points-cbct .ch-layer-cone {
-	left: 50%;
-	margin-left: -8px;
-}
-
-.lt-ie8 .ch-points-rtrb .ch-layer-cone,
-.lt-ie8 .ch-points-rbrt .ch-layer-cone {
-	right: 8px;
-}
-
-.lt-ie8 .ch-points-ltrt .ch-layer-cone,
-.lt-ie8 .ch-points-lmrm .ch-layer-cone,
-.lt-ie8 .ch-points-lbrb .ch-layer-cone,
-.lt-ie8 .ch-points-rtlt .ch-layer-cone,
-.lt-ie8 .ch-points-rmlm .ch-layer-cone,
-.lt-ie8 .ch-points-rblb .ch-layer-cone {
-	width: 8px;
-	height: 16px;
-}
-
-.lt-ie8 .ch-points-ltrt .ch-layer-cone,
-.lt-ie8 .ch-points-lmrm .ch-layer-cone,
-.lt-ie8 .ch-points-lbrb .ch-layer-cone {
-	left: -8px;
-	background-position: 0 -16px;
-}
-
-.lt-ie8 .ch-points-rtlt .ch-layer-cone,
-.lt-ie8 .ch-points-rmlm .ch-layer-cone,
-.lt-ie8 .ch-points-rblb .ch-layer-cone {
-	right: -8px;
-	background-position: -8px -16px;
-}
-
-.lt-ie8 .ch-points-ltrt .ch-layer-cone,
-.lt-ie8 .ch-points-rtlt .ch-layer-cone {
-	top: 4px;
-}
-
-.lt-ie8 .ch-points-lmrm .ch-layer-cone,
-.lt-ie8 .ch-points-rmlm .ch-layer-cone {
-	top: 50%;
-	margin-top: -8px;
-}
-
-.lt-ie8 .ch-points-lbrb .ch-layer-cone,
-.lt-ie8 .ch-points-rblb .ch-layer-cone  {
-	bottom: 4px;
 }
 
 /* Anchor */
