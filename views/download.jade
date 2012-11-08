@@ -7,28 +7,32 @@ section.ch-g1
 	article.custom-version
 		form.ch-form#download(action="/download", method="POST")
 			fieldset.ch-g2-5
-				legend 1. Select your widgets
-				#widgets.ch-form-options
-					
-					- // TODO: Migrate to PARTIALS
-					
-					- // List of each widget
-					- var w = [];
-					- // It's return a widget with DOM template
-					- var render = function (label) { return "<li class=\"ch-form-row\"><input type=\"checkbox\" id=\"w_" + label + "\" value=\"" + label + "\" name=\"widgets\" checked /><label for=\"w_" + label + "\">" + label + "</label></li>"; };
-					- // Add Widgets to "w" array
-					- each widget in widgets
-						- if (widget.friendly !== "css-library")
-							- w.push(render(widget.friendly));
-					- var result = [], tpl = "<ul class=\"ch-g1-2\">";
-					- var cols = 2, len = w.length, itemsPerColumn = Math.ceil(len / cols);
-					- // Splice widgets lists per column
-					- for (var i = 0; i < cols; i += 1)
-						- result.push(w.splice(0, itemsPerColumn).join(""));
-					- // Join widgets
-					- result = tpl + result.join("</ul>" + tpl) + "</ul>";
-					!= result
-				input(type="hidden", name="totalWidgets", value="#{len}")
+				legend#widgetsLayer 1. Select your widgets
+				.ch-box-information.ch-g3-4
+					p Temporally you must download all the widgets.
+					p We are working on restructure the framework, and soon you will be able to do this by a better way.
+				//
+					#widgets.ch-form-options
+						
+						- // TODO: Migrate to PARTIALS
+						
+						- // List of each widget
+						- var w = [];
+						- // It's return a widget with DOM template
+						- var render = function (label) { return "<li class=\"ch-form-row\"><input type=\"checkbox\" id=\"w_" + label + "\" value=\"" + label + "\" name=\"widgets\" checked disabled /><label for=\"w_" + label + "\" style=\"color:#bbb\">" + label + "</label></li>"; };
+						- // Add Widgets to "w" array
+						- each widget in widgets
+							- if (widget.name !== "css-library" && widget.name !== "positioner")
+								- w.push(render(widget.friendly));
+						- var result = [], tpl = "<ul class=\"ch-g1-2\">";
+						- var cols = 2, len = w.length, itemsPerColumn = Math.ceil(len / cols);
+						- // Splice widgets lists per column
+						- for (var i = 0; i < cols; i += 1)
+							- result.push(w.splice(0, itemsPerColumn).join(""));
+						- // Join widgets
+						- result = tpl + result.join("</ul>" + tpl) + "</ul>";
+						!= result
+					input(type="hidden", name="totalWidgets", value="#{len}")
 			fieldset.ch-g1-5
 				legend 2. Select compression
 				ul.ch-form-options#compression
@@ -45,12 +49,10 @@ section.ch-g1
 						input#mesh(type="checkbox", value="mesh", name="extras", checked)
 						label(for="mesh")
 							| Chico Mesh 
-							.ch-ico.ch-help#meshLayer
+							span.ch-icon-question-sign(style="display:inline-block")#meshLayer
 					li.ch-form-row
-						input#api(type="checkbox", value="api", name="extras", disabled)
-						label(for="api")
-							| Documentation
-							small (soon)
+						input#tests(type="checkbox", value="tests", name="extras", disabled)
+						label(for="tests") Tests (soon)
 			fieldset.ch-g1-5
 				legend 4. Get the package
 				input.ch-btn(type="submit", value="Download", style="margin-left:20px")
