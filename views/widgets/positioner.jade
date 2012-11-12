@@ -2,7 +2,7 @@
 h1 Positioner
 p.updated
 	| Documentation updated on 
-	data February 7th
+	data November 12nd
 	| .
 
 .contents
@@ -62,7 +62,7 @@ ul.ch-list
 p 
 	| This is the way to position a new element:
 pre
-	| var foo = ch.positioner(CONFIGURATION_OBJECT);
+	| var foo = ch.Positioner(CONFIGURATION_OBJECT);
 
 h3#conf Configuration object
 p 
@@ -231,6 +231,6 @@ p
 
 !=partial("includes/keep-reading")
 
-- script("code", 'ch.positioner({"element": $("#target1"), "context": $("#context1"), "points": "lt rt"});')
+- script("code", 'ch.Positioner({"element": $("#target1"), "context": $("#context1"), "points": "lt rt"});')
 - script("code", 'var points = ["","cm cm","lt lb","lb lt","rt rb","rb rt","lt rt","lm lm","lt lt"];');
-- script("code", 'for(var a=1;a<9;a++){ch.positioner({element: $("#t"+a),context: $("#c"+a),points: points[a]});}')
+- script("code", 'for(var a=1;a<9;a++){ch.Positioner({element: $("#t"+a),context: $("#c"+a),points: points[a]});}')

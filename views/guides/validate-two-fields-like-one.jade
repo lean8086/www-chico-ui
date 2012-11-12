@@ -1,7 +1,7 @@
 h1 Validate two fields like one
 p.updated
 	| Documentation updated on 
-	data January 26th
+	data November 12nd
 	| .
 
 .contents
@@ -87,16 +87,16 @@ pre
 	| 	if (!isNaN(value1) && !isNaN(value2)) {
 	| 
 	| 		// Remove error class of first field
-	| 		field.removeClass("error");
+	| 		field.removeClass("ch-form-error");
 	| 
 	| 		// Validation is ok! Return true
 	| 		return true;
 	| 	}
 	| }
 p
-	| If condition is false means that an error exists, therefore we add the "error" class to the first field and return false for Watcher validation over second field.
+	| If condition is false means that an error exists, therefore we add the "ch-form-error" class to the first field and return false for Watcher validation over second field.
 pre
-	| field.addClass("error");
+	| field.addClass("ch-form-error");
 	| return false;
 p
 	| Finally, add custom validation to second field to achieve a right-side positioned Helper, specifying an error message.
@@ -125,7 +125,7 @@ pre
 	| 		if (!isNaN(value1) && !isNaN(value2)) {
 	| 
 	| 			// Removes error class of first field
-	| 			field.removeClass("error");
+	| 			field.removeClass("ch-form-error");
 	| 
 	| 			// Validation is ok! Returns true
 	| 			return true;
@@ -144,9 +144,9 @@ pre
 	| 		.required("This is a required field")
 	| 		// Here validation is false. Add error class to first field
 	| 		.on("error", function () {
-	| 			$("#example-phone-code").addClass("error");
+	| 			$("#example-phone-code").addClass("ch-form-error");
 	| 		});
 
 
 
-- script("code", '$("#example-phone-number").custom(function (value2) { var field1 = $("#example-phone-code"); var value1 = field1.val(); if (value1 && value2) { if (!isNaN(value1) && !isNaN(value2)) { field1.removeClass("error"); return true; } } return false; }, "Enter a valid phone number.").and().required("This is a required field").on("error", function () { $("#example-phone-code").addClass("error"); }).validate()');
+- script("code", '$("#example-phone-number").custom(function (value2) { var field1 = $("#example-phone-code"); var value1 = field1.val(); if (value1 && value2) { if (!isNaN(value1) && !isNaN(value2)) { field1.removeClass("ch-form-error"); return true; } } return false; }, "Enter a valid phone number.").and().required("This is a required field").on("error", function () { $("#example-phone-code").addClass("ch-form-error"); }).validate()');

@@ -1,0 +1,283 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span> * String validates a given text as string.
+<span class='line'>  3</span> * @name String
+<span class='line'>  4</span> * @class String
+<span class='line'>  5</span> * @interface
+<span class='line'>  6</span> * @augments ch.Controls
+<span class='line'>  7</span> * @augments ch.Validation
+<span class='line'>  8</span> * @memberOf ch
+<span class='line'>  9</span> * @param {Object} [conf] Object with configuration properties.
+<span class='line'> 10</span> * @param {String} [conf.content] Validation message.
+<span class='line'> 11</span> * @param {String} [conf.points] Sets the points where validation-bubble will be positioned.
+<span class='line'> 12</span> * @param {String} [conf.offset] Sets the offset in pixels that validation-bubble will be displaced from original position determined by points. It's specified by configuration or zero by default: "0 0".
+<span class='line'> 13</span> * @param {String} [conf.context] It's a reference to position the validation-bubble
+<span class='line'> 14</span> * @returns itself
+<span class='line'> 15</span> * @factorized
+<span class='line'> 16</span> * @see ch.Validation
+<span class='line'> 17</span> * @see ch.Required
+<span class='line'> 18</span> * @see ch.Custom
+<span class='line'> 19</span> * @see ch.Number
+<span class='line'> 20</span> * @see ch.Validator
+<span class='line'> 21</span> * @see ch.Condition
+<span class='line'> 22</span> * @exampleDescription Create a string validation
+<span class='line'> 23</span> * @example
+<span class='line'> 24</span> * $("input").string("This field must be a string.");
+<span class='line'> 25</span> */</span><span class="WHIT">
+<span class='line'> 26</span> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">window</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ch</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 27</span> </span><span class="WHIT">	</span><span class="STRN">'use strict'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 28</span> 
+<span class='line'> 29</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">window.ch</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">window.Error</span><span class="PUNC">(</span><span class="STRN">'Expected ch namespace defined.'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 32</span> 
+<span class='line'> 33</span> </span><span class="WHIT">	</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">String</span><span class="PUNC">(</span><span class="NAME">$el</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 34</span> 
+<span class='line'> 35</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 36</span> 
+<span class='line'> 37</span> </span><span class="WHIT">		</span><span class="NAME">conf.condition</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 38</span> </span><span class="WHIT">			</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"string"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">			</span><span class="NAME">message</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.content</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 41</span> 
+<span class='line'> 42</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$el.validation</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 43</span> 
+<span class='line'> 44</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 45</span> 
+<span class='line'> 46</span> </span><span class="WHIT">	</span><span class="NAME">String.prototype.name</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'string'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">	</span><span class="NAME">String.prototype.constructor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">String</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">	</span><span class="NAME">String.prototype.interface</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'validation'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> 
+<span class='line'> 50</span> </span><span class="WHIT">	</span><span class="NAME">ch.factory</span><span class="PUNC">(</span><span class="NAME">String</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 51</span> 
+<span class='line'> 52</span> </span><span class="PUNC">}</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.jQuery</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.ch</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 53</span> 
+<span class='line'> 54</span> </span><span class="COMM">/**
+<span class='line'> 55</span> * Email validates a correct email syntax.
+<span class='line'> 56</span> * @name Email
+<span class='line'> 57</span> * @class Email
+<span class='line'> 58</span> * @interface
+<span class='line'> 59</span> * @augments ch.Controls
+<span class='line'> 60</span> * @augments ch.Validation
+<span class='line'> 61</span> * @requires ch.Validation
+<span class='line'> 62</span> * @memberOf ch
+<span class='line'> 63</span> * @param {Object} [conf] Object with configuration properties.
+<span class='line'> 64</span> * @param {String} [conf.content] Validation message.
+<span class='line'> 65</span> * @param {String} [conf.points] Sets the points where validation-bubble will be positioned.
+<span class='line'> 66</span> * @param {String} [conf.offset] Sets the offset in pixels that validation-bubble will be displaced from original position determined by points. It's specified by configuration or zero by default: "0 0".
+<span class='line'> 67</span> * @param {String} [conf.context] It's a reference to position the validation-bubble
+<span class='line'> 68</span> * @returns itself
+<span class='line'> 69</span> * @factorized
+<span class='line'> 70</span> * @see ch.Validation
+<span class='line'> 71</span> * @see ch.Required
+<span class='line'> 72</span> * @see ch.Custom
+<span class='line'> 73</span> * @see ch.Number
+<span class='line'> 74</span> * @see ch.Validator
+<span class='line'> 75</span> * @see ch.Condition
+<span class='line'> 76</span> * @exampleDescription Create a email validation
+<span class='line'> 77</span> * @example
+<span class='line'> 78</span> * $("input").email("This field must be a valid email.");
+<span class='line'> 79</span> */</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">window</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ch</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">	</span><span class="STRN">'use strict'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 82</span> 
+<span class='line'> 83</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">window.ch</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">window.Error</span><span class="PUNC">(</span><span class="STRN">'Expected ch namespace defined.'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 86</span> 
+<span class='line'> 87</span> </span><span class="WHIT">	</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Email</span><span class="PUNC">(</span><span class="NAME">$el</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 88</span> 
+<span class='line'> 89</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 90</span> 
+<span class='line'> 91</span> </span><span class="WHIT">		</span><span class="COMM">// OLD RegExp</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">		</span><span class="COMM">// /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/,</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">		</span><span class="NAME">conf.condition</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">			</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"email"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">			</span><span class="NAME">message</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.content</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 97</span> 
+<span class='line'> 98</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$el.validation</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 99</span> 
+<span class='line'>100</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>101</span> 
+<span class='line'>102</span> </span><span class="WHIT">	</span><span class="NAME">Email.prototype.name</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'email'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">	</span><span class="NAME">Email.prototype.constructor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Email</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">	</span><span class="NAME">Email.prototype.interface</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'validation'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>105</span> 
+<span class='line'>106</span> </span><span class="WHIT">	</span><span class="NAME">ch.factory</span><span class="PUNC">(</span><span class="NAME">Email</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span> 
+<span class='line'>108</span> </span><span class="PUNC">}</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.jQuery</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.ch</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> 
+<span class='line'>110</span> 
+<span class='line'>111</span> 
+<span class='line'>112</span> </span><span class="COMM">/**
+<span class='line'>113</span> * Url validates URL syntax.
+<span class='line'>114</span> * @name Url
+<span class='line'>115</span> * @class Url
+<span class='line'>116</span> * @interface
+<span class='line'>117</span> * @augments ch.Controls
+<span class='line'>118</span> * @augments ch.Validation
+<span class='line'>119</span> * @requires ch.Validation
+<span class='line'>120</span> * @memberOf ch
+<span class='line'>121</span> * @param {Object} [conf] Object with configuration properties.
+<span class='line'>122</span> * @param {String} [conf.content] Validation message.
+<span class='line'>123</span> * @param {String} [conf.points] Sets the points where validation-bubble will be positioned.
+<span class='line'>124</span> * @param {String} [conf.offset] Sets the offset in pixels that validation-bubble will be displaced from original position determined by points. It's specified by configuration or zero by default: "0 0".
+<span class='line'>125</span> * @param {String} [conf.context] It's a reference to position the validation-bubble
+<span class='line'>126</span> * @returns itself
+<span class='line'>127</span> * @factorized
+<span class='line'>128</span> * @see ch.Validation
+<span class='line'>129</span> * @see ch.Required
+<span class='line'>130</span> * @see ch.Custom
+<span class='line'>131</span> * @see ch.Number
+<span class='line'>132</span> * @see ch.Validator
+<span class='line'>133</span> * @see ch.Condition
+<span class='line'>134</span> * @exampleDescription Create a URL validation
+<span class='line'>135</span> * @example
+<span class='line'>136</span> * $("input").url("This field must be a valid URL.");
+<span class='line'>137</span> */</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">window</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ch</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">	</span><span class="STRN">'use strict'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>140</span> 
+<span class='line'>141</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">window.ch</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">window.Error</span><span class="PUNC">(</span><span class="STRN">'Expected ch namespace defined.'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>144</span> 
+<span class='line'>145</span> </span><span class="WHIT">	</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">URL</span><span class="PUNC">(</span><span class="NAME">$el</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>146</span> 
+<span class='line'>147</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>148</span> 
+<span class='line'>149</span> </span><span class="WHIT">		</span><span class="NAME">conf.condition</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">			</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"url"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">			</span><span class="NAME">message</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.content</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span> 
+<span class='line'>154</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$el.validation</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>155</span> 
+<span class='line'>156</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>157</span> 
+<span class='line'>158</span> </span><span class="WHIT">	</span><span class="NAME">URL.prototype.name</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'url'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">	</span><span class="NAME">URL.prototype.constructor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">URL</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">	</span><span class="NAME">URL.prototype.interface</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'validation'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>161</span> 
+<span class='line'>162</span> </span><span class="WHIT">	</span><span class="NAME">ch.factory</span><span class="PUNC">(</span><span class="NAME">URL</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>163</span> 
+<span class='line'>164</span> </span><span class="PUNC">}</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.jQuery</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.ch</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>165</span> 
+<span class='line'>166</span> </span><span class="COMM">/**
+<span class='line'>167</span> * MinLength validates a minimun amount of characters.
+<span class='line'>168</span> * @name MinLength
+<span class='line'>169</span> * @class MinLength
+<span class='line'>170</span> * @interface
+<span class='line'>171</span> * @augments ch.Controls
+<span class='line'>172</span> * @augments ch.Validation
+<span class='line'>173</span> * @requires ch.Validation
+<span class='line'>174</span> * @memberOf ch
+<span class='line'>175</span> * @param {Object} [conf] Object with configuration properties.
+<span class='line'>176</span> * @param {String} [conf.content] Validation message.
+<span class='line'>177</span> * @param {String} [conf.points] Sets the points where validation-bubble will be positioned.
+<span class='line'>178</span> * @param {String} [conf.offset] Sets the offset in pixels that validation-bubble will be displaced from original position determined by points. It's specified by configuration or zero by default: "0 0".
+<span class='line'>179</span> * @param {String} [conf.context] It's a reference to position the validation-bubble
+<span class='line'>180</span> * @param {Number} num Minimun number characters.
+<span class='line'>181</span> * @returns itself
+<span class='line'>182</span> * @factorized
+<span class='line'>183</span> * @see ch.Validation
+<span class='line'>184</span> * @see ch.Required
+<span class='line'>185</span> * @see ch.Custom
+<span class='line'>186</span> * @see ch.Number
+<span class='line'>187</span> * @see ch.Validator
+<span class='line'>188</span> * @see ch.Condition
+<span class='line'>189</span> * @exampleDescription Create a minLength validation
+<span class='line'>190</span> * @example
+<span class='line'>191</span> * $("input").minLength(10, "At least 10 characters..");
+<span class='line'>192</span> */</span><span class="WHIT">
+<span class='line'>193</span> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">window</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ch</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT">	</span><span class="STRN">'use strict'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>195</span> 
+<span class='line'>196</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">window.ch</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">window.Error</span><span class="PUNC">(</span><span class="STRN">'Expected ch namespace defined.'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>199</span> 
+<span class='line'>200</span> </span><span class="WHIT">	</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">MinLength</span><span class="PUNC">(</span><span class="NAME">$el</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>201</span> 
+<span class='line'>202</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>203</span> 
+<span class='line'>204</span> </span><span class="WHIT">		</span><span class="NAME">conf.condition</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>205</span> </span><span class="WHIT">			</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"minLength"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">			</span><span class="NAME">message</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.content</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">			</span><span class="NAME">num</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.num</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>209</span> 
+<span class='line'>210</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$el.validation</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>211</span> 
+<span class='line'>212</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>213</span> 
+<span class='line'>214</span> </span><span class="WHIT">	</span><span class="NAME">MinLength.prototype.name</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'minLength'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">	</span><span class="NAME">MinLength.prototype.constructor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">MinLength</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">	</span><span class="NAME">MinLength.prototype.interface</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'validation'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>217</span> 
+<span class='line'>218</span> </span><span class="WHIT">	</span><span class="NAME">ch.factory</span><span class="PUNC">(</span><span class="NAME">MinLength</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>219</span> 
+<span class='line'>220</span> </span><span class="PUNC">}</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.jQuery</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.ch</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>221</span> 
+<span class='line'>222</span> </span><span class="COMM">/**
+<span class='line'>223</span> * MaxLength validates a maximun amount of characters.
+<span class='line'>224</span> * @name MaxLength
+<span class='line'>225</span> * @class MaxLength
+<span class='line'>226</span> * @interface
+<span class='line'>227</span> * @augments ch.Controls
+<span class='line'>228</span> * @augments ch.Validation
+<span class='line'>229</span> * @requires ch.Validation
+<span class='line'>230</span> * @memberOf ch
+<span class='line'>231</span> * @param {Object} [conf] Object with configuration properties.
+<span class='line'>232</span> * @param {String} [conf.content] Validation message.
+<span class='line'>233</span> * @param {String} [conf.points] Sets the points where validation-bubble will be positioned.
+<span class='line'>234</span> * @param {String} [conf.offset] Sets the offset in pixels that validation-bubble will be displaced from original position determined by points. It's specified by configuration or zero by default: "0 0".
+<span class='line'>235</span> * @param {String} [conf.context] It's a reference to position the validation-bubble
+<span class='line'>236</span> * @param {Number} num Maximun number of characters.
+<span class='line'>237</span> * @returns itself
+<span class='line'>238</span> * @factorized
+<span class='line'>239</span> * @see ch.Validation
+<span class='line'>240</span> * @see ch.Required
+<span class='line'>241</span> * @see ch.Custom
+<span class='line'>242</span> * @see ch.Number
+<span class='line'>243</span> * @see ch.Validator
+<span class='line'>244</span> * @see ch.Condition
+<span class='line'>245</span> * @exampleDescription Create a maxLength validation
+<span class='line'>246</span> * @example
+<span class='line'>247</span> * $("input").maxLength(10, "No more than 10 characters..");
+<span class='line'>248</span> */</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">window</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ch</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">	</span><span class="STRN">'use strict'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>251</span> 
+<span class='line'>252</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">window.ch</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">window.Error</span><span class="PUNC">(</span><span class="STRN">'Expected ch namespace defined.'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>255</span> 
+<span class='line'>256</span> </span><span class="WHIT">	</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">MaxLength</span><span class="PUNC">(</span><span class="NAME">$el</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>257</span> 
+<span class='line'>258</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>259</span> 
+<span class='line'>260</span> </span><span class="WHIT">		</span><span class="NAME">conf.condition</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>261</span> </span><span class="WHIT">			</span><span class="NAME">name</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"maxLength"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="WHIT">			</span><span class="NAME">message</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.content</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">			</span><span class="NAME">num</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.num</span><span class="WHIT">
+<span class='line'>264</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>265</span> 
+<span class='line'>266</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$el.validation</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>267</span> 
+<span class='line'>268</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>269</span> 
+<span class='line'>270</span> </span><span class="WHIT">	</span><span class="NAME">MaxLength.prototype.name</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'maxLength'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="WHIT">	</span><span class="NAME">MaxLength.prototype.constructor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">MaxLength</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>272</span> </span><span class="WHIT">	</span><span class="NAME">MaxLength.prototype.interface</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'validation'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>273</span> 
+<span class='line'>274</span> </span><span class="WHIT">	</span><span class="NAME">ch.factory</span><span class="PUNC">(</span><span class="NAME">MaxLength</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>275</span> 
+<span class='line'>276</span> </span><span class="PUNC">}</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.jQuery</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.ch</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>
