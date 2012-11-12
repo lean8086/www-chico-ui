@@ -1,7 +1,7 @@
 h1 Position something on screen
 p.updated
 	| Documentation updated on 
-	data December 13rd
+	data November 12nd
 	| .
 
 .contents
@@ -108,13 +108,13 @@ p
 	strong Positioner component
 	| .
 pre
-	| var example = ch.positioner(configuration);
+	| var example = ch.Positioner(configuration);
 p
 	| The simplest way to do the same is specifying the configuration object in 
 	abbr(title="JavaScript Object Notation") JSON 
 	| format at same time as the component is invoked.
 pre
-	| var example = ch.positioner({
+	| var example = ch.Positioner({
 	| 	element: ".element",
 	| 	context: ".context",
 	| 	points: "lt rt"
@@ -164,13 +164,13 @@ p
 
 
 //- First example initialization
-- script("code", 'var example1 = ch.positioner({element: $(".e1"),context: $(".c1"),points: "lt rt"});')
+- script("code", 'var example1 = ch.Positioner({element: $(".e1"),context: $(".c1"),points: "lt rt"});')
 
 //- For correct behavior on this guide
 - script("code", 'example1("refresh");')
 
 //- Second example initialization
-- script("code", 'var example2 = ch.positioner({element: $(".e2"),context: $(".c2"),points: "lt rt"});')
+- script("code", 'var example2 = ch.Positioner({element: $(".e2"),context: $(".c2"),points: "lt rt"});')
 
 //- Relocating second example
 - script("code", 'example2({points: "lt lb"});')
