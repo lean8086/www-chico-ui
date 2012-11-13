@@ -1,0 +1,143 @@
+h1 Tabs
+p.updated
+	| Documentation updated on
+	data April 16th
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#description") 1 Description
+		dt
+			a(href="#demo") 2 Demo
+		dt
+			a(href="#snippet") 3 Code snippet
+		dt
+			a(href="#instance") 4 Instance component
+		dt
+			a(href="#configuration") 5 Configuration
+		dt
+			a(href="#basics") 6 Basics
+		dd
+			dl
+				dt
+					a(href="#change-the-hash-name") 6.1 Change the hash name
+				dt
+					a(href="#loading-async-content") 6.2 Loading asynchronous content
+				dt
+					a(href="#select-and-getselected") 6.3 select and getSelected
+		dt
+			a(href="#events") 7 Events
+
+h3#description Description
+p
+	| The Tabs widget helps you organize and present large content. The component has an horizontal view and a vertical view.
+
+h3#demo Demo
+.ch-box
+	.demo_tabs
+		ul
+			li
+				a(href="#tab1") Tab 1
+			li
+				a(href="#tab2") Tab 2
+			li
+				a(href="#tab3") Tab 3
+		div
+			div(id="tab1") The tab 1
+			div(id="tab2") The tab 2
+			div(id="tab3") The tab 3
+
+h3#snippet Code snippet
+p
+	| The Tabs has three important parts:
+ul.ch-list
+	li
+		| The
+		strong tablist
+		|  is a list of links each pointing to the content.
+	li
+		| The
+		strong tabpanel
+		|  is the container of the one part of the content.
+	li
+		| The
+		strong tabs
+		|  is the group of the tabpanels.
+p
+	| The content could be in the HTML or you can load it via Ajax call.
+
+div
+	pre
+		| <div id="example">
+		| 	<ul>
+		| 		<li><a href="#tab1">Tab 1</a></li>
+		| 		<li><a href="#tab2">Tab 2</a></li>
+		| 		<li><a href="#tab3">Tab 3</a></li>
+		| 	</ul>
+		| 	<div>
+		| 		<div id="tab1">Tab 1</div>
+		| 		<div id="tab2">Tab 2</div>
+		| 		<div id="tab3">Tab 3</div>
+		| 	</div>
+		|</div>
+
+h3#instance Instance component
+p
+	| This is the way to create a new Tabs:
+pre
+	| var foo = $("#example").tabs();
+
+
+!=partial("includes/configuration")
+
+
+h3#basics Basics
+
+h4#change-the-hash-name Change the hash name
+p
+	| Feel free to change the hash name of each tab. For example, instead of this:
+pre
+	| <li><a href="#tab1">Tab 1</a></li>
+p
+	| ...you can write:
+pre
+	| <li><a href="#whatever">Use what you want</a></li>
+
+h4#loading-async-content Loading asynchronous content
+p
+	| The component can load async content. To work, the link in
+	strong tablist
+	|  must have a URL where the content is. Instead of:
+pre
+	| <li><a href="#tab1">Tab 1</a></li>
+p
+	| You have to put the URL in the
+	code href
+	|  atrribute:
+pre
+	| <li><a href="example.html">Tab 1</a></li>
+p
+	| You can add some callbacks function:
+	code contentLoad
+	|  and
+	code contentError
+	| .
+
+h4#select-and-getselected select and getSelected
+p
+	| The
+	code select
+	|  method allow you to show a tab. The
+	code getSelected
+	|  method allow you to know which tab is selected. It returns an integer that represents the tab order starting at
+	code 1
+	| .
+
+
+!=partial("includes/events")
+
+!=partial("includes/keep-reading")
+
+- script("code", '$(".demo_tabs").tabs();')

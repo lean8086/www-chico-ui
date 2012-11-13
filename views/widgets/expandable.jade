@@ -1,0 +1,90 @@
+h1 Expandable
+p.updated
+	| Documentation updated on
+	data February 7th
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#description") 1 Description
+		dt
+			a(href="#demo") 2 Demo
+		dt
+			a(href="#snippet") 3 Code snippet
+		dt
+			a(href="#instance") 4 Instance component
+		dt
+			a(href="#configuration") 5 Configuration
+		dt
+			a(href="#basics") 6 Basics
+		dd
+			dl
+				dt
+					a(href="#collapsed-by-default") 6.1 Collapsed by default
+				dt
+					a(href="#show-n-hide") 6.2 Show and Hide
+		dt
+			a(href="#events") 7 Events
+
+h3#description Description
+p
+	| The Expandable widget is member of the
+	a(href="/api/#{version}/symbols/ch.Navs.html") Navs
+	|  family. It has two parts, a descriptive text (something like a label) and a hidden block with extra information related to the label. The extra information is hidden and the user decide to show it clicking on the label.
+
+h3#demo Demo
+.ch-box
+	.demo_expandable
+		p Lorem ipsum dolor sit amet.
+		div
+			p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet purus in sapien luctus sodales. Curabitur dui velit, cursus in sagittis aliquam, dictum at neque. Ut gravida scelerisque lorem non pulvinar.
+
+h3#snippet Snippet
+pre
+	| <div id="example">
+	| 	<p>Lorem ipsum dolor sit amet.</p>
+	| 	<div>
+	| 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+	| 	</div>
+	| </div>
+
+h3#instance Instance component
+p
+	| This is the way to create a new expandable:
+pre
+	| var foo = $("#example").expandable();
+
+!=partial("includes/configuration")
+
+h3#basics Basics
+
+h4#collapsed-by-default Collapsed by default
+p
+	| The default view is collapsed. But, it can change the
+	code open
+	|  property that allows you to change the default state. You have to set this property to
+	code true
+	| .
+pre
+	| var foo = $("#example").expandable({"open": true});
+
+
+h4#show-n-hide Show and Hide
+p
+	| All Navs expose some public methods called
+	code show
+	|  and
+	code hide
+	| , both allow you to manage the Expandable behavior programmatically. Something like this:
+pre
+	| foo.show(); // Shows the content of Expandable
+	| foo.hide(); // Hides the content
+
+
+!=partial("includes/events")
+
+!=partial("includes/keep-reading")
+
+- script("code", '$(".demo_expandable").expandable();')
