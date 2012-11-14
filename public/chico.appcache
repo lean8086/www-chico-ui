@@ -1,6 +1,6 @@
 CACHE MANIFEST
 # v0.12
-# 2012/10/08_16:40
+# 2012/10/13_15:40
 
 CACHE:
 
@@ -35,13 +35,13 @@ src/assets/icons/countdown-100x100.png
 src/assets/icons/css-library-100x100.png
 src/assets/icons/date-picker-100x100.png
 src/assets/icons/dropdown-100x100.png
-src/assets/icons/expando-100x100.png
+src/assets/icons/expandable-100x100.png
 src/assets/icons/form-100x100.png
 src/assets/icons/layer-100x100.png
 src/assets/icons/menu-100x100.png
 src/assets/icons/modal-100x100.png
 src/assets/icons/positioner-100x100.png
-src/assets/icons/tab-navigator-100x100.png
+src/assets/icons/tabs-100x100.png
 src/assets/icons/tooltip-100x100.png
 src/assets/icons/validation-100x100.png
 src/assets/icons/zoom-100x100.png
