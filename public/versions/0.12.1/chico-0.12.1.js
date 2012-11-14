@@ -3916,6 +3916,8 @@ ch.version = '0.12.1';
 
 		that.conf = conf;
 
+		that.$element.addClass("ch-zoom-trigger");
+
 		/**
 		 * Element showed before zoomed image is load. It's a transition message and its content can be configured through parameter "message".
 		 * @private
@@ -4316,7 +4318,6 @@ ch.version = '0.12.1';
 
 		// Anchor
 		that.$element
-			.addClass("ch-zoom-trigger")
 			// Prevent click
 			.bind("click", function (event) { ch.util.prevent(event); })
 			// Show component or loading transition
