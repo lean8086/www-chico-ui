@@ -1,0 +1,250 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span>  * Layer lets you show a contextual floated data.
+<span class='line'>  3</span>  * @name Layer
+<span class='line'>  4</span>  * @class Layer
+<span class='line'>  5</span>  * @augments ch.Floats
+<span class='line'>  6</span>  * @standalone
+<span class='line'>  7</span>  * @memberOf ch
+<span class='line'>  8</span>  * @param {Object} [conf] Object with configuration properties.
+<span class='line'>  9</span>  * @param {String} [conf.content] Sets content by: static content, DOM selector or URL. By default, the content is empty.
+<span class='line'> 10</span>  * @param {Number|String} [conf.width] Sets width property of the component's layout. By default, the width is "500px".
+<span class='line'> 11</span>  * @param {Number|String} [conf.height] Sets height property of the component's layout. By default, the height is elastic.
+<span class='line'> 12</span>  * @param {Boolean} [conf.fx] Enable or disable UI effects. By default, the effects are enable.
+<span class='line'> 13</span>  * @param {String} [conf.event] Sets the event ("click" or "hover") that trigger show method. By default, the event is "hover".
+<span class='line'> 14</span>  * @param {String} [conf.points] Sets the points where component will be positioned, specified by configuration or centered by default: "cm cm".
+<span class='line'> 15</span>  * @param {String} [conf.offset] Sets the offset in pixels that component will be displaced from original position determined by points. It's specified by configuration or zero by default: "0 0".
+<span class='line'> 16</span>  * @param {Boolean} [conf.cache] Enable or disable the content cache. By default, the cache is enable.
+<span class='line'> 17</span>  * @param {String} [conf.closable] Sets the way (true, "button" or false) the Layer close when conf.event is set as "click". By default, the layer close true.
+<span class='line'> 18</span>  * @returns itself
+<span class='line'> 19</span>  * @factorized
+<span class='line'> 20</span>  * @see ch.Floats
+<span class='line'> 21</span>  * @see ch.Tooltip
+<span class='line'> 22</span>  * @see ch.Modal
+<span class='line'> 23</span>  * @see ch.Zoom
+<span class='line'> 24</span>  * @exampleDescription To create a ch.Layer you have to give a selector.
+<span class='line'> 25</span>  * @example
+<span class='line'> 26</span>  * var widget = $(".some-element").layer("&lt;tag>Some content.&lt;/tag>");
+<span class='line'> 27</span>  * @exampleDescription ch.Layer component can receive a parameter. It is a literal object { }, with the properties you want to configurate.
+<span class='line'> 28</span>  * @example
+<span class='line'> 29</span>  * var conf = {
+<span class='line'> 30</span>  *     "width": 200,
+<span class='line'> 31</span>  *     "height": 50
+<span class='line'> 32</span>  * };
+<span class='line'> 33</span>  * @exampleDescription Create a layer with configuration.
+<span class='line'> 34</span>  * @example
+<span class='line'> 35</span>  * var widget = $(".some-element").layer({
+<span class='line'> 36</span>  *     "content": "Some content here!",
+<span class='line'> 37</span>  *     "width": "200px",
+<span class='line'> 38</span>  *     "height": 50,
+<span class='line'> 39</span>  *     "event": "click",
+<span class='line'> 40</span>  *     "closable": "button",
+<span class='line'> 41</span>  *     "offset": "10 -10",
+<span class='line'> 42</span>  *     "cache": false,
+<span class='line'> 43</span>  *     "points": "lt rt"
+<span class='line'> 44</span>  * });
+<span class='line'> 45</span>  * @exampleDescription Now &lt;code>widget&lt;/code> is a reference to the layer instance controller. You can set a new content by using &lt;code>widget&lt;/code> like this:
+<span class='line'> 46</span>  * @example
+<span class='line'> 47</span>  * widget.content("http://content.com/new/content");
+<span class='line'> 48</span>  */</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">window</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ch</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">	</span><span class="STRN">'use strict'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 51</span> 
+<span class='line'> 52</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 53</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">window.Error</span><span class="PUNC">(</span><span class="STRN">'Expected ch namespace defined.'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 54</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 55</span> 
+<span class='line'> 56</span> </span><span class="WHIT">	</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Layer</span><span class="PUNC">(</span><span class="NAME">$el</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 57</span> 
+<span class='line'> 58</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'> 59</span> 		 * Reference to a internal component instance, saves all the information and configuration properties.
+<span class='line'> 60</span> 		 * @private
+<span class='line'> 61</span> 		 * @name ch.Layer#that
+<span class='line'> 62</span> 		 * @type object
+<span class='line'> 63</span> 		 */</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">		</span><span class="NAME">that.$element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$el</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">		</span><span class="NAME">that.element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$el</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">		</span><span class="NAME">that.type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'layer'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">		</span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span> 
+<span class='line'> 70</span> </span><span class="WHIT">		</span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.util.clone</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 71</span> 
+<span class='line'> 72</span> </span><span class="WHIT">		</span><span class="NAME">conf.cone</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">		</span><span class="NAME">conf.classes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.classes</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="STRN">"ch-box-lite"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 74</span> 
+<span class='line'> 75</span> </span><span class="WHIT">		</span><span class="COMM">// Closable configuration</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">		</span><span class="NAME">conf.closeButton</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.util.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"closeButton"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">conf.closeButton</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf.event</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"click"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">		</span><span class="NAME">conf.closable</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.util.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"closable"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">conf.closable</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 78</span> 
+<span class='line'> 79</span> </span><span class="WHIT">		</span><span class="NAME">conf.aria</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 80</span> </span><span class="WHIT">		</span><span class="NAME">conf.aria.role</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"tooltip"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 81</span> </span><span class="WHIT">		</span><span class="NAME">conf.aria.identifier</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"aria-describedby"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 82</span> 
+<span class='line'> 83</span> </span><span class="WHIT">		</span><span class="NAME">conf.position</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 84</span> </span><span class="WHIT">		</span><span class="NAME">conf.position.context</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.$element</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">		</span><span class="NAME">conf.position.offset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.offset</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="STRN">"0 10"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 86</span> </span><span class="WHIT">		</span><span class="NAME">conf.position.points</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.points</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="STRN">"lt lb"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 87</span> 
+<span class='line'> 88</span> </span><span class="WHIT">		</span><span class="NAME">that.conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 89</span> 
+<span class='line'> 90</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'> 91</span> 		 * Content configuration property.
+<span class='line'> 92</span> 		 * @protected
+<span class='line'> 93</span> 		 * @name ch.Modal#source
+<span class='line'> 94</span> 		 */</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">		</span><span class="NAME">that.source</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.content</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 97</span> 	 * Inheritance
+<span class='line'> 98</span> 	 */</span><span class="WHIT">
+<span class='line'> 99</span> 
+<span class='line'>100</span> </span><span class="WHIT">		</span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.Floats.call</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>101</span> </span><span class="WHIT">		</span><span class="NAME">that.parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.util.clone</span><span class="PUNC">(</span><span class="NAME">that</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>102</span> 
+<span class='line'>103</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>104</span> 	 * Private Members
+<span class='line'>105</span> 	 */</span><span class="WHIT">
+<span class='line'>106</span> 
+<span class='line'>107</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>108</span> 		 * Delay time to hide component's contents.
+<span class='line'>109</span> 		 * @private
+<span class='line'>110</span> 		 * @name ch.Layer#hideTime
+<span class='line'>111</span> 		 * @type number
+<span class='line'>112</span> 		 * @default 400
+<span class='line'>113</span> 		 */</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">hideTime</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">400</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>115</span> 
+<span class='line'>116</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>117</span> 		 * Hide timer instance.
+<span class='line'>118</span> 		 * @private
+<span class='line'>119</span> 		 * @name ch.Layer#ht
+<span class='line'>120</span> 		 * @type timer
+<span class='line'>121</span> 		 */</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">			</span><span class="NAME">ht</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>123</span> 
+<span class='line'>124</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>125</span> 		 * Starts hide timer.
+<span class='line'>126</span> 		 * @private
+<span class='line'>127</span> 		 * @function
+<span class='line'>128</span> 		 * @name ch.Layer#hideTimer
+<span class='line'>129</span> 		 */</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">			</span><span class="NAME">hideTimer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf.event</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">"click"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">target</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">event.srcElement</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">event.target</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>133</span> 
+<span class='line'>134</span> </span><span class="WHIT">					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">relatedTarget</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">event.relatedTarget</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">event.toElement</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>135</span> 
+<span class='line'>136</span> </span><span class="WHIT">					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">relatedTarget</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">target</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">relatedTarget</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">relatedTarget</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">relatedTarget.parentNode</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">target.nodeName</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"SELECT"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">						</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>140</span> 
+<span class='line'>141</span> </span><span class="WHIT">				</span><span class="NAME">ht</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">setTimeout</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">that.innerHide</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hideTime</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>143</span> 
+<span class='line'>144</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>145</span> 		 * Clear all timers.
+<span class='line'>146</span> 		 * @private
+<span class='line'>147</span> 		 * @function
+<span class='line'>148</span> 		 * @name ch.Layer#clearTimers
+<span class='line'>149</span> 		 */</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">			</span><span class="NAME">clearTimers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">clearTimeout</span><span class="PUNC">(</span><span class="NAME">ht</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>151</span> 
+<span class='line'>152</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>153</span> 	 * Protected Members
+<span class='line'>154</span> 	 */</span><span class="WHIT">
+<span class='line'>155</span> 
+<span class='line'>156</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>157</span> 		 * Inner show method. Attach the component layout to the DOM tree.
+<span class='line'>158</span> 		 * @protected
+<span class='line'>159</span> 		 * @function
+<span class='line'>160</span> 		 * @name ch.Layer#innerShow
+<span class='line'>161</span> 		 * @returns itself
+<span class='line'>162</span> 		 */</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">		</span><span class="NAME">that.innerShow</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">			</span><span class="COMM">// Reset all layers, except me and not auto closable layers</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="WHIT">			</span><span class="NAME">$.each</span><span class="PUNC">(</span><span class="NAME">ch.instances.layer</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">e</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">e.closable</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">					</span><span class="NAME">e.hide</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>170</span> 
+<span class='line'>171</span> </span><span class="WHIT">			</span><span class="COMM">// conf.position.context = that.$element;</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">			</span><span class="NAME">that.parent.innerShow</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>173</span> 
+<span class='line'>174</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf.event</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">"click"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">				</span><span class="NAME">that.$container.one</span><span class="PUNC">(</span><span class="STRN">"mouseenter"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">clearTimers</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="STRN">"mouseleave"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hideTimer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>177</span> 
+<span class='line'>178</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>179</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>180</span> 
+<span class='line'>181</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>182</span> 		 * Inner hide method. Hides the component and detach it from DOM tree.
+<span class='line'>183</span> 		 * @protected
+<span class='line'>184</span> 		 * @function
+<span class='line'>185</span> 		 * @name ch.Layer#innerHide
+<span class='line'>186</span> 		 * @returns itself
+<span class='line'>187</span> 		 */</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">		</span><span class="NAME">that.innerHide</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">			</span><span class="NAME">that.$container.unbind</span><span class="PUNC">(</span><span class="STRN">"mouseleave"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hideTimer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>190</span> 
+<span class='line'>191</span> </span><span class="WHIT">			</span><span class="NAME">that.parent.innerHide</span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>193</span> 
+<span class='line'>194</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>195</span> 	 * Public Members
+<span class='line'>196</span> 	 */</span><span class="WHIT">
+<span class='line'>197</span> 
+<span class='line'>198</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>199</span> 		 * @borrows ch.Widget#on as ch.Layer#on
+<span class='line'>200</span> 		 */</span><span class="WHIT">
+<span class='line'>201</span> 
+<span class='line'>202</span> 
+<span class='line'>203</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>204</span> 	 * Default event delegation
+<span class='line'>205</span> 	 */</span><span class="WHIT">
+<span class='line'>206</span> 
+<span class='line'>207</span> </span><span class="WHIT">		</span><span class="COMM">// Click</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf.event</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"click"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">			</span><span class="NAME">that.$element</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">				</span><span class="PUNC">.</span><span class="NAME">css</span><span class="PUNC">(</span><span class="STRN">"cursor"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"pointer"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">				</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="STRN">"click"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">that.innerShow</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>212</span> 
+<span class='line'>213</span> </span><span class="WHIT">		</span><span class="COMM">// Hover</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">			</span><span class="NAME">that.$element</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">				</span><span class="PUNC">.</span><span class="NAME">css</span><span class="PUNC">(</span><span class="STRN">"cursor"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"default"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">				</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="STRN">"mouseenter"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">that.innerShow</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">				</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="STRN">"mouseleave"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">hideTimer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>220</span> 
+<span class='line'>221</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>222</span> 		 * Triggers when the component is ready to use (Since 0.8.0).
+<span class='line'>223</span> 		 * @name ch.Layer#ready
+<span class='line'>224</span> 		 * @event
+<span class='line'>225</span> 		 * @public
+<span class='line'>226</span> 		 * @since 0.8.0
+<span class='line'>227</span> 		 * @exampleDescription Following the first example, using &lt;code>widget&lt;/code> as layer's instance controller:
+<span class='line'>228</span> 		 * @example
+<span class='line'>229</span> 		 * widget.on("ready",function () {
+<span class='line'>230</span> 		 * this.show();
+<span class='line'>231</span> 		 * });
+<span class='line'>232</span> 		 */</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="WHIT">		</span><span class="NAME">window.setTimeout</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">that.trigger</span><span class="PUNC">(</span><span class="STRN">"ready"</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">50</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>234</span> 
+<span class='line'>235</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">'public'</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>237</span> 
+<span class='line'>238</span> </span><span class="WHIT">	</span><span class="NAME">Layer.prototype.name</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'layer'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">	</span><span class="NAME">Layer.prototype.constructor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Layer</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>240</span> 
+<span class='line'>241</span> </span><span class="WHIT">	</span><span class="NAME">ch.factory</span><span class="PUNC">(</span><span class="NAME">Layer</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>242</span> 
+<span class='line'>243</span> </span><span class="PUNC">}</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.jQuery</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.ch</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>
