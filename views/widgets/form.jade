@@ -47,7 +47,7 @@ p.updated
 
 h3#description Description
 p
-	| The Form component manages instances of
+	| The Form component manages instances of 
 	a(href="/api/#{version}/symbols/ch.Validation.html") Validation
 	|  and provides public methods to administrate error messages and Form callbacks.
 
@@ -198,11 +198,11 @@ table.ch-datagrid.tableForm
 						span.ch-form-hint Numbers and dot symbol
 		tr
 			td
-				code ch-form-options
+				code ch-list-options
 			td Wrappers that have a radio buttons or checkboxes list.
 			td
 				form.ch-form(action="/post", method="GET")
-					div.ch-form-options
+					div.ch-list-options
 						p.ch-form-row
 							input(type="radio", id="option1_class", value="1", name="option")
 							label(for="option1_class") Option 1
@@ -266,7 +266,7 @@ table.ch-datagrid.tableForm
 						label(for="input_text")
 							| Text:
 							em *
-						|
+						| 
 						input(type="text", required, placeholder="Some text here...", size="30", name="input_text", id="input_text")
 			td
 				pre
@@ -283,7 +283,7 @@ table.ch-datagrid.tableForm
 						label(for="input_text")
 							| Text:
 							em *
-						|
+						| 
 						input(type="text", required, disabled, placeholder="Some text here...", size="30", name="input_text", id="input_text")
 			td
 				pre
@@ -346,7 +346,7 @@ table.ch-datagrid.tableForm
 						label(for="select")
 							| Select:
 							em *
-						|
+						| 
 						select(id="select", name="select", required)
 							option(value="") Select one...
 							option(value="1") Option 1
@@ -374,7 +374,7 @@ table.ch-datagrid.tableForm
 						label(for="select")
 							| Select:
 							em *
-						|
+						| 
 						select(id="select", name="select", required, disabled)
 							option(value="") Select one...
 							option(value="1") Option 1
@@ -401,7 +401,7 @@ table.ch-datagrid.tableForm
 					p.ch-form-row.ch-form-disabled
 						label(for="select")
 							| Select:
-						|
+						| 
 						select(id="select", name="select", disabled)
 							option(value="") Select one...
 							option(value="1") Option 1
@@ -479,7 +479,7 @@ table.ch-datagrid.tableForm
 						label(for="textarea")
 							| textarea:
 							em *
-						|
+						| 
 						textarea(id="textarea", required)
 			td
 				pre
@@ -496,7 +496,7 @@ table.ch-datagrid.tableForm
 						label(for="textarea")
 							| textarea:
 							em *
-						|
+						| 
 						textarea(id="textarea", required, disabled)
 			td
 				pre
@@ -608,7 +608,7 @@ table.ch-datagrid.tableForm
 				form.ch-form(action="/post", method="GET")
 					fieldset
 						legend Example form legend
-						div.ch-form-options
+						div.ch-list-options
 							p.ch-form-row
 								input(type="radio", id="option1", value="1", name="option")
 								label(for="option1") Option 1
@@ -620,7 +620,7 @@ table.ch-datagrid.tableForm
 					|<form ... >
 					|    <fieldset>
 					|        <legend>Example form legend <em>*</em></legend>
-					|        <div class="ch-form-options">
+					|        <div class="ch-list-options">
 					|            <p class="ch-form-row">
 					|                <input type="radio" id="option1"  value="1" name="option">
 					|                <label for="option1">Option 1</label>
@@ -639,7 +639,7 @@ table.ch-datagrid.tableForm
 						legend
 							| Example form legend
 							em *
-						ul.ch-form-options
+						ul.ch-list-options
 							li.ch-form-row
 								input(type="radio", id="option1a", value="1", name="optionA")
 								label(for="option1b") Option 1-A
@@ -651,7 +651,7 @@ table.ch-datagrid.tableForm
 					|<form ... >
 					|    <fieldset>
 					|        <legend>Example form legend <em>*</em></legend>
-					|        <ul class="ch-form-options">
+					|        <ul class="ch-list-options">
 					|            <li class="ch-form-row">
 					|                <input type="radio" id="option1"  value="1" name="option">
 					|                <label for="option1">Option 1</label>
@@ -668,7 +668,7 @@ table.ch-datagrid.tableForm
 				form.ch-form(action="/post", method="GET")
 					fieldset
 						legend Example form legend
-						div.ch-form-options
+						div.ch-list-options
 							h4.ch-form-subtitle Title of checkboxes group:
 							p.ch-form-row
 								input(type="checkbox", id="option1c", value="1", name="optionC")
@@ -681,7 +681,7 @@ table.ch-datagrid.tableForm
 					|<form ... >
 					|    <fieldset>
 					|        <legend>Example form legend</legend>
-					|        <div class="ch-form-options">
+					|        <div class="ch-list-options">
 					|        <h4 class="ch-form-subtitle">
 					|            <p class="ch-form-row">
 					|                <input type="checkbox" id="option1"  value="1" name="option">
@@ -699,7 +699,7 @@ table.ch-datagrid.tableForm
 				form.ch-form(action="/post", method="GET")
 					fieldset
 						legend Example form legend
-						div.ch-form-options.ch-form-required
+						div.ch-list-options.ch-form-required
 							h4.ch-form-subtitle
 								| Title of checkboxes group:
 								em *
@@ -714,7 +714,7 @@ table.ch-datagrid.tableForm
 					|<form ... >
 					|    <fieldset>
 					|        <legend>Example form legend</legend>
-					|        <div class="ch-form-options ch-form-required">
+					|        <div class="ch-list-options ch-form-required">
 					|            <h4 class="ch-form-subtitle">Title of checkboxes group: <em>*</em></h4>
 					|            <p class="ch-form-row">
 					|                <input type="checkbox" id="option1"  value="1" name="option">

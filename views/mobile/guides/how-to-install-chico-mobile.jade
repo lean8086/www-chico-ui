@@ -1,0 +1,174 @@
+h1 How to install Chico Mobile
+p.updated
+	| Documentation updated on 
+	data July 13rd
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#dependencies") 1 Dependencies
+		dt
+			a(href="#sniffing") 2 Browser sniffing
+		dt
+			a(href="#meta") 3 Meta tags
+		dd
+			dl
+				dt
+					a(href="#viewport") 3.1 Mobile viewport optimization
+				dt
+					a(href="#icons") 3.2 Home screen icons
+		dt
+			a(href="#pages") 4 Pages
+		dt
+			a(href="#zepto") 5 Zepto JavaScript Library
+		dt
+			a(href="#sources") 6 Which are the sources?
+		dt
+			a(href="#overview") 7 Overview
+
+
+h3#dependencies Dependencies
+p
+	| To install the library you need get some dependencies and the sources files. For example, Chico Mobile depends on 
+	a(href="http://zeptojs.com/") Zepto
+	|  to work.
+p
+	| Besides that, you can add some snippets to improve the cross-browser task.
+
+
+h3#sniffing Browser sniffing
+p
+	| We hate writting CSS hacks. Instead of hacking the code, we rather use mobile IE's conditional comments, so if you paste this code in your HTML, Chico Mobile will know how to fix the visual inconsistencies:
+pre
+	| <!doctype html>
+	| <!--[if IEMobile 7]> <html class="no-js iem7"> <![endif]-->
+	| <!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js"> <!--<![endif]-->
+
+h3#meta Meta tags
+h4#viewport Mobile viewport optimization
+p
+	| Prevent mobile browsers from scaling the content in page view:
+pre <meta name="HandheldFriendly" content="True" />
+p
+	| Control the scaling:
+pre <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+p
+	| Force font smoothing:
+pre <meta http-equiv="cleartype" content="on" />
+
+h4#icons Home screen icons
+p
+	| For non-Retina iPhone, iPod Touch, and Android 2.1+ devices:
+pre <link rel="apple-touch-icon-precomposed" href="icon-57x57.png" />
+p
+	| For first-generation iPad:
+pre <link rel="apple-touch-icon-precomposed" sizes="72x72" href="icon-72x72.png" />
+p
+	| For iPhone 4 with high-resolution Retina display:
+pre <link rel="apple-touch-icon-precomposed" sizes="114x114" href="icon-114x114.png" />
+p
+	| For third generation iPad Retina Display:
+pre <link rel="apple-touch-icon-precomposed" sizes="144x144" href="icon-144x144.png" />
+
+h3#pages Pages
+p Each view in your page should be identified with two attributes:
+ul.ch-list
+	li
+		code data-page
+		| : Specifies which view is it. Use 
+		strong "index"
+		|  as main view.
+	li
+		code role
+		| : Describes the structure of the page, such as regions. Set it as  
+		strong "region"
+		| .
+p So, you have to wrap all your main view into this element:
+pre
+	| <div data-page="index" role="region">
+	| 	<!-- Your code -->
+	| </div>
+
+h3#zepto Zepto JavaScript Library
+p
+	| Most of our framework’s functionality is built on 
+	a(href="http://zeptojs.com/") Zepto
+	| . That's why we need to pre-load this toolbox.
+p
+	| You can get Zepto 
+	a(href="http://zeptojs.com/#download", target="_blank") downloading from its site
+	|  and call on your HTML file:
+pre
+	| <script src="zepto.js"></script>
+p.ch-message.ch-information
+	| We recommend put all the &lt;script&gt; calls at bottom of HTML page, before &lt;/body&gt; tag close.
+
+
+h3#sources Which are the sources?
+p
+	| You only have to add the CSS, JavaScript and assets of Chico Mobile, and that's all!
+form.ch-box-container(action="/versions/mobile/#{mobile.version}/chico-mobile-#{mobile.version}.zip")
+	p
+		input.ch-btn.ch-primary(type="submit", value="Download v#{mobile.version}")
+		|  or 
+		a(href="http://github.com/mercadolibre/chico-mobile", target="_blank") fork on GitHub
+		| .
+
+p
+	| Make sure to add the stylesheet call into the 
+	code &lt;head&gt;
+	|  tag.
+pre
+	| <link rel="stylesheet" href="chico-mobile-x.x.x.css" />
+p
+	| And you should add the JavaScript at bottom of page, before 
+	code &lt;/body&gt;
+	|  tag close and 
+	strong after Zepto script call
+	| .
+pre
+	| <script src="chico-mobile-x.x.x.js"></script>
+p
+	| Assets (images and fonts) are into the 
+	strong zip file
+	|  that you 
+	a(href="#") download
+	| . Put assets on a folder into your project and link to files within stylesheet code.
+
+h3#overview Overview
+pre
+	| <!doctype html>
+	| <!--[if IEMobile 7]> <html class="no-js iem7"> <![endif]-->
+	| <!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js"> <!--<![endif]-->
+	| <head>
+	| 	<!-- Avoid script blocking -->
+	| 	<script></script>
+	| 	<meta charset="utf-8" />
+	| 	<title>Document Title</title>
+	| 
+	| 	<meta name="HandheldFriendly" content="True" />
+	| 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+	| 	<meta http-equiv="cleartype" content="on" />
+	| 
+	| 	<link rel="apple-touch-icon-precomposed" href="icon-57x57.png" />
+	| 	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="icon-72x72.png" />
+	| 	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="icon-114x114.png" />
+	| 	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="icon-144x144.png" />
+	| 
+	| 	<!-- Chico Mobile Core stylesheet -->
+	| 	<link rel="stylesheet" href="chico-mobile-x.x.x.css" />
+	| </head>
+	| <body>
+	| 	<div data-page="index" role="region">
+	| 		<!-- Your code -->
+	| 	</div>
+	| 
+	| 	<script src="zepto.js"></script>
+	| 	<script src="chico-mobile-x.x.x.js"></script>
+	| 	<script>
+	| 		// Write your JavaScript here...
+	| 	</script> 
+	| </body>
+	| </html>

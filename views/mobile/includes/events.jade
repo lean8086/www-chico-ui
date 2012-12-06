@@ -1,0 +1,19 @@
+h3#events Events
+p
+	| The main widget's actions trigger custom events, which you can suscribe to execute any action.
+p
+	| Here is an example of the 
+	code ready
+	|  event, triggered when component ends its load process:
+pre
+	|foo.on("ready", function () {
+	| 	var that = this; // Where "this" is the returned object of component
+	| });
+p
+	| You can see the complete list of events in 
+	a(href="/api/mobile/#{mobile.version}/symbols/ch.#{capital}.html#events") #{friendly} API documentation
+	| .
+p
+	| Learn more about events on our 
+	a(href="/guides/use-callback-functions") step-by-step guide
+	| .

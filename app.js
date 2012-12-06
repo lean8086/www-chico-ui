@@ -109,6 +109,10 @@ function createNavMap(type) {
 meta = {
 	"widgets": createNavMap("widgets"),
 	"guides": createNavMap("guides"),
+	"mobile": {
+		"widgets": createNavMap("mobile/widgets"),
+		"guides": createNavMap("mobile/guides")
+	},
 	"title": "Chico UI, MercadoLibre's open source web tools.",
 };
 
@@ -127,7 +131,7 @@ meta.versions = (function () {
 	// Classify each version
 	folders.forEach(function (v) {
 
-		if (v === "latest" || v === "assets" || v === "mobile" || v === ".DS_Store") { return; }
+		if (v === "latest" || v === "assets" || v === "mobile" || v === ".DS_Store" || v === 'mesh') { return; }
 
 		// Object containing data of each version
 		var o = {
@@ -172,6 +176,91 @@ meta.versions = (function () {
 	return versions;
 
 }());
+
+// Order versions foldernames into an array
+meta.mobile.versions = (function () {
+
+	// Get filenames into folder and delete files in "the blacklist" and file extension
+	var folders = fs.readdirSync(__dirname + "/public/versions/mobile").sort(),
+
+	// Versions lower than 0.10 (not inclusive): 0.9, 0.8, etc.
+		versions = [],
+
+	// Versions greater than 0.10 (inclusive): 0.10, 0.11, etc.
+		gt = [];
+
+	// Classify each version
+	folders.forEach(function (v) {
+
+		if (v === "latest" || v === "assets" || v === ".DS_Store" || v === "fonts") { return; }
+
+		// Object containing data of each version
+		var o = {
+			"version": v,
+			"files": []
+		};
+
+		// Files inside version folder
+		fs.readdirSync(__dirname + "/public/versions/mobile/" + v).forEach(function (name) {
+
+			if (name === ".DS_Store") { return; }
+
+			o.files.push({
+				"name": name,
+				"href": "/versions/mobile/" + v + "/" + name
+			});
+		});
+
+		if (v.split(".")[1] < 10) {
+			versions.push(o);
+		} else {
+			gt.push(o);
+		}
+	});
+
+	// Sort both arrays
+	versions.sort();
+	gt.sort();
+
+	// Add latest versions to main array
+	gt.forEach(function (v) {
+		versions.push(v);
+	});
+
+	// Reorder versions
+	versions.reverse();
+
+	// Set latest version
+	meta.mobile.version = versions[0].version;
+
+	// Return all sorted versions
+	return versions;
+
+}());
+
+meta.mobile.api = (function () {
+
+	// Final result
+	var r = [],
+
+	// Regexp to be replaced into filenames
+		blacklist = new RegExp("(.html)|(.jade)|(\,*.ds_store\,*)|(\,*_global_(.html*)\,*)|(\,*src\,*)", "gi"),
+
+	// Get filenames into folder and delete files in "the blacklist" and file extension
+		files = fs.readdirSync(__dirname + "/public/api/mobile/" + meta.mobile.version + "/symbols").sort().reverse().join(",").replace(blacklist, "");
+
+	// Get into each filename
+	files.split(",").forEach(function (file) {
+		// Add an object
+		r.push({
+			"name": file,
+			"href": "/api/mobile/" + meta.mobile.version + "/symbols/" + file,
+			"friendly": friendly(file)
+		});
+	});
+
+	return r;
+})();
 
 
 /*
@@ -283,6 +372,24 @@ app.get("/:section/:file", function (req, res) {
 	meta.selected = req.params.section;
 
 	res.render(req.params.section + "/" + req.params.file, meta);
+});
+
+// Mobile demos
+app.get("/mobile/demos/:file", function (req, res) {
+	res.render("mobile/demos/" + req.params.file, {"layout": "mobile/demos/layout"});
+});
+
+// Mobile Widgets, Mobile Guides, etc. (Mobile + L1 + L2)
+app.get("/mobile/:section/:file", function (req, res) {
+
+	meta.layout = "layout_1col";
+	meta.friendly = friendly(req.params.file, req.params.section);
+	meta.camelCase = camelCase(req.params.file);
+	meta.capital = ucfirst(meta.camelCase);
+	meta.title = "Chico UI | Mobile " + ucfirst(req.params.section) + " | " + meta.friendly;
+	meta.selected = "mobile";
+
+	res.render("mobile/" + req.params.section + "/" + req.params.file, meta);
 });
 
 

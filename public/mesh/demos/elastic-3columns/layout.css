@@ -1,0 +1,93 @@
+/* Elastic Layout: 3 columns */
+
+.ch-fixed-sidebar {
+	float: left;
+	width: 290px; /* defines fixed column width */
+}	
+
+.ch-left.ch-fixed-sidebar {
+	margin: 0 10px 0 0; /* margin-right, gutter */
+}
+
+.ch-right.ch-elastic-content {
+	margin: 0 0 0 300px; /* same as width, plus gutter */
+}
+
+.ch-left.ch-elastic-content {
+	float: left;
+	width: 100%;
+}
+
+.ch-left.ch-elastic-content .ch-inner { /* inner element must have this class */
+	margin: 0 300px 0 0;
+} 
+
+.ch-right.ch-fixed-sidebar {
+	margin-left: -290px; /* same as width */
+}
+
+/* center fluid */
+.ch-right.ch-elastic-content .ch-elastic-content  {
+	width: 100%;
+}
+
+/* Mobile */
+@media all and (max-width: 480px) {
+	
+	.ch-fixed-sidebar,
+	.ch-left.ch-elastic-content,
+	.ch-right.ch-elastic-content,
+	.ch-right.ch-fixed-sidebar {
+		float: none;
+		width: 100%;
+	}
+
+	.ch-left.ch-elastic-content .ch-inner,
+	.ch-right.ch-elastic-content,
+	.ch-right.ch-fixed-sidebar {
+		margin: 0;
+	}
+
+	.ch-right.ch-elastic-content,
+	.ch-right.ch-fixed-sidebar {
+		margin: 10px 0;
+	}
+}
+
+/* ------------------------------------------------------- *
+ * --- just to highlight columns - you can delete these -- *
+ * -------------    use chico.css for styles   ----------- *
+ * ------------------------------------------------------- */
+
+body {
+	color: #333333;
+    font: 13px/20px Arial,Helvetica,"Nimbus Sans L",sans-serif;
+}
+
+.ch-box {
+	border: 1px solid #ccc;
+	padding: 10px;
+}
+
+.ch-fixed-sidebar .ch-box, .ch-elastic-content .ch-box { 
+	height: 400px;
+}
+
+.ch-fixed-sidebar .ch-box {
+	background-color: #ccc;
+}
+
+.ch-header {
+	height: 50px;
+	padding: 20px 10px;
+	background: #eee;
+	margin: 10px auto;
+}
+
+.ch-footer {
+	clear:both;
+	text-align: center;
+	margin: 10px auto;
+	background: #eee;
+	
+}

@@ -1,0 +1,123 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span> * Layer lets you show a contextual data.
+<span class='line'>  3</span> * @name Layer
+<span class='line'>  4</span> * @class Layer
+<span class='line'>  5</span> * @augments ch.Expando
+<span class='line'>  6</span> * @memberOf ch
+<span class='line'>  7</span> * @param {Object} [conf] Object with configuration properties.
+<span class='line'>  8</span> * @param {Boolean} [conf.open] Shows the layer open when component was loaded. By default, the value is false.
+<span class='line'>  9</span> * @returns itself
+<span class='line'> 10</span> * @factorized
+<span class='line'> 11</span> * @see ch.Widget
+<span class='line'> 12</span> * @see ch.Expando
+<span class='line'> 13</span> * @exampleDescription Create a new layer.
+<span class='line'> 14</span> * @example
+<span class='line'> 15</span> * var widget = $(".some-element").layer();
+<span class='line'> 16</span> */</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="NAME">ch.Layer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 18</span> 
+<span class='line'> 19</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 20</span> 	* Reference to a internal component instance, saves all the information and configuration properties.
+<span class='line'> 21</span> 	* @private
+<span class='line'> 22</span> 	* @name ch.Layer-that
+<span class='line'> 23</span> 	* @type object
+<span class='line'> 24</span> 	*/</span><span class="WHIT">
+<span class='line'> 25</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 26</span> 
+<span class='line'> 27</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'> 28</span> 		* Reference to Parent Class.
+<span class='line'> 29</span> 		* @private
+<span class='line'> 30</span> 		* @name ch.Layer-parent
+<span class='line'> 31</span> 		* @type object
+<span class='line'> 32</span> 		*/</span><span class="WHIT">
+<span class='line'> 33</span> </span><span class="WHIT">		</span><span class="NAME">parent</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 34</span> 
+<span class='line'> 35</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'> 36</span> 		* Reference to configuration object.
+<span class='line'> 37</span> 		* @private
+<span class='line'> 38</span> 		* @name ch.Layer-conf
+<span class='line'> 39</span> 		* @type object
+<span class='line'> 40</span> 		*/</span><span class="WHIT">
+<span class='line'> 41</span> </span><span class="WHIT">		</span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">clone</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 42</span> 
+<span class='line'> 43</span> </span><span class="WHIT">	</span><span class="NAME">conf.icon</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 44</span> 
+<span class='line'> 45</span> </span><span class="WHIT">	</span><span class="NAME">conf.aria</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">	</span><span class="NAME">conf.aria.role</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"tooltip"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">	</span><span class="NAME">conf.aria.identifier</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"aria-describedby"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">	</span><span class="NAME">conf.classes</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.classes</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="STRN">"ch-box ch-cone ch-points-ltlb"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> 
+<span class='line'> 50</span> </span><span class="WHIT">	</span><span class="NAME">that.conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">	</span><span class="NAME">that.type</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"layer"</span><span class="WHIT">
+<span class='line'> 52</span> 
+<span class='line'> 53</span> </span><span class="COMM">/**
+<span class='line'> 54</span> *	Inheritance
+<span class='line'> 55</span> */</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">	</span><span class="COMM">// Borrow a constructor and return a parent</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">	</span><span class="NAME">parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.inherit</span><span class="PUNC">(</span><span class="NAME">ch.Expando</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span> 
+<span class='line'> 59</span> 
+<span class='line'> 60</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 61</span> 	* @borrows ch.Widget#uid as ch.Layer#uid
+<span class='line'> 62</span> 	*/</span><span class="WHIT">	
+<span class='line'> 63</span> 	
+<span class='line'> 64</span> 	</span><span class="COMM">/**
+<span class='line'> 65</span> 	* @borrows ch.Widget#el as ch.Layer#el
+<span class='line'> 66</span> 	*/</span><span class="WHIT">
+<span class='line'> 67</span> 
+<span class='line'> 68</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 69</span> 	* @borrows ch.Widget#type as ch.Layer#type
+<span class='line'> 70</span> 	*/</span><span class="WHIT">
+<span class='line'> 71</span> 
+<span class='line'> 72</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 73</span> 	* @borrows ch.Widget#emit as ch.Layer#emit
+<span class='line'> 74</span> 	*/</span><span class="WHIT">
+<span class='line'> 75</span> 
+<span class='line'> 76</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 77</span> 	* @borrows ch.Widget#on as ch.Layer#on
+<span class='line'> 78</span> 	*/</span><span class="WHIT">
+<span class='line'> 79</span> 
+<span class='line'> 80</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 81</span> 	* @borrows ch.Widget#once as ch.Layer#once
+<span class='line'> 82</span> 	*/</span><span class="WHIT">
+<span class='line'> 83</span> 
+<span class='line'> 84</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 85</span> 	* @borrows ch.Widget#off as ch.Layer#off
+<span class='line'> 86</span> 	*/</span><span class="WHIT">
+<span class='line'> 87</span> 
+<span class='line'> 88</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 89</span> 	* @borrows ch.Widget#offAll as ch.Layer#offAll
+<span class='line'> 90</span> 	*/</span><span class="WHIT">
+<span class='line'> 91</span> 
+<span class='line'> 92</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 93</span> 	* @borrows ch.Expando#show as ch.Layer#show
+<span class='line'> 94</span> 	*/</span><span class="WHIT">
+<span class='line'> 95</span> 
+<span class='line'> 96</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 97</span> 	* @borrows ch.Expando#hide as ch.Layer#hide
+<span class='line'> 98</span> 	*/</span><span class="WHIT">
+<span class='line'> 99</span> 
+<span class='line'>100</span> 
+<span class='line'>101</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>102</span> 	* Emits an event when the component is ready to use.
+<span class='line'>103</span> 	* @name ch.Layer#ready
+<span class='line'>104</span> 	* @event
+<span class='line'>105</span> 	* @public
+<span class='line'>106</span> 	* @example
+<span class='line'>107</span> 	* // Following the first example, using 'me' as layer's instance controller:
+<span class='line'>108</span> 	* widget.on("ready",function () {
+<span class='line'>109</span> 	*	this.show();
+<span class='line'>110</span> 	* });
+<span class='line'>111</span> 	*/</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">	</span><span class="NAME">setTimeout</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">that.emit</span><span class="PUNC">(</span><span class="STRN">"ready"</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">50</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>113</span> 
+<span class='line'>114</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>115</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="NAME">ch.factory</span><span class="PUNC">(</span><span class="STRN">"Layer"</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>
