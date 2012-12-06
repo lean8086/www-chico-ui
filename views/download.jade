@@ -12,7 +12,7 @@ section.ch-g1
 					p Temporally you must download all the widgets.
 					p We are working on restructure the framework, and soon you will be able to do this by a better way.
 				//
-					#widgets.ch-form-options
+					#widgets.ch-list-options
 						
 						- // TODO: Migrate to PARTIALS
 						
@@ -35,7 +35,7 @@ section.ch-g1
 					input(type="hidden", name="totalWidgets", value="#{len}")
 			fieldset.ch-g1-5
 				legend 2. Select compression
-				ul.ch-form-options#compression
+				ul.ch-list-options#compression
 					li.ch-form-row
 						input#prod(type="checkbox", value="prod", name="compression", checked)
 						label(for="prod") Minified
@@ -44,7 +44,7 @@ section.ch-g1
 						label(for="dev") Uncompressed
 			fieldset.ch-g1-5
 				legend 3. Include extras
-				ul.ch-form-options#extras
+				ul.ch-list-options#extras
 					li.ch-form-row
 						input#mesh(type="checkbox", value="mesh", name="extras", checked)
 						label(for="mesh")

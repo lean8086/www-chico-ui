@@ -1,0 +1,802 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span> * Positioner lets you centralize and manage changes related to positioned elements. Positioner returns an utility that resolves positioning for all widget.
+<span class='line'>  3</span> * @name Positioner
+<span class='line'>  4</span> * @class Positioner
+<span class='line'>  5</span> * @memberOf ch
+<span class='line'>  6</span> * @param {Object} conf Configuration object with positioning properties.
+<span class='line'>  7</span> * @param {String} conf.element Reference to the DOM Element to be positioned.
+<span class='line'>  8</span> * @param {String} [conf.context] It's a reference to position and size of element that will be considered to carry out the position. If it isn't defined through configuration, it will be the viewport.
+<span class='line'>  9</span> * @param {String} [conf.points] Points where element will be positioned, specified by configuration or centered by default.
+<span class='line'> 10</span> * @param {String} [conf.offset] Offset in pixels that element will be displaced from original position determined by points. It's specified by configuration or zero by default.
+<span class='line'> 11</span> * @param {Boolean} [conf.reposition] Parameter that enables or disables reposition intelligence. It's disabled by default.
+<span class='line'> 12</span> * @requires ch.Viewport
+<span class='line'> 13</span> * @see ch.Viewport
+<span class='line'> 14</span> * @returns {Function} The Positioner returns a Function that it works in 3 ways: as a setter, as a getter and with the "refresh" parameter refreshes the position.
+<span class='line'> 15</span> * @exampleDescription
+<span class='line'> 16</span> * Instance the Positioner It requires a little configuration.
+<span class='line'> 17</span> * The default behavior place an element centered into the Viewport.
+<span class='line'> 18</span> *
+<span class='line'> 19</span> * @example
+<span class='line'> 20</span> * var positioned = ch.positioner({
+<span class='line'> 21</span> *     element: "#element1",
+<span class='line'> 22</span> * });
+<span class='line'> 23</span> * @exampleDescription 1. Getting the current configuration properties.
+<span class='line'> 24</span> * @example
+<span class='line'> 25</span> * var configuration = positioned()
+<span class='line'> 26</span> * @exampleDescription 2. Updates the current position with &lt;code>refresh&lt;/code> as a parameter.
+<span class='line'> 27</span> * @example
+<span class='line'> 28</span> * positioned("refresh");
+<span class='line'> 29</span> * @exampleDescription 3. Define a new position
+<span class='line'> 30</span> * @example
+<span class='line'> 31</span> * positioned({
+<span class='line'> 32</span> *     element: "#element2",
+<span class='line'> 33</span> *     context: "#context2",
+<span class='line'> 34</span> *     points: "lt rt"
+<span class='line'> 35</span> * });
+<span class='line'> 36</span> * @exampleDescription &lt;strong>Offset&lt;/strong>: The positioner could be configurated with an offset.
+<span class='line'> 37</span> * This example show an element displaced horizontally by 10px of defined position.
+<span class='line'> 38</span> * @example
+<span class='line'> 39</span> * var positioned = ch.positioner({
+<span class='line'> 40</span> *     element: "#element3",
+<span class='line'> 41</span> *     context: "#context3",
+<span class='line'> 42</span> *     points: "lt rt",
+<span class='line'> 43</span> *     offset: "10 0"
+<span class='line'> 44</span> * });
+<span class='line'> 45</span> * @exampleDescription &lt;strong>Reposition&lt;/strong>: Repositionable feature moves the postioned element if it can be shown into the viewport.
+<span class='line'> 46</span> * @example
+<span class='line'> 47</span> * var positioned = ch.positioner({
+<span class='line'> 48</span> *     element: "#element4",
+<span class='line'> 49</span> *     context: "#context4",
+<span class='line'> 50</span> *     points: "lt rt",
+<span class='line'> 51</span> *     reposition: true
+<span class='line'> 52</span> * });
+<span class='line'> 53</span> */</span><span class="WHIT">
+<span class='line'> 54</span> 
+<span class='line'> 55</span> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">window</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">ch</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">	</span><span class="STRN">'use strict'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 57</span> 
+<span class='line'> 58</span> </span><span class="WHIT">	</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">		</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">window.Error</span><span class="PUNC">(</span><span class="STRN">'Expected ch namespace defined.'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 61</span> 
+<span class='line'> 62</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">$window</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">window</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">		</span><span class="NAME">parseInt</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">window.parseInt</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> 
+<span class='line'> 65</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 66</span> 	 * Converts points in className.
+<span class='line'> 67</span> 	 * @private
+<span class='line'> 68</span> 	 * @name ch.Positioner#classNamePoints
+<span class='line'> 69</span> 	 * @function
+<span class='line'> 70</span> 	 * @returns String
+<span class='line'> 71</span> 	 */</span><span class="WHIT">
+<span class='line'> 72</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">classNamePoints</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">points</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">"ch-points-"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">points.replace</span><span class="PUNC">(</span><span class="STRN">" "</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 75</span> 
+<span class='line'> 76</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 77</span> 	 * Reference that allows to know when window is being scrolled or resized.
+<span class='line'> 78</span> 	 * @private
+<span class='line'> 79</span> 	 * @name ch.Positioner#changing
+<span class='line'> 80</span> 	 * @type Boolean
+<span class='line'> 81</span> 	 */</span><span class="WHIT">
+<span class='line'> 82</span> </span><span class="WHIT">		</span><span class="NAME">changing</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 83</span> 
+<span class='line'> 84</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 85</span> 	 * Checks if window is being scrolled or resized, updates viewport position and triggers internal Change event.
+<span class='line'> 86</span> 	 * @private
+<span class='line'> 87</span> 	 * @name ch.Positioner#triggerScroll
+<span class='line'> 88</span> 	 * @function
+<span class='line'> 89</span> 	 */</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">		</span><span class="NAME">triggerChange</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">			</span><span class="COMM">// No changing, no execution</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">changing</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 93</span> 
+<span class='line'> 94</span> </span><span class="WHIT">			</span><span class="COMM">// Updates viewport position</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">			</span><span class="NAME">ch.viewport.getOffset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> 
+<span class='line'> 97</span> </span><span class="WHIT">			</span><span class="COMM">/**
+<span class='line'> 98</span> 			 * Triggers when window is being scrolled or resized.
+<span class='line'> 99</span> 			 * @private
+<span class='line'>100</span> 			 * @name ch.Positioner#change
+<span class='line'>101</span> 			 * @event
+<span class='line'>102</span> 			 */</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">			</span><span class="NAME">$window.trigger</span><span class="PUNC">(</span><span class="NAME">ch.events.viewport.CHANGE</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>104</span> 
+<span class='line'>105</span> </span><span class="WHIT">			</span><span class="COMM">// Change scrolling status</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">			</span><span class="NAME">changing</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span> 
+<span class='line'>109</span> </span><span class="WHIT">	</span><span class="COMM">// Resize and Scroll events binding. These updates respectives boolean variables</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">	</span><span class="NAME">$window.bind</span><span class="PUNC">(</span><span class="STRN">"resize scroll"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">changing</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span> 
+<span class='line'>112</span> </span><span class="WHIT">	</span><span class="COMM">// Interval that checks for resizing status and triggers specific events</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">	</span><span class="NAME">window.setInterval</span><span class="PUNC">(</span><span class="NAME">triggerChange</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">350</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span> 
+<span class='line'>115</span> </span><span class="WHIT">	</span><span class="COMM">// Returns Positioner Abstract Component</span><span class="WHIT">
+<span class='line'>116</span> </span><span class="WHIT">	</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="NAME">Positioner</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>117</span> 
+<span class='line'>118</span> </span><span class="WHIT">		</span><span class="COMM">// Validation for required "element" parameter</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">ch.util.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"element"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">			</span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">window.Error</span><span class="PUNC">(</span><span class="STRN">'Chico UI error: Expected to find \"element\" as required configuration parameter of ch.Positioner.'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span> 
+<span class='line'>122</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>124</span> 
+<span class='line'>125</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>126</span> 		 * Configuration parameter that enables or disables reposition intelligence. It's disabled by default.
+<span class='line'>127</span> 		 * @private
+<span class='line'>128</span> 		 * @name ch.Positioner#reposition
+<span class='line'>129</span> 		 * @type Boolean
+<span class='line'>130</span> 		 * @default false
+<span class='line'>131</span> 		 * @exampleDescription Repositionable Element if it can't be shown into viewport area
+<span class='line'>132</span> 		 * @example
+<span class='line'>133</span> 		 * ch.positioner({
+<span class='line'>134</span> 		 *     element: "#element1",
+<span class='line'>135</span> 		 *     reposition: true
+<span class='line'>136</span> 		 * });
+<span class='line'>137</span> 		 */</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">		</span><span class="NAME">conf.reposition</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.reposition</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>139</span> 
+<span class='line'>140</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>141</span> 		 * Reference that saves all members to be published.
+<span class='line'>142</span> 		 * @private
+<span class='line'>143</span> 		 * @name ch.Positioner#that
+<span class='line'>144</span> 		 * @type Object
+<span class='line'>145</span> 		 */</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>147</span> 
+<span class='line'>148</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>149</span> 		 * Reference to the DOM Element to be positioned.
+<span class='line'>150</span> 		 * @private
+<span class='line'>151</span> 		 * @name ch.Positioner#$element
+<span class='line'>152</span> 		 * @type jQuery Object
+<span class='line'>153</span> 		 */</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">			</span><span class="NAME">$element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">conf.element</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>155</span> 
+<span class='line'>156</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>157</span> 		 * Points where element will be positioned, specified by configuration or centered by default.
+<span class='line'>158</span> 		 * @private
+<span class='line'>159</span> 		 * @name ch.Positioner#points
+<span class='line'>160</span> 		 * @type String
+<span class='line'>161</span> 		 * @default "cm cm"
+<span class='line'>162</span> 		 * @exampleDescription Element left-top point = Context right-bottom point
+<span class='line'>163</span> 		 * @example
+<span class='line'>164</span> 		 * ch.positioner({
+<span class='line'>165</span> 		 *     element: "#element1",
+<span class='line'>166</span> 		 *     points: "lt rt"
+<span class='line'>167</span> 		 * });
+<span class='line'>168</span> 		 * @exampleDescription Element center-middle point = Context center-middle point
+<span class='line'>169</span> 		 * @example
+<span class='line'>170</span> 		 * ch.positioner({
+<span class='line'>171</span> 		 *     element: "#element2",
+<span class='line'>172</span> 		 *     points: "cm cm"
+<span class='line'>173</span> 		 * });
+<span class='line'>174</span> 		 */</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">			</span><span class="NAME">points</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf.points</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="STRN">"cm cm"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>176</span> 
+<span class='line'>177</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>178</span> 		 * Offset in pixels that element will be displaced from original position determined by points. It's specified by configuration or zero by default.
+<span class='line'>179</span> 		 * @private
+<span class='line'>180</span> 		 * @name ch.Positioner#offset
+<span class='line'>181</span> 		 * @type {Array} X and Y references determined by "offset" configuration parameter.
+<span class='line'>182</span> 		 * @default "0 0"
+<span class='line'>183</span> 		 * @exampleDescription Moves 5px to right and 5px to bottom
+<span class='line'>184</span> 		 * @example
+<span class='line'>185</span> 		 * ch.positioner({
+<span class='line'>186</span> 		 *     element: "#element1",
+<span class='line'>187</span> 		 *     offset: "5 5"
+<span class='line'>188</span> 		 * });
+<span class='line'>189</span> 		 * @exampleDescription It will be worth:
+<span class='line'>190</span> 		 * @example
+<span class='line'>191</span> 		 * offset[0] = 5;
+<span class='line'>192</span> 		 * offset[1] = 5;
+<span class='line'>193</span> 		 * @exampleDescription Moves 10px to right and 5px to top
+<span class='line'>194</span> 		 * @example
+<span class='line'>195</span> 		 * ch.positioner({
+<span class='line'>196</span> 		 *     element: "#element1",
+<span class='line'>197</span> 		 *     offset: "10 -5"
+<span class='line'>198</span> 		 * });
+<span class='line'>199</span> 		 * @exampleDescription It will be worth:
+<span class='line'>200</span> 		 * @example It will be worth:
+<span class='line'>201</span> 		 * offset[0] = 10;
+<span class='line'>202</span> 		 * offset[1] = -5;
+<span class='line'>203</span> 		 */</span><span class="WHIT">
+<span class='line'>204</span> </span><span class="WHIT">			</span><span class="NAME">offset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf.offset</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="STRN">"0 0"</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">split</span><span class="PUNC">(</span><span class="STRN">" "</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>205</span> 
+<span class='line'>206</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>207</span> 		 * Defines context element, its size, position, and methods to recalculate all.
+<span class='line'>208</span> 		 * @function
+<span class='line'>209</span> 		 * @name ch.Positioner#getContext
+<span class='line'>210</span> 		 * @returns Context Object
+<span class='line'>211</span> 		 */</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">			</span><span class="NAME">getContext</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>213</span> 
+<span class='line'>214</span> </span><span class="WHIT">				</span><span class="COMM">// Parse as Integer offset values</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="WHIT">				</span><span class="NAME">offset</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">offset</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">				</span><span class="NAME">offset</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">offset</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>217</span> 
+<span class='line'>218</span> </span><span class="WHIT">				</span><span class="COMM">// Context by default is viewport</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">ch.util.hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"context"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">conf.context</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="NAME">conf.context</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"viewport"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">					</span><span class="NAME">contextIsNotViewport</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>221</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ch.viewport</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>222</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>223</span> 
+<span class='line'>224</span> </span><span class="WHIT">				</span><span class="COMM">// Context from configuration</span><span class="WHIT">
+<span class='line'>225</span> </span><span class="WHIT">				</span><span class="COMM">// Object to be returned.</span><span class="WHIT">
+<span class='line'>226</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">self</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>227</span> 
+<span class='line'>228</span> </span><span class="WHIT">				</span><span class="COMM">/**
+<span class='line'>229</span> 				 * Width of context.
+<span class='line'>230</span> 				 * @private
+<span class='line'>231</span> 				 * @name width
+<span class='line'>232</span> 				 * @type Number
+<span class='line'>233</span> 				 * @memberOf ch.Positioner#context
+<span class='line'>234</span> 				 */</span><span class="WHIT">
+<span class='line'>235</span> </span><span class="WHIT">				</span><span class="NAME">self.width</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">
+<span class='line'>236</span> 
+<span class='line'>237</span> </span><span class="WHIT">				</span><span class="COMM">/**
+<span class='line'>238</span> 				 * Height of context.
+<span class='line'>239</span> 				 * @private
+<span class='line'>240</span> 				 * @name height
+<span class='line'>241</span> 				 * @type Number
+<span class='line'>242</span> 				 * @memberOf ch.Positioner#context
+<span class='line'>243</span> 				 */</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">					</span><span class="NAME">self.height</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">
+<span class='line'>245</span> 
+<span class='line'>246</span> </span><span class="WHIT">				</span><span class="COMM">/**
+<span class='line'>247</span> 				 * Left offset of context.
+<span class='line'>248</span> 				 * @private
+<span class='line'>249</span> 				 * @name left
+<span class='line'>250</span> 				 * @type Number
+<span class='line'>251</span> 				 * @memberOf ch.Positioner#context
+<span class='line'>252</span> 				 */</span><span class="WHIT">
+<span class='line'>253</span> </span><span class="WHIT">					</span><span class="NAME">self.left</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">
+<span class='line'>254</span> 
+<span class='line'>255</span> </span><span class="WHIT">				</span><span class="COMM">/**
+<span class='line'>256</span> 				 * Top offset of context.
+<span class='line'>257</span> 				 * @private
+<span class='line'>258</span> 				 * @name top
+<span class='line'>259</span> 				 * @type Number
+<span class='line'>260</span> 				 * @memberOf ch.Positioner#context
+<span class='line'>261</span> 				 */</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="WHIT">					</span><span class="NAME">self.top</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">
+<span class='line'>263</span> 
+<span class='line'>264</span> </span><span class="WHIT">				</span><span class="COMM">/**
+<span class='line'>265</span> 				 * Right offset of context.
+<span class='line'>266</span> 				 * @private
+<span class='line'>267</span> 				 * @name right
+<span class='line'>268</span> 				 * @type Number
+<span class='line'>269</span> 				 * @memberOf ch.Positioner#context
+<span class='line'>270</span> 				 */</span><span class="WHIT">
+<span class='line'>271</span> </span><span class="WHIT">					</span><span class="NAME">self.right</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">
+<span class='line'>272</span> 
+<span class='line'>273</span> </span><span class="WHIT">				</span><span class="COMM">/**
+<span class='line'>274</span> 				 * Bottom offset of context.
+<span class='line'>275</span> 				 * @private
+<span class='line'>276</span> 				 * @name bottom
+<span class='line'>277</span> 				 * @type Number
+<span class='line'>278</span> 				 * @memberOf ch.Positioner#context
+<span class='line'>279</span> 				 */</span><span class="WHIT">
+<span class='line'>280</span> </span><span class="WHIT">					</span><span class="NAME">self.bottom</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>281</span> 
+<span class='line'>282</span> </span><span class="WHIT">				</span><span class="COMM">/**
+<span class='line'>283</span> 				 * Context HTML Element.
+<span class='line'>284</span> 				 * @private
+<span class='line'>285</span> 				 * @name element
+<span class='line'>286</span> 				 * @type HTMLElement
+<span class='line'>287</span> 				 * @memberOf ch.Positioner#context
+<span class='line'>288</span> 				 */</span><span class="WHIT">
+<span class='line'>289</span> </span><span class="WHIT">				</span><span class="NAME">self.element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">conf.context</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>290</span> 
+<span class='line'>291</span> </span><span class="WHIT">				</span><span class="COMM">/**
+<span class='line'>292</span> 				 * Recalculates width and height of context and updates size on context object.
+<span class='line'>293</span> 				 * @private
+<span class='line'>294</span> 				 * @function
+<span class='line'>295</span> 				 * @name getSize
+<span class='line'>296</span> 				 * @returns Object
+<span class='line'>297</span> 				 * @memberOf ch.Positioner#context
+<span class='line'>298</span> 				 */</span><span class="WHIT">
+<span class='line'>299</span> </span><span class="WHIT">				</span><span class="NAME">self.getSize</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>300</span> 
+<span class='line'>301</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>302</span> </span><span class="WHIT">						</span><span class="STRN">"width"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">context.width</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">self.element.outerWidth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>303</span> </span><span class="WHIT">						</span><span class="STRN">"height"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">context.height</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">self.element.outerHeight</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>304</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>305</span> 
+<span class='line'>306</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>307</span> 
+<span class='line'>308</span> </span><span class="WHIT">				</span><span class="COMM">/**
+<span class='line'>309</span> 				 * Recalculates left and top of context and updates offset on context object.
+<span class='line'>310</span> 				 * @private
+<span class='line'>311</span> 				 * @function
+<span class='line'>312</span> 				 * @name getOffset
+<span class='line'>313</span> 				 * @returns Object
+<span class='line'>314</span> 				 * @memberOf ch.Positioner#context
+<span class='line'>315</span> 				 */</span><span class="WHIT">
+<span class='line'>316</span> </span><span class="WHIT">				</span><span class="NAME">self.getOffset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>317</span> 
+<span class='line'>318</span> </span><span class="WHIT">					</span><span class="COMM">// Gets offset of context element</span><span class="WHIT">
+<span class='line'>319</span> </span><span class="WHIT">					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">contextOffset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">self.element.offset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>320</span> </span><span class="WHIT">						</span><span class="NAME">size</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">self.getSize</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>321</span> </span><span class="WHIT">						</span><span class="NAME">scrollLeft</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">contextOffset.left</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="COMM">// + offset[0], // - relativeParent.left,</span><span class="WHIT">
+<span class='line'>322</span> </span><span class="WHIT">						</span><span class="NAME">scrollTop</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">contextOffset.top</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="COMM">// + offset[1]; // - relativeParent.top;</span><span class="WHIT">
+<span class='line'>323</span> 
+<span class='line'>324</span> </span><span class="WHIT">					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">parentIsBody</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>325</span> </span><span class="WHIT">						</span><span class="NAME">scrollLeft</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">relativeParent.left</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>326</span> </span><span class="WHIT">						</span><span class="NAME">scrollTop</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">relativeParent.top</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>327</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>328</span> 
+<span class='line'>329</span> </span><span class="WHIT">					</span><span class="COMM">// Calculated including offset and relative parent positions</span><span class="WHIT">
+<span class='line'>330</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>331</span> </span><span class="WHIT">						</span><span class="STRN">"left"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">context.left</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">scrollLeft</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>332</span> </span><span class="WHIT">						</span><span class="STRN">"top"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">context.top</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">scrollTop</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>333</span> </span><span class="WHIT">						</span><span class="STRN">"right"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">context.right</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">scrollLeft</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">size.width</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>334</span> </span><span class="WHIT">						</span><span class="STRN">"bottom"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">context.bottom</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">scrollTop</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">size.height</span><span class="WHIT">
+<span class='line'>335</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>336</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>337</span> 
+<span class='line'>338</span> </span><span class="WHIT">				</span><span class="NAME">contextIsNotViewport</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>339</span> 
+<span class='line'>340</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">self</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>341</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>342</span> 
+<span class='line'>343</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>344</span> 		 * Reference that allows to know if context is different to viewport.
+<span class='line'>345</span> 		 * @private
+<span class='line'>346</span> 		 * @name ch.Positioner#contextIsNotViewport
+<span class='line'>347</span> 		 * @type Boolean
+<span class='line'>348</span> 		 */</span><span class="WHIT">
+<span class='line'>349</span> </span><span class="WHIT">			</span><span class="NAME">contextIsNotViewport</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>350</span> 
+<span class='line'>351</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>352</span> 		 * It's a reference to position and size of element that will be considered to carry out the position. If it isn't defined through configuration, it will be the viewport.
+<span class='line'>353</span> 		 * @private
+<span class='line'>354</span> 		 * @name ch.Positioner#context
+<span class='line'>355</span> 		 * @type Object
+<span class='line'>356</span> 		 * @default ch.Viewport
+<span class='line'>357</span> 		 */</span><span class="WHIT">
+<span class='line'>358</span> </span><span class="WHIT">			</span><span class="NAME">context</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getContext</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>359</span> 
+<span class='line'>360</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>361</span> 		 * Reference to know if direct parent is the body HTML element.
+<span class='line'>362</span> 		 * @private
+<span class='line'>363</span> 		 * @name ch.Positioner#parentIsBody
+<span class='line'>364</span> 		 * @type Boolean
+<span class='line'>365</span> 		 */</span><span class="WHIT">
+<span class='line'>366</span> </span><span class="WHIT">			</span><span class="NAME">parentIsBody</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>367</span> 
+<span class='line'>368</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>369</span> 		 * It's the first of context's parents that is styled positioned. If it isn't defined through configuration, it will be the HTML Body Element.
+<span class='line'>370</span> 		 * @private
+<span class='line'>371</span> 		 * @name ch.Positioner#relativeParent
+<span class='line'>372</span> 		 * @type Object
+<span class='line'>373</span> 		 * @default HTMLBodyElement
+<span class='line'>374</span> 		 */</span><span class="WHIT">
+<span class='line'>375</span> </span><span class="WHIT">			</span><span class="NAME">relativeParent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>376</span> 
+<span class='line'>377</span> </span><span class="WHIT">				</span><span class="COMM">// Context's parent that's positioned.</span><span class="WHIT">
+<span class='line'>378</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">contextIsNotViewport</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">context.element.offsetParent</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">window.document.body</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>379</span> 
+<span class='line'>380</span> </span><span class="WHIT">				</span><span class="COMM">// Object to be returned.</span><span class="WHIT">
+<span class='line'>381</span> </span><span class="WHIT">					</span><span class="NAME">self</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>382</span> 
+<span class='line'>383</span> </span><span class="WHIT">				</span><span class="COMM">/**
+<span class='line'>384</span> 				 * Left offset of relative parent.
+<span class='line'>385</span> 				 * @private
+<span class='line'>386</span> 				 * @name left
+<span class='line'>387</span> 				 * @type Number
+<span class='line'>388</span> 				 * @memberOf ch.Positioner#relativeParent
+<span class='line'>389</span> 				 */</span><span class="WHIT">
+<span class='line'>390</span> </span><span class="WHIT">				</span><span class="NAME">self.left</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT">
+<span class='line'>391</span> 
+<span class='line'>392</span> </span><span class="WHIT">				</span><span class="COMM">/**
+<span class='line'>393</span> 				 * Top offset of relative parent.
+<span class='line'>394</span> 				 * @private
+<span class='line'>395</span> 				 * @name top
+<span class='line'>396</span> 				 * @type Number
+<span class='line'>397</span> 				 * @memberOf ch.Positioner#relativeParent
+<span class='line'>398</span> 				 */</span><span class="WHIT">
+<span class='line'>399</span> </span><span class="WHIT">					</span><span class="NAME">self.top</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>400</span> 
+<span class='line'>401</span> </span><span class="WHIT">				</span><span class="COMM">/**
+<span class='line'>402</span> 				 * Recalculates left and top of relative parent of context and updates offset on relativeParent object.
+<span class='line'>403</span> 				 * @private
+<span class='line'>404</span> 				 * @name getOffset
+<span class='line'>405</span> 				 * @function
+<span class='line'>406</span> 				 * @memberOf ch.Positioner#relativeParent
+<span class='line'>407</span> 				 * @returns Offset Object
+<span class='line'>408</span> 				 */</span><span class="WHIT">
+<span class='line'>409</span> </span><span class="WHIT">				</span><span class="NAME">self.getOffset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>410</span> </span><span class="WHIT">					</span><span class="COMM">// If first parent relative is Body, don't recalculate position</span><span class="WHIT">
+<span class='line'>411</span> </span><span class="WHIT">					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element.tagName</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"BODY"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>412</span> 
+<span class='line'>413</span> </span><span class="WHIT">					</span><span class="COMM">// Offset of first parent relative</span><span class="WHIT">
+<span class='line'>414</span> </span><span class="WHIT">					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">parentOffset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">offset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>415</span> 
+<span class='line'>416</span> </span><span class="WHIT">					</span><span class="COMM">// Left border width of context's parent.</span><span class="WHIT">
+<span class='line'>417</span> </span><span class="WHIT">						</span><span class="NAME">borderLeft</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">ch.util.getStyles</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"border-left-width"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>418</span> 
+<span class='line'>419</span> </span><span class="WHIT">					</span><span class="COMM">// Top border width of context's parent.</span><span class="WHIT">
+<span class='line'>420</span> </span><span class="WHIT">						</span><span class="NAME">borderTop</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">parseInt</span><span class="PUNC">(</span><span class="NAME">ch.util.getStyles</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"border-top-width"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>421</span> 
+<span class='line'>422</span> </span><span class="WHIT">					</span><span class="COMM">// Returns left and top position of relative parent and updates offset on relativeParent object.</span><span class="WHIT">
+<span class='line'>423</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>424</span> </span><span class="WHIT">						</span><span class="STRN">"left"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">relativeParent.left</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">parentOffset.left</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">borderLeft</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>425</span> </span><span class="WHIT">						</span><span class="STRN">"top"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">relativeParent.top</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">parentOffset.top</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">borderTop</span><span class="WHIT">
+<span class='line'>426</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>427</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>428</span> 
+<span class='line'>429</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">self</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>430</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>431</span> 
+<span class='line'>432</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>433</span> 		 * Calculates left and top position from specific points.
+<span class='line'>434</span> 		 * @private
+<span class='line'>435</span> 		 * @name ch.Positioner#getCoordinates
+<span class='line'>436</span> 		 * @function
+<span class='line'>437</span> 		 * @param {String} points String with points to be calculated.
+<span class='line'>438</span> 		 * @returns Offset measures
+<span class='line'>439</span> 		 * @exampleDescription
+<span class='line'>440</span> 		 * @example
+<span class='line'>441</span> 		 * var foo = getCoordinates("lt rt");
+<span class='line'>442</span> 		*
+<span class='line'>443</span> 		 * foo = {
+<span class='line'>444</span> 		 *     left: Number,
+<span class='line'>445</span> 		 *     top: Number
+<span class='line'>446</span> 		 * };
+<span class='line'>447</span> 		 */</span><span class="WHIT">
+<span class='line'>448</span> </span><span class="WHIT">			</span><span class="NAME">getCoordinates</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">pts</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>449</span> 
+<span class='line'>450</span> </span><span class="WHIT">				</span><span class="COMM">// Calculates left or top position from points related to specific axis (X or Y).</span><span class="WHIT">
+<span class='line'>451</span> </span><span class="WHIT">				</span><span class="COMM">// TODO: Complete cases: X -> lc, cl, rc, cr. Y -> tm, mt, bm, mb.</span><span class="WHIT">
+<span class='line'>452</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">calculate</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">reference</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>453</span> 
+<span class='line'>454</span> </span><span class="WHIT">					</span><span class="COMM">// Use Position or Offset of Viewport if position is fixed or absolute respectively</span><span class="WHIT">
+<span class='line'>455</span> </span><span class="WHIT">					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ctx</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">contextIsNotViewport</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">ch.support.fixed</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">ch.viewport.getPosition</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">context</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>456</span> 
+<span class='line'>457</span> </span><span class="WHIT">					</span><span class="COMM">// Returnable value</span><span class="WHIT">
+<span class='line'>458</span> </span><span class="WHIT">						</span><span class="NAME">r</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>459</span> 
+<span class='line'>460</span> </span><span class="WHIT">					</span><span class="KEYW">switch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">reference</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>461</span> </span><span class="WHIT">					</span><span class="COMM">// X references</span><span class="WHIT">
+<span class='line'>462</span> </span><span class="WHIT">					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"ll"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">r</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ctx.left</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>463</span> </span><span class="WHIT">					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"lr"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">r</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ctx.right</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>464</span> </span><span class="WHIT">					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"rl"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">r</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ctx.left</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">$element.outerWidth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>465</span> </span><span class="WHIT">					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"rr"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">r</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ctx.right</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">$element.outerWidth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>466</span> </span><span class="WHIT">					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"cc"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">r</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ctx.left</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ctx.width</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">$element.outerWidth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>467</span> </span><span class="WHIT">					</span><span class="COMM">// Y references</span><span class="WHIT">
+<span class='line'>468</span> </span><span class="WHIT">					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"tt"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">r</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ctx.top</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>469</span> </span><span class="WHIT">					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"tb"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">r</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ctx.bottom</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>470</span> </span><span class="WHIT">					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"bt"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">r</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ctx.top</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">$element.outerHeight</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>471</span> </span><span class="WHIT">					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"bb"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">r</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ctx.bottom</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NAME">$element.outerHeight</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>472</span> </span><span class="WHIT">					</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"mm"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">r</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ctx.top</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ctx.height</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">$element.outerHeight</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">/</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>473</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>474</span> 
+<span class='line'>475</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">r</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>476</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>477</span> 
+<span class='line'>478</span> </span><span class="WHIT">				</span><span class="COMM">// Splitted points</span><span class="WHIT">
+<span class='line'>479</span> </span><span class="WHIT">					</span><span class="NAME">splittedPoints</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">pts.split</span><span class="PUNC">(</span><span class="STRN">" "</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>480</span> 
+<span class='line'>481</span> </span><span class="WHIT">				</span><span class="COMM">// Calculates left and top with references to X and Y axis points (crossed points)</span><span class="WHIT">
+<span class='line'>482</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>483</span> </span><span class="WHIT">					</span><span class="STRN">"left"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">calculate</span><span class="PUNC">(</span><span class="NAME">splittedPoints</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">charAt</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">splittedPoints</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">charAt</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>484</span> </span><span class="WHIT">					</span><span class="STRN">"top"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">calculate</span><span class="PUNC">(</span><span class="NAME">splittedPoints</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">charAt</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">splittedPoints</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">charAt</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>485</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>486</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>487</span> 
+<span class='line'>488</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>489</span> 		 * Gets new coordinates and checks its space into viewport.
+<span class='line'>490</span> 		 * @private
+<span class='line'>491</span> 		 * @name ch.Positioner#getPosition
+<span class='line'>492</span> 		 * @function
+<span class='line'>493</span> 		 * @returns Offset measures
+<span class='line'>494</span> 		 */</span><span class="WHIT">
+<span class='line'>495</span> </span><span class="WHIT">			</span><span class="NAME">getPosition</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>496</span> 
+<span class='line'>497</span> </span><span class="WHIT">				</span><span class="COMM">// Gets coordinates from main points</span><span class="WHIT">
+<span class='line'>498</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">coordinates</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getCoordinates</span><span class="PUNC">(</span><span class="NAME">points</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>499</span> 
+<span class='line'>500</span> </span><span class="WHIT">				</span><span class="COMM">// Update classPoints</span><span class="WHIT">
+<span class='line'>501</span> </span><span class="WHIT">				</span><span class="COMM">// TODO: Is this ok in this place?</span><span class="WHIT">
+<span class='line'>502</span> </span><span class="WHIT">				</span><span class="NAME">classPoints</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">classNamePoints</span><span class="PUNC">(</span><span class="NAME">points</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>503</span> 
+<span class='line'>504</span> </span><span class="WHIT">				</span><span class="COMM">// Default behavior: returns left and top offset related to main points</span><span class="WHIT">
+<span class='line'>505</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">conf.reposition</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">coordinates</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>506</span> 
+<span class='line'>507</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">points</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">"lt lb"</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">points</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">"rt rb"</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">points</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">"lt rt"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">coordinates</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>508</span> 
+<span class='line'>509</span> </span><span class="WHIT">				</span><span class="COMM">// Intelligence</span><span class="WHIT">
+<span class='line'>510</span> </span><span class="WHIT">				</span><span class="COMM">// TODO: Improve and unify intelligence code</span><span class="WHIT">
+<span class='line'>511</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">newData</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>512</span> </span><span class="WHIT">					</span><span class="NAME">newPoints</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">points</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>513</span> </span><span class="WHIT">					</span><span class="NAME">offsetX</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="COMM">/*relativeParent.left + */</span><span class="NAME">offset</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>514</span> </span><span class="WHIT">					</span><span class="NAME">offsetY</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="COMM">/*relativeParent.top + */</span><span class="NAME">offset</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>515</span> 
+<span class='line'>516</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">parentIsBody</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>517</span> </span><span class="WHIT">					</span><span class="NAME">offsetX</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">relativeParent.left</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>518</span> </span><span class="WHIT">					</span><span class="NAME">offsetY</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">relativeParent.top</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>519</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>520</span> 
+<span class='line'>521</span> </span><span class="WHIT">				</span><span class="COMM">// Viewport limits (From bottom to top)</span><span class="WHIT">
+<span class='line'>522</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">coordinates.top</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">offsetY</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">$element.outerHeight</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NAME">ch.viewport.bottom</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">points</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">"lt rt"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>523</span> </span><span class="WHIT">					</span><span class="NAME">newPoints</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">newPoints.charAt</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"b "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">newPoints.charAt</span><span class="PUNC">(</span><span class="NUMB">3</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"t"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>524</span> </span><span class="WHIT">					</span><span class="NAME">newData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getCoordinates</span><span class="PUNC">(</span><span class="NAME">newPoints</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>525</span> 
+<span class='line'>526</span> </span><span class="WHIT">					</span><span class="NAME">newData.classPoints</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">classNamePoints</span><span class="PUNC">(</span><span class="NAME">newPoints</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>527</span> 
+<span class='line'>528</span> </span><span class="WHIT">					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">newData.top</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">offsetY</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NAME">ch.viewport.top</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>529</span> </span><span class="WHIT">						</span><span class="NAME">coordinates.top</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">newData.top</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">[</span><span class="NUMB">1</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>530</span> </span><span class="WHIT">						</span><span class="NAME">coordinates.left</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">newData.left</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>531</span> </span><span class="WHIT">						</span><span class="NAME">classPoints</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">newData.classPoints</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>532</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>533</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>534</span> 
+<span class='line'>535</span> </span><span class="WHIT">				</span><span class="COMM">// Viewport limits (From right to left)</span><span class="WHIT">
+<span class='line'>536</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">coordinates.left</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">offsetX</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">$element.outerWidth</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NAME">ch.viewport.right</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>537</span> </span><span class="WHIT">					</span><span class="COMM">// TODO: Improve this</span><span class="WHIT">
+<span class='line'>538</span> </span><span class="WHIT">					</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">newPoints.charAt</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"r"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="STRN">"l"</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"r"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>539</span> </span><span class="WHIT">					</span><span class="COMM">// TODO: Use splice or slice</span><span class="WHIT">
+<span class='line'>540</span> </span><span class="WHIT">					</span><span class="NAME">newPoints</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">newPoints.charAt</span><span class="PUNC">(</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">orientation</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">newPoints.charAt</span><span class="PUNC">(</span><span class="NUMB">4</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>541</span> 
+<span class='line'>542</span> </span><span class="WHIT">					</span><span class="NAME">newData</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getCoordinates</span><span class="PUNC">(</span><span class="NAME">newPoints</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>543</span> 
+<span class='line'>544</span> </span><span class="WHIT">					</span><span class="NAME">newData.classPoints</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">classNamePoints</span><span class="PUNC">(</span><span class="NAME">newPoints</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>545</span> 
+<span class='line'>546</span> </span><span class="WHIT">					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">newData.left</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">offsetX</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NAME">ch.viewport.left</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>547</span> </span><span class="WHIT">						</span><span class="NAME">coordinates.top</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">newData.top</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>548</span> </span><span class="WHIT">						</span><span class="NAME">coordinates.left</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">newData.left</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NUMB">2</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>549</span> </span><span class="WHIT">						</span><span class="NAME">classPoints</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">newData.classPoints</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>550</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>551</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>552</span> 
+<span class='line'>553</span> </span><span class="WHIT">				</span><span class="COMM">// Returns left and top offset related to modified points</span><span class="WHIT">
+<span class='line'>554</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">coordinates</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>555</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>556</span> 
+<span class='line'>557</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>558</span> 		 * Reference that stores last changes on coordinates for evaluate necesaries redraws.
+<span class='line'>559</span> 		 * @private
+<span class='line'>560</span> 		 * @name ch.Positioner#lastCoordinates
+<span class='line'>561</span> 		 * @type Object
+<span class='line'>562</span> 		 */</span><span class="WHIT">
+<span class='line'>563</span> </span><span class="WHIT">			</span><span class="NAME">lastCoordinates</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>564</span> 
+<span class='line'>565</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>566</span> 		 * Checks if there are changes on coordinates to reposition the element.
+<span class='line'>567</span> 		 * @private
+<span class='line'>568</span> 		 * @name ch.Positioner#draw
+<span class='line'>569</span> 		 * @function
+<span class='line'>570</span> 		 */</span><span class="WHIT">
+<span class='line'>571</span> </span><span class="WHIT">			</span><span class="NAME">draw</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>572</span> 
+<span class='line'>573</span> </span><span class="WHIT">				</span><span class="COMM">// New element position</span><span class="WHIT">
+<span class='line'>574</span> </span><span class="WHIT">				</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">coordinates</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>575</span> 
+<span class='line'>576</span> </span><span class="WHIT">					</span><span class="COMM">// Update classname related to position</span><span class="WHIT">
+<span class='line'>577</span> </span><span class="WHIT">					</span><span class="NAME">updateClassName</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">$element</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>578</span> </span><span class="WHIT">						</span><span class="NAME">$element.removeClass</span><span class="PUNC">(</span><span class="NAME">lastClassPoints</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">addClass</span><span class="PUNC">(</span><span class="NAME">classPoints</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>579</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>580</span> 
+<span class='line'>581</span> </span><span class="WHIT">				</span><span class="COMM">// Save the last className before calculate new points</span><span class="WHIT">
+<span class='line'>582</span> </span><span class="WHIT">				</span><span class="NAME">lastClassPoints</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">classPoints</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>583</span> 
+<span class='line'>584</span> </span><span class="WHIT">				</span><span class="COMM">// Gets definitive coordinates for element repositioning</span><span class="WHIT">
+<span class='line'>585</span> </span><span class="WHIT">				</span><span class="NAME">coordinates</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getPosition</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>586</span> 
+<span class='line'>587</span> </span><span class="WHIT">				</span><span class="COMM">// Coordinates equal to last coordinates means that there aren't changes on position</span><span class="WHIT">
+<span class='line'>588</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">coordinates.left</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">lastCoordinates.left</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">coordinates.top</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">lastCoordinates.top</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>589</span> </span><span class="WHIT">					</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>590</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>591</span> 
+<span class='line'>592</span> </span><span class="WHIT">				</span><span class="COMM">// If there are changes, it stores new coordinates on lastCoordinates</span><span class="WHIT">
+<span class='line'>593</span> </span><span class="WHIT">				</span><span class="NAME">lastCoordinates</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">coordinates</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>594</span> 
+<span class='line'>595</span> </span><span class="WHIT">				</span><span class="COMM">// Element reposition (Updates element position based on new coordinates)</span><span class="WHIT">
+<span class='line'>596</span> </span><span class="WHIT">				</span><span class="NAME">updateClassName</span><span class="PUNC">(</span><span class="NAME">$element.css</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="STRN">"left"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">coordinates.left</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"top"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">coordinates.top</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>597</span> 
+<span class='line'>598</span> </span><span class="WHIT">				</span><span class="COMM">// Context class-names</span><span class="WHIT">
+<span class='line'>599</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">contextIsNotViewport</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">updateClassName</span><span class="PUNC">(</span><span class="NAME">context.element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>600</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>601</span> 
+<span class='line'>602</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>603</span> 		 * Constructs a new position, gets viewport size, checks for relative parent's offset,
+<span class='line'>604</span> 		 * finds the context and sets the position to a given element.
+<span class='line'>605</span> 		 * @private
+<span class='line'>606</span> 		 * @function
+<span class='line'>607</span> 		 * @constructs
+<span class='line'>608</span> 		 * @name ch.Positioner#init
+<span class='line'>609</span> 		 */</span><span class="WHIT">
+<span class='line'>610</span> </span><span class="WHIT">			</span><span class="NAME">init</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>611</span> </span><span class="WHIT">				</span><span class="COMM">// Calculates viewport position for prevent auto-scrolling</span><span class="WHIT">
+<span class='line'>612</span> </span><span class="WHIT">				</span><span class="COMM">//ch.viewport.getOffset();</span><span class="WHIT">
+<span class='line'>613</span> 
+<span class='line'>614</span> </span><span class="WHIT">				</span><span class="COMM">// Refresh parent parameter</span><span class="WHIT">
+<span class='line'>615</span> </span><span class="WHIT">				</span><span class="COMM">// TODO: Put this code in some better place, where it's been calculated few times</span><span class="WHIT">
+<span class='line'>616</span> </span><span class="WHIT">				</span><span class="NAME">parentIsBody</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$element.parent</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">$element.parent</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">prop</span><span class="PUNC">(</span><span class="STRN">"tagName"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"BODY"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>617</span> 
+<span class='line'>618</span> </span><span class="WHIT">				</span><span class="COMM">// Calculates relative parent position</span><span class="WHIT">
+<span class='line'>619</span> </span><span class="WHIT">				</span><span class="NAME">relativeParent.getOffset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>620</span> 
+<span class='line'>621</span> </span><span class="WHIT">				</span><span class="COMM">// If context isn't the viewport, calculates its position and size</span><span class="WHIT">
+<span class='line'>622</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">contextIsNotViewport</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">context.getOffset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>623</span> 
+<span class='line'>624</span> </span><span class="WHIT">				</span><span class="COMM">// Calculates coordinates and redraws if it's necessary</span><span class="WHIT">
+<span class='line'>625</span> </span><span class="WHIT">				</span><span class="NAME">draw</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>626</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>627</span> 
+<span class='line'>628</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>629</span> 		 * Listen to LAYOUT.CHANGE and VIEWPORT.CHANGE events and recalculate data as needed.
+<span class='line'>630</span> 		 * @private
+<span class='line'>631</span> 		 * @function
+<span class='line'>632</span> 		 * @name ch.Positioner#changesListener
+<span class='line'>633</span> 		 */</span><span class="WHIT">
+<span class='line'>634</span> </span><span class="WHIT">			</span><span class="NAME">changesListener</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">event</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>635</span> </span><span class="WHIT">				</span><span class="COMM">// Only recalculates if element is visible</span><span class="WHIT">
+<span class='line'>636</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">$element.is</span><span class="PUNC">(</span><span class="STRN">":visible"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>637</span> 
+<span class='line'>638</span> </span><span class="WHIT">				</span><span class="COMM">// If context isn't the viewport...</span><span class="WHIT">
+<span class='line'>639</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">contextIsNotViewport</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>640</span> </span><span class="WHIT">					</span><span class="COMM">// On resize and layout change, recalculates relative parent position</span><span class="WHIT">
+<span class='line'>641</span> </span><span class="WHIT">					</span><span class="NAME">relativeParent.getOffset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>642</span> 
+<span class='line'>643</span> </span><span class="WHIT">					</span><span class="COMM">// Recalculates its position and size</span><span class="WHIT">
+<span class='line'>644</span> </span><span class="WHIT">					</span><span class="NAME">context.getOffset</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>645</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>646</span> 
+<span class='line'>647</span> </span><span class="WHIT">				</span><span class="NAME">draw</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>648</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>649</span> 
+<span class='line'>650</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>651</span> 		 * Position "element" as fixed or absolute as needed.
+<span class='line'>652</span> 		 * @private
+<span class='line'>653</span> 		 * @function
+<span class='line'>654</span> 		 * @name ch.Positioner#addCSSproperties
+<span class='line'>655</span> 		 */</span><span class="WHIT">
+<span class='line'>656</span> </span><span class="WHIT">			</span><span class="NAME">addCSSproperties</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>657</span> 
+<span class='line'>658</span> </span><span class="WHIT">				</span><span class="COMM">// Fixed position behavior</span><span class="WHIT">
+<span class='line'>659</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">contextIsNotViewport</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">ch.support.fixed</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>660</span> 
+<span class='line'>661</span> </span><span class="WHIT">					</span><span class="COMM">// Sets position of element as fixed to avoid recalculations</span><span class="WHIT">
+<span class='line'>662</span> </span><span class="WHIT">					</span><span class="NAME">$element.css</span><span class="PUNC">(</span><span class="STRN">"position"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"fixed"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>663</span> 
+<span class='line'>664</span> </span><span class="WHIT">					</span><span class="COMM">// Bind reposition only on resize</span><span class="WHIT">
+<span class='line'>665</span> </span><span class="WHIT">					</span><span class="NAME">$window.bind</span><span class="PUNC">(</span><span class="STRN">"resize"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">changesListener</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>666</span> 
+<span class='line'>667</span> </span><span class="WHIT">				</span><span class="COMM">// Absolute position behavior</span><span class="WHIT">
+<span class='line'>668</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>669</span> 
+<span class='line'>670</span> </span><span class="WHIT">					</span><span class="COMM">// Sets position of element as absolute to allow continuous positioning</span><span class="WHIT">
+<span class='line'>671</span> </span><span class="WHIT">					</span><span class="NAME">$element.css</span><span class="PUNC">(</span><span class="STRN">"position"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"absolute"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>672</span> 
+<span class='line'>673</span> </span><span class="WHIT">					</span><span class="COMM">// Bind reposition recalculations (scroll, resize and changeLayout)</span><span class="WHIT">
+<span class='line'>674</span> </span><span class="WHIT">					</span><span class="NAME">$window.bind</span><span class="PUNC">(</span><span class="NAME">ch.events.viewport.CHANGE</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">ch.events.layout.CHANGE</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">changesListener</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>675</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>676</span> 
+<span class='line'>677</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>678</span> 
+<span class='line'>679</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>680</span> 		 * Classname relative to position points.
+<span class='line'>681</span> 		 * @private
+<span class='line'>682</span> 		 * @name ch.Positioner#classPoints
+<span class='line'>683</span> 		 * @type String
+<span class='line'>684</span> 		 * @default "ch-points-cmcm"
+<span class='line'>685</span> 		 */</span><span class="WHIT">
+<span class='line'>686</span> </span><span class="WHIT">			</span><span class="NAME">classPoints</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">classNamePoints</span><span class="PUNC">(</span><span class="NAME">points</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>687</span> 
+<span class='line'>688</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>689</span> 		 * The last className before calculate new points.
+<span class='line'>690</span> 		 * @private
+<span class='line'>691</span> 		 * @name ch.Positioner#lastClassPoints
+<span class='line'>692</span> 		 * @type string
+<span class='line'>693</span> 		 */</span><span class="WHIT">
+<span class='line'>694</span> </span><span class="WHIT">			</span><span class="NAME">lastClassPoints</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">classPoints</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>695</span> 
+<span class='line'>696</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'>697</span> 		 * Control object that allows to change configuration properties, refresh current position or get current configuration.
+<span class='line'>698</span> 		 * @ignore
+<span class='line'>699</span> 		 * @protected
+<span class='line'>700</span> 		 * @name ch.Positioner#position
+<span class='line'>701</span> 		 * @function
+<span class='line'>702</span> 		 * @param {Object} [o] Configuration object.
+<span class='line'>703</span> 		 * @param {String} ["refresh"] Refresh current position.
+<span class='line'>704</span> 		 * @returns Control Object
+<span class='line'>705</span> 		 * @exampleDescription Sets a new configuration
+<span class='line'>706</span> 		 * @example
+<span class='line'>707</span> 		 * var foo = ch.positioner({ ... });
+<span class='line'>708</span> 		 * foo.position({ ... });
+<span class='line'>709</span> 		 * @exampleDescription Refresh current position
+<span class='line'>710</span> 		 * @example
+<span class='line'>711</span> 		 * foo.position("refresh");
+<span class='line'>712</span> 		 * @exampleDescription Gets current configuration properties
+<span class='line'>713</span> 		 * @example
+<span class='line'>714</span> 		 * foo.position();
+<span class='line'>715</span> 		 */</span><span class="WHIT">
+<span class='line'>716</span> </span><span class="WHIT">		</span><span class="NAME">that.position</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>717</span> 
+<span class='line'>718</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">r</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>719</span> 
+<span class='line'>720</span> </span><span class="WHIT">			</span><span class="KEYW">switch</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">o</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>721</span> 
+<span class='line'>722</span> </span><span class="WHIT">			</span><span class="COMM">// Changes configuration properties and repositions the element</span><span class="WHIT">
+<span class='line'>723</span> </span><span class="WHIT">			</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"object"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>724</span> </span><span class="WHIT">				</span><span class="COMM">// New points</span><span class="WHIT">
+<span class='line'>725</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.util.hasOwn</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"points"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">points</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">o.points</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>726</span> 
+<span class='line'>727</span> </span><span class="WHIT">				</span><span class="COMM">// New reposition</span><span class="WHIT">
+<span class='line'>728</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.util.hasOwn</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"reposition"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">conf.reposition</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">o.reposition</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>729</span> 
+<span class='line'>730</span> </span><span class="WHIT">				</span><span class="COMM">// New offset (splitted)</span><span class="WHIT">
+<span class='line'>731</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.util.hasOwn</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"offset"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">offset</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">o.offset.split</span><span class="PUNC">(</span><span class="STRN">" "</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>732</span> 
+<span class='line'>733</span> </span><span class="WHIT">				</span><span class="COMM">// New context</span><span class="WHIT">
+<span class='line'>734</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">ch.util.hasOwn</span><span class="PUNC">(</span><span class="NAME">o</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"context"</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>735</span> </span><span class="WHIT">					</span><span class="COMM">// Sets conf value</span><span class="WHIT">
+<span class='line'>736</span> </span><span class="WHIT">					</span><span class="NAME">conf.context</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">o.context</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>737</span> 
+<span class='line'>738</span> </span><span class="WHIT">					</span><span class="COMM">// Clear the conf.context variable</span><span class="WHIT">
+<span class='line'>739</span> </span><span class="WHIT">					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">o.context</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"viewport"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">conf.context</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">undefined</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>740</span> 
+<span class='line'>741</span> </span><span class="WHIT">					</span><span class="COMM">// Regenerate the context object</span><span class="WHIT">
+<span class='line'>742</span> </span><span class="WHIT">					</span><span class="NAME">context</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">getContext</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>743</span> 
+<span class='line'>744</span> </span><span class="WHIT">					</span><span class="COMM">// Update CSS properties to element (position fixed or absolute)</span><span class="WHIT">
+<span class='line'>745</span> </span><span class="WHIT">					</span><span class="NAME">addCSSproperties</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>746</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>747</span> 
+<span class='line'>748</span> </span><span class="WHIT">				</span><span class="COMM">// Reset</span><span class="WHIT">
+<span class='line'>749</span> </span><span class="WHIT">				</span><span class="NAME">init</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>750</span> 
+<span class='line'>751</span> </span><span class="WHIT">				</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>752</span> 
+<span class='line'>753</span> </span><span class="WHIT">			</span><span class="COMM">// Refresh current position</span><span class="WHIT">
+<span class='line'>754</span> </span><span class="WHIT">			</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"string"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>755</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">o</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="STRN">"refresh"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>756</span> </span><span class="WHIT">					</span><span class="NAME">window.alert</span><span class="PUNC">(</span><span class="STRN">"Chico UI error: expected to find \"refresh\" parameter on position() method of Positioner component."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>757</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>758</span> 
+<span class='line'>759</span> </span><span class="WHIT">				</span><span class="COMM">// Reset</span><span class="WHIT">
+<span class='line'>760</span> </span><span class="WHIT">				</span><span class="NAME">init</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>761</span> 
+<span class='line'>762</span> </span><span class="WHIT">				</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>763</span> 
+<span class='line'>764</span> </span><span class="WHIT">			</span><span class="COMM">// Gets current configuration</span><span class="WHIT">
+<span class='line'>765</span> </span><span class="WHIT">			</span><span class="KEYW">case</span><span class="WHIT"> </span><span class="STRN">"undefined"</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>766</span> </span><span class="WHIT">			</span><span class="KEYW">default</span><span class="PUNC">:</span><span class="WHIT">
+<span class='line'>767</span> </span><span class="WHIT">				</span><span class="NAME">r</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>768</span> </span><span class="WHIT">					</span><span class="STRN">"context"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">context.element</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>769</span> </span><span class="WHIT">					</span><span class="STRN">"element"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">$element</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>770</span> </span><span class="WHIT">					</span><span class="STRN">"points"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">points</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>771</span> </span><span class="WHIT">					</span><span class="STRN">"offset"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">offset.join</span><span class="PUNC">(</span><span class="STRN">" "</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>772</span> </span><span class="WHIT">					</span><span class="STRN">"reposition"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.reposition</span><span class="WHIT">
+<span class='line'>773</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>774</span> 
+<span class='line'>775</span> </span><span class="WHIT">				</span><span class="KEYW">break</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>776</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>777</span> 
+<span class='line'>778</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">r</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>779</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>780</span> 
+<span class='line'>781</span> </span><span class="WHIT">		</span><span class="COMM">// Apply CSS properties to element (position fixed or absolute)</span><span class="WHIT">
+<span class='line'>782</span> </span><span class="WHIT">		</span><span class="NAME">addCSSproperties</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>783</span> 
+<span class='line'>784</span> </span><span class="WHIT">		</span><span class="COMM">// Inits positioning</span><span class="WHIT">
+<span class='line'>785</span> </span><span class="WHIT">		</span><span class="NAME">init</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>786</span> 
+<span class='line'>787</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that.position</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>788</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>789</span> 
+<span class='line'>790</span> </span><span class="WHIT">	</span><span class="NAME">Positioner.prototype.name</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'positioner'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>791</span> </span><span class="WHIT">	</span><span class="NAME">Positioner.prototype.constructor</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Positioner</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>792</span> 
+<span class='line'>793</span> </span><span class="WHIT">	</span><span class="NAME">ch.Positioner</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Positioner</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>794</span> 
+<span class='line'>795</span> </span><span class="PUNC">}</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.jQuery</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.ch</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

@@ -1,0 +1,284 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span> * Menu lets you organize the links by categories.
+<span class='line'>  3</span> * @name Menu
+<span class='line'>  4</span> * @class Menu
+<span class='line'>  5</span> * @augments ch.Widget
+<span class='line'>  6</span> * @requires ch.Expando
+<span class='line'>  7</span> * @memberOf ch
+<span class='line'>  8</span> * @param {Object} [conf] Object with configuration properties.
+<span class='line'>  9</span> * @param {Number} [conf.selected] Selects a child that will be open when component was loaded.
+<span class='line'> 10</span> * @returns itself
+<span class='line'> 11</span> * @factorized
+<span class='line'> 12</span> * @see ch.Expando
+<span class='line'> 13</span> * @see ch.Widget
+<span class='line'> 14</span> * @exampleDescription Create a new menu without configuration.
+<span class='line'> 15</span> * @example
+<span class='line'> 16</span> * var widget = $(".example").menu();
+<span class='line'> 17</span> * @exampleDescription Create a new menu with configuration.
+<span class='line'> 18</span> * @example
+<span class='line'> 19</span> * var widget = $(".example").menu({
+<span class='line'> 20</span> *     "selected": 2
+<span class='line'> 21</span> * });
+<span class='line'> 22</span> */</span><span class="WHIT">
+<span class='line'> 23</span> </span><span class="NAME">ch.Menu</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 24</span> 
+<span class='line'> 25</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 26</span> 	* Reference to a internal component instance, saves all the information and configuration properties.
+<span class='line'> 27</span> 	* @private
+<span class='line'> 28</span> 	* @name ch.Menu-that
+<span class='line'> 29</span> 	* @type object
+<span class='line'> 30</span> 	*/</span><span class="WHIT">
+<span class='line'> 31</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">that</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">this</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 32</span> 
+<span class='line'> 33</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'> 34</span> 		* Reference to Parent Class.
+<span class='line'> 35</span> 		* @private
+<span class='line'> 36</span> 		* @name ch.Menu-parent
+<span class='line'> 37</span> 		* @type object
+<span class='line'> 38</span> 		*/</span><span class="WHIT">
+<span class='line'> 39</span> </span><span class="WHIT">		</span><span class="NAME">parent</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 40</span> 
+<span class='line'> 41</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'> 42</span> 		* Reference to configuration object.
+<span class='line'> 43</span> 		* @private
+<span class='line'> 44</span> 		* @name ch.Menu-conf
+<span class='line'> 45</span> 		* @type object
+<span class='line'> 46</span> 		*/</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">		</span><span class="NAME">conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">clone</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span> 
+<span class='line'> 49</span> </span><span class="WHIT">	</span><span class="NAME">conf.icon</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">hasOwn</span><span class="PUNC">(</span><span class="NAME">conf</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"icon"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">conf.icon</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 50</span> 
+<span class='line'> 51</span> </span><span class="WHIT">	</span><span class="NAME">that.conf</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">conf</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 52</span> 
+<span class='line'> 53</span> </span><span class="COMM">/**
+<span class='line'> 54</span> *	Inheritance
+<span class='line'> 55</span> */</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">	</span><span class="COMM">// Borrow a constructor and return a parent</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">	</span><span class="NAME">parent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ch.inherit</span><span class="PUNC">(</span><span class="NAME">ch.Widget</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 58</span> 
+<span class='line'> 59</span> </span><span class="COMM">/**
+<span class='line'> 60</span> *  Private Members
+<span class='line'> 61</span> */</span><span class="WHIT">
+<span class='line'> 62</span> 
+<span class='line'> 63</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 64</span> 	* Private reference to the element
+<span class='line'> 65</span> 	* @privated
+<span class='line'> 66</span> 	* @name ch.Menu-el
+<span class='line'> 67</span> 	* @type HTMLElement
+<span class='line'> 68</span> 	*/</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">	</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">el</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.el</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 70</span> 
+<span class='line'> 71</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'> 72</span> 		* Private reference to the Zepto element
+<span class='line'> 73</span> 		* @privated
+<span class='line'> 74</span> 		* @name ch.Menu-$el
+<span class='line'> 75</span> 		* @type Zepto Object
+<span class='line'> 76</span> 		*/</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">		</span><span class="NAME">$el</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.$el</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 78</span> 
+<span class='line'> 79</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'> 80</span> 		* Indicates witch child is opened
+<span class='line'> 81</span> 		* @private
+<span class='line'> 82</span> 		* @name ch.Menu-selected
+<span class='line'> 83</span> 		* @type number
+<span class='line'> 84</span> 		*/</span><span class="WHIT">
+<span class='line'> 85</span> </span><span class="WHIT">		</span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">conf.selected</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">?</span><span class="WHIT"> </span><span class="NAME">conf.selected</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="TOKN"> </span><span class="NAME">undefined</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 86</span> 
+<span class='line'> 87</span> </span><span class="WHIT">		</span><span class="COMM">/**
+<span class='line'> 88</span> 		* Opens specific Expando child and optionally grandson
+<span class='line'> 89</span> 		* @private
+<span class='line'> 90</span> 		* @function
+<span class='line'> 91</span> 		* @name ch.Menu-select
+<span class='line'> 92</span> 		*/</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">		</span><span class="NAME">select</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">child</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">child</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">child</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">				</span><span class="NAME">c</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">that.children</span><span class="PUNC">[</span><span class="NAME">child</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> 
+<span class='line'> 97</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">child</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NAME">that.children.length</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT"> </span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 98</span> 
+<span class='line'> 99</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">c.nodeType</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>100</span> 
+<span class='line'>101</span> </span><span class="WHIT">				</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">c.firstElementChild.tagName</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"A"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>102</span> </span><span class="WHIT">					</span><span class="NAME">win.location.href</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">c.firstElementChild.href</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>104</span> 
+<span class='line'>105</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>107</span> 
+<span class='line'>108</span> </span><span class="WHIT">			</span><span class="NAME">that.children</span><span class="PUNC">[</span><span class="NAME">child</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">show</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>110</span> 
+<span class='line'>111</span> </span><span class="COMM">/**
+<span class='line'>112</span> *  Protected Members
+<span class='line'>113</span> */</span><span class="WHIT">
+<span class='line'>114</span> 
+<span class='line'>115</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>116</span> 	* The component's triggers.
+<span class='line'>117</span> 	* @protected
+<span class='line'>118</span> 	* @name ch.Menu#trigger
+<span class='line'>119</span> 	* @type HTMLElement
+<span class='line'>120</span> 	*/</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">	</span><span class="NAME">that.triggers</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">el.children</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>122</span> 
+<span class='line'>123</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>124</span> 	* Collection of expandos and bellows.
+<span class='line'>125</span> 	* @protected
+<span class='line'>126</span> 	* @name ch.Menu#children
+<span class='line'>127</span> 	* @type Array
+<span class='line'>128</span> 	*/</span><span class="WHIT"> 
+<span class='line'>129</span> 	</span><span class="NAME">that.children</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>130</span> 
+<span class='line'>131</span> 
+<span class='line'>132</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>133</span> 	* Inits an Menu component on each list inside main HTML code snippet
+<span class='line'>134</span> 	* @protected
+<span class='line'>135</span> 	* @name ch.Menu#createBellows
+<span class='line'>136</span> 	* @function
+<span class='line'>137</span> 	*/</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">	</span><span class="NAME">that.cretateBellows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">bellows</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">$bellows</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">bellows</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>140</span> 
+<span class='line'>141</span> </span><span class="WHIT">		</span><span class="NAME">$bellows</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">			</span><span class="PUNC">.</span><span class="NAME">addClass</span><span class="PUNC">(</span><span class="STRN">"ch-bellows"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">			</span><span class="PUNC">.</span><span class="NAME">children</span><span class="PUNC">(</span><span class="STRN">":first-child"</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">				</span><span class="PUNC">.</span><span class="NAME">addClass</span><span class="PUNC">(</span><span class="STRN">"ch-bellows-trigger"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span> 
+<span class='line'>146</span> </span><span class="WHIT">		</span><span class="NAME">that.children.push</span><span class="PUNC">(</span><span class="NAME">$bellows</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>148</span> 
+<span class='line'>149</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>150</span> 	* Inits an Menu component on each list inside main HTML code snippet
+<span class='line'>151</span> 	* @protected
+<span class='line'>152</span> 	* @name ch.Menu#createLayout
+<span class='line'>153</span> 	* @function
+<span class='line'>154</span> 	*/</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">	</span><span class="NAME">that.createLayout</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">expando</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>157</span> 
+<span class='line'>158</span> </span><span class="WHIT">		</span><span class="NAME">$.each</span><span class="PUNC">(</span><span class="NAME">that.triggers</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">e</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">c</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">e.children</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>160</span> 
+<span class='line'>161</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">c.length</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">				</span><span class="NAME">that.cretateBellows</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>163</span> 
+<span class='line'>164</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>166</span> 
+<span class='line'>167</span> </span><span class="WHIT">			</span><span class="NAME">that.children.push</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">				</span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">e</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">expando</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">					</span><span class="STRN">"icon"</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">conf.icon</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">			</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>174</span> 
+<span class='line'>175</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>176</span> 	* Create component's layout and add behaivor
+<span class='line'>177</span> 	* @protected
+<span class='line'>178</span> 	* @function
+<span class='line'>179</span> 	* @name ch.Menu#configBehavior
+<span class='line'>180</span> 	*/</span><span class="WHIT">
+<span class='line'>181</span> </span><span class="WHIT">	</span><span class="NAME">that.configBehavior</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>182</span> 
+<span class='line'>183</span> </span><span class="WHIT">		</span><span class="NAME">$el.addClass</span><span class="PUNC">(</span><span class="STRN">"ch-"</span><span class="PUNC">+</span><span class="NAME">that.type</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>184</span> 
+<span class='line'>185</span> </span><span class="WHIT">		</span><span class="COMM">// ARIA</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">		</span><span class="NAME">el.setAttribute</span><span class="PUNC">(</span><span class="STRN">"role"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">"navigation"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>187</span> 
+<span class='line'>188</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>189</span> 
+<span class='line'>190</span> 
+<span class='line'>191</span> </span><span class="COMM">/**
+<span class='line'>192</span> *  Public Members
+<span class='line'>193</span> */</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT"> 
+<span class='line'>195</span> 	</span><span class="COMM">/**
+<span class='line'>196</span> 	* @borrows ch.Widget#uid as ch.Menu#uid
+<span class='line'>197</span> 	*/</span><span class="WHIT">	
+<span class='line'>198</span> 	
+<span class='line'>199</span> 	</span><span class="COMM">/**
+<span class='line'>200</span> 	* @borrows ch.Widget#el as ch.Menu#el
+<span class='line'>201</span> 	*/</span><span class="WHIT">
+<span class='line'>202</span> 
+<span class='line'>203</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>204</span> 	* @borrows ch.Widget#type as ch.Menu#type
+<span class='line'>205</span> 	*/</span><span class="WHIT">
+<span class='line'>206</span> 
+<span class='line'>207</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>208</span> 	* @borrows ch.Widget#emit as ch.Menu#emit
+<span class='line'>209</span> 	*/</span><span class="WHIT">
+<span class='line'>210</span> 
+<span class='line'>211</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>212</span> 	* @borrows ch.Widget#on as ch.Menu#on
+<span class='line'>213</span> 	*/</span><span class="WHIT">
+<span class='line'>214</span> 
+<span class='line'>215</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>216</span> 	* @borrows ch.Widget#once as ch.Menu#once
+<span class='line'>217</span> 	*/</span><span class="WHIT">
+<span class='line'>218</span> 
+<span class='line'>219</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>220</span> 	* @borrows ch.Widget#off as ch.Menu#off
+<span class='line'>221</span> 	*/</span><span class="WHIT">
+<span class='line'>222</span> 
+<span class='line'>223</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>224</span> 	* @borrows ch.Widget#offAll as ch.Menu#offAll
+<span class='line'>225</span> 	*/</span><span class="WHIT">
+<span class='line'>226</span> 
+<span class='line'>227</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>228</span> 	* @borrows ch.Widget#setMaxListeners as ch.Menu#setMaxListeners
+<span class='line'>229</span> 	*/</span><span class="WHIT">
+<span class='line'>230</span> 
+<span class='line'>231</span> 
+<span class='line'>232</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>233</span> 	* Select a specific children.
+<span class='line'>234</span> 	* @public
+<span class='line'>235</span> 	* @name ch.Menu#select
+<span class='line'>236</span> 	* @function
+<span class='line'>237</span> 	* @param {Number} [item] The number of the item to be selected
+<span class='line'>238</span> 	*/</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">	</span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">select</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">item</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="WHIT">		</span><span class="COMM">// Getter</span><span class="WHIT">
+<span class='line'>241</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">item</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>242</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">isNaN</span><span class="PUNC">(</span><span class="NAME">selected</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">				</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">selected</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>247</span> 
+<span class='line'>248</span> </span><span class="WHIT">		</span><span class="COMM">// Setter</span><span class="WHIT">
+<span class='line'>249</span> </span><span class="WHIT">		</span><span class="NAME">select</span><span class="PUNC">(</span><span class="NAME">item</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>250</span> 
+<span class='line'>251</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">[</span><span class="STRN">"public"</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>252</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>253</span> 
+<span class='line'>254</span> </span><span class="COMM">/**
+<span class='line'>255</span> *  Default behaivor
+<span class='line'>256</span> */</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="WHIT">	
+<span class='line'>258</span> 	</span><span class="NAME">that.createLayout</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>259</span> </span><span class="WHIT">	</span><span class="NAME">that.configBehavior</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>260</span> 
+<span class='line'>261</span> 
+<span class='line'>262</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>263</span> 	* Emit when the component is ready to use.
+<span class='line'>264</span> 	* @name ch.Menu#ready
+<span class='line'>265</span> 	* @event
+<span class='line'>266</span> 	* @public
+<span class='line'>267</span> 	* @example
+<span class='line'>268</span> 	* // Following the first example, using 'me' as menu's instance controller:
+<span class='line'>269</span> 	* me.on("ready",function () {
+<span class='line'>270</span> 	*	this.show();
+<span class='line'>271</span> 	* });
+<span class='line'>272</span> 	*/</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="WHIT">	</span><span class="NAME">setTimeout</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT"> </span><span class="NAME">that.emit</span><span class="PUNC">(</span><span class="STRN">"ready"</span><span class="PUNC">)</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">50</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>274</span> 
+<span class='line'>275</span> </span><span class="WHIT">	</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">that</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>276</span> </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>277</span> </span><span class="NAME">ch.factory</span><span class="PUNC">(</span><span class="STRN">"Menu"</span><span class="PUNC">)</span><span class="PUNC">;</span></pre></body></html>

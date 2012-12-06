@@ -1,0 +1,81 @@
+h1
+	|Menu 
+	small (Mobile)
+p.updated
+	| Documentation updated on 
+	data July 12nd
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#description") 1 Description
+		dt
+			a(href="#demo") 2 Demo
+		dt
+			a(href="#snippet") 3 Code snippet
+		dt
+			a(href="#instance") 4 Instance component
+		dt
+			a(href="#configuration") 5 Configuration
+		dt
+			a(href="#basics") 6 Basics
+		dd
+			dl
+				dt
+					a(href="#open-by-default") 6.1 Open by default
+		dt
+			a(href="#events") 6 Events
+
+h3#description Description
+p
+	| The Menu is a navigation widget that works by folding the information in categories. It lets you organize large lists of links. The user select one of the folds so making focus in a part of the large list.
+
+h3#demo Demo
+.mobile-landscape
+	iframe(src="/mobile/demos/menu")
+
+h3#snippet Code snippet
+pre
+	| <ul id="example">
+	| 	<li>
+	| 		<h3>List Menu</h3>
+	| 		<ul class="ch-list-menu">...</ul>
+	| 	</li>
+	| 	<li>
+	| 		<h3>List</h3>
+	| 		<ul class="ch-list">...</ul>
+	| 	</li>
+	| 	<li>
+	| 		<a href="#">A simple anchor</a>
+	| 	</li>
+	| 	<li>
+	| 		<h3>Plain text</h3>
+	| 		<p>...</p>
+	| 	</li>
+	| </ul>
+
+h3#instance Instance component
+p
+	| This is the way to create a new Menu:
+pre
+	| var foo = $("#example").menu();
+
+
+!=partial("mobile/includes/configuration")
+
+
+h3#basics Basics
+
+h4#open-by-default Open by default
+p
+	| The folds are by default closed. But you can use the 
+	code selected
+	|  property to open a specific children. This is the way to initialize the component with a selected item:
+pre
+	| var foo = $("#example").menu({"seleted": "2"});
+
+
+!=partial("mobile/includes/events")
+!=partial("mobile/includes/keep-reading")

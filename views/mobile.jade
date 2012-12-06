@@ -1,0 +1,38 @@
+h1
+	|Chico Mobile 
+	small (v#{mobile.version})
+p Add an interactive layer to your mobile developments with these lightweight and easy-to-use web tools.
+
+.ch-g1-4
+	.ch-leftcolumn
+		h3 Widgets
+		ul
+			- each w in mobile.widgets
+				li
+					a(href="#{w.href}")= w.friendly
+
+.ch-g1-4
+	.ch-centercolumn
+		h3 Learning guides
+		ul
+			- each g in mobile.guides
+				li
+					a(href="#{g.href}")= g.friendly
+
+.ch-g1-4
+	.ch-centercolumn
+		h3 API Docs
+		ul
+			- each a in mobile.api
+				li
+					a(href="#{a.href + '.html'}")= a.name
+
+.ch-g1-4
+	.ch-rightcolumn
+		h3 Get the library
+		form(action="/versions/mobile/#{mobile.version}/chico-mobile-#{mobile.version}.zip")
+			p
+				input.ch-btn.ch-btn-small(type="submit", value="Download v#{mobile.version}")
+				|  or 
+				a(href="http://github.com/mercadolibre/chico-mobile", target="_blank") fork on GitHub
+				| .

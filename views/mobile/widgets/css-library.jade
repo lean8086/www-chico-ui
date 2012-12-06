@@ -1,0 +1,377 @@
+h1
+	|Css Library 
+	small (Mobile)
+p.updated
+	| Documentation updated on 
+	data July 12nd
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#description") 1 Description
+		dt
+			a(href="#headers") 2 Headers
+		dt
+			a(href="#buttons") 3 Buttons
+		dt
+			a(href="#boxes") 4 Boxes
+		dt
+			a(href="#messages") 5 Message Boxes
+		dt
+			a(href="#lists") 6 Lists
+		dt
+			a(href="#list-menu") 7 List menu
+		dt
+			a(href="#transitions") 8 Transitions
+		dt
+			a(href="#tags") 9 Tags
+		dt
+			a(href="#pagination") 10 Pagination
+		dt
+			a(href="#table") 11 Table
+		dt
+			a(href="#icons") 12 Icons
+
+h3#description Description
+p
+	| Here's a list of CSS Library that are part of Chico Mobile look and feel. They will help you with common layout elements, such as buttons and tables.
+a.more(href="/static/demos/mobile.html", target="_blank") See a complete demo
+
+h3#headers Headers
+.ch-g1-2
+	.ch-leftcolumn
+		h4 Demo
+		iframe.mobile-demo(src="/mobile/demos/headers", style="height:125px")
+		p
+			a.more(href="/static/demos/mobile.html", target="_blank") See a complete demo
+		p
+			a.more(href="/mobile/guides/change-the-header-color") See how to change the Header color
+.ch-g1-2
+	.ch-rightcolumn
+		h4 Markup
+		p
+			| By using the classname 
+			code ch-header
+			|  or 
+			code ch-header-skin
+			|  you'll get a simple bar where you can add your custom elements.
+		p
+			| There's some presetted elements that you can use in your header, such as an 
+			code &lt;h1&gt;
+			|  tag (this will be appear centered) and a 
+			code &lt;nav&gt;
+			|  tag, where you can add buttons with class 
+			code ch-btn-header
+			|  and locate it at left (
+			code ch-action-left
+			| ) or right (
+			code ch-action-right
+			| ).
+		p
+			| For example:
+		pre
+			| <header class="ch-header">
+			| 	<h1>Main header</h1>
+			| 	<nav>
+			| 		<a class="ch-btn-header ch-action-left" href="#">Cancel</a>
+			| 		<a class="ch-btn-header ch-action-right" href="#">Accept</a>
+			| 	</nav>
+			| </header>
+		p
+			| Also, you can 
+			a(href="/mobile/guides/change-the-header-color") change the Header color
+			| .
+.clearfix
+
+h3#buttons Buttons
+.ch-g1-2
+	.ch-leftcolumn
+		h4 Demo
+		iframe.mobile-demo(src="/mobile/demos/buttons", style="height:660px")
+		a.more(href="/static/demos/mobile.html", target="_blank") See a complete demo
+.ch-g1-2
+	.ch-rightcolumn
+		h4 Markup
+		p
+			| You can transform these elements into a styled button:
+		ul.ch-list
+			li
+				code &lt;a&gt;
+			li
+				code &lt;button&gt;
+			li
+				code &lt;input type="submit" />
+			li
+				code &lt;input type="button" />
+		p
+			| You just need to add the classname 
+			code ch-btn
+			| :
+		pre <input type="submit" value="Send" class="ch-btn" />
+		p
+			| To change the button size, you have to add as second classname one of these:
+		ul.ch-list
+			li
+				code ch-btn-big
+			li
+				code ch-btn-small
+		p
+			| To change the button skin, you have to change the first classname to one of these:
+		ul.ch-list
+			li
+				code ch-btn-skin
+			li
+				code ch-btn-action
+		p
+			| To disable it, add the 
+			code ch-btn-disabled
+			|  classname.
+		p
+			strong You can add an icon within a button!
+			|  We have a 
+			a(href="/mobile/guides/add-an-icon-within-a-button") complete guide
+			|  you must see.
+.clearfix
+
+h3#boxes Boxes
+.ch-g1-2
+	.ch-leftcolumn
+		h4 Demo
+		iframe.mobile-demo(src="/mobile/demos/boxes", style="height:340px")
+		a.more(href="/static/demos/mobile.html", target="_blank") See a complete demo
+.ch-g1-2
+	.ch-rightcolumn
+		h4 Markup
+		p We have 3 types of boxes you can use.
+		p Container:
+		pre <div class="ch-box-container">...</div>
+		p Box lite:
+		pre <div class="ch-box-lite">...</div>
+		p A default box:
+		pre <div class="ch-box">...</div>
+.clearfix
+
+h3#messages Message Boxes
+.ch-g1-2
+	.ch-leftcolumn
+		h4 Demo
+		iframe.mobile-demo(src="/mobile/demos/messages", style="height:310px")
+		a.more(href="/static/demos/mobile.html", target="_blank") See a complete demo
+.ch-g1-2
+	.ch-rightcolumn
+		h4 Markup
+		p
+			| To show these alert boxes just add the classname you need, including an icon if you want:
+		ul.ch-list
+			li
+				code ch-box-help
+				|  + 
+				code ch-icon-question-sign
+			li
+				code ch-box-information
+				|  + 
+				code ch-icon-info-sign
+			li
+				code ch-box-error
+				|  + 
+				code ch-icon-remove-sign
+			li
+				code ch-box-attention
+				|  + 
+				code ch-icon-warning-sign
+			li
+				code ch-box-ok
+				|  + 
+				code ch-icon-ok-sign
+		p The background, borders and colors will appear automatically.
+.clearfix
+
+h3#lists Lists
+.ch-g1-2
+	.ch-leftcolumn
+		h4 Demo
+		iframe.mobile-demo(src="/mobile/demos/lists", style="height:180px")
+		a.more(href="/static/demos/mobile.html", target="_blank") See a complete demo
+.ch-g1-2
+	.ch-rightcolumn
+		h4 Markup
+		p
+			| By adding the class 
+			code ch-list
+			|  to an ordered or unorderer list, you'll get some styling. For example:
+		pre
+			| <ul class="ch-list">
+			| 	<li>Alpha</li>
+			| 	<li>Beta</li>
+			| 	<li>Gamma</li>
+			| 	<li>Delta</li>
+			| 	<li>Epsilon</li>
+			| </ul>
+.clearfix
+
+h3#list-menu List menu
+.ch-g1-2
+	.ch-leftcolumn
+		h4 Demo
+		iframe.mobile-demo(src="/mobile/demos/list-menu", style="height:160px")
+		a.more(href="/static/demos/mobile.html", target="_blank") See a complete demo
+.ch-g1-2
+	.ch-rightcolumn
+		h4 Markup
+		p
+			| It's equal to 
+			a(href="#lists") Lists
+			|  but it groups the elements and improve the anchor navigation with an arrow. Also, exists chance to add icons.
+		p
+			| Just add the 
+			code ch-list-menu
+			|  classname:
+		pre
+			| <ul class="ch-list-menu">
+			| 	<li class="ch-icon-leaf">
+			| 		<a href="#">Including an icon and an anchor</a>
+			| 	</li>
+			| 	<li>
+			| 		<a href="#">Including only an anchor</a>
+			| 	</li>
+			| 	<li>Just a list element</li>
+			| </ul>
+.clearfix
+
+h3#transitions Transitions
+.ch-g1-2
+	.ch-leftcolumn
+		h4 Demo
+		iframe.mobile-demo(src="/mobile/demos/transitions", height="190")
+		a.more(href="/static/demos/mobile.html", target="_blank") See a complete demo
+.ch-g1-2
+	.ch-rightcolumn
+		h4 Markup
+		p
+			strong Inline transition:
+		p It can be used on any place you want, for example next to a button.
+		p
+			|Just add the 
+			code ch-loading
+			|  class to any element, this way:
+		pre <span class="ch-loading">Loading...</span>
+		p
+			strong Block transition:
+		p It's the major transition. It blocks all the screen with a dimmer and appears centered on document.
+		p
+			| You need to create a wrapper with the classname 
+			code ch-loading-wrap
+			|  and an internal element with the 
+			code ch-loading-text
+			|  that includes a legend, for example:
+		pre
+			| <div class="ch-loading-wrap">
+			| 	<p class="ch-loading-text">Loading...</p>
+			| </div>
+.clearfix
+
+h3#tags Tags
+.ch-g1-2
+	.ch-leftcolumn
+		h4 Demo
+		iframe.mobile-demo(src="/mobile/demos/tags", style="height:40px")
+		a.more(href="/static/demos/mobile.html", target="_blank") See a complete demo
+.ch-g1-2
+	.ch-rightcolumn
+		h4 Markup
+		p You can use this tags for example when there's applied filters on a search results.
+		p The tags are preferently anchors, because when the user clicks on it, he'll be redirected to a new page without that tag.
+		p
+			| Just add a 
+			code ch-tag
+			|  class to any element and enjoy:
+		pre <a class="ch-tag" href="#">Chico</a>
+.clearfix
+
+h3#pagination Pagination
+.ch-g1-2
+	.ch-leftcolumn
+		h4 Demo
+		iframe.mobile-demo(src="/mobile/demos/pagination", style="height:50px")
+		a.more(href="/static/demos/mobile.html", target="_blank") See a complete demo
+.ch-g1-2
+	.ch-rightcolumn
+		h4 Markup
+		p
+			| You can convert any list into a Pagination by adding the 
+			code ch-pagination
+			|  classname.
+		p
+			| To specify the current selected page, add the 
+			code ch-pagination-current
+			|  class to the list element.
+		p
+			| Be sure to add the 
+			code type
+			|  attribute to 
+			strong previous
+			|  and 
+			strong next
+			|  anchors reference, and set 
+			code prev
+			|  and 
+			code next
+			|  as value, this way:
+		pre
+			| <ul class="ch-pagination">
+			| 	<li><a type="prev" href="#">Prev</a></li>
+			| 	<li><a href="#">1</a></li>
+			| 	<li class="ch-pagination-current"><a href="#">2</a></li>
+			| 	<li><a href="#">3</a></li>
+			| 	<li><a type="next" href="#">Next</a></li>
+			| </ul>
+.clearfix
+
+h3#table Table
+.ch-g1-2
+	.ch-leftcolumn
+		h4 Demo
+		iframe.mobile-demo(src="/mobile/demos/table", style="height:165px")
+		a.more(href="/static/demos/mobile.html", target="_blank") See a complete demo
+.ch-g1-2
+	.ch-rightcolumn
+		h4 Markup
+		p
+			| By adding the 
+			code ch-datagrid
+			|  classname, you will get automatically the styles for table.
+		p
+			|You can get an orderer status on columns by adding the 
+			code ch-datagrid-selected
+			|  classname.
+		p
+			|To include an specifyc order, just use the classname 
+			code ch-datagrid-asc
+			|  (ascendant order) or 
+			code ch-datagrid-desc
+			|  (descendant order).
+.clearfix
+
+h3#icons Icons
+.ch-g1-2
+	.ch-leftcolumn
+		h4 Demo
+		iframe.mobile-demo(src="/mobile/demos/icons", style="height:1024px")
+.ch-g1-2
+	.ch-rightcolumn
+		h4 Markup
+		p Icons can be used on any HTML element this way:
+		pre <li class="ch-icon-calendar">...</li>
+		p
+			| It's used on 
+			a(href="#messages") Message Boxes
+			|  and 
+			a(href="#list-menu") List menu
+			| , and 
+			strong you can add an icon within a button!
+			|  We have a 
+			a(href="/mobile/guides/add-an-icon-within-a-button") complete guide
+			|  you must see.
+.clearfix

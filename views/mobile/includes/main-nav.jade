@@ -1,0 +1,32 @@
+nav.ch-g2-3
+	ul
+		li
+			a(href="/blog") Blog
+		li
+			- if (selected === "widgets")
+				a.menu-selected(href="/widgets") UI Widgets
+			- else
+				a(href="/widgets") UI Widgets
+		li
+			a(href="/api") API Docs
+		li
+			- if (selected === "guides")
+				a.menu-selected(href="/guides") Learning guides
+			- else
+				a(href="/guides") Learning guides
+		li
+			- if (selected === "mobile")
+				a.menu-selected(href="/mobile") Mobile
+			- else
+				a(href="/mobile") Mobile
+		li
+			- if (selected === "download")
+				a.menu-selected(href="/download") Download
+			- else
+				a(href="/download") Download
+		li
+			form(action="/search")
+				label(for="q") Search:
+				input#q(type="search", name="q", placeholder="Search this site")
+				noscript
+					input.ch-btn-skin.ch-btn-small#search(type="submit", value="Go")

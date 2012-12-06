@@ -1,0 +1,20 @@
+.keep-reading.ch-container
+	.ch-g1-2
+		.ch-leftcolumn
+			h2 Keep reading
+			p
+				| Find more in 
+				a(href="/api/mobile/#{mobile.version}/symbols/ch.#{capital}.html") #{friendly} API documentation
+				| . There you'll find the most complete info of this component and others.
+	.ch-g1-2
+		.ch-rightcolumn
+			h2 Troubleshooting
+			p
+				| You can easily report issues through our 
+				- if (camelCase)
+					a(href="https://github.com/mercadolibre/chico-mobile/issues/new?title=#{friendly}:%20", target="_blank") issue tracker
+				- else
+					a(href="https://github.com/mercadolibre/chico-mobile/issues/new", target="_blank") issue tracker
+				| , or simply tweet to 
+				a(href="http://twitter.com/chicoui", target="_blank") @chicoui
+				| .

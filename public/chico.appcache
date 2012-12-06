@@ -1,11 +1,11 @@
 CACHE MANIFEST
-# v0.12.2
-# 2012/10/15-16:07
+# v0.13
+# 2012/12/06-13:01
 
 CACHE:
 
 # CSS
-versions/latest/chico-mesh-min.css
+versions/latest/mesh.css
 versions/latest/chico.css
 src/css/v4.css
 

@@ -1,0 +1,67 @@
+h1 Change the Header color
+p.updated
+	| Documentation updated on 
+	data June 18th
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#demo") 1 Demo
+		dt
+			a(href="#styling") 2 Redefining styles
+		dt
+			a(href="#overview") 3 Overview
+
+
+h3#demo Demo
+h4 Default styling
+iframe.mobile-demo(src="/mobile/demos/headers", height="120")
+h4 Customized styling
+iframe.mobile-demo(src="/mobile/demos/header-color", height="120")
+
+h3#styling Redefining styles
+p
+	| To customize your headings, you have to add your own CSS styles to the 
+	code ch-header
+	|  selector. For example:
+
+pre
+	| .ch-header.myOwnStyles {
+	| 	background-color: ...;
+	| 	background-image: linear-gradient(...);
+	| }
+
+h3#overview Overview
+p With the same HTML snippet, you just have to redefine styles, this way:
+h4 First customized navigation
+pre
+	| .ch-header.customized1 {
+	| 	background-color: #74B042;
+	| 	background-image: -webkit-linear-gradient(#A2D37A, #76BA29);
+	| 	background-image: -moz-linear-gradient(#A2D37A, #76BA29);
+	| 	background-image: -o-linear-gradient(#A2D37A, #76BA29);
+	| 	background-image: linear-gradient(#A2D37A, #76BA29);
+	| 	border-bottom: none;
+	| }
+	| 
+	| .ch-header.customized1 h1 {
+	| 	text-shadow: 0 1px 0 rgba(255, 255, 255, .6);
+	| }
+
+h4 Second customized navigation
+pre
+	| .ch-header.customized2 {
+	| 	background-color: #DF0000;
+	| 	background-image: -webkit-linear-gradient(#DF0000, #9E0000);
+	| 	background-image: -moz-linear-gradient(#DF0000, #9E0000);
+	| 	background-image: -o-linear-gradient(#DF0000, #9E0000);
+	| 	background-image: linear-gradient(#DF0000, #9E0000);
+	| 	border-bottom: 2px ridge #AE1E1D;
+	| 	color: #fee;
+	| }
+	| 
+	| .ch-header.customized2 h1 {
+	| 	text-shadow: none;
+	| }

@@ -1,0 +1,86 @@
+h1
+	|Expando 
+	small (Mobile)
+p.updated
+	| Documentation updated on 
+	data July 12nd
+	| .
+
+.contents
+	h5 Contents
+	dl
+		dt
+			a(href="#description") 1 Description
+		dt
+			a(href="#demo") 2 Demo
+		dt
+			a(href="#snippet") 3 Code snippet
+		dt
+			a(href="#instance") 4 Instance component
+		dt
+			a(href="#configuration") 5 Configuration
+		dt
+			a(href="#basics") 6 Basics
+		dd
+			dl
+				dt
+					a(href="#collapsed-by-default") 6.1 Collapsed by default
+				dt
+					a(href="#show-n-hide") 6.2 Show and Hide
+		dt
+			a(href="#events") 7 Events
+
+h3#description Description
+p
+	| The Expando has two parts: a descriptive text (something like a label) and a hidden block with extra information related to the label. The extra information is hidden and the user decides to show it by clicking on the label.
+
+h3#demo Demo
+.mobile-landscape
+	iframe(src="/mobile/demos/expando")
+
+h3#snippet Snippet
+pre
+	| <div id="example">
+	| 	<h3>Expandible</h3>
+	| 	<ul class="ch-list-menu">
+	| 		<li><a href="#">Alpha</a></li>
+	| 		<li><a href="#">Beta</a></li>
+	| 		<li><a href="#">Gamma</a></li>
+	| 	</ul>
+	| </div>
+
+h3#instance Instance component
+p
+	| This is the way to create a new expando:
+pre
+	| var foo = $("#example").expando();
+
+!=partial("mobile/includes/configuration")
+
+h3#basics Basics
+
+h4#collapsed-by-default Collapsed by default
+p 
+	| The default view is collapsed. But, it can change the 
+	code open
+	|  property that allows you to change the default state. You have to set this property to 
+	code true
+	| .
+pre
+	| var foo = $("#example").expando({"open": true});
+
+
+h4#show-n-hide Show and Hide
+p
+	| All Navs expose some public methods called 
+	code show
+	|  and 
+	code hide
+	| , both allow you to manage the Expando behavior programmatically. Something like this:
+pre
+	| foo.show(); // Shows the content of Expando
+	| foo.hide(); // Hides the content
+
+
+!=partial("mobile/includes/events")
+!=partial("mobile/includes/keep-reading")
