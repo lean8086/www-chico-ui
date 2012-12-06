@@ -5,7 +5,7 @@ section.ch-g1
 		| Current version: v#{version}
 
 	article.custom-version
-		form.ch-form#download(action="/download", method="POST")
+		form.ch-form#download(action="/versions/#{version}/chico-#{version}.zip", method="GET")
 			fieldset.ch-g2-5
 				legend#widgetsLayer 1. Select your widgets
 				.ch-box-information.ch-g3-4
@@ -37,16 +37,16 @@ section.ch-g1
 				legend 2. Select compression
 				ul.ch-list-options#compression
 					li.ch-form-row
-						input#prod(type="checkbox", value="prod", name="compression", checked)
+						input#prod(type="checkbox", disabled, value="prod", name="compression", checked)
 						label(for="prod") Minified
 					li.ch-form-row
-						input#dev(type="checkbox", value="dev", name="compression", checked)
+						input#dev(type="checkbox", disabled, value="dev", name="compression", checked)
 						label(for="dev") Uncompressed
 			fieldset.ch-g1-5
 				legend 3. Include extras
 				ul.ch-list-options#extras
 					li.ch-form-row
-						input#mesh(type="checkbox", value="mesh", name="extras", checked)
+						input#mesh(type="checkbox", disabled, value="mesh", name="extras", checked)
 						label(for="mesh")
 							| Chico Mesh 
 							span.ch-icon-question-sign(style="display:inline-block")#meshLayer
