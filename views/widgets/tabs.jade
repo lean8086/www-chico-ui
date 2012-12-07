@@ -1,7 +1,7 @@
 h1 Tabs
 p.updated
-	| Documentation updated on
-	data April 16th
+	| Documentation updated on 
+	data December 7th
 	| .
 
 .contents
@@ -35,7 +35,7 @@ p
 	| The Tabs widget helps you organize and present large content. The component has an horizontal view and a vertical view.
 
 h3#demo Demo
-.ch-box
+.ch-box-container
 	.demo_tabs
 		ul
 			li
@@ -54,15 +54,15 @@ p
 	| The Tabs has three important parts:
 ul.ch-list
 	li
-		| The
+		| The 
 		strong tablist
 		|  is a list of links each pointing to the content.
 	li
-		| The
+		| The 
 		strong tabpanel
 		|  is the container of the one part of the content.
 	li
-		| The
+		| The 
 		strong tabs
 		|  is the group of the tabpanels.
 p
@@ -107,31 +107,31 @@ pre
 
 h4#loading-async-content Loading asynchronous content
 p
-	| The component can load async content. To work, the link in
+	| The component can load async content. To work, the link in 
 	strong tablist
 	|  must have a URL where the content is. Instead of:
 pre
 	| <li><a href="#tab1">Tab 1</a></li>
 p
-	| You have to put the URL in the
+	| You have to put the URL in the 
 	code href
 	|  atrribute:
 pre
 	| <li><a href="example.html">Tab 1</a></li>
 p
-	| You can add some callbacks function:
+	| You can add some callbacks function: 
 	code contentLoad
-	|  and
+	|  and 
 	code contentError
 	| .
 
 h4#select-and-getselected select and getSelected
 p
-	| The
+	| The 
 	code select
-	|  method allow you to show a tab. The
+	|  method allow you to show a tab. The 
 	code getSelected
-	|  method allow you to know which tab is selected. It returns an integer that represents the tab order starting at
+	|  method allow you to know which tab is selected. It returns an integer that represents the tab order starting at 
 	code 1
 	| .
 

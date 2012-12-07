@@ -1,7 +1,7 @@
 h1 Form
 p.updated
-	| Documentation updated on
-	data February 7th
+	| Documentation updated on 
+	data December 7th
 	| .
 
 .contents
@@ -137,7 +137,7 @@ table.ch-datagrid.tableForm
 				form.ch-form(action="./form", method="GET")
 					p.ch-form-row
 						label(for="input_text_class1") Text:
-						input(type="text", placeholder="Some text here...", size="30", name="input_text", id="input_text_class1")
+						input(type="text", placeholder="Some text here...", size="20", name="input_text", id="input_text_class1")
 		tr
 			td
 				code ch-form-big
@@ -146,7 +146,7 @@ table.ch-datagrid.tableForm
 				form.ch-form-big(action="./form", method="GET")
 					p.ch-form-row
 						label(for="input_text_big1") Text:
-						input(type="text", placeholder="Some text here...", size="30", name="input_text", id="input_text_big1")
+						input(type="text", placeholder="Some text here...", size="20", name="input_text", id="input_text_big1")
 		tr
 			td
 				code ch-form-row
@@ -155,7 +155,7 @@ table.ch-datagrid.tableForm
 				form.ch-form(action="./form", method="GET")
 					p.ch-form-row
 						label(for="input_text_class2") Text:
-						input(type="text", placeholder="Some text here...", size="30", name="input_text", id="input_text_class2")
+						input(type="text", placeholder="Some text here...", size="20", name="input_text", id="input_text_class2")
 		tr
 			td
 				code ch-form-required
@@ -166,7 +166,7 @@ table.ch-datagrid.tableForm
 						label(for="input_text_class3")
 							| Text:
 							em *
-						input(type="text", placeholder="Some text here...", size="30", name="input_text", id="input_text_class3", required)
+						input(type="text", placeholder="Some text here...", size="20", name="input_text", id="input_text_class3", required)
 		tr
 			td
 				code ch-form-disabled
@@ -175,7 +175,7 @@ table.ch-datagrid.tableForm
 				form.ch-form(action="./form", method="GET")
 					p.ch-form-row.ch-form-disabled
 						label(for="input_text_class4") Text:
-						input(type="text", placeholder="Some text here...", size="30", name="input_text", id="input_text_class4", disabled)
+						input(type="text", placeholder="Some text here...", size="20", name="input_text", id="input_text_class4", disabled)
 		tr
 			td
 				code ch-form-subtitle
@@ -185,7 +185,7 @@ table.ch-datagrid.tableForm
 					h4.ch-form-row.ch-form-subtitle Subtitle
 					p.ch-form-row
 						label(for="input_text_class5") Text:
-						input(type="text", placeholder="Some text here...", size="30", name="input_text", id="input_text_class5")
+						input(type="text", placeholder="Some text here...", size="20", name="input_text", id="input_text_class5")
 		tr
 			td
 				code ch-form-hint
@@ -194,7 +194,7 @@ table.ch-datagrid.tableForm
 				form.ch-form(action="./form", method="GET")
 					p.ch-form-row
 						label(for="input_text_class6") Text:
-						input(type="text", placeholder="Some text here...", size="30", name="input_text", id="input_text_class6")
+						input(type="text", placeholder="Some text here...", size="20", name="input_text", id="input_text_class6")
 						span.ch-form-hint Numbers and dot symbol
 		tr
 			td
@@ -217,7 +217,7 @@ table.ch-datagrid.tableForm
 				form.ch-form(action="./form", method="GET")
 					p.ch-form-row
 						label(for="input_text_class7") Text:
-						input(type="text", placeholder="Some text here...", size="30", name="input_text", id="input_text_class7")
+						input(type="text", placeholder="Some text here...", size="20", name="input_text", id="input_text_class7")
 						span(class="ch-form-ico ico help") Help
 		tr
 			td
@@ -250,13 +250,13 @@ table.ch-datagrid.tableForm
 				form.ch-form(action="./form", method="GET")
 					p.ch-form-row
 						label(for="input_text") Text:
-						input(type="text", placeholder="Some text here...", size="30", name="input_text", id="input_text")
+						input(type="text", placeholder="Some text here...", size="20", name="input_text", id="input_text")
 			td
 				pre
 					|<form ... >
 					|    <p class="ch-form-row">
 					|        <label for="input_text">Text:</label>
-					|        <input type="text" placeholder="Some text here..." size="30" name="input_text" id="input_text">
+					|        <input type="text" placeholder="Some text here..." size="20" name="input_text" id="input_text">
 					|    </p>
 					|</form>
 		tr
@@ -267,13 +267,13 @@ table.ch-datagrid.tableForm
 							| Text:
 							em *
 						| 
-						input(type="text", required, placeholder="Some text here...", size="30", name="input_text", id="input_text")
+						input(type="text", required, placeholder="Some text here...", size="20", name="input_text", id="input_text")
 			td
 				pre
 					|<form ... >
 					|    <p class="ch-form-row ch-form-required">
 					|        <label for="input_text">Text:<em>*</em></label>
-					|        <input type="text" required placeholder="Some text here..." size="30" name="input_text" id="input_text">
+					|        <input type="text" required placeholder="Some text here..." size="20" name="input_text" id="input_text">
 					|    </p>
 					|</form>
 		tr
@@ -284,13 +284,13 @@ table.ch-datagrid.tableForm
 							| Text:
 							em *
 						| 
-						input(type="text", required, disabled, placeholder="Some text here...", size="30", name="input_text", id="input_text")
+						input(type="text", required, disabled, placeholder="Some text here...", size="20", name="input_text", id="input_text")
 			td
 				pre
 					|<form ... >
 					|    <p class="ch-form-row ch-form-required ch-form-disabled">
 					|        <label for="input_text">Text:<em>*</em></label>
-					|        <input type="text" required disabled placeholder="Some text here..." size="30" name="input_text" id="input_text">
+					|        <input type="text" required disabled placeholder="Some text here..." size="20" name="input_text" id="input_text">
 					|    </p>
 					|</form>
 		tr
@@ -298,13 +298,13 @@ table.ch-datagrid.tableForm
 				form.ch-form(action="./form", method="GET")
 					p.ch-form-row.ch-form-disabled
 						label(for="input_text") Text:
-						input(type="text", disabled, placeholder="Some text here...", size="30", name="input_text", id="input_text")
+						input(type="text", disabled, placeholder="Some text here...", size="20", name="input_text", id="input_text")
 			td
 				pre
 					|<form ... >
 					|    <p class="ch-form-row ch-form-disabled">
 					|        <label for="input_text">Text: </label>
-					|        <input type="text" disabled placeholder="Some text here..." size="30" name="input_text" id="input_text">
+					|        <input type="text" disabled placeholder="Some text here..." size="20" name="input_text" id="input_text">
 					|    </p>
 					|</form>
 
@@ -729,7 +729,7 @@ table.ch-datagrid.tableForm
 					|</form>
 
 p
-	| Read more about
+	| Read more about 
 	a(href='/api/#{version}/symbols/ch.Form.html') Form
 	| .
 

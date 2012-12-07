@@ -1,9 +1,9 @@
 h1
-	| Validation
+	| Validation 
 	small (a.k.a. Watcher)
 p.updated
 	| Documentation updated on 
-	data February 7th
+	data December 7th
 	| .
 
 .contents
@@ -29,12 +29,12 @@ p
 	|  is an engine for web forms. Each one sends a feedback message to the end user.
 
 h3#demo Demo
-form.ch-box.demo_form
+form.ch-box-lite.demo_form
 	.ch-form-row.ch-form-required
 		label(for="demo_email")
 			| E-mail:
 		input.demo_email#demo_email(type="email", required)
-	p.actions
+	p.ch-form-actions
 		input.ch-btn.ch-btn-small(type="submit", value="Submit form")
 
 h3#snippet Code snippet
@@ -44,7 +44,7 @@ pre
 	| 		<label class="required" for="example">E-mail:</label>
 	| 		<input id="example" type="email" required="required">
 	| 	</div>
-	| 	<p class="ch-actions">
+	| 	<p class="ch-form-actions">
 	| 		<input type="submit" value="Submit form" class="ch-btn ch-btn-small">
 	| 	</p>
 	| </form>
