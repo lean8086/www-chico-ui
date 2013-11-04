@@ -1,140 +1,109 @@
 h1 Chico Mesh
 p
-	| Mesh provides a set of CSS columns that makes the laying out of a website easy and fast.
-p
-	| It isn't part of the CSS core, that's why you have to download the file and reference it on your HTML document:
+    | Mesh provides a set of CSS columns that makes the laying out of a website easy and fast.
 ul.ch-list
-	li
-		strong Production
-		|  (Minified): 
-		a(href="/versions/mesh/2.1/mesh-min-2.1.css", target="_blank") mesh-min-2.1.css
-	li
-		strong Development
-		|  (Uncompressed): 
-		a(href="/versions/mesh/2.1/mesh-2.1.css", target="_blank") mesh-2.1.css
+    li
+        strong Production
+        |  (Minified):&nbsp;
+        a(href="/versions/mesh/2.1/mesh-min-2.1.css", target="_blank") mesh-min-2.1.css
+    li
+        strong Development
+        |  (Uncompressed):&nbsp;
+        a(href="/versions/mesh/2.1/mesh-2.1.css", target="_blank") mesh-2.1.css
 p
-	| See the 
-	a(href="/guides/how-to-use-the-grids") how to use the grids
-	|  tutorial to get more details.
+    | See the&nbsp;
+    a(href="/guides/how-to-use-the-grids") how to use the grids
+    |  tutorial to get more details.
 
 h3#fluid Fluid layouts
-ul.grid_templates
-	li.ch-g1-3
-		.ch-container
-			a(href="/mesh/demos/fluid-2columns-leftsidebar/index.html", target="blank")
-				img(src="src/assets/layouts/fluid-2columns-leftsidebar.png", width="200", height="150", alt="Fluid, 2 Columns, left sidebar")
-			p.more
-				a(href="/mesh/demos/fluid-2columns-leftsidebar/index.html", target="blank") See a demo
-				|  | 
-				a(href="/mesh/download/fluid-2columns-leftsidebar.zip") Download template
-	li.ch-g1-3
-		.ch-container
-			a(href="/mesh/demos/fluid-2columns-rightsidebar/index.html", target="blank")
-				img(src="src/assets/layouts/fluid-2columns-rightsidebar.png", width="200", height="150", alt="Fluid, 2 Columns, right sidebar")
-			p.more
-				a(href="/mesh/demos/fluid-2columns-rightsidebar/index.html", target="blank") See a demo
-				|  | 
-				a(href="/mesh/download/fluid-2columns-rightsidebar.zip") Download template
-	li.ch-g1-3
-		.ch-container
-			a(href="/mesh/demos/fluid-3columns/index.html", target="blank")
-				img(src="src/assets/layouts/fluid-3columns.png", width="200", height="150", alt="Fluid, 3 Columns")
-			p.more
-				a(href="/mesh/demos/fluid-3columns/index.html", target="blank") See a demo
-				|  | 
-				a(href="/mesh/download/fluid-3columns.zip") Download template
+ul
+    li.ch-g1-3
+        a(href="/mesh/demos/fluid-2columns-leftsidebar/index.html", target="blank")
+            img(src="/src/assets/layouts/fluid-2columns-leftsidebar.png", width="200", height="150", alt="Fluid, 2 Columns, left sidebar")
+    li.ch-g1-3
+        a(href="/mesh/demos/fluid-2columns-rightsidebar/index.html", target="blank")
+            img(src="/src/assets/layouts/fluid-2columns-rightsidebar.png", width="200", height="150", alt="Fluid, 2 Columns, right sidebar")
+    li.ch-g1-3
+        a(href="/mesh/demos/fluid-3columns/index.html", target="blank")
+            img(src="/src/assets/layouts/fluid-3columns.png", width="200", height="150", alt="Fluid, 3 Columns")
+.ch-clearfix
 
 h3#elastic Elastic layouts
-ul.grid_templates
-	li.ch-g1-3
-		.ch-container
-			a(href="/mesh/demos/elastic-2columns-leftsidebar/index.html", target="blank")
-				img(src="src/assets/layouts/elastic-2columns-leftsidebar.png", width="200", height="150", alt="Elastic, 2 Columns, left sidebar")
-			p.more
-				a(href="/mesh/demos/elastic-2columns-leftsidebar/index.html", target="blank") See a demo
-				|  | 
-				a(href="/mesh/download/elastic-2columns-leftsidebar.zip") Download template
-	li.ch-g1-3
-		.ch-container
-			a(href="/mesh/demos/elastic-2columns-rightsidebar/index.html", target="blank")
-				img(src="src/assets/layouts/elastic-2columns-rightsidebar.png", width="200", height="150", alt="Elastic, 2 Columns, right sidebar")
-			p.more
-				a(href="/mesh/demos/elastic-2columns-rightsidebar/index.html", target="blank") See a demo
-				|  | 
-				a(href="/mesh/download/elastic-2columns-rightsidebar.zip") Download template
-	li.ch-g1-3
-		.ch-container
-			a(href="/mesh/demos/elastic-3columns/index.html", target="blank")
-				img(src="src/assets/layouts/elastic-3columns.png", width="200", height="150", alt="Elastic, 3 Columns")
-			p.more
-				a(href="/mesh/demos/elastic-3columns/index.html", target="blank") See a demo
-				|  | 
-				a(href="/mesh/download/elastic-3columns.zip") Download template
-.clearfix
+ul
+    li.ch-g1-3
+        a(href="/mesh/demos/elastic-2columns-leftsidebar/index.html", target="blank")
+            img(src="/src/assets/layouts/elastic-2columns-leftsidebar.png", width="200", height="150", alt="Elastic, 2 Columns, left sidebar")
+    li.ch-g1-3
+        a(href="/mesh/demos/elastic-2columns-rightsidebar/index.html", target="blank")
+            img(src="/src/assets/layouts/elastic-2columns-rightsidebar.png", width="200", height="150", alt="Elastic, 2 Columns, right sidebar")
+    li.ch-g1-3
+        a(href="/mesh/demos/elastic-3columns/index.html", target="blank")
+            img(src="/src/assets/layouts/elastic-3columns.png", width="200", height="150", alt="Elastic, 3 Columns")
+.ch-clearfix
 
 h3#showroom Grids showroom
 
 .ch-g1
-	.ch-box-lite 1/1
+    .ch-box-lite 1/1
 
 .ch-g1-2
-	.ch-box-lite.ch-leftcolumn 1/2
+    .ch-box-lite.ch-leftcolumn 1/2
 .ch-g1-2
-	.ch-box-lite.ch-rightcolumn 1/2
+    .ch-box-lite.ch-rightcolumn 1/2
 
 .ch-g1-3
-	.ch-box-lite.ch-leftcolumn 1/3
+    .ch-box-lite.ch-leftcolumn 1/3
 .ch-g1-3
-	.ch-box-lite.ch-centercolumn 1/3
+    .ch-box-lite.ch-centercolumn 1/3
 .ch-g1-3
-	.ch-box-lite.ch-rightcolumn 1/3
+    .ch-box-lite.ch-rightcolumn 1/3
 
 .ch-g1-4
-	.ch-box-lite.ch-leftcolumn 1/4
+    .ch-box-lite.ch-leftcolumn 1/4
 .ch-g1-4
-	.ch-box-lite.ch-centercolumn 1/4
+    .ch-box-lite.ch-centercolumn 1/4
 .ch-g1-4
-	.ch-box-lite.ch-centercolumn 1/4
+    .ch-box-lite.ch-centercolumn 1/4
 .ch-g1-4
-	.ch-box-lite.ch-rightcolumn 1/4
+    .ch-box-lite.ch-rightcolumn 1/4
 
 .ch-g1-5
-	.ch-box-lite.ch-leftcolumn 1/5
+    .ch-box-lite.ch-leftcolumn 1/5
 .ch-g1-5
-	.ch-box-lite.ch-centercolumn 1/5
+    .ch-box-lite.ch-centercolumn 1/5
 .ch-g1-5
-	.ch-box-lite.ch-centercolumn 1/5
+    .ch-box-lite.ch-centercolumn 1/5
 .ch-g1-5
-	.ch-box-lite.ch-centercolumn 1/5
+    .ch-box-lite.ch-centercolumn 1/5
 .ch-g1-5
-	.ch-box-lite.ch-rightcolumn 1/5
+    .ch-box-lite.ch-rightcolumn 1/5
 
 .ch-g2-4
-	.ch-box-lite.ch-leftcolumn 2/4
+    .ch-box-lite.ch-leftcolumn 2/4
 .ch-g1-4
-	.ch-box-lite.ch-centercolumn 1/4
+    .ch-box-lite.ch-centercolumn 1/4
 .ch-g1-4
-	.ch-box-lite.ch-rightcolumn 1/4
+    .ch-box-lite.ch-rightcolumn 1/4
 
 .ch-g2-5
-	.ch-box-lite.ch-leftcolumn 2/5
+    .ch-box-lite.ch-leftcolumn 2/5
 .ch-g3-5
-	.ch-box-lite.ch-rightcolumn 3/5
+    .ch-box-lite.ch-rightcolumn 3/5
 
 .ch-g1-3
-	.ch-box-lite.ch-leftcolumn 1/3
+    .ch-box-lite.ch-leftcolumn 1/3
 .ch-g2-3
-	.ch-box-lite.ch-rightcolumn 2/3
+    .ch-box-lite.ch-rightcolumn 2/3
 
 .ch-g1-4
-	.ch-box-lite.ch-leftcolumn 1/4
+    .ch-box-lite.ch-leftcolumn 1/4
 .ch-g3-4
-	.ch-box-lite.ch-rightcolumn 3/4
+    .ch-box-lite.ch-rightcolumn 3/4
 
 .ch-g1-5
-	.ch-box-lite.ch-leftcolumn 1/5
+    .ch-box-lite.ch-leftcolumn 1/5
 .ch-g4-5
-	.ch-box-lite.ch-rightcolumn 4/5
+    .ch-box-lite.ch-rightcolumn 4/5
 
 .ch-g1
-	.ch-box-lite 1/1
+    .ch-box-lite 1/1

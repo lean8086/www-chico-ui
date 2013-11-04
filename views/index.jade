@@ -1,88 +1,35 @@
 section#home-description
-	.ch-layout
-		h2 Get things done, quickly
-		p Chico UI is a free and open source collection of easy-to-use web tools for developers and designers.
-		
-		form(action="/guides/get-started")
-			input.ch-btn.ch-btn-big(type="submit", value="Get started now!")
-		
-		img#ninja-img.ch-hide(src="/src/assets/ninja.png", alt="Ninja image", width="496", height="360")
+    .ch-layout
+        h2 Get things done, quickly
+        p Chico UI is a free and open source collection of easy-to-use web tools for developers and designers.
 
-section#products
-	article.ch-g1-2
-		.ch-leftcolumn
-			.ch-carousel
-				ul
-					- each w in widgets
-						li
-							a(href="#{w.href}")
-								img(src="/src/assets/icons/#{w.name}-100x100.png", alt="#{w.friendly}")
-								span= w.friendly
-			h3 UI Widgets
-			p Built on top of jQuery, these tools brings known interaction patterns for your website taking advantage of HTML5 and CSS3 features.
-			a.more(href="/widgets") See all Widgets
-	
-	article.ch-g1-2
-		.ch-rightcolumn
-			figure
-				a(href="/mesh")
-					img(src="/src/assets/mesh.png", alt="Chico Mesh", width="485", height="100")
-			h3 Chico Mesh
-			p Mesh is Chico UI's solution for fast and simple layouts. It offers fluid grids along with a gallery of ready to use basic templates.
-			a.more(href="/mesh") Check it out!
+        a.ch-btn.ch-btn-big(href="/guides/get-started") Get started now!
+
+        img#ninja-img.ch-hide(src="/src/assets/ninja.png", alt="Ninja image", width="496", height="360")
 
 section#additional
-	nav.ch-g1-4
-		.ch-leftcolumn
-			h4 Developers
-			ul
-				li
-					a(href="http://github.com/mercadolibre/chico") Code on GitHub
-				li
-					a(href="https://github.com/mercadolibre/chico/issues") Issue tracker
-				li
-					a(href="http://blog.chico-ui.com.ar/tagged/Release_Notes") Releases Notes
-				li
-					a(href="/archive") Versions archive
-				li
-					a(href="/license") License
-				li
-					a(href="http://nuget.org/packages/Chico-UI") Visual Studio package
-	nav.ch-g1-4
-		.ch-centercolumn
-			h4 Learning guides
-			ul
-				- var total_guides = 5;
-				- each g in guides
-					- if (total_guides > 0 && g.name !== "get-started")
-						- total_guides -= 1;
-						li
-							a(href="#{g.href}")= g.friendly
-				li
-					a.more(href="/guides") Browse all guides
-	article.ch-g1-4
-		.ch-centercolumn
-			h4 Browser support
-			figure
-				img(src="/src/assets/browsers.png", width="200", height="37", alt="Browsers")
-			ul.ch-list
-				li Google Chrome
-				li Safari
-				li Firefox 4+
-				li Internet Explorer 7+
-				li Opera
-	article.ch-g1-4
-		.ch-rightcolumn
-			h4 Open initiative
-			figure
-				img(src="/src/assets/opensource.png", width="56", height="66", alt="Open Source Initiative")
-			p Chico UI is released under MIT License and implements open technologies such as:
-			ul.ch-list
-				li HTML5
-				li CSS3
-				li JavaScript
-				li NodeJS
+    article.ch-g2-5
+        .ch-leftcolumn
+            h3 UI Components
+            p In the documentation you'll find how to create, administrate or extend any component.
+            a(href="http://pazguille.github.io/chico-doc/") See API Documentation
 
-- script("code", '$(".ch-carousel").carousel({"arrows": "none", "pagination": true, "maxItems": 4, "page": 3});')
+    article.ch-g2-5
+        .ch-centercolumn
+            h3 Chico Mesh
+            p Provides a set of CSS columns that makes the laying out of a website easy and fast.
+            a(href="/mesh") Check it out!
+
+    article.ch-g1-5
+        .ch-rightcolumn
+            h3 Also
+            ul
+                li
+                    a(href="https://github.com/mercadolibre/chico/issues") Issue tracker
+                li
+                    a(href="http://blog.chico-ui.com.ar/tagged/Release_Notes") Releases Notes
+                li
+                    a(href="license") License
+
 - script("get", '/src/js/canvas.min.js')
 - script("code", 'var $img = $("#ninja-img"); $img.onImagesLoads(function () { $img.fadeIn("fast"); $("canvas").fadeIn(1000); });')

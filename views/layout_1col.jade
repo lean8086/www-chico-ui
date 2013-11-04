@@ -6,7 +6,7 @@
 //if IE 9
 	html.no-js.lt-ie10.ie9(lang="en")
 //[if gt IE 9] <!
-html.no-js(lang="en", manifest="/chico.appcache")
+html.no-js(lang="en")
 	//<![endif]
 	head
 		include includes/head
@@ -14,12 +14,11 @@ html.no-js(lang="en", manifest="/chico.appcache")
 		header
 			h1.logo.ch-g1-3
 				a(href="/") Chico UI
-				span.version= "v" + version
+				span.version v1.0.0
 
 			include includes/main-nav
 
-		section.main
-			article
-				!= body
+		div(role="main")
+			!= body
 
 		include includes/footer

@@ -1,277 +1,243 @@
 h1
-	| How to use the grids 
-	small (Mesh)
-p.updated
-	| Documentation updated on 
-	data December 6th
-	| .
-
-.contents
-	h5 Contents
-	dl
-		dt
-			a(href="#overview") 1 Overview
-		dt
-			a(href="#download") 2 Download
-		dt
-			a(href="#classnames") 3 Class names
-		dt
-			a(href="#gutters") 4 Gutters
-		dt
-			a(href="#showroom") 5 Showroom
-		dt
-			a(href="#examples") 6 Examples
-		dd
-			dl
-				dt
-					a(href="#example1") 6.1 Two columns
-				dt
-					a(href="#example2") 6.2 Three equal columns
-				dt
-					a(href="#example3") 6.3 Nested grids
-				dt
-					a(href="#example4") 6.4 Four columns list
-				dt
-					a(href="#example5") 6.5 Simple layout
+    | How to use the grids&nbsp;
+    small (Mesh)
 
 h3#overview Overview
 p
-	a(href="/mesh") Mesh
-	|  provides a set of CSS columns that makes the laying out of a website easy and fast.
+    a(href="/mesh") Mesh
+    |  provides a set of CSS columns that makes the laying out of a website easy and fast.
 
 h3#download Download
-p
-	| It isn't part of the CSS core, that's why you have to download the file and reference it on your HTML document:
 ul.ch-list
-	li
-		strong Production
-		|  (Minified): 
-		a(href="/versions/latest/mesh-min.css", target="_blank") mesh-min.css
-	li
-		strong Development 
-		|  (Uncompressed): 
-		a(href="/versions/latest/mesh.css", target="_blank") mesh.css
+    li
+        strong Production
+        |  (Minified):&nbsp;
+        a(href="/versions/mesh/2.1/mesh-min-2.1.css", target="_blank") mesh-min-2.1.css
+    li
+        strong Development
+        |  (Uncompressed):&nbsp;
+        a(href="/versions/mesh/2.1/mesh-2.1.css", target="_blank") mesh-2.1.css
 
-h3#classnames Class names
+h3#classnames CSS class names
 p
-	| Each column is expressed in fractions that represent a width percent of the content.
+    | Each column is expressed in fractions that represents a width percent of the content.
 p
-	| The class names replace the bar 
-	code /
-	|  in the fraction by a dash 
-	code -
-	| :
+    | The class names replaces the bar&nbsp;
+    code /
+    |  in the fraction with a dash&nbsp;
+    code -
+    | :
 ul.ch-list
-	li
-		code 50%
-		|  same as 
-		code 1/2
-		|  same as class name
-		code ch-g1-2
+    li
+        code 50%
+        |  same as&nbsp;
+        code 1/2
+        |  same as class name&nbsp;
+        code ch-g1-2
 
-	li
-		code 75%
-		|  same as 
-		code 3/4
-		|  same as class name
-		code ch-g3-4
-	li
-		code 20%
-		|  same as 
-		code 1/5
-		|  same as class name
-		code ch-g1-5
+    li
+        code 75%
+        |  same as&nbsp;
+        code 3/4
+        |  same as class name&nbsp;
+        code ch-g3-4
+    li
+        code 20%
+        |  same as&nbsp;
+        code 1/5
+        |  same as class name&nbsp;
+        code ch-g1-5
 
 h3#gutters Gutters
 p
-	| The grids have neither padding nor margin. To be able to get the gutters, you have to assign a margin 
-	strong to the element that's inside the grid
-	| . For that, we defined 3 classes that create a margin to the inner element:
+    | The grids have neither padding nor margin. To be able to get the gutters, you have to assign a margin&nbsp;
+    strong to the element that is inside the grid
+    | . For that, we defined 3 CSS classes that creates a margin to the inner element:
 ul.ch-list
-	li
-		code ch-leftcolumn
-		| : assign it to the left element.
-	li
-		code ch-centercolumn
-		| : assign it to a centered element.
-	li
-		code ch-rightcolumn
-		| : assign it to the right element.
+    li
+        code ch-leftcolumn
+        | : assign it to the left element.
+    li
+        code ch-centercolumn
+        | : assign it to a centered element.
+    li
+        code ch-rightcolumn
+        | : assign it to the right element.
 
 h3#showroom Showroom
 p
-	| Check 
-	a(href="/mesh#showroom") this awesome showroom
-	|  to see the Mesh power!
+    | Check&nbsp;
+    a(href="/mesh#showroom") this showroom
+    |  to see the Mesh in action!
 
 h3#examples Examples
 h4#example1 Two columns
 .ch-g1-3
-	.ch-box-lite.ch-leftcolumn Left 1/3
+    .ch-box-lite.ch-leftcolumn Left 1/3
 .ch-g2-3
-	.ch-box-lite.ch-rightcolumn Right 2/3
+    .ch-box-lite.ch-rightcolumn Right 2/3
 
 pre.ch-clearfix
-	| <div class="ch-g1-3">
-	|     <div class="ch-leftcolumn">
-	|         Left 1/3
-	|     </div>
-	| </div>
-	| <div class="ch-g2-3">
-	|     <div class="ch-rightcolumn">
-	|         Right 2/3
-	|     </div>
-	| </div>
+    | <div class="ch-g1-3">
+    |     <div class="ch-leftcolumn">
+    |         Left 1/3
+    |     </div>
+    | </div>
+    | <div class="ch-g2-3">
+    |     <div class="ch-rightcolumn">
+    |         Right 2/3
+    |     </div>
+    | </div>
 
 h4#example2 Three equal columns
 .ch-g1-3
-	.ch-box-lite.ch-leftcolumn Left 1/3
+    .ch-box-lite.ch-leftcolumn Left 1/3
 .ch-g1-3
-	.ch-box-lite.ch-centercolumn Center 1/3
+    .ch-box-lite.ch-centercolumn Center 1/3
 .ch-g1-3
-	.ch-box-lite.ch-rightcolumn Right 1/3
+    .ch-box-lite.ch-rightcolumn Right 1/3
 pre.ch-clearfix
-	| <div class="ch-g1-3">
-	|     <div class="ch-leftcolumn">
-	|         Left 1/3
-	|     </div>
-	| </div>
-	| <div class="ch-g1-3r">
-	|     <div class="ch-centercolumn">
-	|         Center 1/3
-	|     </div>
-	| </div>
-	| <div class="ch-g1-3">
-	|     <div class="ch-rightcolumn">
-	|         Right 1/3
-	|     </div>
-	| </div>
+    | <div class="ch-g1-3">
+    |     <div class="ch-leftcolumn">
+    |         Left 1/3
+    |     </div>
+    | </div>
+    | <div class="ch-g1-3r">
+    |     <div class="ch-centercolumn">
+    |         Center 1/3
+    |     </div>
+    | </div>
+    | <div class="ch-g1-3">
+    |     <div class="ch-rightcolumn">
+    |         Right 1/3
+    |     </div>
+    | </div>
 
 h4#example3 Nested grids
 .ch-g1-4
-	.ch-box-lite.ch-leftcolumn Left 1/4
+    .ch-box-lite.ch-leftcolumn Left 1/4
 .ch-g2-4
-	.ch-box-lite.ch-centercolumn
-		.ch-g1-2
-			.ch-box-lite.ch-leftcolumn Left 1/2
-		.ch-g1-2
-			.ch-box-lite.ch-rightcolumn Right 1/2
-		.clearfix.ch-actions Center 2/4
+    .ch-box-lite.ch-centercolumn
+        .ch-g1-2
+            .ch-box-lite.ch-leftcolumn Left 1/2
+        .ch-g1-2
+            .ch-box-lite.ch-rightcolumn Right 1/2
+        .clearfix.ch-actions Center 2/4
 .ch-g1-4
-	.ch-box-lite.ch-rightcolumn Right 1/4
+    .ch-box-lite.ch-rightcolumn Right 1/4
 
 pre.ch-clearfix
-	| <div class="ch-g1-4">
-	|     <div class="ch-leftcolumn">
-	|         Left 1/4
-	|     </div>
-	| </div>
-	| <div class="ch-g2-4">
-	|     <div class="ch-centercolumn">
-	|          <div class="ch-g1-2">
-	|               <div class="ch-leftcolumn">
-	|                   Left 1/2
-	|               </div>
-	|          </div>
-	|          <div class="ch-g1-2">
-	|               <div class="ch-rightcolumn">
-	|                   Right 1/2
-	|               </div>
-	|          </div>
-	|          <div class="clearfix ch-actions">
-	|                   Center 2/4
-	|          </div>
-	|     </div>
-	| </div>
-	| <div class="ch-g1-4">
-	|     <div class="ch-rightcolumn">
-	|         Right 1/2
-	|     </div>
-	| </div>
+    | <div class="ch-g1-4">
+    |     <div class="ch-leftcolumn">
+    |         Left 1/4
+    |     </div>
+    | </div>
+    | <div class="ch-g2-4">
+    |     <div class="ch-centercolumn">
+    |          <div class="ch-g1-2">
+    |               <div class="ch-leftcolumn">
+    |                   Left 1/2
+    |               </div>
+    |          </div>
+    |          <div class="ch-g1-2">
+    |               <div class="ch-rightcolumn">
+    |                   Right 1/2
+    |               </div>
+    |          </div>
+    |          <div class="clearfix ch-actions">
+    |                   Center 2/4
+    |          </div>
+    |     </div>
+    | </div>
+    | <div class="ch-g1-4">
+    |     <div class="ch-rightcolumn">
+    |         Right 1/2
+    |     </div>
+    | </div>
 
 h4#example4 Four columns list
 .ch-clearfix
-	ul.ch-g1-4
-		li
-			strong Lorem
-		li Cras
-		li Lobortis
-		li Tincidunt
-	ul.ch-g1-4
-		li
-			strong Ipsum
-		li Commodo
-		li Tellus
-		li Rutrum
-	ul.ch-g1-4
-		li
-			strong Sit
-		li Magna
-		li Sed
-		li Mattis
-	ul.ch-g1-4
-		li
-			strong Amet
-		li Purus
-		li Nulla
-		li Elit
+    ul.ch-g1-4
+        li
+            strong Lorem
+        li Cras
+        li Lobortis
+        li Tincidunt
+    ul.ch-g1-4
+        li
+            strong Ipsum
+        li Commodo
+        li Tellus
+        li Rutrum
+    ul.ch-g1-4
+        li
+            strong Sit
+        li Magna
+        li Sed
+        li Mattis
+    ul.ch-g1-4
+        li
+            strong Amet
+        li Purus
+        li Nulla
+        li Elit
 
 pre
-	| <div class="ch-clearfix">
-	|    <ul class="ch-g1-4">
-	|        <li><strong>Lorem</strong></li>
-	|        <li>Cras</li>
-	|        <li>Lobortis</li>
-	|        <li>Tincidunt</li>
-	|    </ul>
-	|    <ul class="ch-g1-4">
-	|        <li><strong>Ipsum</strong></li>
-	|        <li>Commodo</li>
-	|        <li>Tellus</li>
-	|        <li>Rutrum</li>
-	|    </ul>
-	|    <ul class="ch-g1-4">
-	|        <li><strong>Sit</strong></li>
-	|        <li>Magna</li>
-	|        <li>Sed</li>
-	|        <li>Mattis</li>
-	|    </ul>
-	|    <ul class="ch-g1-4">
-	|        <li><strong>Amet</strong></li>
-	|        <li>Purus</li>
-	|        <li>Nulla</li>
-	|        <li>Elit</li>
-	|    </ul>
-	| </div>
+    | <div class="ch-clearfix">
+    |    <ul class="ch-g1-4">
+    |        <li><strong>Lorem</strong></li>
+    |        <li>Cras</li>
+    |        <li>Lobortis</li>
+    |        <li>Tincidunt</li>
+    |    </ul>
+    |    <ul class="ch-g1-4">
+    |        <li><strong>Ipsum</strong></li>
+    |        <li>Commodo</li>
+    |        <li>Tellus</li>
+    |        <li>Rutrum</li>
+    |    </ul>
+    |    <ul class="ch-g1-4">
+    |        <li><strong>Sit</strong></li>
+    |        <li>Magna</li>
+    |        <li>Sed</li>
+    |        <li>Mattis</li>
+    |    </ul>
+    |    <ul class="ch-g1-4">
+    |        <li><strong>Amet</strong></li>
+    |        <li>Purus</li>
+    |        <li>Nulla</li>
+    |        <li>Elit</li>
+    |    </ul>
+    | </div>
 
 h4#example5 Simple layout
 p
-	| You can see more layout templates 
-	a(href="/mesh") here
-	| .
+    | You can see more layout templates&nbsp;
+    a(href="/mesh") here
+    | .
 
 .ch-g1
-	.ch-box-lite.ch-actions Header
+    .ch-box-lite.ch-actions Header
 .ch-g1
-	.ch-g1-4
-		.ch-box-lite.ch-leftcolumn Menu
-	.ch-g3-4
-		.ch-box-lite.ch-rightcolumn Content
+    .ch-g1-4
+        .ch-box-lite.ch-leftcolumn Menu
+    .ch-g3-4
+        .ch-box-lite.ch-rightcolumn Content
 .ch-g1
-	.ch-box-lite.ch-actions Footer
+    .ch-box-lite.ch-actions Footer
 
 pre.ch-clearfix
-	| <div class="ch-g1">
-	|    <div>Header</div>
-	| </div>
-	| <div class="ch-g1">
-	|    <div class="ch-g1-4">
-	|        <div class="ch-leftcolumn">Menu</div>
-	|    </div>
-	|    <div class="ch-g3-4">
-	|        <div class="ch-rightcolumn">Content</div>
-	|    </div>
-	| </div>
-	| <div class="ch-g1">
-	|    <div class="ch-box-lite">Footer</div>
-	| </div>
+    | <div class="ch-g1">
+    |    <div>Header</div>
+    | </div>
+    | <div class="ch-g1">
+    |    <div class="ch-g1-4">
+    |        <div class="ch-leftcolumn">Menu</div>
+    |    </div>
+    |    <div class="ch-g3-4">
+    |        <div class="ch-rightcolumn">Content</div>
+    |    </div>
+    | </div>
+    | <div class="ch-g1">
+    |    <div class="ch-box-lite">Footer</div>
+    | </div>

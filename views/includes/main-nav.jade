@@ -1,24 +1,11 @@
 nav.ch-g2-3
 	ul
 		li
-			a(href="/blog") Blog
+			a(href="http://blog.chico-ui.com.ar/") Blog
 		li
-			- if (selected === "widgets")
-				a.menu-selected(href="/widgets") UI Widgets
-			- else
-				a(href="/widgets") UI Widgets
+			a(href="http://pazguille.github.io/chico-doc/", rel="external") API Documentation
 		li
-			a(href="/api") API Docs
-		li
-			- if (selected === "guides")
-				a.menu-selected(href="/guides") Learning guides
-			- else
-				a(href="/guides") Learning guides
-		li
-			- if (selected === "download")
-				a.menu-selected(href="/download") Download
-			- else
-				a(href="/download") Download
+			a(href="https://github.com/mercadolibre/chico", rel="external") Download on GitHub
 		li
 			form(action="/search")
 				label(for="q") Search:

@@ -1,111 +1,89 @@
 h1 How to install chico
-p.updated
-	| Documentation updated on 
-	data December 6th
-	| .
-
-.contents
-	h5 Contents
-	dl
-		dt
-			a(href="#dependencies") 1 Dependencies
-		dt
-			a(href="#sniffing") 2 Browser sniffing
-		dt
-			a(href="#jquery") 3 jQuery JavaScript Library
-		dt
-			a(href="#sources") 4 Which are the sources?
-		dt
-			a(href="#overview") 5 Overview
-
 
 h3#dependencies Dependencies
 p
-	| To install the library you need get some dependencies and the sources files. For example, Chico UI depends on 
-	a(href="http://jquery.com") jQuery
-	|  to work.
+    | To install the library you need get some dependencies and the sources files. For example, Chico UI depends on&nbsp;
+    a(href="http://jquery.com") jQuery
+    |  to work.
 p
-	| Besides that, you can add some snippets to improve the cross-browser task.
+    | Besides that, you can add some snippets to improve the cross-browser task.
 
 
 h3#sniffing Browser sniffing
 p
-	| We hate writting CSS hacks. Instead of hacking the code, we rather use IE's conditional comments, so if you paste this code in your HTML, Chico UI will know how to fix the visual inconsistencies:
+    | We hate writting CSS hacks. Instead of hacking the code, we rather use IE's conditional comments, so if you paste this code in your HTML, Chico UI will know how to fix the visual inconsistencies:
 pre
-	| <!doctype html>
-	| <!--[if IE 7]>    <html class="no-js lt-ie10 lt-ie9 lt-ie8 ie7" lang="en"> <![endif]-->
-	| <!--[if IE 8]>    <html class="no-js lt-ie10 lt-ie9 ie8" lang="en"> <![endif]-->
-	| <!--[if IE 9]>    <html class="no-js lt-ie10 ie9" lang="en"> <![endif]-->
-	| <!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+    | <!doctype html>
+    | <!--[if IE 7]>    <html class="no-js lt-ie10 lt-ie9 lt-ie8 ie7" lang="en"> <![endif]-->
+    | <!--[if IE 8]>    <html class="no-js lt-ie10 lt-ie9 ie8" lang="en"> <![endif]-->
+    | <!--[if IE 9]>    <html class="no-js lt-ie10 ie9" lang="en"> <![endif]-->
+    | <!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 
 h3#jquery jQuery JavaScript Library
 p
-	| Most of our framework’s functionality is built on 
-	a(href="http://jquery.com") jQuery
-	| . That's why we need to pre-load this toolbox.
+    | Most of our framework’s functionality is built on&nbsp;
+    a(href="http://jquery.com") jQuery
+    | . That's why we need to pre-load this toolbox.
 p
-	| You can get jQuery from many places like Google CDN:
+    | You can get jQuery from many places like Google CDN:
 pre
-	| <script src="https://ajax.googleapis.com/ajax/libs/jquery/x.x.x/jquery.min.js"></script>
+    | <script src="https://ajax.googleapis.com/ajax/libs/jquery/x.x.x/jquery.min.js"></script>
 p
-	| Or jQuery CDN:
+    | Or jQuery CDN:
 pre
-	| <script src="http://code.jquery.com/jquery-x.x.x.min.js"></script>
+    | <script src="http://code.jquery.com/jquery-x.x.x.min.js"></script>
 p.ch-message.ch-information
-	| We recommend put all the &lt;script&gt; calls at bottom of HTML page, before &lt;/body&gt; tag close.
+    | We recommend put all the&nbsp;
+    code &lt;script&gt;
+    |  calls at bottom of HTML page, before&nbsp;
+    code &lt;/body&gt;
+    |  tag close.
 
 
 h3#sources Which are the sources?
 p
-	| You only have to add the CSS, JavaScript and assets of Chico UI, and that's all!
-form.container(action="/download")
-	input.ch-btn.ch-primary#download(type="submit", value="Download v#{version}")
+    | You only have to add the CSS, JavaScript and assets of Chico UI, and that's all!
 p
-	| Make sure to add the stylesheet call into the 
-	code &lt;head&gt;
-	|  tag.
+    a.ch-btn.ch-btn-small(href="https://github.com/mercadolibre/chico") Download on GitHub
+p
+    | Make sure to add the stylesheet call into the&nbsp;
+    code &lt;head&gt;
+    |  tag.
 pre
-	| <link rel="stylesheet" href="chico-min-x.x.x.css" />
+    | <link rel="stylesheet" href="chico-min-x.x.x.css" />
 p
-	| And you should add the JavaScript at bottom of page, before 
-	code &lt;/body&gt;
-	|  tag close and 
-	strong after jQuery script call
-	| .
+    | And you should add the JavaScript at bottom of page, before&nbsp;
+    code &lt;/body&gt;
+    |  tag close and&nbsp;
+    strong after jQuery script call
+    | .
 pre
-	| <script src="build/chico-min-x.x.x.js"></script>
+    | <script src="build/chico-min-x.x.x.js"></script>
 p
-	| Assets (images and icons) are into the 
-	strong zip file
-	|  that you 
-	a(href="/download") download
-	| . Put assets on a folder into your project and link to files within stylesheet code.
+    strong
+        | Don't forget to link to asset files within the stylesheet code.
 
 h3#overview Overview
 pre
-	| <!doctype html>
-	| <!--[if IE 7]>    <html class="no-js lt-ie10 lt-ie9 lt-ie8 ie7" lang="en"> <![endif]-->
-	| <!--[if IE 8]>    <html class="no-js lt-ie10 lt-ie9 ie8" lang="en"> <![endif]-->
-	| <!--[if IE 9]>    <html class="no-js lt-ie10 ie9" lang="en"> <![endif]-->
-	| <!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
-	| <head>
-	| 	<!-- Avoid script blocking -->
-	| 	<script></script>
-	| 	<meta charset="utf-8">
-	| 	<title>Document Title</title>
-	| 
-	| 	<!-- Chico UI Core stylesheet -->
-	| 	<link rel="stylesheet" href="build/chico-min-x.x.x.css">
-	| </head>
-	| <body>
-	| 	...
-	| 	<!-- All markup here... -->
-	| 	...
-	| 
-	| 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/x.x.x/jquery.min.js"></script>
-	| 	<script src="build/chico-min-x.x.x.js"></script>
-	| 	<script>
-	| 		// Write your JavaScript here...
-	| 	</script> 
-	| </body>
-	| </html>
+    | <!doctype html>
+    | <!--[if IE 7]>    <html class="no-js lt-ie10 lt-ie9 lt-ie8 ie7" lang="en"> <![endif]-->
+    | <!--[if IE 8]>    <html class="no-js lt-ie10 lt-ie9 ie8" lang="en"> <![endif]-->
+    | <!--[if IE 9]>    <html class="no-js lt-ie10 ie9" lang="en"> <![endif]-->
+    | <!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+    | <head>
+    |     <!-- Avoid script blocking -->
+    |     <script></script>
+    |     <meta charset="utf-8"/>
+    |     <title>Document Title</title>
+    |     <!-- Chico UI Core stylesheet -->
+    |     <link rel="stylesheet" href="build/chico-min-x.x.x.css"/>
+    | </head>
+    | <body>
+    |     ...
+    |     <!-- All markup here... -->
+    |     ...
+    |     <script src="https://ajax.googleapis.com/ajax/libs/jquery/x.x.x/jquery.min.js"></script>
+    |     <script src="build/chico-min-x.x.x.js"></script>
+    |     <script src="Call your JavaScript here..."></script>
+    | </body>
+    | </html>

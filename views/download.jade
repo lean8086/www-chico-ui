@@ -13,9 +13,9 @@ section.ch-g1
 					p We are working on restructure the framework, and soon you will be able to do this by a better way.
 				//
 					#widgets.ch-list-options
-						
+
 						- // TODO: Migrate to PARTIALS
-						
+
 						- // List of each widget
 						- var w = [];
 						- // It's return a widget with DOM template
@@ -48,7 +48,7 @@ section.ch-g1
 					li.ch-form-row
 						input#mesh(type="checkbox", disabled, value="mesh", name="extras", checked)
 						label(for="mesh")
-							| Chico Mesh 
+							| Chico Mesh
 							span.ch-icon-question-sign(style="display:inline-block")#meshLayer
 					li.ch-form-row
 						input#tests(type="checkbox", value="tests", name="extras", disabled)
@@ -56,14 +56,14 @@ section.ch-g1
 			fieldset.ch-g1-5
 				legend 4. Get the package
 				input.ch-btn(type="submit", value="Download", style="margin-left:20px")
-	
+
 	article.ch-g1-2
 		.ch-leftcolumn
 			h3 Get older versions
 			ul#versions.ch-menu
 				- each v, i in versions
 					- if (i > 0 && i <= 5)
-						li 
+						li
 							span #{v.version}
 							ul
 								- each file in v.files
@@ -74,14 +74,14 @@ section.ch-g1
 		.ch-rightcolumn
 			h3 Get for Visual Studio
 			p
-				| To get the 
+				| To get the
 				a(href="http://nuget.org/packages/Chico-UI", target="_blank") Nuget package
-				|  for Visual Studio, run this code in the 
+				|  for Visual Studio, run this code in the
 				a(href="http://docs.nuget.org/docs/start-here/using-the-package-manager-console", target="_blank") PM Console
 				| :
 			pre.terminal PM> Install-Package Chico-UI
 			p.updated
-				| Thanks to Emmanuel Larrieux 
+				| Thanks to Emmanuel Larrieux
 				a(href="https://twitter.com/#!/elarrieux", target="_blank") @elarrieux
 				| .
 
