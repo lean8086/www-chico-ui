@@ -12,7 +12,7 @@ section#additional
         .ch-leftcolumn
             h3 UI Components
             p In the documentation you'll find how to create, administrate or extend any component.
-            a(href="http://pazguille.github.io/chico-doc/") See API Documentation
+            a(href="http://chico.mercadolibre.com") Read API Documentation
 
     article.ch-g2-5
         .ch-centercolumn
@@ -32,4 +32,4 @@ section#additional
                     a(href="license") License
 
 - script("get", '/src/js/canvas.min.js')
-- script("code", 'var $img = $("#ninja-img"); $img.onImagesLoads(function () { $img.fadeIn("fast"); $("canvas").fadeIn(1000); });')
+- script("code", 'ch.onImagesLoads($("#ninja-img"), function () { $(this).fadeIn("fast"); $("canvas").fadeIn(1000); });')
