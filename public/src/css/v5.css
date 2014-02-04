@@ -1,0 +1,818 @@
+/*
+*	General Styles
+*/
+html, body {
+	font-family: "Lucida Grande", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Layout behavior */
+html, body, .ch-layout {
+	margin: 0 auto;
+	width: 1000px;
+}
+
+/*
+*	Font family reset
+*/
+
+// Demo calendar + date picker
+.ch-calendar {
+	font-family: Arial;
+}
+
+a:visited {
+	color: #0637B3;
+}
+
+.more {
+	background: transparent url('/src/assets/see.png') 0 4px no-repeat;
+	display: inline-block;
+	margin-top: 10px;
+	padding-left: 15px;
+}
+
+/* Contents */
+.contents {
+	background: #f9f9f9 url('/src/assets/pattern.jpg') 0 0 repeat;
+	border: 1px solid #efefef;
+	display: inline-block;
+	margin-top: 10px;
+	padding: 20px 65px 20px 20px;
+	position: relative;
+}
+
+.contents h5 {
+	font-size: 14px;
+	font-weight: bold;
+	margin: 0 0 10px;
+}
+
+.contents dl dl {
+	margin-left: 25px;
+}
+
+/* Headings */
+section.main h1 {
+	font-size: 36px;
+	margin-bottom: 15px;
+	margin-left: -2px;
+}
+
+section.main h1 small {
+	color:#ccc;
+}
+
+section.main h2 {
+	font-size: 24px;
+	margin: 35px 0 5px;
+	padding-bottom: 3px;
+}
+
+section.main h3 .ch-expando-trigger{
+	font-size: 14px;
+}
+
+section.main .ch-expando h3 {
+	font-size: 18px;
+	margin: 0px 0 3px;
+}
+
+section.main .ch-expando h3 small{
+	display:none;
+}
+
+section.main .ch-expando h3:hover small,
+section.main .ch-expando h3 .ch-expando-trigger-on small{
+	display: inline;
+	font-family: Monaco, monospace;
+	font-size:10px;
+}
+
+.accordion.ch-accordion {
+    border-top: none;
+}
+.accordion article > div {
+	padding: 5px 20px 5px 10px;
+}
+
+section.main h3 {
+	font-size: 18px;
+	margin: 27px 0 10px;
+}
+
+section.main h4,
+.ch-layer h4
+{
+	font-size: 14px;
+	font-weight: bold;
+	margin: 21px 0 3px 0;
+
+}
+
+.ch-layer h4
+{
+	font-size: 15px;
+	margin: 0px 0 7px 0;
+}
+
+section.menu h4:before, 
+div.example h4:before 
+{
+	content: none;
+}
+
+section.main h5,
+.ch-layer h5 {
+	font-size: 12px;
+	margin: 12px 0 4px 0;
+	font-weight: bold;
+}
+
+section.main nav .ch-rightcolumn h4 {
+	margin-bottom: 10px;
+}
+
+section.main p {
+	color: #444;
+	margin-bottom: 0.4em;
+}
+
+
+/*
+*	Header
+*/
+
+header {
+	border-bottom: 1px solid #eee;
+	height: 62px;
+}
+
+header .logo {
+	margin-top: 10px;
+}
+
+header .logo a {
+	display: inline-block;
+	font-size: 42px;
+	line-height: 38px;
+	margin: 2px 5px 0 0;
+}
+
+header .logo .version {
+	color: #666;
+	font-size: 12px;
+}
+
+/* Main navigation */
+header nav {
+	margin-top: 15px;
+	text-align: right;
+}
+
+header nav ul {
+	display: inline-block;
+}
+
+header nav form {
+	display: inline;
+	padding-left: 5px;
+}
+
+header nav label {
+	display: none;
+}
+
+header nav li {
+	border-right: 1px solid #ccc;
+	display: inline;
+	padding: 0 10px;
+}
+
+header nav li:last-child {
+	border-right: none;
+	padding-right: 0;
+}
+
+/* TODO: fix transition */
+input[name=q] {
+	border-radius: 20px;
+	-webkit-transition: width 0.25s;
+	-moz-transition: width 0.25s;
+	-ms-transition: width 0.25s;
+	-o-transition: width 0.25s;
+	transition: width 0.25s;
+	width:125px;
+	padding-left:5px;
+}
+
+input[name=q]:focus {
+	width: 200px;
+}
+
+
+/*
+*	Homepage Description
+*/
+
+#home-description,
+#home-description canvas {
+	/* Grey background: -webkit-linear-gradient(top, #f5f5f5 0%, #fff 10%, #fff 90%, #f5f5f5);
+	/* Blue sky background: -webkit-linear-gradient(top, #2B81C0 0%, #BEDCEF 100%); */
+	/* Light blue background: -webkit-linear-gradient(top, #7487B6 0%, #B1D6E7 100%); */
+	background: #292A2F url('/src/assets/vertical_cloth.png') 0 0 repeat;
+	-webkit-box-shadow: 0 5px 25px #000 inset;
+	box-shadow: 0 5px 25px #000 inset;
+	left: 0;
+	position: absolute;
+}
+
+#home-description {
+	border-bottom: 1px solid #222;
+	height: 390px;
+	overflow: hidden;
+	top: 62px;
+	width: 100%;
+}
+
+#home-description canvas {
+	top: 0;
+}
+
+#home-description div {
+	/*background: transparent url('/src/assets/ninja.png') right bottom no-repeat;*/
+	font-family: "Helvetica Neue", "Lucida Grande", Arial, sans-serif;
+	height: 390px;
+	overflow: hidden;
+	position: relative;
+	z-index: 2;
+}
+
+#home-description h2,
+#home-description p {
+	margin-left: 10px;
+	width: 50%;
+	color: #fff;
+}
+
+#home-description h2 {
+	font-size: 64px;
+	line-height: 72px;
+	margin-top: 50px;
+	margin-bottom: 22px;
+}
+
+#home-description p {
+	font-size: 16px;
+	line-height: 26px;
+	padding: 0 3px;
+	margin-bottom: 24px;
+}
+
+#home-description input {
+	margin-left: 12px;
+	-webkit-box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.25);
+	box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.25);
+}
+
+#ninja-img {
+	position:absolute;
+	right:0;
+	bottom:0;
+}
+
+/*
+*	Homepage Products
+*/
+
+#products {
+	border-bottom: 1px dashed #ddd;
+	margin-top: 390px;
+	overflow: hidden;
+	padding: 25px 0;
+}
+
+#products article {
+	position: relative;
+}
+
+#products h3 {
+	font-size: 22px;
+	margin-bottom: 10px;
+	margin-top: 125px;
+}
+
+#products .ch-carousel,
+#products figure {
+	left: 0;
+	position: absolute;
+	top: 0;
+}
+
+#products .ch-carousel {
+	height: 140px;
+}
+
+#products img {
+	border: 1px solid #ddd;
+}
+
+#products .ch-carousel-content li {
+	height: 102px;
+	width: 465px;
+}
+
+/* Each UI Widget */
+#products .ch-carousel-content article {
+	border: 1px solid #ddd;
+	display: inline-block;
+	height: 100px;
+	margin-right: 14px;
+	overflow: hidden;
+	width: 100px;
+}
+
+/* Each UI Widget Link */
+#products .ch-carousel-content a {
+	display: block;
+	height: 100px;
+	width: 100px;
+}
+
+#products .ch-carousel-content a {
+	text-decoration: none;
+}
+
+#products .ch-carousel-content span {
+	background: rgba(0, 0, 0, 0.5);
+	bottom: 0;
+	color: #fff;
+	display: block;
+	height: 26px;
+	left: 0;
+	line-height: 24px;
+	overflow: hidden;
+	position: absolute;
+	text-align: center;
+	width: 100px;
+	-webkit-transition:height 0.2s, font-weight 0.2s;
+	-moz-transition:height 0.2s, font-weight 0.2s;
+	-ms-transition:height 0.2s, font-weight 0.2s;
+	-o-transition:height 0.2s, font-weight 0.2s;
+	transition:height 0.2s, font-weight 0.2s;
+}
+
+#products .ch-carousel-content a:hover span {
+	height:100px;
+	font-weight:bold;
+}
+
+#products .ch-carousel-content a:hover span:after {
+	content: "»";
+	display: block;
+	font-size: 100px;
+	height: 100px;
+	left: 0;
+	line-height: 95px;
+	position: absolute;
+	text-align: center;
+	top: 0;
+	width: 100px;	
+}
+
+#products .ch-carousel-content img {
+	opacity: 0.55;
+}
+
+#products .ch-carousel-pages {
+	bottom:15px;
+}
+
+#products .ch-carousel-pages li {
+	-webkit-box-shadow: 1px 1px #888 inset;
+	box-shadow: 1px 1px #888 inset;
+}
+
+#products p {
+	width: 95%;
+	margin-bottom: 0;
+}
+
+
+/*
+*	Homepage additional navigation
+*/
+
+#additional {
+	overflow: hidden;
+	padding-top: 15px;
+}
+
+#additional h4 {
+	font-size: 18px;
+	margin-bottom: 15px;
+	margin-top: 10px;
+}
+
+#additional nav ul {
+	margin-top: 15px;
+}
+
+#additional nav li {
+	margin-top: 5px;
+}
+
+#additional article:last-child img {
+	float: left;
+	margin-right: 10px;
+}
+
+#additional article:last-child ul {
+	margin-top: 8px;
+}
+
+/*
+*	Keep reading
+*/
+
+.keep-reading {
+	border-top: 1px dashed #ccc;
+	margin: 30px 0 5px 0;
+	overflow: hidden;
+	color: #555;
+}
+
+.keep-reading p {
+	color: #666!important;
+	margin-top: 10px;
+}
+
+
+/*
+*	Footer
+*/
+
+footer {
+	border-top: 1px dashed #ccc;
+	color: #999;
+	font-size: 11px;
+	margin-top: 25px;
+	overflow: hidden;
+	padding: 10px 0;
+	clear: left;
+}
+
+footer nav li {
+	border-right: 1px solid #ccc;
+	display: inline;
+	padding: 0 10px;
+}
+
+footer nav li:last-child {
+	border: none;
+}
+
+footer aside {
+	position: relative;
+}
+
+
+footer div {
+	width: 65px!important;
+	position: absolute;
+	top: 0;
+	right: 185px;
+}
+
+footer .twitter-share-button {
+	width: 85px!important;
+	position: absolute;
+	top: 0;
+	right: 90px;
+}
+
+footer .fb-frame {
+	width: 80px;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+
+
+/*
+*	Innerpages
+*/
+
+section.main {
+	margin-top: 20px;
+}
+
+section.main .ch-g4-5 > .ch-leftcolumn {
+	margin-right: 50px;
+}
+
+.breadcrumb {
+	margin-bottom: 15px;
+}
+
+section.main .updated {
+	color: #999;
+	font-size: 11px;
+}
+
+section.main .updated + h3 {
+	margin-top: 20px!important;
+}
+
+.home-list {
+	margin-top: 25px;
+}
+
+pre,
+code {
+	font-family: Monaco, "Courier New", monospace;
+	font-size: 12px;
+	background-color: #f8f8f8;
+	color: #333;
+	border: 1px solid #ccc;
+	margin: 0px 0 10px 0;
+	padding: 7px 10px;
+	border-radius: 3px;
+}
+
+.terminal {
+	background-color: #444;
+	color: #fff;
+	border: 2px solid #dedede;
+}
+
+code {
+	margin: 2px;
+	padding: 2px;
+}
+
+nav .ch-rightcolumn {
+	margin-bottom: 0 0 40px 20px;
+}
+
+nav .ch-rightcolumn ul {
+	margin: 5px 0 30px;
+}
+
+
+/*
+*	Positioner demo
+*/
+
+.context {
+    border: 1px solid blue;
+    color: blue;
+    text-align: center;
+    line-height: 100px;
+    height: 100px;
+    margin: 30px;
+    width: 100px;
+    background-color: white;
+}
+
+.target {
+    background-color: red;
+    color: white;
+    line-height: 25px;
+    height: 25px;
+    position: absolute;
+    padding: 0 10px;
+}
+
+.ch-datagrid .context {
+	width: 50px;
+	height: 50px;
+	margin: 20px;
+	line-height: 50px;
+	font-size: 10px;
+}
+
+.ch-datagrid .target {
+	height: 15px;
+	line-height: 15px;
+	width: 25px;
+	padding:0;
+	text-indent:99px;
+	overflow:hidden;
+}
+
+/*
+*	Carousel demo
+*/
+
+#example .ch-carousel-content li {
+	width: 150px;
+	height: 108px;
+}
+
+/*
+*	CSS Widgets
+*/
+
+#heading-widget h1,
+#heading-widget h2,
+#heading-widget h3,
+#heading-widget h4,
+#heading-widget h5,
+#heading-widget h6 {
+	font-family: Arial;
+	margin: 1em 0 0.5em 0;
+}
+
+#heading-widget h1 { font-size: 20px; }
+#heading-widget h2 { font-size: 18px; }
+#heading-widget h3 { font-size: 16px; }
+#heading-widget h4 { font-size: 14px; }
+section.main h4.ch-form-subtitle { font-size: 13px; }
+
+/* Demo forms */
+.tableForm .code {
+	max-width: 530px
+}
+
+.tableForm .ch-form-row label {
+	width: 60px;
+}
+
+.tableForm .ch-form-options .ch-form-row label {
+	width: auto;
+}
+
+.tableForm .ch-form-actions {
+	margin-left: 72px; 
+}
+
+.tableForm textarea {
+	width: 225px
+}
+
+.tableForm .ch-form-hint {
+	margin-left: 73px;
+}
+
+.tableForm pre {
+	width: 400px;
+	overflow: auto;
+}
+
+
+/*
+*	API Docs
+*/
+
+#members-tabs .ch-datagrid {
+	margin-bottom: 15px;
+	width:auto;
+	border:none;
+}
+
+#members-tabs tr:hover,
+#members-tabs .selected {
+	background: lightblue;
+	cursor:pointer;
+}
+
+#members-tabs tr:hover {
+	background: skyblue; 
+}
+
+.parameters dd {
+    color:#666;
+
+}
+
+.parameters dt {
+    margin-top: 15px;
+    color:#666;
+}
+
+.parameters em.string {
+	color: green;
+}
+
+.parameters em.object {
+	color: brown;
+}
+
+.parameters em.number {
+	color: blue;
+}
+
+.parameters em.boolean {
+	color: brown;
+}
+
+.parameters em.optional {
+	color: purple;
+}
+
+.parameters em.array {
+	color: orange;
+}
+
+.parameters em.string,
+.parameters em.object,
+.parameters em.number,
+.parameters em.boolean,
+.parameters em.optional{
+	font-style: normal;
+	font-size:12px;
+	font-family: Monaco, "Courier New", monospace;
+	letter-spacing: 1px;
+}
+
+
+h4 small {
+	color: #aaa;
+}
+
+/*nav.api li:first-child {
+	margin-bottom: 15px;
+}*/
+
+/*
+*	Custom download
+*/
+
+#custom {
+	margin: 25px 0;
+	overflow: hidden;
+}
+
+#custom .ch-centercolumn,
+#custom .ch-rightcolumn {
+	position: relative;
+}
+
+#custom .all {
+	position: absolute;
+	right: 25px;
+	cursor: pointer;
+	font-size: 10px;
+}
+
+
+/*
+*	About
+*/
+
+.about iframe {
+	margin-top: 35px;
+}
+
+.about dd {
+	margin-bottom: 20px;
+}
+
+/*
+*	Blog
+*/
+
+.chico-blog#home-description {
+	height:100px;
+}
+
+.chico-blog#home-description div {
+	/*background-position:-78px -104px;*/
+	height: 100px;
+}
+
+.chico-blog#home-description h2 {
+	margin-left: 310px;
+	width: 50%;
+	color: #fff;
+	font-size: 42px;
+	line-height: 100px;
+	margin-top:0;
+	position:relative;
+	z-index:2;
+}
+
+.chico-blog#home-description input {
+	position: absolute;
+	top:27px;
+	right:0;
+}
+
+.chico-blog #ninja-img {
+	right:582px;
+	bottom:-156px;
+}
+
+.ch-datagrid .selected
+{
+	background-color:lightblue;
+}
+
+/*
+tbody.public{background:#f9f9f9;}
+tbody.protected{background:#f3f3f3;}
+tbody.private{background:#f0f0f0;}
+*/
+
+
